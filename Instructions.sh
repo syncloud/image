@@ -32,14 +32,11 @@ GRANT ALL PRIVILEGES ON owncloud.* TO 'owncloud'@'localhost' IDENTIFIED BY 'ownc
 
 # install owncloud
 wget http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/Release.key
-apt-key add - < Release.key   
-echo 'deb http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/ /' >> /etc/apt/sources.list.d/owncloud.list 
+apt-key add - < Release.key
+rm Release.key
+echo 'deb http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/ /' >> /etc/apt/sources.list.d/owncloud.list
 apt-get update
 apt-get install owncloud
-
-# setup owncloud data folder
-apachectl -k stop
-modify /var/www/owncloud/core/templates/installation.php set datadirContent input value attribute to '/data'
 
 # change ownership of /data folder
 chown -R www-data:www-data /data
