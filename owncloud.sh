@@ -1,4 +1,4 @@
-OWNCLOUDPATH='/usr/share/owncloud'
+OWNCLOUDPATH='/var/www/owncloud'
 
 # PHP-Accelerator
 apt-get install php-apc
