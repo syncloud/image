@@ -1,3 +1,5 @@
+set -x
+
 OWNCLOUDPATH='/var/www/owncloud'
 
 # PHP-Accelerator
