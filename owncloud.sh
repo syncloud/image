@@ -16,7 +16,7 @@ apt-key add - < Release.key
 rm Release.key
 cp owncloud.list /etc/apt/sources.list.d/owncloud.list
 apt-get update
-apt-get install owncloud
+apt-get -y install owncloud
 
 # change ownership of /data folder
 chown -R www-data:www-data /data
