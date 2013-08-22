@@ -1,0 +1,2 @@
+mysql-server-5.5 mysql-server/root_password password root
+mysql-server-5.5 mysql-server/root_password_again password root
