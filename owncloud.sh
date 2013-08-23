@@ -33,7 +33,7 @@ cp installation.php $OWNCLOUDPATH/core/templates/installation.php
 rm installation.php
 
 # setup cron jobs
-mysql -uroot -proot < cron.sql
+# mysql -uroot -proot < cron.sql
 
 # crontab -u www-data -e
 # --> */1 * * * * php -f $OWNCLOUDPATH/cron.php
