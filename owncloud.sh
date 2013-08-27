@@ -13,7 +13,7 @@ apt-get -y install mysql-server-5.5
 mysql -uroot -proot < mysql.sql
 
 # install owncloud
-wget http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/Release.key
+wget --no-check-certificate http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/Release.key
 apt-key add - < Release.key
 rm Release.key
 cp owncloud.list /etc/apt/sources.list.d/owncloud.list
@@ -28,7 +28,7 @@ sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/contacts/appinfo/info.xml
 sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/calendar/appinfo/info.xml
 
 # hardcode data folder and database connections
-wget https://github.com/syncloud/owncloud-core/raw/master/core/templates/installation.php
+wget --no-check-certificate https://github.com/syncloud/owncloud-core/raw/master/core/templates/installation.php
 cp installation.php $OWNCLOUDPATH/core/templates/installation.php
 rm installation.php
 
