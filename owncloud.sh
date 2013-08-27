@@ -1,4 +1,4 @@
-set -x
+#!/bin/bash -x
 
 OWNCLOUDPATH='/var/www/owncloud'
 
