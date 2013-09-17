@@ -36,5 +36,4 @@ rm installation.php
 # mysql -uroot -proot < cron.sql
 
 # crontab -u www-data -e
-# --> */1 * * * * php -f $OWNCLOUDPATH/cron.php
-
+su -c "echo \"*/1 * * * * php -f ${OWNCLOUDPATH}/cron.php\" | crontab -" www-data
