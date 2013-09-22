@@ -23,6 +23,9 @@ echo "deb http://download.opensuse.org/repositories/isv:ownCloud:community/Debia
 apt-get update
 apt-get -y install owncloud
 
+# allow htaccess files
+sed "s/AllowOverride.*/AllowOverride All/g" -i /etc/apache2/sites-available/default
+
 # change ownership of /data folder
 chown -R www-data:www-data /data
 
