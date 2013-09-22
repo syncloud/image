@@ -10,6 +10,12 @@ echo "mysql-server-5.5 mysql-server/root_password password root" | debconf-set-s
 echo "mysql-server-5.5 mysql-server/root_password_again password root" | debconf-set-selections
 apt-get -y install mysql-server-5.5
 
+# move mysql data folder
+service mysql stop
+sudo cp -R -p /var/lib/mysql /data/mysql
+sed "s/datadir.*/datadir\t\t= \/data\/mysql/g" -i /etc/mysql/my.cnf
+service mysql start
+
 # create MySQL database and user/password
 mysql -uroot -proot <<EOFMYSQL
 CREATE USER 'owncloud'@'localhost' IDENTIFIED BY 'owncloud';
