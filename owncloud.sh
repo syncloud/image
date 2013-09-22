@@ -33,8 +33,9 @@ apt-get -y install owncloud
 sed "s/AllowOverride.*/AllowOverride All/g" -i /etc/apache2/sites-available/default
 service apache2 reload
 
-# change ownership of /data folder
-chown -R www-data:www-data /data
+# change ownership of owncloud data folder
+mkdir /data/owncloud
+chown -R www-data:www-data /data/owncloud
 
 # disable some owncloud apps
 sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/contacts/appinfo/info.xml
