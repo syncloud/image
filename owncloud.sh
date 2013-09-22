@@ -6,7 +6,8 @@ OWNCLOUDPATH='/var/www/owncloud'
 apt-get -y install php-apc
 
 # install mySql (set root user password to root)
-debconf-set-selections mysql-root.txt
+echo "mysql-server-5.5 mysql-server/root_password password root" | debconf-set-selections
+echo "mysql-server-5.5 mysql-server/root_password_again password root" | debconf-set-selections
 apt-get -y install mysql-server-5.5
 
 # create MySQL database and user/password
