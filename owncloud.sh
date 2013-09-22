@@ -31,6 +31,7 @@ apt-get -y install owncloud
 
 # allow htaccess files
 sed "s/AllowOverride.*/AllowOverride All/g" -i /etc/apache2/sites-available/default
+service apache2 reload
 
 # change ownership of /data folder
 chown -R www-data:www-data /data
