@@ -13,9 +13,7 @@ apt-get -y install mysql-server-5.5
 mysql -uroot -proot < mysql.sql
 
 # install owncloud
-wget --no-check-certificate http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/Release.key
-apt-key add - < Release.key
-rm Release.key
+wget --no-check-certificate -qO - http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/Release.key | apt-key add -
 cp owncloud.list /etc/apt/sources.list.d/owncloud.list
 apt-get update
 apt-get -y install owncloud
