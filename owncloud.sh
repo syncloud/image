@@ -10,7 +10,11 @@ debconf-set-selections mysql-root.txt
 apt-get -y install mysql-server-5.5
 
 # create MySQL database and user/password
-mysql -uroot -proot < mysql.sql
+mysql -uroot -proot <<EOFMYSQL
+CREATE USER 'owncloud'@'localhost' IDENTIFIED BY 'owncloud';
+CREATE DATABASE IF NOT EXISTS owncloud;
+GRANT ALL PRIVILEGES ON owncloud.* TO 'owncloud'@'localhost' IDENTIFIED BY 'owncloud';
+EOFMYSQL
 
 # install owncloud
 wget --no-check-certificate -qO - http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/Release.key | apt-key add -
