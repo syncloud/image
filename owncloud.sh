@@ -2,8 +2,8 @@
 
 OWNCLOUDPATH='/var/www/owncloud'
 
-# PHP-Accelerator
-apt-get -y install php-apc
+# Tools
+apt-get -y install php-apc miniupnpc
 
 # install mySql (set root user password to root)
 echo "mysql-server-5.5 mysql-server/root_password password root" | debconf-set-selections
