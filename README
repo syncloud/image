@@ -1,2 +1,6 @@
-To run an a device:
+# Setup a device:
 wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/owncloud.sh | sh
+
+# Map a port
+
+wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/upnp.sh | sh
