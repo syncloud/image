@@ -2,39 +2,50 @@
 
 OWNCLOUDPATH='/var/www/owncloud'
 
-# PHP-Accelerator
-apt-get -y install php-apc
+# Tools
+apt-get -y install php-apc miniupnpc
 
 # install mySql (set root user password to root)
-debconf-set-selections mysql-root.txt
+echo "mysql-server-5.5 mysql-server/root_password password root" | debconf-set-selections
+echo "mysql-server-5.5 mysql-server/root_password_again password root" | debconf-set-selections
 apt-get -y install mysql-server-5.5
 
+# move mysql data folder
+service mysql stop
+cp -R -p /var/lib/mysql /data/mysql
+sed "s/datadir.*/datadir\t\t= \/data\/mysql/g" -i /etc/mysql/my.cnf
+service mysql start
+
 # create MySQL database and user/password
-mysql -uroot -proot < mysql.sql
+mysql -uroot -proot <<EOFMYSQL
+CREATE USER 'owncloud'@'localhost' IDENTIFIED BY 'owncloud';
+CREATE DATABASE IF NOT EXISTS owncloud;
+GRANT ALL PRIVILEGES ON owncloud.* TO 'owncloud'@'localhost' IDENTIFIED BY 'owncloud';
+EOFMYSQL
 
 # install owncloud
-wget --no-check-certificate http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/Release.key
-apt-key add - < Release.key
-rm Release.key
-cp owncloud.list /etc/apt/sources.list.d/owncloud.list
+wget --no-check-certificate -qO - http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/Release.key | apt-key add -
+echo "deb http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/ /" > /etc/apt/sources.list.d/owncloud.list
 apt-get update
 apt-get -y install owncloud
 
-# change ownership of /data folder
-chown -R www-data:www-data /data
+# allow htaccess files
+sed "s/AllowOverride.*/AllowOverride All/g" -i /etc/apache2/sites-available/default
+service apache2 reload
+
+# change ownership of owncloud data folder
+mkdir /data/owncloud
+chown -R www-data:www-data /data/owncloud
 
 # disable some owncloud apps
 sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/contacts/appinfo/info.xml
 sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/calendar/appinfo/info.xml
 
 # hardcode data folder and database connections
-wget --no-check-certificate https://github.com/syncloud/owncloud-core/raw/master/core/templates/installation.php
-cp installation.php $OWNCLOUDPATH/core/templates/installation.php
-rm installation.php
+wget --no-check-certificate -O $OWNCLOUDPATH/core/templates/installation.php https://github.com/syncloud/owncloud-core/raw/master/core/templates/installation.php
 
 # setup cron jobs
 # mysql -uroot -proot < cron.sql
 
 # crontab -u www-data -e
-# --> */1 * * * * php -f $OWNCLOUDPATH/cron.php
-
+su -c "echo \"*/1 * * * * php -f ${OWNCLOUDPATH}/cron.php\" | crontab -" www-data

@@ -1,0 +1,7 @@
+# Setup a device:
+
+wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/owncloud.sh | bash
+
+# Map a port
+
+wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/upnp.sh | bash
