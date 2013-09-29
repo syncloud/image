@@ -40,6 +40,7 @@ chown -R www-data:www-data /data/owncloud
 # disable some owncloud apps
 sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/contacts/appinfo/info.xml
 sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/calendar/appinfo/info.xml
+sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/updater/appinfo/info.xml
 
 # hardcode data folder and database connections
 wget --no-check-certificate -O $OWNCLOUDPATH/core/templates/installation.php https://github.com/syncloud/owncloud-core/raw/master/core/templates/installation.php
