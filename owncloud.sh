@@ -43,7 +43,8 @@ sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/calendar/appinfo/info.xml
 sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/updater/appinfo/info.xml
 
 # hardcode data folder and database connections
-wget --no-check-certificate -O $OWNCLOUDPATH/core/templates/installation.php https://github.com/syncloud/owncloud-core/raw/master/core/templates/installation.php
+# wget --no-check-certificate -O $OWNCLOUDPATH/core/templates/installation.php https://github.com/syncloud/owncloud-core/raw/master/core/templates/installation.php
+# wget --no-check-certificate -O $OWNCLOUDPATH/core/setup.php https://github.com/syncloud/owncloud-core/raw/master/core/setup.php
 
 # setup cron jobs
 # mysql -uroot -proot < cron.sql
