@@ -46,8 +46,5 @@ sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/updater/appinfo/info.xml
 # wget --no-check-certificate -O $OWNCLOUDPATH/core/templates/installation.php https://github.com/syncloud/owncloud-core/raw/master/core/templates/installation.php
 # wget --no-check-certificate -O $OWNCLOUDPATH/core/setup.php https://github.com/syncloud/owncloud-core/raw/master/core/setup.php
 
-# setup cron jobs
-# mysql -uroot -proot < cron.sql
-
-# crontab -u www-data -e
+# setup crontab task
 su -c "echo \"*/1 * * * * php -f ${OWNCLOUDPATH}/cron.php\" | crontab -" www-data
