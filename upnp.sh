@@ -5,9 +5,10 @@ MAX_PORT=100000
 
 ROUTER_ADDR=`upnpc -s | grep ExternalIPAddress | sed s/.*\ \=\ //`
 MY_ADDR=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
+MY_PORT=80
 
 function get_external_port {
-  EXTERNAL_PORT=`upnpc -l | grep "TCP" | grep ${MY_ADDR} | grep -Eo "TCP [0-9]*" | grep -Eo "[0-9]*"`
+  EXTERNAL_PORT=`upnpc -l | grep "TCP" | grep ${MY_ADDR}:${MY_PORT} | grep -Eo "TCP [0-9]*" | grep -Eo "[0-9]*"`
 }
 
 function find_available_port {
@@ -27,8 +28,12 @@ function find_available_port {
 }
 
 function add_mapping {
-  upnpc -a ${MY_ADDR} 80 ${BASE_PORT} TCP
+ upnpc -a ${MY_ADDR} ${MY_PORT} ${BASE_PORT} TCP
 }
+
+if [ -n "$1" ]; then
+  MY_PORT=$1 
+fi
 
 get_external_port
 
