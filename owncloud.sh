@@ -27,7 +27,7 @@ EOFMYSQL
 wget --no-check-certificate -qO - http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/Release.key | apt-key add -
 echo "deb http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/ /" > /etc/apt/sources.list.d/owncloud.list
 apt-get update
-apt-get -y install owncloud
+apt-get -y --no-install-recommends install owncloud
 
 # allow htaccess files
 sed "s/AllowOverride.*/AllowOverride All/g" -i /etc/apache2/sites-available/default
