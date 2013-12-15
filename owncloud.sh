@@ -14,6 +14,15 @@ apt-get -y install mysql-server-5.5
 service mysql stop
 cp -R -p /var/lib/mysql /data/mysql
 sed "s/datadir.*/datadir\t\t= \/data\/mysql/g" -i /etc/mysql/my.cnf
+
+#fixing apparmor if exist
+mysq_apparmor=/etc/apparmor.d/usr.sbin.mysqld
+if [ -e "$mysq_apparmor" ]
+then
+  echo "fixing mysql apparmor: $mysq_apparmor"
+  sed "s/\/var\/lib\/mysql/\/data\/mysql/g" -i $mysq_apparmor
+fi
+
 service mysql start
 
 # create MySQL database and user/password
@@ -24,8 +33,9 @@ GRANT ALL PRIVILEGES ON owncloud.* TO 'owncloud'@'localhost' IDENTIFIED BY 'ownc
 EOFMYSQL
 
 # install owncloud
-wget --no-check-certificate -qO - http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/Release.key | apt-key add -
-echo "deb http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/ /" > /etc/apt/sources.list.d/owncloud.list
+owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0
+wget --no-check-certificate -qO - $owncloud_repo/Release.key | apt-key add -
+echo "deb $owncloud_repo/ /" > /etc/apt/sources.list.d/owncloud.list
 apt-get update
 apt-get -y --no-install-recommends install owncloud
 
