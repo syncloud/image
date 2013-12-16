@@ -40,10 +40,6 @@ echo "deb $owncloud_repo/ /" > /etc/apt/sources.list.d/owncloud.list
 apt-get update
 apt-get -y --no-install-recommends install owncloud
 
-# allow htaccess files
-#sed "s/AllowOverride.*/AllowOverride All/g" -i /etc/apache2/sites-available/default
-service apache2 reload
-
 # change ownership of owncloud data folder
 mkdir $OWNCLOUDDATA
 chown -R www-data:www-data /data/owncloud
@@ -71,3 +67,18 @@ AUTOCNF
 
 # setup crontab task
 su -c "echo \"*/1 * * * * php -f ${OWNCLOUDPATH}/cron.php\" | crontab -" www-data
+
+cd $OWNCLOUDPATH/apps
+wget https://github.com/syncloud/upnp_port_mapper/archive/v0.1.zip
+unzip v0.1.zip
+mv upnp_port_mapper-0.1 upnp_port_mapper
+sed -i '/<info>/a \<default_enable\/>' ./upnp_port_mapper/appinfo/info.xml
+
+cd upnp_port_mapper/lib
+wget https://github.com/syncloud/PHP-UPnP/archive/v0.1.zip
+rm -r upnp
+unzip v0.1.zip
+mv PHP-UPnP-0.1 upnp
+
+
+service apache2 reload
