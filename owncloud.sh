@@ -33,14 +33,14 @@ GRANT ALL PRIVILEGES ON owncloud.* TO 'owncloud'@'localhost' IDENTIFIED BY 'ownc
 EOFMYSQL
 
 # install owncloud
-owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0
+owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_12.10
 wget --no-check-certificate -qO - $owncloud_repo/Release.key | apt-key add -
 echo "deb $owncloud_repo/ /" > /etc/apt/sources.list.d/owncloud.list
 apt-get update
 apt-get -y --no-install-recommends install owncloud
 
 # allow htaccess files
-sed "s/AllowOverride.*/AllowOverride All/g" -i /etc/apache2/sites-available/default
+#sed "s/AllowOverride.*/AllowOverride All/g" -i /etc/apache2/sites-available/default
 service apache2 reload
 
 # change ownership of owncloud data folder
