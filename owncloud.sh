@@ -1,6 +1,7 @@
 #!/bin/bash -x
 
 OWNCLOUDPATH='/var/www/owncloud'
+OWNCLOUDDATA=/data/owncloud
 
 # Tools
 apt-get -y install php-apc miniupnpc
@@ -44,7 +45,7 @@ apt-get -y --no-install-recommends install owncloud
 service apache2 reload
 
 # change ownership of owncloud data folder
-mkdir /data/owncloud
+mkdir $OWNCLOUDDATA
 chown -R www-data:www-data /data/owncloud
 
 # disable some owncloud apps
@@ -55,6 +56,18 @@ sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/updater/appinfo/info.xml
 # hardcode data folder and database connections
 # wget --no-check-certificate -O $OWNCLOUDPATH/core/templates/installation.php https://github.com/syncloud/owncloud-core/raw/master/core/templates/installation.php
 # wget --no-check-certificate -O $OWNCLOUDPATH/core/setup.php https://github.com/syncloud/owncloud-core/raw/master/core/setup.php
+
+cat <<AUTOCNF > $OWNCLOUDPATH/config/autoconfig.php
+<?php
+\$AUTOCONFIG = array(
+  "dbtype"        => "mysql",
+  "dbname"        => "owncloud",
+  "dbuser"        => "root",
+  "dbpass"        => "root",
+  "dbhost"        => "localhost",
+  "directory"     => "$OWNCLOUDDATA",
+);
+AUTOCNF
 
 # setup crontab task
 su -c "echo \"*/1 * * * * php -f ${OWNCLOUDPATH}/cron.php\" | crontab -" www-data
