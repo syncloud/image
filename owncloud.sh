@@ -65,16 +65,18 @@ AUTOCNF
 su -c "echo \"*/1 * * * * php -f ${OWNCLOUDPATH}/cron.php\" | crontab -" www-data
 
 cd $OWNCLOUDPATH/apps
-wget https://github.com/syncloud/upnp_port_mapper/archive/v0.1.zip
-unzip v0.1.zip
-mv upnp_port_mapper-0.1 upnp_port_mapper
+UPNP_MAPPER_VERSION=0.1
+wget https://github.com/syncloud/upnp_port_mapper/archive/v$UPNP_MAPPER_VERSION.zip
+unzip v$UPNP_MAPPER_VERSION.zip
+mv upnp_port_mapper-$UPNP_MAPPER_VERSION upnp_port_mapper
 sed -i '/<info>/a \<default_enable\/>' ./upnp_port_mapper/appinfo/info.xml
 
 cd upnp_port_mapper/lib
-wget https://github.com/syncloud/PHP-UPnP/archive/v0.1.zip
+PHP_UPNP_VERSION=0.1.1
+wget https://github.com/syncloud/PHP-UPnP/archive/v$PHP_UPNP_VERSION.zip
 rm -r upnp
-unzip v0.1.zip
-mv PHP-UPnP-0.1 upnp
+unzip v$PHP_UPNP_VERSION.zip
+mv PHP-UPnP-$PHP_UPNP_VERSION upnp
 
 
 service apache2 reload
