@@ -65,7 +65,7 @@ AUTOCNF
 su -c "echo \"*/1 * * * * php -f ${OWNCLOUDPATH}/cron.php\" | crontab -" www-data
 
 cd $OWNCLOUDPATH/apps
-UPNP_MAPPER_VERSION=0.1
+UPNP_MAPPER_VERSION=0.1.1
 wget https://github.com/syncloud/upnp_port_mapper/archive/v$UPNP_MAPPER_VERSION.zip
 unzip v$UPNP_MAPPER_VERSION.zip
 mv upnp_port_mapper-$UPNP_MAPPER_VERSION upnp_port_mapper
