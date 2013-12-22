@@ -71,16 +71,16 @@ su -c "echo \"*/1 * * * * php -f ${OWNCLOUDPATH}/cron.php\" | crontab -" www-dat
 
 cd $OWNCLOUDPATH/apps
 UPNP_MAPPER_VERSION=0.1.3
-wget https://github.com/syncloud/upnp_port_mapper/archive/v$UPNP_MAPPER_VERSION.zip
-unzip v$UPNP_MAPPER_VERSION.zip
+wget https://github.com/syncloud/upnp_port_mapper/archive/v$UPNP_MAPPER_VERSION.tar.gz
+tar xzvf v$UPNP_MAPPER_VERSION.tar.gz
 mv upnp_port_mapper-$UPNP_MAPPER_VERSION upnp_port_mapper
 sed -i '/<info>/a \<default_enable\/>' ./upnp_port_mapper/appinfo/info.xml
 
 cd upnp_port_mapper/lib
 PHP_UPNP_VERSION=0.1.1
-wget https://github.com/syncloud/PHP-UPnP/archive/v$PHP_UPNP_VERSION.zip
+wget https://github.com/syncloud/PHP-UPnP/archive/v$PHP_UPNP_VERSION.tar.gz
 rm -r upnp
-unzip v$PHP_UPNP_VERSION.zip
+tar xzvf v$PHP_UPNP_VERSION.tar.gz
 mv PHP-UPnP-$PHP_UPNP_VERSION upnp
 
 
