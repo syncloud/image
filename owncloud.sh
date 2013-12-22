@@ -75,6 +75,8 @@ wget https://github.com/syncloud/upnp_port_mapper/archive/v$UPNP_MAPPER_VERSION.
 tar xzvf v$UPNP_MAPPER_VERSION.tar.gz
 mv upnp_port_mapper-$UPNP_MAPPER_VERSION upnp_port_mapper
 sed -i '/<info>/a \<default_enable\/>' ./upnp_port_mapper/appinfo/info.xml
+sed -i '/<info>/a \<default_native\/>' ./upnp_port_mapper/appinfo/info.xml
+sed -i '/<info>/a \<default_mapped\/>' ./upnp_port_mapper/appinfo/info.xml
 
 cd upnp_port_mapper/lib
 PHP_UPNP_VERSION=0.1.1
