@@ -40,7 +40,8 @@ GRANT ALL PRIVILEGES ON owncloud.* TO 'owncloud'@'localhost' IDENTIFIED BY 'ownc
 EOFMYSQL
 
 # install owncloud
-owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_12.10
+OS_VERSION=$(lsb_release -sr)
+owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_$OS_VERSION
 wget --no-check-certificate -qO - $owncloud_repo/Release.key | apt-key add -
 echo "deb $owncloud_repo/ /" > /etc/apt/sources.list.d/owncloud.list
 apt-get update
