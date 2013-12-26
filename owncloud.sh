@@ -9,6 +9,7 @@ VERSION_TO_INSTALL='latest' #[latest|appstore]
 OWNCLOUDPATH='/var/www/owncloud'
 OWNCLOUDDATA=/data/owncloud
 
+apt-get update
 # Tools
 apt-get -y install php-apc miniupnpc
 
