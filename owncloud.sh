@@ -5,6 +5,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+VERSION_TO_INSTALL='latest' #[latest|appstore] 
 OWNCLOUDPATH='/var/www/owncloud'
 OWNCLOUDDATA=/data/owncloud
 
@@ -71,11 +72,8 @@ su -c "echo \"*/1 * * * * php -f ${OWNCLOUDPATH}/cron.php\" | crontab -" www-dat
 
 cd $OWNCLOUDPATH/apps
 
-APPSTORE_UPNP=162449-upnp_port_mapper.zip
-wget http://apps.owncloud.com/CONTENT/content-files/$APPSTORE_UPNP
-unzip $APPSTORE_UPNP
-rm $APPSTORE_UPNP
-
+wget -qO- https://raw.github.com/syncloud/upnp_port_mapper/master/get_$VERSION_TO_INSTALL.sh | sh
+   
 sed -i '/<info>/a \<default_enable\/>' ./upnp_port_mapper/appinfo/info.xml
 sed -i '/<info>/a \<default_native\/>' ./upnp_port_mapper/appinfo/info.xml
 sed -i '/<info>/a \<default_mapped\/>' ./upnp_port_mapper/appinfo/info.xml
