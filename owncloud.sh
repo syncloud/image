@@ -6,8 +6,14 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 VERSION_TO_INSTALL='latest' #[latest|appstore] 
+DATADIR=/data
 OWNCLOUDPATH='/var/www/owncloud'
-OWNCLOUDDATA=/data/owncloud
+OWNCLOUDDATA=$DATADIR/owncloud
+
+if [ ! -d "$DATADIR" ]; then
+  echo "WARNING: Creating data dir, only for testing, otherwise should already exist"
+  mkdir $DATADIR
+fi
 
 apt-get update
 # Tools
