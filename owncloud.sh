@@ -67,7 +67,7 @@ sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/updater/appinfo/info.xml
 cat <<AUTOCNF > $OWNCLOUDPATH/config/autoconfig.php
 <?php
 \$AUTOCONFIG = array(
-  "dbtype"        => "mysql",sudo 
+  "dbtype"        => "mysql", 
   "dbname"        => "owncloud",
   "dbuser"        => "root",
   "dbpass"        => "root",
