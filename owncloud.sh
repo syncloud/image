@@ -48,6 +48,7 @@ EOFMYSQL
 
 # install owncloud
 OS_VERSION=$(lsb_release -sr)
+if [[ $OS_VERSION = "13.06" ]]; then OS_VERSION="13.04"; fi # fix for cubieboard lubuntu 13.06
 owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_$OS_VERSION
 wget --no-check-certificate -qO - $owncloud_repo/Release.key | apt-key add -
 echo "deb $owncloud_repo/ /" > /etc/apt/sources.list.d/owncloud.list
@@ -66,7 +67,7 @@ sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/updater/appinfo/info.xml
 cat <<AUTOCNF > $OWNCLOUDPATH/config/autoconfig.php
 <?php
 \$AUTOCONFIG = array(
-  "dbtype"        => "mysql",
+  "dbtype"        => "mysql",sudo 
   "dbname"        => "owncloud",
   "dbuser"        => "root",
   "dbpass"        => "root",
