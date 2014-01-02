@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
 # update packages
 apt-get update
 
@@ -34,4 +39,4 @@ sed -i '/# By default this script does nothing./a /usr/local/bin/setmacaddr.sh' 
 cd /
 mkdir data
 sed -i '$ a\/dev/sda1 /data ext4 defaults 0 0' /etc/fstab
-sudo mount /dev/sda1 /data
+mount /dev/sda1 /data
