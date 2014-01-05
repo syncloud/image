@@ -9,12 +9,12 @@ fi
 locale-gen en_US.UTF-8
 
 # update packages
-apt-get update
+apt-get -y update
 
 # we don't need mysql - owncloud script should install and configure it
-apt-get remove --purge mysql-server mysql-client mysql-common
-apt-get autoremove
-apt-get autoclean
+apt-get -y remove --purge mysql-server mysql-client mysql-common
+apt-get -y autoremove
+apt-get -y autoclean
 
 # generate script for setting mac address
 cat > /usr/local/bin/setmacaddr.sh <<"TAGSETMACADDRESS"
