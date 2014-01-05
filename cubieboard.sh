@@ -40,3 +40,6 @@ cd /
 mkdir data
 sed -i '$ a\/dev/sda1 /data ext4 defaults 0 0' /etc/fstab
 mount /dev/sda1 /data
+
+# add user www-data to inet group
+usermod -a -G inet www-data
