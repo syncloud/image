@@ -51,3 +51,6 @@ mount /dev/sda1 /data
 
 # add user www-data to inet group
 usermod -a -G inet www-data
+
+# add user mysql to inet group
+usermod -a -G inet mysql
