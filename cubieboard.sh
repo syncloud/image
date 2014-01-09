@@ -15,6 +15,8 @@ apt-get -y update
 apt-get -y remove --purge mysql-server mysql-client mysql-common
 apt-get -y autoremove
 apt-get -y autoclean
+rm -rf /var/lib/mysql
+rm -rf /var/log/mysql
 
 # generate script for setting mac address
 cat > /usr/local/bin/setmacaddr.sh <<"TAGSETMACADDRESS"
