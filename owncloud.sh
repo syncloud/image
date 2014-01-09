@@ -27,6 +27,7 @@ apt-get -y install mysql-server-5.5 unzip
 # move mysql data folder
 service mysql stop
 cp -R -p /var/lib/mysql /data/mysql
+chown -R mysql:mysql /data/mysql
 sed "s/datadir.*/datadir\t\t= \/data\/mysql/g" -i /etc/mysql/my.cnf
 
 #fixing apparmor if exist
