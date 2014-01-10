@@ -56,6 +56,19 @@ echo "deb $owncloud_repo/ /" > /etc/apt/sources.list.d/owncloud.list
 apt-get update
 apt-get -y --no-install-recommends install owncloud
 
+#fix owncloud warning for 13.10
+if [[ $OS_VERSION = "13.10" ]]; then 
+   
+cat <<APACHE > /etc/apache2/sites-available/owncloud.conf
+<Directory /var/www/owncloud>
+  AllowOverride All
+</Directory>
+APACHE
+
+a2ensite owncloud
+
+fi
+
 # change ownership of owncloud data folder
 mkdir $OWNCLOUDDATA
 chown -R www-data:www-data /data/owncloud
