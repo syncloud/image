@@ -15,6 +15,8 @@ if [ ! -d "$DATADIR" ]; then
   mkdir $DATADIR
 fi
 
+chmod 755 $DATADIR
+
 apt-get update
 # Tools
 apt-get -y install php-apc miniupnpc
@@ -70,7 +72,7 @@ fi
 
 # change ownership of owncloud data folder
 mkdir $OWNCLOUDDATA
-chown -R www-data:www-data /data/owncloud
+chown -R www-data:www-data $OWNCLOUDDATA
 
 # disable some owncloud apps
 sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/contacts/appinfo/info.xml
