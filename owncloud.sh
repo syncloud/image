@@ -27,19 +27,19 @@ echo "mysql-server-5.5 mysql-server/root_password_again password root" | debconf
 apt-get -y install mysql-server-5.5 unzip
 
 # move mysql data folder
-service mysql stop
-cp -R -p /var/lib/mysql /data/mysql
-sed "s/datadir.*/datadir\t\t= \/data\/mysql/g" -i /etc/mysql/my.cnf
+#service mysql stop
+#cp -R -p /var/lib/mysql /data/mysql
+#sed "s/datadir.*/datadir\t\t= \/data\/mysql/g" -i /etc/mysql/my.cnf
 
 #fixing apparmor if exist
-mysq_apparmor=/etc/apparmor.d/usr.sbin.mysqld
-if [ -e "$mysq_apparmor" ]
-then
-  echo "fixing mysql apparmor: $mysq_apparmor"
-  sed "s/\/var\/lib\/mysql/\/data\/mysql/g" -i $mysq_apparmor
-fi
+#mysq_apparmor=/etc/apparmor.d/usr.sbin.mysqld
+#if [ -e "$mysq_apparmor" ]
+#then
+#  echo "fixing mysql apparmor: $mysq_apparmor"
+#  sed "s/\/var\/lib\/mysql/\/data\/mysql/g" -i $mysq_apparmor
+#fi
 
-service mysql start
+#service mysql start
 
 # create MySQL database and user/password
 mysql -uroot -proot <<EOFMYSQL
