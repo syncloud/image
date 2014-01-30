@@ -12,4 +12,5 @@ wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/owncloud.sh | su
 cd /opt/scripts/tools
 wget https://raw.github.com/RobertCNelson/tools/master/scripts/beaglebone-black-make-microSD-flasher-from-eMMC.sh 
 sed -i '/debugfs.*fstab/a \\techo "/dev/sda1 /data auto defaults 0 0" >> /tmp/rootfs/etc/fstab' beaglebone-black-make-microSD-flasher-from-eMMC.sh
+chmod +x beaglebone-black-make-microSD-flasher-from-eMMC.sh
 ./beaglebone-black-make-microSD-flasher-from-eMMC.sh
