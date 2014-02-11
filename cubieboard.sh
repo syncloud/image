@@ -56,3 +56,6 @@ usermod -a -G inet www-data
 
 # add user mysql to inet group
 usermod -a -G inet mysql
+
+# install avahi
+apt-get -y install avahi-daemon
