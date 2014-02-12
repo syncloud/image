@@ -8,7 +8,7 @@ fi
 VERSION_TO_INSTALL='latest' #[latest|appstore] 
 DATADIR=/data
 OWNCLOUDPATH='/var/www/owncloud'
-OWNCLOUDDATA=$DATADIR/owncloud
+OWNCLOUDDATA=$DATADIR
 
 if [ ! -d "$DATADIR" ]; then
   echo "WARNING: Creating data dir, only for testing, otherwise should already exist"
@@ -56,7 +56,6 @@ a2ensite owncloud
 fi
 
 # change ownership of owncloud data folder
-mkdir $OWNCLOUDDATA
 chown -R www-data:www-data $OWNCLOUDDATA
 
 # disable some owncloud apps
