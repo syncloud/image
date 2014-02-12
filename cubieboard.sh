@@ -59,3 +59,6 @@ usermod -a -G inet mysql
 
 # install avahi
 apt-get -y install avahi-daemon
+
+usermod -a -G inet avahi
+
