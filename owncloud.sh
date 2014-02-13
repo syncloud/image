@@ -16,7 +16,7 @@ else
   echo "WARNING: data dir already exists"
 fi
 
-chmod 755 $DATADIR
+chmod 770 $DATADIR
 
 apt-get update
 # Tools
