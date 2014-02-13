@@ -11,8 +11,9 @@ OWNCLOUDPATH='/var/www/owncloud'
 OWNCLOUDDATA=$DATADIR
 
 if [ ! -d "$DATADIR" ]; then
-  echo "WARNING: Creating data dir, only for testing, otherwise should already exist"
   mkdir $DATADIR
+else
+  echo "WARNING: data dir already exists"
 fi
 
 chmod 755 $DATADIR
