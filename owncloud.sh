@@ -8,26 +8,32 @@ fi
 VERSION_TO_INSTALL='latest' #[latest|appstore] 
 DATADIR=/data
 OWNCLOUDPATH='/var/www/owncloud'
-OWNCLOUDDATA=$DATADIR
 
-if [ ! -d "$DATADIR" ]; then
-  mkdir $DATADIR
-else
-  echo "WARNING: data dir already exists"
-fi
+apt-get -y update
+
+# create data folder
+mkdir $DATADIR
+
+# mount HDD
+mount /dev/sda1 $DATADIR
+
+# add fstab mapping for HDD
+sed -i '$ a\/dev/sda1 /data ext4 defaults 0 0' /etc/fstab
 
 chmod 770 $DATADIR
 
-apt-get update
-# Tools
+# change ownership of owncloud data folder
+chown -R www-data:www-data $DATADIR
+
+# tools for owncloud
 apt-get -y install php-apc miniupnpc
 
-# install mySql (set root user password to root)
+# install mySQL (set root user password to root)
 echo "mysql-server-5.5 mysql-server/root_password password root" | debconf-set-selections
 echo "mysql-server-5.5 mysql-server/root_password_again password root" | debconf-set-selections
 apt-get -y install mysql-server-5.5 unzip
 
-# create MySQL database and user/password
+# create mySQL database and user/password
 mysql -uroot -proot <<EOFMYSQL
 CREATE USER 'owncloud'@'localhost' IDENTIFIED BY 'owncloud';
 CREATE DATABASE IF NOT EXISTS owncloud;
@@ -56,9 +62,6 @@ a2ensite owncloud
 
 fi
 
-# change ownership of owncloud data folder
-chown -R www-data:www-data $OWNCLOUDDATA
-
 # disable some owncloud apps
 sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/contacts/appinfo/info.xml
 sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/calendar/appinfo/info.xml
@@ -72,7 +75,7 @@ cat <<AUTOCNF > $OWNCLOUDPATH/config/autoconfig.php
   "dbuser"        => "root",
   "dbpass"        => "root",
   "dbhost"        => "localhost",
-  "directory"     => "$OWNCLOUDDATA",
+  "directory"     => "$DATADIR",
 );
 AUTOCNF
 
@@ -89,7 +92,7 @@ sed -i '/<info>/a \<default_mapped\/>' ./upnp_port_mapper/appinfo/info.xml
 
 service apache2 reload
 
-# Service discovery
+# service discovery through avahi
 
 cat <<AVAHI > /etc/avahi/services/owncloud.service
 <?xml version="1.0" standalone='no'?>

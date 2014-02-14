@@ -45,12 +45,6 @@ chmod +x /usr/local/bin/setmacaddr.sh
 # add setting mac address to the rc.local
 sed -i '/# By default this script does nothing./a /usr/local/bin/setmacaddr.sh' /etc/rc.local
 
-# mount disk
-cd /
-mkdir data
-sed -i '$ a\/dev/sda1 /data ext4 defaults 0 0' /etc/fstab
-mount /dev/sda1 /data
-
 # add user www-data to inet group
 usermod -a -G inet www-data
 
