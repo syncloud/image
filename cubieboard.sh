@@ -5,7 +5,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# fix locale warnings`
+# fix locale warnings
 locale-gen en_US.UTF-8
 
 # update packages

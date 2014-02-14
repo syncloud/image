@@ -20,10 +20,20 @@ mount /dev/sda1 $DATADIR
 # add fstab mapping for HDD
 sed -i '$ a\/dev/sda1 /data ext4 defaults 0 0' /etc/fstab
 
+# generate script for setting DATADIR permissions
+cat > /usr/local/bin/setdataperm.sh <<TAGSETDATAPERM
+#!/bin/bash
 chmod 770 $DATADIR
-
-# change ownership of owncloud data folder
 chown -R www-data:www-data $DATADIR
+TAGSETDATAPERM
+
+chmod +x /usr/local/bin/setdataperm.sh
+
+# add DATADIR permissions script to rc.local
+sed -i '/# By default this script does nothing./a /usr/local/bin/setdataperm.sh' /etc/rc.local
+
+# change permissions of data folder
+/usr/local/bin/setdataperm.sh
 
 # tools for owncloud
 apt-get -y install php-apc miniupnpc
