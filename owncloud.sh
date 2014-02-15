@@ -79,6 +79,19 @@ a2ensite owncloud
 
 fi
 
+#fix owncloud warning for 13.10
+if [[ $OS_ID = "Debian" ]]; then 
+   
+cat <<APACHE > /etc/apache2/sites-available/owncloud
+<Directory /var/www/owncloud>
+  AcceptPathInfo On
+</Directory>
+APACHE
+
+a2ensite owncloud
+
+fi
+
 # disable some owncloud apps
 sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/contacts/appinfo/info.xml
 sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/calendar/appinfo/info.xml
