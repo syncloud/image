@@ -36,7 +36,7 @@ sed -i '/# By default this script does nothing./a /usr/local/bin/setdataperm.sh'
 /usr/local/bin/setdataperm.sh
 
 # tools for owncloud
-apt-get -y install php-apc miniupnpc
+apt-get -y install php-apc miniupnpc lsb-release
 
 # install mySQL (set root user password to root)
 echo "mysql-server-5.5 mysql-server/root_password password root" | debconf-set-selections
