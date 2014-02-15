@@ -52,8 +52,15 @@ EOFMYSQL
 
 # install owncloud
 OS_VERSION=$(lsb_release -sr)
+OS_ID=$(lsb_release -si)
 if [[ $OS_VERSION = "13.06" ]]; then OS_VERSION="13.04"; fi # fix for cubieboard lubuntu 13.06
+
+if [[ $OS_ID = "Debian" ]]; then
+owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0
+else
 owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_$OS_VERSION
+fi
+
 wget --no-check-certificate -qO - $owncloud_repo/Release.key | apt-key add -
 echo "deb $owncloud_repo/ /" > /etc/apt/sources.list.d/owncloud.list
 apt-get update
