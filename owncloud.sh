@@ -12,9 +12,9 @@ OWNCLOUDPATH='/var/www/owncloud'
 apt-get -y install lsb-release
 
 OS_VERSION=$(lsb_release -sr)
-OS_ID=$(lsb_release -sc)
+OS_ID=$(lsb_release -si)
 
-if [[ $OS_ID = "wheezy" ]]; then
+if [[ $OS_ID = "Debian" ]]; then
   sed -i 's/wheezy/jessie/g' /etc/apt/sources.list
   echo "libc6 libraries/restart-without-asking boolean true" | debconf-set-selections
   echo "libc6:armhf libraries/restart-without-asking boolean true" | debconf-set-selections
@@ -64,7 +64,7 @@ EOFMYSQL
 # install owncloud
 if [[ $OS_VERSION = "13.06" ]]; then OS_VERSION="13.04"; fi # fix for cubieboard lubuntu 13.06
 
-if [[ $OS_ID = "wheezy" ]]; then
+if [[ $OS_ID = "Debian" ]]; then
 owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0
 else
 owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_$OS_VERSION
