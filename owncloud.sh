@@ -81,7 +81,6 @@ APTPREF
 
 apt-get update
 apt-get -y --no-install-recommends install owncloud
-apt-get -y remove libapache2-mod-php5filter
 
 #fix owncloud warning for 13.10
 if [[ $OS_VERSION = "13.10" ]]; then 
