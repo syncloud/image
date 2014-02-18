@@ -82,7 +82,6 @@ APTPREF
 apt-get update
 apt-get -y --no-install-recommends install owncloud
 
-#fix owncloud warning for 13.10
 if [[ $OS_VERSION = "13.10" ]]; then 
    
 cat <<APACHE > /etc/apache2/sites-available/owncloud.conf
@@ -93,6 +92,11 @@ APACHE
 
 a2ensite owncloud
 
+fi
+
+if [[ $OS_ID = "Debian" ]]; then 
+  echo "Alias /owncloud /var/www/owncloud" > /etc/apache2/sites-available/owncloud.conf
+  a2ensite owncloud
 fi
 
 # disable some owncloud apps
