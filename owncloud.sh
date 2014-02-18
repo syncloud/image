@@ -62,7 +62,7 @@ EOFMYSQL
 # install owncloud
 if [[ $OS_VERSION = "13.06" ]]; then OS_VERSION="13.04"; fi # fix for cubieboard lubuntu 13.06
 
-if [[ $OS_ID = "jessie" ]]; then
+if [[ $OS_ID = "wheezy" ]]; then
 owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0
 else
 owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_$OS_VERSION
