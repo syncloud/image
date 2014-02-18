@@ -9,6 +9,15 @@ VERSION_TO_INSTALL='latest' #[latest|appstore]
 DATADIR=/data
 OWNCLOUDPATH='/var/www/owncloud'
 
+apt-get -y install lsb-release
+
+OS_VERSION=$(lsb_release -sr)
+OS_ID=$(lsb_release -sc)
+
+if [[ $OS_ID = "wheezy" ]]; then
+  sed -i 's/wheez/jessie/g' /etc/apt/sources.list
+fi
+
 apt-get -y update
 
 # create data folder
@@ -36,7 +45,7 @@ sed -i '/# By default this script does nothing./a /usr/local/bin/setdataperm.sh'
 /usr/local/bin/setdataperm.sh
 
 # tools for owncloud
-apt-get -y install php-apc miniupnpc lsb-release avahi-daemon
+apt-get -y install php-apc miniupnpc avahi-daemon
 
 # install mySQL (set root user password to root)
 echo "mysql-server-5.5 mysql-server/root_password password root" | debconf-set-selections
@@ -51,11 +60,9 @@ GRANT ALL PRIVILEGES ON owncloud.* TO 'owncloud'@'localhost' IDENTIFIED BY 'ownc
 EOFMYSQL
 
 # install owncloud
-OS_VERSION=$(lsb_release -sr)
-OS_ID=$(lsb_release -si)
 if [[ $OS_VERSION = "13.06" ]]; then OS_VERSION="13.04"; fi # fix for cubieboard lubuntu 13.06
 
-if [[ $OS_ID = "Debian" ]]; then
+if [[ $OS_ID = "jessie" ]]; then
 owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0
 else
 owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_$OS_VERSION
