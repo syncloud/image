@@ -16,6 +16,8 @@ OS_ID=$(lsb_release -sc)
 
 if [[ $OS_ID = "wheezy" ]]; then
   sed -i 's/wheezy/jessie/g' /etc/apt/sources.list
+  echo "libc6 libraries/restart-without-asking boolean true" | debconf-set-selections
+  echo "libc6:armhf libraries/restart-without-asking boolean true" | debconf-set-selections
 fi
 
 apt-get -y update
