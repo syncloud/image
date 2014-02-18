@@ -72,6 +72,13 @@ fi
 
 wget --no-check-certificate -qO - $owncloud_repo/Release.key | apt-key add -
 echo "deb $owncloud_repo/ /" > /etc/apt/sources.list.d/owncloud.list
+
+cat <<APTPREF > /etc/apt/preferences
+Package: *
+Pin: origin download.opensuse.org
+Pin-Priority: 610
+APTPREF
+
 apt-get update
 apt-get -y --no-install-recommends install owncloud
 apt-get -y remove libapache2-mod-php5filter
