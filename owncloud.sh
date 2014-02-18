@@ -15,7 +15,7 @@ OS_VERSION=$(lsb_release -sr)
 OS_ID=$(lsb_release -sc)
 
 if [[ $OS_ID = "wheezy" ]]; then
-  sed -i 's/wheez/jessie/g' /etc/apt/sources.list
+  sed -i 's/wheezy/jessie/g' /etc/apt/sources.list
 fi
 
 apt-get -y update
