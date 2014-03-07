@@ -5,6 +5,51 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+HOSTNAME=$(uname -n)
+
+# if this is cubieboard we need to fix few things before installing ownCloud
+if [[ $HOSTNAME = "cubieboard" ]]; then
+    # fix locale warnings
+    locale-gen en_US.UTF-8
+
+    # update packages
+    apt-get -y update
+
+    # we don't need mysql - owncloud script should install and configure it
+    apt-get -y remove --purge mysql-server mysql-client mysql-common
+    apt-get -y autoremove
+    apt-get -y autoclean
+    rm -rf /var/lib/mysql
+    rm -rf /var/log/mysql
+    
+    # generate script for setting mac address
+    cat > /usr/local/bin/setmacaddr.sh <<"TAGSETMACADDRESS"
+#!/bin/bash
+SET_MAC_ADDR_LOG="/var/log/setmacaddr.log"
+if [ ! -f $SET_MAC_ADDR_LOG ]; then
+    WORKING_FOLDER=/tmp/setmacaddr
+    mkdir $WORKING_FOLDER
+    cd $WORKING_FOLDER
+    mkdir /mnt/nanda
+    mount /dev/nanda /mnt/nanda
+    cp /mnt/nanda/script.bin script.bin
+    bin2fex script.bin script.fex
+    MAC_ADDRESS=$(dd if=/dev/urandom bs=1024 count=1 2>/dev/null|md5sum|sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\)\(..\).*$/00\2\3\4\5\6/')
+    sed -i "$ a\[dynamic]\nMAC = \"$MAC_ADDRESS\"" script.fex
+    fex2bin script.fex script.bin
+    cp script.bin /mnt/nanda/script.bin
+    echo "Mac Address set to $MAC_ADDRESS" >> $SET_MAC_ADDR_LOG
+    sync
+    shutdown -r now
+fi
+TAGSETMACADDRESS
+
+    chmod +x /usr/local/bin/setmacaddr.sh
+
+    # add setting mac address to the rc.local
+    sed -i '/# By default this script does nothing./a /usr/local/bin/setmacaddr.sh' /etc/rc.local        
+fi
+
 VERSION_TO_INSTALL='latest' #[latest|appstore] 
 DATADIR=/data
 OWNCLOUDPATH='/var/www/owncloud'
@@ -47,12 +92,24 @@ sed -i '/# By default this script does nothing./a /usr/local/bin/setdataperm.sh'
 /usr/local/bin/setdataperm.sh
 
 # tools for owncloud
-apt-get -y install php-apc miniupnpc avahi-daemon
+apt-get -y install php-apc miniupnpc
+
+apt-get -y install avahi-daemon
+
+if grep -q inet /etc/group; then
+    # add user avahi to inet group
+    usermod -a -G inet avahi
+fi
 
 # install mySQL (set root user password to root)
 echo "mysql-server-5.5 mysql-server/root_password password root" | debconf-set-selections
 echo "mysql-server-5.5 mysql-server/root_password_again password root" | debconf-set-selections
 apt-get -y install mysql-server-5.5 unzip
+
+if grep -q inet /etc/group; then
+    # add mysql user to inet group
+    usermod -a -G inet mysql
+fi
 
 # create mySQL database and user/password
 mysql -uroot -proot <<EOFMYSQL
@@ -65,9 +122,9 @@ EOFMYSQL
 if [[ $OS_VERSION = "13.06" ]]; then OS_VERSION="13.04"; fi # fix for cubieboard lubuntu 13.06
 
 if [[ $OS_ID = "Debian" ]]; then
-owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0
+    owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0
 else
-owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_$OS_VERSION
+    owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_$OS_VERSION
 fi
 
 wget --no-check-certificate -qO - $owncloud_repo/Release.key | apt-key add -
@@ -81,6 +138,11 @@ APTPREF
 
 apt-get update
 apt-get -y --no-install-recommends install owncloud
+
+if grep -q inet /etc/group; then
+    # add www-data user to inet group
+    usermod -a -G inet www-data
+fi
 
 if [[ $OS_VERSION = "13.10" ]]; then 
    
