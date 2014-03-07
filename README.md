@@ -1,3 +1,9 @@
+####Supported devices
+- BeagleBone Black
+- cubieboard A10
+- Raspberry Pi Model B
+
+
 ####Tweak device vendor image
 
 ````
