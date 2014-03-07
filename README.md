@@ -1,7 +1,11 @@
-####Setup a device
+####Tweak device vendor image
 
 ````
-wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/cubieboard.sh | sudo bash
-wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/beagle_create_sdcard.sh | sudo bash
-wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/owncloud.sh | sudo bash
+./owncloud_ssh_exec.sh <board ip address> <ssh port> <login> <password>
+````
+
+For example, for cubieboard connected to 192.168.1.11 and running vendor lubuntu run:
+
+````
+./owncloud_ssh_exec.sh 192.168.1.11 22 linaro linaro
 ````
