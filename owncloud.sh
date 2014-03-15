@@ -197,7 +197,7 @@ cat <<AVAHI > /etc/avahi/services/owncloud.service
 <?xml version="1.0" standalone='no'?>
 <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
 <service-group>
-  <name>Owncloud</name>
+  <name>ownCloud</name>
   <service>
     <type>_http._tcp</type>
     <port>80</port>
