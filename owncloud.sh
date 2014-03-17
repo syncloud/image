@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
@@ -6,6 +6,12 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 HOSTNAME=$(uname -n)
+
+BOOT_SCRIPT_NAME=/usr/local/bin/syncloud_boot.sh
+
+rm -rf $BOOT_SCRIPT_NAME
+cp syncloud_boot.templ $BOOT_SCRIPT_NAME
+chmod +x $BOOT_SCRIPT_NAME
 
 # if this is cubieboard we need to fix few things before installing ownCloud
 if [[ $HOSTNAME = "cubieboard" ]]; then
@@ -22,32 +28,11 @@ if [[ $HOSTNAME = "cubieboard" ]]; then
     rm -rf /var/lib/mysql
     rm -rf /var/log/mysql
     
-    # generate script for setting mac address
-    cat > /usr/local/bin/setmacaddr.sh <<"TAGSETMACADDRESS"
-#!/bin/bash
-SET_MAC_ADDR_LOG="/var/log/setmacaddr.log"
-if [ ! -f $SET_MAC_ADDR_LOG ]; then
-    WORKING_FOLDER=/tmp/setmacaddr
-    mkdir $WORKING_FOLDER
-    cd $WORKING_FOLDER
-    mkdir /mnt/nanda
-    mount /dev/nanda /mnt/nanda
-    cp /mnt/nanda/script.bin script.bin
-    bin2fex script.bin script.fex
-    MAC_ADDRESS=$(dd if=/dev/urandom bs=1024 count=1 2>/dev/null|md5sum|sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\)\(..\).*$/00\2\3\4\5\6/')
-    sed -i "$ a\[dynamic]\nMAC = \"$MAC_ADDRESS\"" script.fex
-    fex2bin script.fex script.bin
-    cp script.bin /mnt/nanda/script.bin
-    echo "Mac Address set to $MAC_ADDRESS" >> $SET_MAC_ADDR_LOG
-    sync
-    shutdown -r now
-fi
-TAGSETMACADDRESS
-
-    chmod +x /usr/local/bin/setmacaddr.sh
+    # install script for setting mac address
+    cp setmacaddr.sh /usr/local/bin/setmacaddr.sh
 
     # add setting mac address to the rc.local
-    sed -i '/# By default this script does nothing./a /usr/local/bin/setmacaddr.sh' /etc/rc.local        
+    echo "/usr/local/bin/setmacaddr.sh" >> $BOOT_SCRIPT_NAME
 fi
 
 VERSION_TO_INSTALL='latest' #[latest|appstore] 
@@ -70,23 +55,25 @@ apt-get -y update
 # create data folder
 mkdir $DATADIR
 
-# mount HDD
-mount /dev/sda1 $DATADIR
+# copy tool for mounting hdd
+cp mounthdd.py /usr/local/bin/mounthdd.py
 
-# add fstab mapping for HDD
-sed -i '$ a\/dev/sda1 /data ext4 defaults 0 0' /etc/fstab
+# generate script mounting hdd to DATADIR
+python substitute.py mounthdd.templ /usr/local/bin/mounthdd.sh DATADIR=$DATADIR
+chmod +x /usr/local/bin/mounthdd.sh
+
+# add mounting DATADIR script to boot script
+echo "/usr/local/bin/mounthdd.sh" >> $BOOT_SCRIPT_NAME
 
 # generate script for setting DATADIR permissions
-cat > /usr/local/bin/setdataperm.sh <<TAGSETDATAPERM
-#!/bin/bash
-chmod 770 $DATADIR
-chown -R www-data:www-data $DATADIR
-TAGSETDATAPERM
-
+python substitute.py setdataperm.templ /usr/local/bin/setdataperm.sh DATADIR=$DATADIR
 chmod +x /usr/local/bin/setdataperm.sh
 
-# add DATADIR permissions script to rc.local
-sed -i '/# By default this script does nothing./a /usr/local/bin/setdataperm.sh' /etc/rc.local
+# add DATADIR permissions script boot script
+echo "/usr/local/bin/setdataperm.sh" >> $BOOT_SCRIPT_NAME
+
+# mount data folder
+/usr/local/bin/mounthdd.sh
 
 # change permissions of data folder
 /usr/local/bin/setdataperm.sh
@@ -207,3 +194,7 @@ cat <<AVAHI > /etc/avahi/services/owncloud.service
 AVAHI
 
 service avahi-daemon restart
+
+# add boot script to rc.local
+sed -i '/# By default this script does nothing./a /usr/local/bin/syncloud_boot.sh' /etc/rc.local
+
