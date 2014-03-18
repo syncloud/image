@@ -79,7 +79,7 @@ echo "/usr/local/bin/setdataperm.sh" >> $BOOT_SCRIPT_NAME
 /usr/local/bin/setdataperm.sh
 
 # tools for owncloud
-apt-get -y install php-apc miniupnpc
+apt-get -y install php-apc miniupnpc ntp
 
 apt-get -y install avahi-daemon
 
