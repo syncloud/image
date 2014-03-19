@@ -1,5 +1,7 @@
 #!/bin/bash +x
 
+echo "Running from: $PWD"
+
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
    exit 1
@@ -8,7 +10,7 @@ fi
 HOSTNAME=$(uname -n)
 
 SYNCLOUD_TOOLS_PATH=/usr/local/bin/syncloud
-cp -r scripts/tools $SYNCLOUD_TOOLS_PATH
+cp -r tools $SYNCLOUD_TOOLS_PATH
 
 BOOT_SCRIPT_NAME=$SYNCLOUD_TOOLS_PATH/boot.sh
 
