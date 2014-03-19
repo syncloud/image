@@ -7,12 +7,13 @@ fi
 
 HOSTNAME=$(uname -n)
 
-SYNCLOUD_TOOLS_PATH=/usr/local/bin
-BOOT_SCRIPT_NAME=$SYNCLOUD_TOOLS_PATH/syncloud_boot.sh
+SYNCLOUD_TOOLS_PATH=/usr/local/bin/syncloud
+cp -r scripts/tools $SYNCLOUD_TOOLS_PATH
 
+BOOT_SCRIPT_NAME=$SYNCLOUD_TOOLS_PATH/boot.sh
 
 rm -rf $BOOT_SCRIPT_NAME
-cp syncloud_boot.templ $BOOT_SCRIPT_NAME
+cp boot.templ $BOOT_SCRIPT_NAME
 chmod +x $BOOT_SCRIPT_NAME
 
 # if this is cubieboard we need to fix few things before installing ownCloud
@@ -30,9 +31,6 @@ if [[ $HOSTNAME = "cubieboard" ]]; then
     rm -rf /var/lib/mysql
     rm -rf /var/log/mysql
     
-    # install script for setting mac address
-    cp tools/setmacaddr.sh $SYNCLOUD_TOOLS_PATH
-
     # add setting mac address to the rc.local
     echo "$SYNCLOUD_TOOLS_PATH/setmacaddr.sh" >> $BOOT_SCRIPT_NAME
 fi
@@ -57,17 +55,11 @@ apt-get -y update
 # create data folder
 mkdir $DATADIR
 
-# copy tool for mounting hdd
-cp tools/mounthdd.py $SYNCLOUD_TOOLS_PATH
-
 # command: mount hdd to DATADIR
 CMD_MOUNTHDD="python $SYNCLOUD_TOOLS_PATH/mounthdd.py $DATADIR"
 
 # add mounting DATADIR script to boot script
 echo "$CMD_MOUNTHDD" >> $BOOT_SCRIPT_NAME
-
-# copy tool for permissioning www-data user to folder
-cp tools/wwwdatafolder.sh $SYNCLOUD_TOOLS_PATH
 
 # command: set permissions for www user to DATADIR  
 CMD_WWWDATAFOLDER="$SYNCLOUD_TOOLS_PATH/wwwdatafolder.sh $DATADIR"
@@ -75,10 +67,8 @@ CMD_WWWDATAFOLDER="$SYNCLOUD_TOOLS_PATH/wwwdatafolder.sh $DATADIR"
 # add DATADIR permissions script boot script
 echo "$CMD_WWWDATAFOLDER" >> $BOOT_SCRIPT_NAME
 
-# mount data folder
+# mount and set permissions to data folder
 $CMD_MOUNTHDD
-
-# change permissions of data folder
 $CMD_WWWDATAFOLDER
 
 # tools for owncloud
@@ -199,5 +189,5 @@ AVAHI
 service avahi-daemon restart
 
 # add boot script to rc.local
-sed -i '/# By default this script does nothing./a /usr/local/bin/syncloud_boot.sh' /etc/rc.local
+sed -i '/# By default this script does nothing./a /usr/local/bin/syncloud/boot.sh' /etc/rc.local
 
