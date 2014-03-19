@@ -82,7 +82,7 @@ $CMD_MOUNTHDD
 $CMD_WWWDATAFOLDER
 
 # tools for owncloud
-apt-get -y install php-apc miniupnpc
+apt-get -y install php-apc miniupnpc ntp
 
 apt-get -y install avahi-daemon
 
