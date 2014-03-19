@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash +x
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
@@ -7,7 +7,9 @@ fi
 
 HOSTNAME=$(uname -n)
 
-BOOT_SCRIPT_NAME=/usr/local/bin/syncloud_boot.sh
+SYNCLOUD_TOOLS_PATH=/usr/local/bin
+BOOT_SCRIPT_NAME=$SYNCLOUD_TOOLS_PATH/syncloud_boot.sh
+
 
 rm -rf $BOOT_SCRIPT_NAME
 cp syncloud_boot.templ $BOOT_SCRIPT_NAME
@@ -29,10 +31,10 @@ if [[ $HOSTNAME = "cubieboard" ]]; then
     rm -rf /var/log/mysql
     
     # install script for setting mac address
-    cp setmacaddr.sh /usr/local/bin/setmacaddr.sh
+    cp tools/setmacaddr.sh $SYNCLOUD_TOOLS_PATH
 
     # add setting mac address to the rc.local
-    echo "/usr/local/bin/setmacaddr.sh" >> $BOOT_SCRIPT_NAME
+    echo "$SYNCLOUD_TOOLS_PATH/setmacaddr.sh" >> $BOOT_SCRIPT_NAME
 fi
 
 VERSION_TO_INSTALL='latest' #[latest|appstore] 
@@ -56,27 +58,28 @@ apt-get -y update
 mkdir $DATADIR
 
 # copy tool for mounting hdd
-cp mounthdd.py /usr/local/bin/mounthdd.py
+cp tools/mounthdd.py $SYNCLOUD_TOOLS_PATH
 
-# generate script mounting hdd to DATADIR
-python substitute.py mounthdd.templ /usr/local/bin/mounthdd.sh DATADIR=$DATADIR
-chmod +x /usr/local/bin/mounthdd.sh
+# command: mount hdd to DATADIR
+CMD_MOUNTHDD="python $SYNCLOUD_TOOLS_PATH/mounthdd.py $DATADIR"
 
 # add mounting DATADIR script to boot script
-echo "/usr/local/bin/mounthdd.sh" >> $BOOT_SCRIPT_NAME
+echo "$CMD_MOUNTHDD" >> $BOOT_SCRIPT_NAME
 
-# generate script for setting DATADIR permissions
-python substitute.py setdataperm.templ /usr/local/bin/setdataperm.sh DATADIR=$DATADIR
-chmod +x /usr/local/bin/setdataperm.sh
+# copy tool for permissioning www-data user to folder
+cp tools/wwwdatafolder.sh $SYNCLOUD_TOOLS_PATH
+
+# command: set permissions for www user to DATADIR  
+CMD_WWWDATAFOLDER="$SYNCLOUD_TOOLS_PATH/wwwdatafolder.sh $DATADIR"
 
 # add DATADIR permissions script boot script
-echo "/usr/local/bin/setdataperm.sh" >> $BOOT_SCRIPT_NAME
+echo "$CMD_WWWDATAFOLDER" >> $BOOT_SCRIPT_NAME
 
 # mount data folder
-/usr/local/bin/mounthdd.sh
+$CMD_MOUNTHDD
 
 # change permissions of data folder
-/usr/local/bin/setdataperm.sh
+$CMD_WWWDATAFOLDER
 
 # tools for owncloud
 apt-get -y install php-apc miniupnpc

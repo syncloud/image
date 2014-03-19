@@ -5,7 +5,7 @@ PORT=$2
 SSH_USER=$3
 SSH_PASS=$4
 
-SCRIPT_NAME=owncloud_setup.sh
+SCRIPT_NAME=$5
 
 sshpass -p "$SSH_PASS" scp -P $PORT ./$SCRIPT_NAME $SSH_USER@$ADDRESS:/home/$SSH_USER/$SCRIPT_NAME
 
