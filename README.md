@@ -6,17 +6,25 @@
 
 ####Tweak device vendor image
 
-Install sshpass first
+Install tools first
 ````
-sudo apt-get install sshpass
+sudo apt-get install sshpass makeself
 ````
 
 ````
-./owncloud_ssh_exec.sh <board ip address> <ssh port> <login> <password>
+./build.sh
+````
+
+
+````
+./sshexec.sh <board ip address> <ssh port> <login> <password> syncloud_setup.sh 
 ````
 
 For example, for cubieboard connected to 192.168.1.11 and running vendor lubuntu run:
 
 ````
-./owncloud_ssh_exec.sh 192.168.1.11 22 linaro linaro
+./sshexec.sh 192.168.1.11 22 linaro linaro syncloud_setup.sh
+````
+````
+./sshexec.sh 192.168.1.70 22 pi raspberry syncloud_setup.sh
 ````
