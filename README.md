@@ -6,6 +6,11 @@
 
 ####Tweak device vendor image
 
+Install sshpass first
+````
+sudo apt-get install sshpass
+````
+
 ````
 ./owncloud_ssh_exec.sh <board ip address> <ssh port> <login> <password>
 ````
