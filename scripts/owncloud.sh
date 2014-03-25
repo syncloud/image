@@ -18,13 +18,13 @@ rm -rf $BOOT_SCRIPT_NAME
 cp boot.templ $BOOT_SCRIPT_NAME
 chmod +x $BOOT_SCRIPT_NAME
 
+# update packages
+apt-get -y update
+
 # if this is cubieboard we need to fix few things before installing ownCloud
 if [[ $HOSTNAME = "cubieboard" ]]; then
     # fix locale warnings
     locale-gen en_US.UTF-8
-
-    # update packages
-    apt-get -y update
 
     # we don't need mysql - owncloud script should install and configure it
     apt-get -y remove --purge mysql-server mysql-client mysql-common
@@ -165,11 +165,11 @@ su -c "echo \"*/1 * * * * php -f ${OWNCLOUDPATH}/cron.php\" | crontab -" www-dat
 
 cd $OWNCLOUDPATH/apps
 
-wget -qO- https://raw.github.com/syncloud/upnp_port_mapper/master/get_$VERSION_TO_INSTALL.sh | sh
+wget -qO- https://raw.github.com/syncloud/owncloud_app/master/get_$VERSION_TO_INSTALL.sh | sh
    
-sed -i '/<info>/a \<default_enable\/>' ./upnp_port_mapper/appinfo/info.xml
-sed -i '/<info>/a \<default_native\/>' ./upnp_port_mapper/appinfo/info.xml
-sed -i '/<info>/a \<default_mapped\/>' ./upnp_port_mapper/appinfo/info.xml
+sed -i '/<info>/a \<default_enable\/>' ./syncloud/appinfo/info.xml
+sed -i '/<info>/a \<default_native\/>' ./syncloud/appinfo/info.xml
+sed -i '/<info>/a \<default_mapped\/>' ./syncloud/appinfo/info.xml
 
 service apache2 reload
 
