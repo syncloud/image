@@ -8,7 +8,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 HOSTNAME=$(uname -n)
-
+SYNCLOUD_CONF_PATH=/etc/syncloud
 SYNCLOUD_TOOLS_PATH=/usr/local/bin/syncloud
 cp -r tools $SYNCLOUD_TOOLS_PATH
 
@@ -17,6 +17,9 @@ BOOT_SCRIPT_NAME=$SYNCLOUD_TOOLS_PATH/boot.sh
 rm -rf $BOOT_SCRIPT_NAME
 cp boot.templ $BOOT_SCRIPT_NAME
 chmod +x $BOOT_SCRIPT_NAME
+
+mkdir $SYNCLOUD_CONF_PATH
+cp version $SYNCLOUD_CONF_PATH
 
 # update packages
 apt-get -y update
