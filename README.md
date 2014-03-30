@@ -39,8 +39,13 @@ Need to have:
 Linux kernel for Qemu
 - http://xecdesign.com/downloads/linux-qemu/kernel-qemu
 
+```
 sudo apt-get install qemu-system`
+```
 
+## Build
+````
 ./build-image.sh
+````
 
 Result Image: syncloud-raspberrypi.img
