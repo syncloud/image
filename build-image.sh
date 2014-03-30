@@ -5,6 +5,14 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+MODE=${1:-"release"}
+if [[ "$MODE" != "dev" ]] ; then
+  if ! git diff --quiet HEAD; then
+    echo "you have uncomitted files, mode = $MODE (use dev argument to force)"
+    exit 1
+  fi
+fi
+
 ADDRESS=localhost
 PORT=5022
 SSH_USER=pi
@@ -49,6 +57,27 @@ function mount_image {
   mount  /dev/loop0 ./mnt
 }
 
+function resize_image {
+  
+  rm $SYNCLOUD_IMAGE-new
+  dd bs=1M count=3000 if=/dev/zero of=$SYNCLOUD_IMAGE-new
+  losetup /dev/loop0 $SYNCLOUD_IMAGE
+  losetup /dev/loop1 $SYNCLOUD_IMAGE-new
+  dd if=/dev/loop0 of=/dev/loop1
+  losetup -d /dev/loop0
+  parted /dev/loop1 <<- PARTED
+	resizepart 2 3146
+	quit 
+	PARTED
+  losetup -d /dev/loop1
+  rm $SYNCLOUD_IMAGE
+  mv $SYNCLOUD_IMAGE-new $SYNCLOUD_IMAGE
+  losetup -o $OFFSET /dev/loop0 $SYNCLOUD_IMAGE
+  e2fsck -f /dev/loop0  
+  resize2fs /dev/loop0
+  losetup -d /dev/loop0
+}
+
 function umount_image {
   umount ./mnt
   rm -rf ./mnt
@@ -65,6 +94,9 @@ ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:5022
 
 #Fixing raspberry image for qemu boot
 if [[ $BASE_IMAGE == *raspbian* ]]; then
+
+  resize_image
+
   mount_image
   sed -i -e 's/^\/usr/#\/usr/g' ./mnt/etc/ld.so.preload
   umount_image
@@ -76,10 +108,10 @@ pid=$!
 wait_for $VM_UP
 
 sshpass -p "$SSH_PASS" scp -P $PORT ./$SCRIPT_NAME $SSH_USER@$ADDRESS:/home/$SSH_USER/$SCRIPT_NAME
-sshpass -p "$SSH_PASS" ssh -oStrictHostKeyChecking=no -p $PORT $SSH_USER@$ADDRESS << TAGRUNSSH
-echo $SSH_PASS | sudo -S /home/$SSH_USER/$SCRIPT_NAME
-rm /home/$SSH_USER/$SCRIPT_NAME
-shutdown -r 0
+sshpass -p "$SSH_PASS" ssh -oStrictHostKeyChecking=no -p $PORT $SSH_USER@$ADDRESS <<- TAGRUNSSH
+  echo $SSH_PASS | sudo -S /home/$SSH_USER/$SCRIPT_NAME
+  rm /home/$SSH_USER/$SCRIPT_NAME
+  sudo shutdown -r 0
 TAGRUNSSH
 
 kill -9 $pid
