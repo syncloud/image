@@ -49,3 +49,8 @@ sudo apt-get install qemu-system`
 ````
 
 Result Image: syncloud-raspberrypi.img
+
+### CI build
+````
+wget https://raw.githubusercontent.com/syncloud/owncloud-setup/master/ci/build-image.sh | sh
+````
