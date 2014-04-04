@@ -7,9 +7,10 @@ fi
 
 if [[ $(uname -n) == "raspberrypi" ]]; then
   USER=pi
-  IMAGE_FILE=2014-01-07-wheezy-raspbian
-  IMAGE_FILE_ZIP=$IMAGE_FILE.zip
-  IMAGE_URL=https://rcn-ee.net/deb/flasher/saucy/$IMAGE_FILE_ZIP
+  NAME=2014-01-07-wheezy-raspbian
+  IMAGE_FILE=$NAME.img
+  IMAGE_FILE_ZIP=$NAME.zip
+  IMAGE_URL=http://downloads.raspberrypi.org/raspbian_latest
   UNZIP=unzip
 elif [[ $(uname -n) == "arm" ]]; then
   USER=ubuntu
@@ -30,8 +31,11 @@ cd owncloud-setup
 ./build.sh
 cd ..
 
-#wget $IMAGE_URL
-#$UNZIP $IMAGE_FILE_ZIP
+if [ ! -f $IMAGE_FILE ]; then
+  wget $IMAGE_URL
+  $UNZIP $IMAGE_FILE_ZIP
+fi
+
 #fdisk $IMAGE_FILE
 STARTSECTOR=$(file $IMAGE_FILE | grep -oP 'partition 2.*startsector \K[0-9]*(?=, )')
 losetup -o $(($STARTSECTOR*512)) /dev/loop0 $IMAGE_FILE
