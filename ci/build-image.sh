@@ -54,6 +54,10 @@ STARTSECTOR=$(file $SYNCLOUD_IMAGE | grep -oP 'partition 2.*startsector \K[0-9]*
 losetup -o $(($STARTSECTOR*512)) /dev/loop0 $SYNCLOUD_IMAGE
 mkdir image
 mount /dev/loop0 image
+sudo mount --bind /dev image/dev
+sudo mount --bind /proc image/proc
+mkdir image/run/resolvconf
+cp /run/resolvconf/resolv.conf image/run/resolvconf/resolv.conf
 cp owncloud-setup/syncloud_setup.sh image/home/$USER
 
 chroot image
