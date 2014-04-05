@@ -163,6 +163,8 @@ cat <<AUTOCNF > $OWNCLOUDPATH/config/autoconfig.php
 );
 AUTOCNF
 
+chmod 644 $OWNCLOUDPATH/autoconfig.php
+
 # setup crontab task
 su -c "echo \"*/1 * * * * php -f ${OWNCLOUDPATH}/cron.php\" | crontab -" www-data
 
