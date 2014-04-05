@@ -24,7 +24,7 @@ fi
 
 echo "existing path:"
 echo $PATH
-
+set -m
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 apt-get install xz-utils git makeself
