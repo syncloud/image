@@ -12,21 +12,18 @@ if [[ $(uname -n) == "raspberrypi" ]]; then
   IMAGE_FILE_ZIP=$IMAGE_FILE.zip
   IMAGE_URL="http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
+  BOARD=raspberrypi
 elif [[ $(uname -n) == "arm" ]]; then
   USER=ubuntu
   IMAGE_FILE=BBB-eMMC-flasher-ubuntu-13.10-2014-02-16-2gb.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
   IMAGE_URL=https://rcn-ee.net/deb/flasher/saucy/$IMAGE_FILE_ZIP
   UNZIP=unxz
+  BOARD=beagleboneblack
 fi
 
 GIT_URL=https://github.com/syncloud/owncloud-setup
 REV_FILE=.revision
-cd /data
-mkdir -p syncloud
-cd syncloud
-
-
 LATEST_REV=$(git ls-remote $GIT_URL refs/heads/master | cut -f1)
 if [ -f $REV_FILE ]; then
   CURRENT_REV=$(<$REV_FILE)
@@ -36,13 +33,19 @@ if [ -f $REV_FILE ]; then
   fi
 fi
 
-echo $LATEST_REV > $REV_FILE
+
+YNCLOUD_IMAGE=syncloud-$BOARD-$(date +%F-%H-%M-%S)-$().img
+cd /data
+mkdir -p syncloud
+cd syncloud
 
 apt-get install xz-utils git makeself
 
 rm -rf owncloud-setup
 git clone https://github.com/syncloud/owncloud-setup
 cd owncloud-setup
+git rev-parse HEAD > ../$REV_FILE
+YNCLOUD_IMAGE=syncloud-$BOARD-$(date +%F-%H-%M-%S)-$(git rev-parse HEAD--short).img
 ./build.sh
 cd ..
 
@@ -52,16 +55,23 @@ if [ ! -f $IMAGE_FILE ]; then
   rm $IMAGE_FILE_ZIP
 fi
 
-#fdisk $IMAGE_FILE
-STARTSECTOR=$(file $IMAGE_FILE | grep -oP 'partition 2.*startsector \K[0-9]*(?=, )')
-losetup -o $(($STARTSECTOR*512)) /dev/loop0 $IMAGE_FILE
+cp $IMAGE_FILE $SYNCLOUD_IMAGE
+STARTSECTOR=$(file $SYNCLOUD_IMAGE | grep -oP 'partition 2.*startsector \K[0-9]*(?=, )')
+losetup -o $(($STARTSECTOR*512)) /dev/loop0 $SYNCLOUD_IMAGE
 mkdir image
 mount /dev/loop0 image
 cp owncloud-setup/syncloud_setup.sh image/home/$USER
 chroot image
 cd /home/$USER
 
+rm -rf /var/cache/apt/archives/*.deb
+rm -rf /opt/Wolfram
+
+./syncloud_setup.sh
+
 exit
 umount /dev/loop0
 rm -rf image
 losetup -d /dev/loop0
+
+xz -z $SYNCLOUD_IMAGE
