@@ -82,4 +82,4 @@ umount image
 rm -rf image
 losetup -d /dev/loop0
 
-xz -z $SYNCLOUD_IMAGE
+xz -z0 $SYNCLOUD_IMAGE
