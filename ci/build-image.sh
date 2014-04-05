@@ -8,9 +8,9 @@ fi
 if [[ $(uname -n) == "raspberrypi" ]]; then
   USER=pi
   NAME=2014-01-07-wheezy-raspbian
-  IMAGE_FILE=$NAME.img
-  IMAGE_FILE_ZIP=$NAME.zip
-  IMAGE_URL=http://downloads.raspberrypi.org/raspbian_latest
+  IMAGE_FILE=2014-01-07-wheezy-raspbian.img
+  IMAGE_FILE_ZIP=$IMAGE_FILE.zip
+  IMAGE_URL=http://downloads.raspberrypi.org/raspbian_latest -o $IMAGE_FILE_ZIP
   UNZIP=unzip
 elif [[ $(uname -n) == "arm" ]]; then
   USER=ubuntu
@@ -40,6 +40,7 @@ echo $LATEST_REV > $REV_FILE
 
 apt-get install xz-utils git makeself
 
+rm -rf owncloud-setup
 git clone https://github.com/syncloud/owncloud-setup
 cd owncloud-setup
 ./build.sh
@@ -59,3 +60,7 @@ cp owncloud-setup/syncloud_setup.sh image/home/$USER
 chroot image
 cd /home/$USER
 
+exit
+umount /dev/loop0
+rm -rf image
+losetupd -d /dev/loop0
