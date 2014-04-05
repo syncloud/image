@@ -35,10 +35,6 @@ fi
 
 
 SYNCLOUD_IMAGE=syncloud-$BOARD-$(date +%F-%H-%M-%S)-$().img
-BUILD_DIR=syncloud/files/build
-cd /data
-mkdir -p $BUILD_DIR
-cd $BUILD_DIR
 
 apt-get install xz-utils git makeself
 
@@ -70,8 +66,11 @@ rm -rf /opt/Wolfram
 
 ./syncloud_setup.sh
 
+service stop minissdpd
+
 exit
-umount /dev/loop0
+
+umount image
 rm -rf image
 losetup -d /dev/loop0
 

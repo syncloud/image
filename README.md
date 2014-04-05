@@ -50,7 +50,7 @@ sudo apt-get install qemu-system`
 
 Result Image: syncloud-raspberrypi.img
 
-### CI build
+### CI: add this line to your device's crontab
 ````
-wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.sh | bash
+*/1 * * * * wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/ci.sh | exec -a syncloud-job bash
 ````
