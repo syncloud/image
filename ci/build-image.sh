@@ -10,7 +10,7 @@ if [[ $(uname -n) == "raspberrypi" ]]; then
   NAME=2014-01-07-wheezy-raspbian
   IMAGE_FILE=2014-01-07-wheezy-raspbian.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.zip
-  IMAGE_URL='http://downloads.raspberrypi.org/raspbian_latest -o $IMAGE_FILE_ZIP'
+  IMAGE_URL="http://downloads.raspberrypi.org/raspbian_latest \-o $IMAGE_FILE_ZIP"
   UNZIP=unzip
 elif [[ $(uname -n) == "arm" ]]; then
   USER=ubuntu
@@ -49,6 +49,7 @@ cd ..
 if [ ! -f $IMAGE_FILE ]; then
   wget $IMAGE_URL
   $UNZIP $IMAGE_FILE_ZIP
+  rm $IMAGE_FILE_ZIP
 fi
 
 #fdisk $IMAGE_FILE
