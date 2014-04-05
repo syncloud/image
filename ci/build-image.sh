@@ -45,7 +45,7 @@ rm -rf owncloud-setup
 git clone https://github.com/syncloud/owncloud-setup
 cd owncloud-setup
 git rev-parse HEAD > ../$REV_FILE
-YNCLOUD_IMAGE=syncloud-$BOARD-$(date +%F-%H-%M-%S)-$(git rev-parse HEAD--short).img
+YNCLOUD_IMAGE=syncloud-$BOARD-$(date +%F-%H-%M-%S)-$(git rev-parse --short HEAD).img
 ./build.sh
 cd ..
 
