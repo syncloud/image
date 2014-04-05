@@ -59,6 +59,7 @@ cp /run/resolvconf/resolv.conf image/run/resolvconf/resolv.conf
 cp owncloud-setup/syncloud_setup.sh image/home/$USER
 
 chroot image
+set -m
 if [ $? -ne 0 ]; then
   echo "unable to chroot into image"
   exit 1 
