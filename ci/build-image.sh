@@ -22,23 +22,11 @@ elif [[ $(uname -n) == "arm" ]]; then
   BOARD=beagleboneblack
 fi
 
-GIT_URL=https://github.com/syncloud/owncloud-setup
-REV_FILE=.revision
-LATEST_REV=$(git ls-remote $GIT_URL refs/heads/master | cut -f1)
-if [ -f $REV_FILE ]; then
-  CURRENT_REV=$(<$REV_FILE)
-  if [ "$CURRENT_REV" == "$LATEST_REV" ]; then
-    echo "No changes since last check"
-    exit 1
-  fi
-fi
-
 apt-get install xz-utils git makeself
 
 rm -rf owncloud-setup
 git clone https://github.com/syncloud/owncloud-setup
 cd owncloud-setup
-git rev-parse HEAD > ../$REV_FILE
 SYNCLOUD_IMAGE=syncloud-$BOARD-$(date +%F-%H-%M-%S)-$(git rev-parse --short HEAD).img
 ./build.sh
 cd ..
@@ -51,6 +39,7 @@ fi
 cp $IMAGE_FILE $SYNCLOUD_IMAGE
 STARTSECTOR=$(file $SYNCLOUD_IMAGE | grep -oP 'partition 2.*startsector \K[0-9]*(?=, )')
 losetup -o $(($STARTSECTOR*512)) /dev/loop0 $SYNCLOUD_IMAGE
+rm -rf image
 mkdir image
 chmod 700 image
 mount /dev/loop0 image
