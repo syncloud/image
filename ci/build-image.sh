@@ -20,9 +20,23 @@ elif [[ $(uname -n) == "arm" ]]; then
   UNZIP=unxz
 fi
 
+GIT_URL=https://github.com/syncloud/owncloud-setup
+REV_FILE=.revision
 cd /data
 mkdir -p syncloud
 cd syncloud
+
+
+LATEST_REV=$(git ls-remote $GIT_URL refs/heads/master | cut -f1)
+if [ -f $REV_FILE ]; then
+  CURRENT_REV=$(<$REV_FILE)
+  if [ "$CURRENT_REV" == "$LATEST_REV" ]; then
+    echo "No changes since last check"
+    exit 1
+  fi
+fi
+
+echo $LATEST_REV > $REV_FILE
 
 apt-get install xz-utils git makeself
 
