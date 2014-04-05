@@ -33,9 +33,6 @@ if [ -f $REV_FILE ]; then
   fi
 fi
 
-
-SYNCLOUD_IMAGE=syncloud-$BOARD-$(date +%F-%H-%M-%S)-$().img
-
 apt-get install xz-utils git makeself
 
 rm -rf owncloud-setup
