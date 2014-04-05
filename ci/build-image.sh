@@ -46,13 +46,13 @@ cd ..
 if [ ! -f $IMAGE_FILE ]; then
   wget $IMAGE_URL
   $UNZIP $IMAGE_FILE_ZIP
-  rm $IMAGE_FILE_ZIP
 fi
 
 cp $IMAGE_FILE $SYNCLOUD_IMAGE
 STARTSECTOR=$(file $SYNCLOUD_IMAGE | grep -oP 'partition 2.*startsector \K[0-9]*(?=, )')
 losetup -o $(($STARTSECTOR*512)) /dev/loop0 $SYNCLOUD_IMAGE
 mkdir image
+chmod 700 image
 mount /dev/loop0 image
 #sudo mount --bind /dev image/dev
 #sudo mount --bind /proc image/proc
