@@ -55,7 +55,13 @@ losetup -o $(($STARTSECTOR*512)) /dev/loop0 $SYNCLOUD_IMAGE
 mkdir image
 mount /dev/loop0 image
 cp owncloud-setup/syncloud_setup.sh image/home/$USER
+
 chroot image
+if [ $? -ne 0 ]; then
+  echo "unable to chroot into image"
+  exit 1 
+fi
+
 cd /home/$USER
 
 rm -rf /var/cache/apt/archives/*.deb
@@ -63,7 +69,7 @@ rm -rf /opt/Wolfram
 
 ./syncloud_setup.sh
 
-service stop minissdpd
+/etc/init.d/minissdpd stop
 
 exit
 
