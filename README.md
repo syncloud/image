@@ -52,5 +52,5 @@ Result Image: syncloud-raspberrypi.img
 
 ### CI build
 ````
-wget -qO- https://raw.githubusercontent.com/syncloud/owncloud-setup/master/ci/build-image.sh | bash
+wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.sh | bash
 ````
