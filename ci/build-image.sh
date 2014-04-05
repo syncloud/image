@@ -43,6 +43,8 @@ fi
 
 cp $IMAGE_FILE $SYNCLOUD_IMAGE
 STARTSECTOR=$(file $SYNCLOUD_IMAGE | grep -oP 'partition 2.*startsector \K[0-9]*(?=, )')
+mount
+lsof | grep image
 losetup -d /dev/loop0
 losetup -o $(($STARTSECTOR*512)) /dev/loop0 $SYNCLOUD_IMAGE
 umount image
