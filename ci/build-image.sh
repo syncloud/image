@@ -34,10 +34,11 @@ if [ -f $REV_FILE ]; then
 fi
 
 
-YNCLOUD_IMAGE=syncloud-$BOARD-$(date +%F-%H-%M-%S)-$().img
+SYNCLOUD_IMAGE=syncloud-$BOARD-$(date +%F-%H-%M-%S)-$().img
+BUILD_DIR=syncloud/files/build
 cd /data
-mkdir -p syncloud
-cd syncloud
+mkdir -p $BUILD_DIR
+cd $BUILD_DIR
 
 apt-get install xz-utils git makeself
 
