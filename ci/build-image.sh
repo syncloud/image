@@ -44,14 +44,14 @@ fi
 cp $IMAGE_FILE $SYNCLOUD_IMAGE
 STARTSECTOR=$(file $SYNCLOUD_IMAGE | grep -oP 'partition 2.*startsector \K[0-9]*(?=, )')
 
-if [ mount | grep image ]; then
+if mount | grep image; then
   echo "image already mounted, unmounting ..."
   umount image
 fi
 
 lsof | grep image
 
-if [ losetup -a | grep /dev/loop0 ]; then
+if losetup -a | grep /dev/loop0; then
   echo "/dev/loop0 is already setup, deleting ..."
   losetup -d /dev/loop0
 fi
