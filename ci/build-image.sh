@@ -64,4 +64,4 @@ cd /home/$USER
 exit
 umount /dev/loop0
 rm -rf image
-losetupd -d /dev/loop0
+losetup -d /dev/loop0
