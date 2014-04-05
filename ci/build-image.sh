@@ -24,7 +24,6 @@ fi
 
 echo "existing path:"
 echo $PATH
-#set -m
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 apt-get install xz-utils git makeself
@@ -74,10 +73,15 @@ fi
 
 cp owncloud-setup/syncloud_setup.sh image/home/$USER
 
-chroot image /home/$USER/syncloud_setup.sh
 chroot image rm -rf /var/cache/apt/archives/*.deb
 chroot image rm -rf /opt/Wolfram
-chroot image /etc/init.d/minissdpd stop
+
+chroot image /home/$USER/syncloud_setup.sh
+
+chroot image rm -rf /var/cache/apt/archives/*.deb
+chroot image rm -rf /opt/Wolfram
+
+#chroot image /etc/init.d/minissdpd stop
 
 umount image
 rm -rf image
