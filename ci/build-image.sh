@@ -24,7 +24,7 @@ fi
 
 echo "existing path:"
 echo $PATH
-set -m
+#set -m
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 apt-get install xz-utils git makeself
@@ -43,43 +43,49 @@ fi
 
 cp $IMAGE_FILE $SYNCLOUD_IMAGE
 STARTSECTOR=$(file $SYNCLOUD_IMAGE | grep -oP 'partition 2.*startsector \K[0-9]*(?=, )')
-mount
-lsof | grep image
-losetup -d /dev/loop0
-losetup -o $(($STARTSECTOR*512)) /dev/loop0 $SYNCLOUD_IMAGE
-umount image
-rm -rf image
-mkdir image
-chmod 700 image
-mount /dev/loop0 image
-#sudo mount --bind /dev image/dev
-#sudo mount --bind /proc image/proc
-mkdir image/run/resolvconf
-cp /run/resolvconf/resolv.conf image/run/resolvconf/resolv.conf
-cp owncloud-setup/syncloud_setup.sh image/home/$USER
 
-chroot image
-EXIT_CODE=$?
-set -m
-if [ $EXIT_CODE -ne 0 ]; then
-  echo "unable to chroot into image"
-  exit 1 
+if [ mount | grep image ]; then
+  echo "image already mounted, unmounting ..."
+  umount image
 fi
 
-cd /home/$USER
+lsof | grep image
 
-rm -rf /var/cache/apt/archives/*.deb
-rm -rf /opt/Wolfram
+if [ losetup -a | grep /dev/loop0 ]; then
+  echo "/dev/loop0 is already setup, deleting ..."
+  losetup -d /dev/loop0
+fi
 
-./syncloud_setup.sh
+losetup -o $(($STARTSECTOR*512)) /dev/loop0 $SYNCLOUD_IMAGE
 
-/etc/init.d/minissdpd stop
+if [ -d image ]; then 
+  echo "image dir exists, deleting ..."
+  rm -rf image
+fi
 
-exit
-#umount image/proc
-#umount image/dev
+mkdir image
+chmod 700 image
+
+mount /dev/loop0 image
+if [ -f /run/resolvconf/resolv.conf ]; then
+  mkdir -p image/run/resolvconf
+  cp /run/resolvconf/resolv.conf image/run/resolvconf/resolv.conf
+fi
+
+cp owncloud-setup/syncloud_setup.sh image/home/$USER
+
+chroot image /home/$USER/syncloud_setup.sh
+chroot image rm -rf /var/cache/apt/archives/*.deb
+chroot image rm -rf /opt/Wolfram
+chroot image /etc/init.d/minissdpd stop
+
 umount image
 rm -rf image
 losetup -d /dev/loop0
 
 xz -z0 $SYNCLOUD_IMAGE
+
+echo "removing ald logs ..."
+ls -r1 *.log* | tail -n+6 | xargs rm -f
+echo "removing ald images ..."
+ls -r1 syncloud-*.img* | tail -n+6 | xargs rm -f
