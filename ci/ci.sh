@@ -27,4 +27,4 @@ if [ -f $REV_FILE ]; then
 fi
 echo "$LATEST_REV" > $REV_FILE
 
-wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.sh | exec -a syncloud-job bash > syncloud-job-$(date +%F-%H-%M-%S).log 2>&1 
+wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.sh | exec -a syncloud-job bash > syncloud-job-$(date +%F-%H-%M-%S).log.txt 2>&1 

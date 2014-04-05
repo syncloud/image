@@ -22,6 +22,11 @@ elif [[ $(uname -n) == "arm" ]]; then
   BOARD=beagleboneblack
 fi
 
+echo "existing path:"
+echo $PATH
+
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
 apt-get install xz-utils git makeself
 
 rm -rf owncloud-setup
