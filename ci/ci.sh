@@ -15,4 +15,4 @@ cd /data
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
-wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.sh | bash > syncloud-job-$(date +%F-%H-%M-%S).log 
+wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.sh | exec -a syncloud-job bash > syncloud-job-$(date +%F-%H-%M-%S).log 

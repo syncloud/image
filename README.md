@@ -52,5 +52,5 @@ Result Image: syncloud-raspberrypi.img
 
 ### CI: add this line to your device's crontab
 ````
-*/1 * * * * wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/ci.sh | exec -a syncloud-job bash
+*/1 * * * * wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/ci.sh | bash
 ````
