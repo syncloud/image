@@ -50,6 +50,6 @@ echo "removing old images ..." >> $BUILD_LOG
 ls -r1 syncloud-*.img* | tail -n+6 | xargs rm -f
 
 FINISH_TIME=$(date +"%s")
-BUILD_TIME=$(($START_TIME-$FINISH_TIME))
+BUILD_TIME=$(($FINISH_TIME-$START_TIME))
 echo "Build time: $(($BUILD_TIME / 60)) min" >> $BUILD_LOG 
 
