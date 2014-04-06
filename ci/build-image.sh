@@ -81,7 +81,10 @@ chroot image /home/$USER/syncloud_setup.sh
 chroot image rm -rf /var/cache/apt/archives/*.deb
 chroot image rm -rf /opt/Wolfram
 
-#chroot image /etc/init.d/minissdpd stop
+if [ -f image/usr/sbin/minissdpd ]; then
+  echo "stopping minissdpd holding the image ..."
+  chroot image /etc/init.d/minissdpd stop
+fi
 
 umount image
 rm -rf image
