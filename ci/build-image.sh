@@ -10,14 +10,14 @@ if [[ $(uname -n) == "raspberrypi" ]]; then
   NAME=2014-01-07-wheezy-raspbian
   IMAGE_FILE=2014-01-07-wheezy-raspbian.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.zip
-  DOWNLOAD_IMAGE="wget --progress=dots:mega http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
   BOARD=raspberrypi
 elif [[ $(uname -n) == "arm" ]]; then
   USER=ubuntu
   IMAGE_FILE=BBB-eMMC-flasher-ubuntu-13.10-2014-02-16-2gb.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
-  DOWNLOAD_IMAGE="wget --progress=dots:mega https://rcn-ee.net/deb/flasher/saucy/$IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/saucy/$IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=beagleboneblack
 fi
