@@ -38,6 +38,8 @@ if [[ $HOSTNAME = "cubieboard" ]]; then
     
     # add setting mac address to the rc.local
     echo "$SYNCLOUD_TOOLS_PATH/setmacaddr.sh" >> $BOOT_SCRIPT_NAME
+elif [[ $HOSTNAME = "arm"  ]]; then
+  sed -i '/^check_running_system$/i umount /data || true' /opt/scripts/tools/beaglebone-black-eMMC-flasher.sh
 fi
 
 VERSION_TO_INSTALL='latest' #[latest|appstore] 
