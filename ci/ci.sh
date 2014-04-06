@@ -12,15 +12,17 @@ fi
 
 START_TIME=$(date +"%s")
 
+CI_DIR=/data/syncloud/ci
 ARTIFACT_DIR=/data/syncloud/files
 BUILD_LOG=$ARTIFACT_DIR/syncloud-job-$(date +%F-%H-%M-%S).log.txt
-BUILD_DIR=/data/syncloud/ci/build
+BUILD_DIR=$CI_DIR/build
+
 rm -rf $BUILD_DIR
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
 GIT_URL=https://github.com/syncloud/owncloud-setup
-REV_FILE=.revision
+REV_FILE=$CI_DIR/.revision
 LATEST_REV=$(git ls-remote $GIT_URL refs/heads/master | cut -f1)
 if [ -f $REV_FILE ]; then
   CURRENT_REV=$(<$REV_FILE)
