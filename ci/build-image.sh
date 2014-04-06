@@ -36,6 +36,7 @@ SYNCLOUD_IMAGE=syncloud-$BOARD-$(date +%F-%H-%M-%S)-$(git rev-parse --short HEAD
 cd ..
 
 if [ ! -f $IMAGE_FILE ]; then
+  echo "Base image $(pwd)/$IMAGE_FILE is not found, getting new one ..."
   wget $IMAGE_URL
   $UNZIP $IMAGE_FILE_ZIP
 fi

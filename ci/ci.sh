@@ -30,8 +30,9 @@ if [ -f $REV_FILE ]; then
 fi
 
 echo "$LATEST_REV" > $REV_FILE
+echo "Build triggered for rev: $LATEST_REV" > $BUILD_LOG
 
-wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.sh | exec -a syncloud-job bash > $BUILD_LOG 2>&1
+wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.sh | exec -a syncloud-job bash >> $BUILD_LOG 2>&1
 
 #if [ $? -nq 0 ]; then
 #  echo "Build failed" >> $BUILD_LOG
