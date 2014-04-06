@@ -10,20 +10,20 @@ if [[ $(uname -n) == "raspberrypi" ]]; then
   NAME=2014-01-07-wheezy-raspbian
   IMAGE_FILE=2014-01-07-wheezy-raspbian.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.zip
-  IMAGE_URL="http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
   BOARD=raspberrypi
 elif [[ $(uname -n) == "arm" ]]; then
   USER=ubuntu
   IMAGE_FILE=BBB-eMMC-flasher-ubuntu-13.10-2014-02-16-2gb.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
-  IMAGE_URL=https://rcn-ee.net/deb/flasher/saucy/$IMAGE_FILE_ZIP
+  DOWNLOAD_IMAGE="wget https://rcn-ee.net/deb/flasher/saucy/$IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=beagleboneblack
 fi
-
-echo "existing path:"
-echo $PATH
+CI_TEMP=/data/syncloud/ci/temp
+IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
+echo "existing path: $PATH"
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 apt-get install xz-utils git makeself
@@ -35,13 +35,15 @@ SYNCLOUD_IMAGE=syncloud-$BOARD-$(date +%F-%H-%M-%S)-$(git rev-parse --short HEAD
 ./build.sh
 cd ..
 
-if [ ! -f $IMAGE_FILE ]; then
-  echo "Base image $(pwd)/$IMAGE_FILE is not found, getting new one ..."
-  wget $IMAGE_URL
+mkdir -p $CI_TEMP
+if [ ! -f $IMAGE_FILE_TEMP ]; then
+  echo "Base image $IMAGE_FILE_TEMP is not found, getting new one ..."
+  $DOWNLOAD_IMAGE
   $UNZIP $IMAGE_FILE_ZIP
+  mv $IMAGE_FILE $IMAGE_FILE_TEMP
 fi
 
-cp $IMAGE_FILE $SYNCLOUD_IMAGE
+cp $IMAGE_FILE_TEMP $SYNCLOUD_IMAGE
 STARTSECTOR=$(file $SYNCLOUD_IMAGE | grep -oP 'partition 2.*startsector \K[0-9]*(?=, )')
 
 if mount | grep image; then
