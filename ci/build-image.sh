@@ -63,7 +63,6 @@ if [ -d image ]; then
 fi
 
 mkdir image
-chmod 700 image
 
 mount /dev/loop0 image
 if [ -f /run/resolvconf/resolv.conf ]; then
@@ -92,7 +91,3 @@ losetup -d /dev/loop0
 
 xz -z0 $SYNCLOUD_IMAGE
 
-echo "removing ald logs ..."
-ls -r1 *.log* | tail -n+6 | xargs rm -f
-echo "removing ald images ..."
-ls -r1 syncloud-*.img* | tail -n+6 | xargs rm -f

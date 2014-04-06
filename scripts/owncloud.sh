@@ -151,7 +151,9 @@ sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/contacts/appinfo/info.xml
 sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/calendar/appinfo/info.xml
 sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/updater/appinfo/info.xml
 
-cat <<AUTOCNF > $OWNCLOUDPATH/config/autoconfig.php
+AUTOCONFIG_FILE=$OWNCLOUDPATH/config/autoconfig.php
+
+cat <<AUTOCNF > $AUTOCONFIG_FILE
 <?php
 \$AUTOCONFIG = array(
   "dbtype"        => "mysql", 
@@ -163,7 +165,7 @@ cat <<AUTOCNF > $OWNCLOUDPATH/config/autoconfig.php
 );
 AUTOCNF
 
-chmod 644 $OWNCLOUDPATH/autoconfig.php
+chmod 644 $AUTOCONFIG_FILE
 
 # setup crontab task
 su -c "echo \"*/1 * * * * php -f ${OWNCLOUDPATH}/cron.php\" | crontab -" www-data
