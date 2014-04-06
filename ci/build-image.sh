@@ -26,7 +26,8 @@ IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 echo "existing path: $PATH"
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-apt-get install xz-utils git makeself
+apt-get -y update
+apt-get -y install xz-utils git makeself
 
 rm -rf owncloud-setup
 git clone https://github.com/syncloud/owncloud-setup
