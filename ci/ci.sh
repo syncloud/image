@@ -10,6 +10,7 @@ if ps -ef | grep -v grep | grep syncloud-job  ; then
   exit 0
 fi
 
+START_TIME=$(date +"%s")
 
 ARTIFACT_DIR=/data/syncloud/files
 BUILD_LOG=$ARTIFACT_DIR/syncloud-job-$(date +%F-%H-%M-%S).log.txt
@@ -45,5 +46,8 @@ echo "removing old logs ..." >> $BUILD_LOG
 ls -r1 *.log* | tail -n+6 | xargs rm -f
 echo "removing old images ..." >> $BUILD_LOG
 ls -r1 syncloud-*.img* | tail -n+6 | xargs rm -f
-#echo "Successfully built image" >> $BUILD_LOG 
+
+FINISH_TIME=$(date +"%s")
+BUILD_TIME=$(($START_TIME-$FINISH_TIME))
+echo "Build time: $(($BUILD_TIME / 60)) min" >> $BUILD_LOG 
 
