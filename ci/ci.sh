@@ -32,3 +32,4 @@ if [ $? -eq 0 ]; then
   echo "Successfully built image"
   echo "$LATEST_REV" > $REV_FILE
 fi 
+
