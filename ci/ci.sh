@@ -45,9 +45,9 @@ wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.s
 echo "Publishing artifacts ..." >> $BUILD_LOG  
 mv $BUILD_DIR/*.img.xz $ARTIFACT_DIR
 echo "removing old logs ..." >> $BUILD_LOG
-ls -r1 *.log* | tail -n+6 | xargs rm -f
+ls -r1 $ARTIFACT_DIR/*.log* | tail -n+6 | xargs rm -f
 echo "removing old images ..." >> $BUILD_LOG
-ls -r1 syncloud-*.img* | tail -n+6 | xargs rm -f
+ls -r1 $ARTIFACT_DIR/syncloud-*.img* | tail -n+6 | xargs rm -f
 
 FINISH_TIME=$(date +"%s")
 BUILD_TIME=$(($FINISH_TIME-$START_TIME))
