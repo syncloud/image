@@ -184,7 +184,9 @@ service apache2 reload
 
 # service discovery through avahi
 
-cat <<AVAHI > /etc/avahi/services/owncloud.service
+AVAHI_CONFIG=/etc/avahi/services/owncloud.service
+
+cat <<AVAHI > $AVAHI_CONFIG
 <?xml version="1.0" standalone='no'?>
 <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
 <service-group>
@@ -196,6 +198,8 @@ cat <<AVAHI > /etc/avahi/services/owncloud.service
   </service>
 </service-group>
 AVAHI
+
+chmod 644 $AVAHI_CONFIG
 
 service avahi-daemon restart
 
