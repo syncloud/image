@@ -37,6 +37,8 @@ if [ -f $REV_FILE ]; then
   fi
 fi
 
+
+
 echo "$LATEST_REV" > $REV_FILE
 echo "Build triggered for rev: $LATEST_REV" > $BUILD_LOG
 
