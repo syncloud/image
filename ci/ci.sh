@@ -59,4 +59,3 @@ ls -r1 $ARTIFACT_DIR/syncloud-*.img* | tail -n+6 | xargs rm -f
 FINISH_TIME=$(date +"%s")
 BUILD_TIME=$(($FINISH_TIME-$START_TIME))
 echo "Build time: $(($BUILD_TIME / 60)) min" >> $BUILD_LOG 
-
