@@ -40,6 +40,7 @@ Linux kernel for Qemu
 - http://xecdesign.com/downloads/linux-qemu/kernel-qemu
 
 ```
+
 sudo apt-get install qemu-system`
 ```
 
