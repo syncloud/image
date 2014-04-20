@@ -201,6 +201,8 @@ AVAHI
 
 chmod 644 $AVAHI_CONFIG
 
+sed 's/AVAHI_DAEMON_DETECT_LOCAL=.*/AVAHI_DAEMON_DETECT_LOCAL=0/g' -i /etc/default/avahi-daemon
+
 service avahi-daemon restart
 
 # add boot script to rc.local
