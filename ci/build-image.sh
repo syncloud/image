@@ -5,7 +5,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [[ $(uname -n) == "raspberrypi" ]]; then
+if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   USER=pi
   NAME=2014-01-07-wheezy-raspbian
   IMAGE_FILE=2014-01-07-wheezy-raspbian.img
@@ -13,13 +13,20 @@ if [[ $(uname -n) == "raspberrypi" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:mega http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
   BOARD=raspberrypi
-elif [[ $(uname -n) == "arm" ]]; then
+elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   USER=ubuntu
   IMAGE_FILE=BBB-eMMC-flasher-ubuntu-13.10-2014-02-16-2gb.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
   DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/saucy/$IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=beagleboneblack
+elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
+  USER=cubie
+  IMAGE_FILE=Cubian-base-r5-a20
+  IMAGE_FILE_ZIP=$IMAGE_FILE.img.7z
+  DOWNLOAD_IMAGE="wget --progress=dot:mega http://ubuntuone.com/108bqhMzhNOX5d4dNYO9x7"
+  UNZIP=p7zip -d
+  BOARD=cubieboard
 fi
 CI_TEMP=/data/syncloud/ci/temp
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
@@ -27,7 +34,7 @@ echo "existing path: $PATH"
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 apt-get -y update
-apt-get -y install xz-utils git makeself
+apt-get -y install xz-utils git makeself p7zip
 
 rm -rf owncloud-setup
 git clone https://github.com/syncloud/owncloud-setup
