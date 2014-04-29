@@ -106,7 +106,7 @@ if [ -f image/usr/sbin/minissdpd ]; then
 fi
 
 umount image
-rm -rf 
+rm -rf image
 losetup -d /dev/loop0
 
 xz -z0 $SYNCLOUD_IMAGE
