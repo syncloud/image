@@ -58,7 +58,9 @@ if [ ! -f $IMAGE_FILE_TEMP ]; then
 fi
 
 cp $IMAGE_FILE_TEMP $SYNCLOUD_IMAGE
-STARTSECTOR=$(file $SYNCLOUD_IMAGE | grep -oP 'partition $PARTITION.*startsector \K[0-9]*(?=, )')
+FILE_INFO=$(file $SYNCLOUD_IMAGE)
+echo $FILE_INFO
+STARTSECTOR=$(echo $FILE_INFO | grep -oP 'partition $PARTITION.*startsector \K[0-9]*(?=, )')
 
 if mount | grep image; then
   echo "image already mounted, unmounting ..."
