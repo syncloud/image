@@ -5,6 +5,8 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+echo "Building board: ${SYNCLOUD_BOARD}"
+
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   USER=pi
   NAME=2014-01-07-wheezy-raspbian
