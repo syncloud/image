@@ -30,7 +30,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   IMAGE_FILE=Cubian-base-r5-a20
   IMAGE_FILE_ZIP=$IMAGE_FILE.img.7z
   DOWNLOAD_IMAGE="wget --progress=dot:mega http://ubuntuone.com/108bqhMzhNOX5d4dNYO9x7 -O $IMAGE_FILE_ZIP"
-  UNZIP=p7zip -d
+  UNZIP="7z e"
   BOARD=cubieboard
 fi
 CI_TEMP=/data/syncloud/ci/temp
