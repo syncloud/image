@@ -68,7 +68,7 @@ function resize_image {
   rm $IMAGE
   mv $IMAGE-new $IMAGE
   losetup -o $STARTSECTOR /dev/loop0 $IMAGE
-  e2fsck -f /dev/loop0
+  e2fsck -pyf /dev/loop0
   resize2fs /dev/loop0
   losetup -d /dev/loop0
 }
