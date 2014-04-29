@@ -60,7 +60,8 @@ fi
 cp $IMAGE_FILE_TEMP $SYNCLOUD_IMAGE
 FILE_INFO=$(file $SYNCLOUD_IMAGE)
 echo $FILE_INFO
-STARTSECTOR=$(echo $FILE_INFO | grep -oP 'partition $PARTITION.*startsector \K[0-9]*(?=, )')
+
+STARTSECTOR=$(echo $FILE_INFO | grep -oP 'partition ${PARTITION}.*startsector \K[0-9]*(?=, )')
 
 if mount | grep image; then
   echo "image already mounted, unmounting ..."
@@ -105,7 +106,7 @@ if [ -f image/usr/sbin/minissdpd ]; then
 fi
 
 umount image
-rm -rf image
+rm -rf 
 losetup -d /dev/loop0
 
 xz -z0 $SYNCLOUD_IMAGE
