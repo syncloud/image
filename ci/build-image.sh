@@ -51,7 +51,8 @@ cd ..
 mkdir -p $CI_TEMP
 if [ ! -f $IMAGE_FILE_TEMP ]; then
   echo "Base image $IMAGE_FILE_TEMP is not found, getting new one ..."
-  $DOWNLOAD_IMAGE
+  $DOWNLOAD_IMAGEIMAGE
+  ls -la
   $UNZIP $IMAGE_FILE_ZIP
   mv $IMAGE_FILE $IMAGE_FILE_TEMP
 fi
