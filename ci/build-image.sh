@@ -18,6 +18,7 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   BOARD=raspberrypi
   RESOLVCONF_FROM=
   RESOLVCONF_TO=
+  RESIZE=
 elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   PARTITION=2
   USER=ubuntu
@@ -28,6 +29,7 @@ elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   BOARD=beagleboneblack
   RESOLVCONF_FROM=/run/resolvconf/resolv.conf
   RESOLVCONF_TO=/run/resolvconf/resolv.conf
+  RESIZE=
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   PARTITION=1
   USER=cubie
@@ -38,14 +40,42 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   BOARD=cubieboard
   RESOLVCONF_FROM=/run/resolvconf/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
+  RESIZE=1500
 fi
 CI_TEMP=/data/syncloud/ci/temp
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
+
+function resize_image {
+  
+  local $IMAGE=$1
+  local $SIZE=$2
+  local $PARTITION=$3
+  local $STARTSECTOR=$4
+  
+  rm $IMAGE-new
+  dd bs=1M count=$SIZE if=/dev/zero of=$IMAGE-new
+  losetup /dev/loop0 $IMAGE
+  losetup /dev/loop1 $IMAGE-new
+  dd if=/dev/loop0 of=/dev/loop1
+  losetup -d /dev/loop0
+  parted /dev/loop1 <<- PARTED
+   resizepart $PARTITION $SIZE
+   quit
+   PARTED
+  losetup -d /dev/loop1
+  rm $IMAGE
+  mv $IMAGE-new $IMAGE
+  losetup -o $STARTSECTOR /dev/loop0 $IMAGE
+  e2fsck -f /dev/loop0
+  resize2fs /dev/loop0
+  losetup -d /dev/loop0
+}
+
 echo "existing path: $PATH"
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 apt-get -y update
-apt-get -y install xz-utils git makeself p7zip
+apt-get -y install xz-utils git makeself p7zip parted
 
 rm -rf owncloud-setup
 git clone https://github.com/syncloud/owncloud-setup
@@ -68,6 +98,7 @@ FILE_INFO=$(file $SYNCLOUD_IMAGE)
 echo $FILE_INFO
 
 STARTSECTOR=$(echo $FILE_INFO | grep -oP 'partition '$PARTITION'.*startsector \K[0-9]*(?=, )')
+STARTSECTOR=$(($STARTSECTOR*512))
 if mount | grep image; then
   echo "image already mounted, unmounting ..."
   umount image
@@ -80,7 +111,11 @@ if losetup -a | grep /dev/loop0; then
   losetup -d /dev/loop0
 fi
 
-losetup -o $(($STARTSECTOR*512)) /dev/loop0 $SYNCLOUD_IMAGE
+if [ -n $RESIZE ]; then
+  resize_image $SYNCLOUD_IMAGE $RESIZE $PARTITION $STARTSECTOR 
+fi 
+
+losetup -o $STARTSECTOR /dev/loop0 $SYNCLOUD_IMAGE
 
 if [ -d image ]; then 
   echo "image dir exists, deleting ..."
