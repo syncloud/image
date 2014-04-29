@@ -16,6 +16,8 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:mega http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
   BOARD=raspberrypi
+  RESOLVCONF_FROM=
+  RESOLVCONF_TO=
 elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   PARTITION=2
   USER=ubuntu
@@ -24,6 +26,8 @@ elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/saucy/$IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=beagleboneblack
+  RESOLVCONF_FROM=/run/resolvconf/resolv.conf
+  RESOLVCONF_TO=/run/resolvconf/resolv.conf
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   PARTITION=1
   USER=cubie
@@ -32,6 +36,8 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:mega http://ubuntuone.com/108bqhMzhNOX5d4dNYO9x7 -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   BOARD=cubieboard
+  RESOLVCONF_FROM=/run/resolvconf/resolv.conf
+  RESOLVCONF_TO=/etc/resolv.conf
 fi
 CI_TEMP=/data/syncloud/ci/temp
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
@@ -61,8 +67,7 @@ cp $IMAGE_FILE_TEMP $SYNCLOUD_IMAGE
 FILE_INFO=$(file $SYNCLOUD_IMAGE)
 echo $FILE_INFO
 
-#STARTSECTOR=$(echo $FILE_INFO | grep -oP 'partition ${PARTITION}.*startsector \K[0-9]*(?=, )')
-STARTSECTOR=2048
+STARTSECTOR=$(echo $FILE_INFO | grep -oP 'partition '$PARTITION'.*startsector \K[0-9]*(?=, )')
 if mount | grep image; then
   echo "image already mounted, unmounting ..."
   umount image
@@ -85,10 +90,10 @@ fi
 mkdir image
 
 mount /dev/loop0 image
-#if [ -f /run/resolvconf/resolv.conf ]; then
-  #mkdir -p image/run/resolvconf
-  #cp /run/resolvconf/resolv.conf image/run/resolvconf/resolv.conf
-#fi
+if [ -n $RESOLVCONF_FROM ]; then
+  mkdir -p image/$(dirname $RESOLVCONF_TO)
+  cp $RESOLVCONF_FROM image$RESOLVCONF_TO
+fi
 
 cp owncloud-setup/syncloud_setup.sh image/home/$USER
 
@@ -104,6 +109,11 @@ if [ -f image/usr/sbin/minissdpd ]; then
   echo "stopping minissdpd holding the image ..."
   chroot image /etc/init.d/minissdpd stop
 fi
+
+if [ -n $RESOLVCONF_FROM ]; then
+  rm image$RESOLVCONF_TO
+fi
+
 
 umount image
 rm -rf image
