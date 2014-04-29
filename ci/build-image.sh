@@ -85,10 +85,10 @@ fi
 mkdir image
 
 mount /dev/loop0 image
-if [ -f /run/resolvconf/resolv.conf ]; then
+#if [ -f /run/resolvconf/resolv.conf ]; then
   #mkdir -p image/run/resolvconf
   #cp /run/resolvconf/resolv.conf image/run/resolvconf/resolv.conf
-fi
+#fi
 
 cp owncloud-setup/syncloud_setup.sh image/home/$USER
 
