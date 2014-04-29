@@ -8,6 +8,7 @@ fi
 echo "Building board: ${SYNCLOUD_BOARD}"
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
+  PARTITION=2
   USER=pi
   NAME=2014-01-07-wheezy-raspbian
   IMAGE_FILE=2014-01-07-wheezy-raspbian.img
@@ -16,6 +17,7 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   UNZIP=unzip
   BOARD=raspberrypi
 elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
+  PARTITION=2
   USER=ubuntu
   IMAGE_FILE=BBB-eMMC-flasher-ubuntu-13.10-2014-02-16-2gb.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
@@ -23,6 +25,7 @@ elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   UNZIP=unxz
   BOARD=beagleboneblack
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
+  PARTITION=1
   USER=cubie
   IMAGE_FILE=Cubian-base-r5-a20
   IMAGE_FILE_ZIP=$IMAGE_FILE.img.7z
@@ -54,7 +57,7 @@ if [ ! -f $IMAGE_FILE_TEMP ]; then
 fi
 
 cp $IMAGE_FILE_TEMP $SYNCLOUD_IMAGE
-STARTSECTOR=$(file $SYNCLOUD_IMAGE | grep -oP 'partition 2.*startsector \K[0-9]*(?=, )')
+STARTSECTOR=$(file $SYNCLOUD_IMAGE | grep -oP 'partition $PARTITION.*startsector \K[0-9]*(?=, )')
 
 if mount | grep image; then
   echo "image already mounted, unmounting ..."
