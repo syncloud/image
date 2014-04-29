@@ -47,11 +47,13 @@ IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 
 function resize_image {
   
-  local $IMAGE=$1
-  local $SIZE=$2
-  local $PARTITION=$3
-  local $STARTSECTOR=$4
+  local IMAGE=$1
+  local SIZE=$2
+  local PARTITION=$3
+  local STARTSECTOR=$4
   
+  echo "resizing $IMAGE, partition $PARTITION, start sector: $STARTSECTOR, end $SIZE MB"
+ 
   rm $IMAGE-new
   dd bs=1M count=$SIZE if=/dev/zero of=$IMAGE-new
   losetup /dev/loop0 $IMAGE
