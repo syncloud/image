@@ -59,9 +59,9 @@ function resize_image {
   dd if=/dev/loop0 of=/dev/loop1
   losetup -d /dev/loop0
   parted /dev/loop1 <<- PARTED
-   resizepart $PARTITION $SIZE
-   quit
-   PARTED
+	resizepart $PARTITION $SIZE
+	quit
+	PARTED
   losetup -d /dev/loop1
   rm $IMAGE
   mv $IMAGE-new $IMAGE
