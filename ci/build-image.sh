@@ -113,7 +113,7 @@ if losetup -a | grep /dev/loop0; then
   losetup -d /dev/loop0
 fi
 
-if [ -n $RESIZE ]; then
+if [ -n "$RESIZE" ]; then
   resize_image $SYNCLOUD_IMAGE $RESIZE $PARTITION $STARTSECTOR 
 fi 
 
@@ -127,7 +127,7 @@ fi
 mkdir image
 
 mount /dev/loop0 image
-if [ -n $RESOLVCONF_FROM ]; then
+if [ -n "$RESOLVCONF_FROM" ]; then
   mkdir -p image/$(dirname $RESOLVCONF_TO)
   cp $RESOLVCONF_FROM image$RESOLVCONF_TO
 fi
