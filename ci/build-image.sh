@@ -147,7 +147,7 @@ if [ -f image/usr/sbin/minissdpd ]; then
   chroot image /etc/init.d/minissdpd stop
 fi
 
-if [ -n $RESOLVCONF_FROM ]; then
+if [ -n "$RESOLVCONF_FROM" ]; then
   rm image$RESOLVCONF_TO
 fi
 
