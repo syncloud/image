@@ -44,16 +44,12 @@ echo "Build triggered for rev: $LATEST_REV" > $BUILD_LOG
 
 export SYNCLOUD_BOARD=$(uname -n)
 
-if [ $SYNCLOUD_BOARD == "arm" ]; then
-  export SYNCLOUD_BOARD="cubieboard"
-fi
-
 wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.sh | exec -a syncloud-job bash >> $BUILD_LOG 2>&1
 
-#if [ $SYNCLOUD_BOARD == "arm" ]; then
-#  export SYNCLOUD_BOARD="cubieboard"
-#  wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.sh | exec -a syncloud-job bash >> $BUILD_LOG 2>&1
-#fi
+if [ $SYNCLOUD_BOARD == "arm" ]; then
+  export SYNCLOUD_BOARD="cubieboard"
+  wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.sh | exec -a syncloud-job bash >> $BUILD_LOG 2>&1
+fi
 
 #if [ $? -nq 0 ]; then
 #  echo "Build failed" >> $BUILD_LOG
