@@ -208,3 +208,5 @@ service avahi-daemon restart
 # add boot script to rc.local
 sed -i '/# By default this script does nothing./a '$BOOT_SCRIPT_NAME /etc/rc.local
 
+echo "root:syncloud" | chpasswd
+
