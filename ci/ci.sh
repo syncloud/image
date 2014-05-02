@@ -57,8 +57,10 @@ fi
 #fi
 
 echo "Publishing artifacts ..." >> $BUILD_LOG  
+ls -la $BUILD_DIR/
 mv $BUILD_DIR/*.img.xz $ARTIFACT_DIR
-echo "removing old logs ..." >> $BUILD_LOG
+ls -la $ARTIFACT_DIR/
+echo "removingold logs ..." >> $BUILD_LOG
 ls -r1 $ARTIFACT_DIR/*.log* | tail -n+6 | xargs rm -f
 echo "removing old images ..." >> $BUILD_LOG
 ls -r1 $ARTIFACT_DIR/syncloud-*.img* | tail -n+6 | xargs rm -f
