@@ -24,6 +24,12 @@ cp version $SYNCLOUD_CONF_PATH
 # update packages
 apt-get -y update
 
+# if this is Cubian we need to fix few things before installing ownCloud
+if [[ $HOSTNAME = "Cubian" ]]; then
+    # fix locale warnings
+    locale-gen en_US.UTF-8
+fi
+
 # if this is cubieboard we need to fix few things before installing ownCloud
 if [[ $HOSTNAME = "cubieboard" ]]; then
     # fix locale warnings
