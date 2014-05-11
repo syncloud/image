@@ -42,7 +42,14 @@ fi
 echo "$LATEST_REV" > $REV_FILE
 echo "Build triggered for rev: $LATEST_REV" > $BUILD_LOG
 
+export SYNCLOUD_BOARD=$(uname -n)
+
 wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.sh | exec -a syncloud-job bash >> $BUILD_LOG 2>&1
+
+if [ $SYNCLOUD_BOARD == "arm" ]; then
+  export SYNCLOUD_BOARD="cubieboard"
+  wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.sh | exec -a syncloud-job bash >> $BUILD_LOG 2>&1
+fi
 
 #if [ $? -nq 0 ]; then
 #  echo "Build failed" >> $BUILD_LOG
@@ -50,8 +57,10 @@ wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/build-image.s
 #fi
 
 echo "Publishing artifacts ..." >> $BUILD_LOG  
+ls -la $BUILD_DIR/
 mv $BUILD_DIR/*.img.xz $ARTIFACT_DIR
-echo "removing old logs ..." >> $BUILD_LOG
+ls -la $ARTIFACT_DIR/
+echo "removingold logs ..." >> $BUILD_LOG
 ls -r1 $ARTIFACT_DIR/*.log* | tail -n+6 | xargs rm -f
 echo "removing old images ..." >> $BUILD_LOG
 ls -r1 $ARTIFACT_DIR/syncloud-*.img* | tail -n+6 | xargs rm -f
