@@ -39,12 +39,12 @@ elif [[ ${SYNCLOUD_BOARD} == "Cubian" ]]; then
   USER=cubie
   IMAGE_FILE=Cubian-base-r5-a20-ct.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:mega http://ubuntuone.com/6DsamiUUY8Z75gvwunC91w -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://www.dropbox.com/s/m5hfp7escijllaj/Cubian-base-r5-a20-ct-large.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   BOARD=cubietruck
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
-  RESIZE=1500
+  RESIZE=
 fi
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 
