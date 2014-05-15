@@ -37,7 +37,7 @@ elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "Cubian" ]]; then
   PARTITION=1
   USER=cubie
-  IMAGE_FILE=Cubian-base-r5-a20-ct.img
+  IMAGE_FILE=Cubian-base-r5-a20-ct-large.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.7z
   DOWNLOAD_IMAGE="wget --progress=dot:mega https://www.dropbox.com/s/m5hfp7escijllaj/Cubian-base-r5-a20-ct-large.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
@@ -138,5 +138,5 @@ umount image
 rm -rf image
 losetup -d /dev/loop0
 
-xz -z0 $SYNCLOUD_IMAGE
+xz -z0 --keep $SYNCLOUD_IMAGE
 
