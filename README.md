@@ -29,21 +29,6 @@ For example, for cubieboard connected to 192.168.1.11 and running vendor lubuntu
 ./sshexec.sh 192.168.1.70 22 pi raspberry syncloud_setup.sh
 ```
 
-### Building raspberry image without device
-
-Need to have:
-
-2014-01-07-wheezy-raspbian.zip
-- http://www.raspberrypi.org/downloads
-
-Linux kernel for Qemu
-- http://xecdesign.com/downloads/linux-qemu/kernel-qemu
-
-```
-
-sudo apt-get install qemu-system`
-```
-
 ## Build
 ````
 ./build-image.sh
