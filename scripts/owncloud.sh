@@ -179,14 +179,6 @@ chmod 644 $AUTOCONFIG_FILE
 # setup crontab task
 su -c "echo \"*/1 * * * * php -f ${OWNCLOUDPATH}/cron.php\" | crontab -" www-data
 
-cd $OWNCLOUDPATH/apps
-
-wget -qO- https://raw.github.com/syncloud/owncloud_app/master/get_$VERSION_TO_INSTALL.sh | sh
-   
-sed -i '/<info>/a \<default_enable\/>' ./syncloud/appinfo/info.xml
-sed -i '/<info>/a \<default_native\/>' ./syncloud/appinfo/info.xml
-sed -i '/<info>/a \<default_mapped\/>' ./syncloud/appinfo/info.xml
-
 service apache2 reload
 
 # service discovery through avahi
