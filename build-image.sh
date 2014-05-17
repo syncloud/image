@@ -5,7 +5,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-SYNCLOUD_BOARD=$1
+SYNCLOUD_BOARD=$(uname -n)
 
 CI_TEMP=/data/syncloud/ci/temp
 
@@ -105,6 +105,7 @@ if [ -d image ]; then
 fi
 
 # mount /dev/loop0 to image folder
+rm -rf image
 mkdir image
 
 mount /dev/loop0 image
@@ -129,14 +130,19 @@ if [ -f image/usr/sbin/minissdpd ]; then
   chroot image /etc/init.d/minissdpd stop
 fi
 
+chroot image service ntp stop
+chroot image service mysql stop
+pkill mysqld
+
 if [ -n "$RESOLVCONF_FROM" ]; then
   rm image$RESOLVCONF_TO
 fi
 
+while [ "$(lsof | grep image | grep -v "build-image.sh")" ]
+do
+  sleep 5
+  echo "waiting for all proccesses using image to die"
+done
 
 umount image
-rm -rf image
 losetup -d /dev/loop0
-
-xz -z0 --keep $SYNCLOUD_IMAGE
-
