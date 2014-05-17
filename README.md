@@ -35,8 +35,3 @@ For example, for cubieboard connected to 192.168.1.11 and running vendor lubuntu
 ````
 
 Result Image: syncloud-raspberrypi.img
-
-### CI: add this line to your device's crontab
-````
-*/1 * * * * wget -qO- https://raw.github.com/syncloud/owncloud-setup/master/ci/ci.sh | bash
-````
