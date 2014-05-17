@@ -152,6 +152,7 @@ fi
 if [[ $OS_ID = "Debian" ]]; then 
   echo "Alias /owncloud /var/www/owncloud" > /etc/apache2/sites-available/owncloud.conf
   a2ensite owncloud
+  apt-get -y remove wolfram-engine
 fi
 
 # disable some owncloud apps
