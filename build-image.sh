@@ -116,7 +116,10 @@ mkdir image
 
 mount /dev/loop0 image
 if [ -n "$RESOLVCONF_FROM" ]; then
-  mkdir -p image/$(dirname $RESOLVCONF_TO)
+  RESOLV_DIR=$(dirname $RESOLVCONF_TO)
+  echo "creatig resolv conf dir: ${RESOLV_DIR}"
+  mkdir -p image/
+  echo "copying resolv conf from $RESOLVCONF_FROM to image$RESOLVCONF_TO"
   cp $RESOLVCONF_FROM image$RESOLVCONF_TO
 fi
 
@@ -148,11 +151,12 @@ if [ "$KILL_HOST_MYSQL" = true ] ; then
 fi
 
 if [ -n "$RESOLVCONF_FROM" ]; then
+  echo "removing resolv conf: image$RESOLVCONF_TO"
   rm image$RESOLVCONF_TO
 fi
 
-while [ "$(lsof | grep image | grep -v "build-image.sh")" ]
-do
+while lsof | grep image | grep -v "build-image.sh" > /dev/null
+do 
   sleep 5
   echo "waiting for all proccesses using image to die"
 done
