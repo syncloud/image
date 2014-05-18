@@ -23,6 +23,7 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   RESOLVCONF_FROM=
   RESOLVCONF_TO=
   RESIZE=
+  KILL_HOST_MYSQL=false
 elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   PARTITION=2
   USER=ubuntu
@@ -34,6 +35,7 @@ elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   RESOLVCONF_FROM=/run/resolvconf/resolv.conf
   RESOLVCONF_TO=/run/resolvconf/resolv.conf
   RESIZE=
+  KILL_HOST_MYSQL=false
 elif [[ ${SYNCLOUD_BOARD} == "Cubian" ]]; then
   PARTITION=1
   USER=cubie
@@ -45,6 +47,7 @@ elif [[ ${SYNCLOUD_BOARD} == "Cubian" ]]; then
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
   RESIZE=
+  KILL_HOST_MYSQL=true
 fi
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 
@@ -132,7 +135,11 @@ fi
 
 chroot image service ntp stop
 chroot image service mysql stop
-pkill mysqld
+
+if [ "$KILL_HOST_MYSQL" = true ] ; then
+    echo 'Killing host mysql!'
+    pkill mysqld
+fi
 
 if [ -n "$RESOLVCONF_FROM" ]; then
   rm image$RESOLVCONF_TO
