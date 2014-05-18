@@ -116,9 +116,9 @@ mkdir image
 
 mount /dev/loop0 image
 if [ -n "$RESOLVCONF_FROM" ]; then
-  RESOLV_DIR=$(dirname $RESOLVCONF_TO)
+  RESOLV_DIR=image/$(dirname $RESOLVCONF_TO)
   echo "creatig resolv conf dir: ${RESOLV_DIR}"
-  mkdir -p image/
+  mkdir -p $RESOLV_DIR
   echo "copying resolv conf from $RESOLVCONF_FROM to image$RESOLVCONF_TO"
   cp $RESOLVCONF_FROM image$RESOLVCONF_TO
 fi
