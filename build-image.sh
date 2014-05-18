@@ -161,5 +161,10 @@ do
   echo "waiting for all proccesses using image to die"
 done
 
+echo "unmounting image"
 umount image
+
+echo "removing loop device"
 losetup -d /dev/loop0
+
+echo "build finished"
