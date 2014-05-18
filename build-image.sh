@@ -24,6 +24,7 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   RESOLVCONF_TO=
   RESIZE=
   KILL_HOST_MYSQL=false
+  STOP_NTP=false
 elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   PARTITION=2
   USER=ubuntu
@@ -36,6 +37,7 @@ elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   RESOLVCONF_TO=/run/resolvconf/resolv.conf
   RESIZE=
   KILL_HOST_MYSQL=false
+  STOP_NTP=false
 elif [[ ${SYNCLOUD_BOARD} == "Cubian" ]]; then
   PARTITION=1
   USER=cubie
@@ -48,6 +50,7 @@ elif [[ ${SYNCLOUD_BOARD} == "Cubian" ]]; then
   RESOLVCONF_TO=/etc/resolv.conf
   RESIZE=
   KILL_HOST_MYSQL=true
+  STOP_NTP=true
 fi
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 
@@ -133,11 +136,14 @@ if [ -f image/usr/sbin/minissdpd ]; then
   chroot image /etc/init.d/minissdpd stop
 fi
 
-chroot image service ntp stop
-chroot image service mysql stop
+if [ "$STOP_NTP" = true ] ; then
+    echo 'Stopping ntp'
+    chroot image service ntp stop
+fi
 
 if [ "$KILL_HOST_MYSQL" = true ] ; then
     echo 'Killing host mysql!'
+    chroot image service mysql stop
     pkill mysqld
 fi
 
