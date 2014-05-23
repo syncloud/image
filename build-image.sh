@@ -27,6 +27,8 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   RESOLVCONF_FROM=
   RESOLVCONF_TO=
   RESIZE=
+  KILL_HOST_MYSQL=false
+  STOP_NTP=false
 elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   PARTITION=2
   USER=ubuntu
@@ -38,6 +40,8 @@ elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   RESOLVCONF_FROM=/run/resolvconf/resolv.conf
   RESOLVCONF_TO=/run/resolvconf/resolv.conf
   RESIZE=
+  KILL_HOST_MYSQL=false
+  STOP_NTP=false
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   PARTITION=1
   USER=cubie
@@ -49,6 +53,8 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
   RESIZE=
+  KILL_HOST_MYSQL=true
+  STOP_NTP=true
 fi
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 
@@ -114,7 +120,10 @@ mkdir image
 
 mount /dev/loop0 image
 if [ -n "$RESOLVCONF_FROM" ]; then
-  mkdir -p image/$(dirname $RESOLVCONF_TO)
+  RESOLV_DIR=image/$(dirname $RESOLVCONF_TO)
+  echo "creatig resolv conf dir: ${RESOLV_DIR}"
+  mkdir -p $RESOLV_DIR
+  echo "copying resolv conf from $RESOLVCONF_FROM to image$RESOLVCONF_TO"
   cp $RESOLVCONF_FROM image$RESOLVCONF_TO
 fi
 
@@ -134,19 +143,32 @@ if [ -f image/usr/sbin/minissdpd ]; then
   chroot image /etc/init.d/minissdpd stop
 fi
 
-chroot image service ntp stop
-chroot image service mysql stop
-pkill mysqld
+if [ "$STOP_NTP" = true ] ; then
+    echo 'Stopping ntp'
+    chroot image service ntp stop
+fi
+
+if [ "$KILL_HOST_MYSQL" = true ] ; then
+    echo 'Killing host mysql!'
+    chroot image service mysql stop
+    pkill mysqld
+fi
 
 if [ -n "$RESOLVCONF_FROM" ]; then
+  echo "removing resolv conf: image$RESOLVCONF_TO"
   rm image$RESOLVCONF_TO
 fi
 
-while [ "$(lsof | grep image | grep -v "build-image.sh")" ]
-do
+while lsof | grep image | grep -v "build-image.sh" > /dev/null
+do 
   sleep 5
   echo "waiting for all proccesses using image to die"
 done
 
+echo "unmounting image"
 umount image
+
+echo "removing loop device"
 losetup -d /dev/loop0
+
+echo "build finished"
