@@ -7,6 +7,10 @@ fi
 
 SYNCLOUD_BOARD=$(uname -n)
 
+if [[ ${SYNCLOUD_BOARD} == "Cubian" ]]; then
+    SYNCLOUD_BOARD=$(./cubian-boardname.sh)
+fi
+
 CI_TEMP=/data/syncloud/ci/temp
 
 echo "Building board: ${SYNCLOUD_BOARD}"
@@ -34,7 +38,7 @@ elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   RESOLVCONF_FROM=/run/resolvconf/resolv.conf
   RESOLVCONF_TO=/run/resolvconf/resolv.conf
   RESIZE=
-elif [[ ${SYNCLOUD_BOARD} == "Cubian" ]]; then
+elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   PARTITION=1
   USER=cubie
   IMAGE_FILE=Cubian-base-r5-a20-ct-large.img
