@@ -61,6 +61,15 @@ if [[ $OS_ID = "Debian" ]]; then
   sed -i 's/wheezy/jessie/g' /etc/apt/sources.list
   echo "libc6 libraries/restart-without-asking boolean true" | debconf-set-selections
   echo "libc6:armhf libraries/restart-without-asking boolean true" | debconf-set-selections
+
+  if [ -e /etc/profile.d/raspi-config.sh ]; then
+    rm -f /etc/profile.d/raspi-config.sh
+    sed -i /etc/inittab \
+      -e "s/^#\(.*\)#\s*RPICFG_TO_ENABLE\s*/\1/" \
+      -e "/#\s*RPICFG_TO_DISABLE/d"
+    telinit q
+  fi
+
 fi
 
 apt-get -y update
