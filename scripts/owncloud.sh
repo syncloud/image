@@ -93,102 +93,15 @@ echo "$CMD_WWWDATAFOLDER" >> $BOOT_SCRIPT_NAME
 $CMD_MOUNTHDD
 $CMD_WWWDATAFOLDER
 
-# tools for owncloud
-apt-get -y install php-apc miniupnpc ntp ntpdate
+apt-get -y install miniupnpc ntp ntpdate
 
+# install avahi
 apt-get -y install avahi-daemon
 
 if grep -q inet /etc/group; then
     # add user avahi to inet group
     usermod -a -G inet avahi
 fi
-
-# install mySQL (set root user password to root)
-echo "mysql-server-5.5 mysql-server/root_password password root" | debconf-set-selections
-echo "mysql-server-5.5 mysql-server/root_password_again password root" | debconf-set-selections
-apt-get -y install mysql-server-5.5 unzip
-
-if grep -q inet /etc/group; then
-    # add mysql user to inet group
-    usermod -a -G inet mysql
-fi
-
-# create mySQL database and user/password
-mysql -uroot -proot <<EOFMYSQL
-CREATE USER 'owncloud'@'localhost' IDENTIFIED BY 'owncloud';
-CREATE DATABASE IF NOT EXISTS owncloud;
-GRANT ALL PRIVILEGES ON owncloud.* TO 'owncloud'@'localhost' IDENTIFIED BY 'owncloud';
-EOFMYSQL
-
-# install owncloud
-if [[ $OS_VERSION = "13.06" ]]; then OS_VERSION="13.04"; fi # fix for cubieboard lubuntu 13.06
-
-if [[ $OS_ID = "Debian" ]]; then
-    owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0
-else
-    owncloud_repo=http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_$OS_VERSION
-fi
-
-wget --no-check-certificate -qO - $owncloud_repo/Release.key | apt-key add -
-echo "deb $owncloud_repo/ /" > /etc/apt/sources.list.d/owncloud.list
-
-cat <<APTPREF > /etc/apt/preferences
-Package: *
-Pin: origin download.opensuse.org
-Pin-Priority: 610
-APTPREF
-
-apt-get update
-apt-get -y --no-install-recommends install owncloud
-
-if grep -q inet /etc/group; then
-    # add www-data user to inet group
-    usermod -a -G inet www-data
-fi
-
-if [[ $OS_VERSION = "13.10" ]]; then 
-   
-cat <<APACHE > /etc/apache2/sites-available/owncloud.conf
-<Directory /var/www/owncloud>
-  AllowOverride All
-</Directory>
-APACHE
-
-a2ensite owncloud
-
-fi
-
-if [[ $OS_ID = "Debian" ]]; then 
-  echo "Alias /owncloud /var/www/owncloud" > /etc/apache2/sites-available/owncloud.conf
-  a2ensite owncloud
-  apt-get -y remove wolfram-engine
-fi
-
-# disable some owncloud apps
-sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/contacts/appinfo/info.xml
-sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/calendar/appinfo/info.xml
-sed -i -e "/<default_enable\/>/d" $OWNCLOUDPATH/apps/updater/appinfo/info.xml
-
-AUTOCONFIG_FILE=$OWNCLOUDPATH/config/autoconfig.php
-
-cat <<AUTOCNF > $AUTOCONFIG_FILE
-<?php
-\$AUTOCONFIG = array(
-  "dbtype"        => "mysql", 
-  "dbname"        => "owncloud",
-  "dbuser"        => "root",
-  "dbpass"        => "root",
-  "dbhost"        => "localhost",
-  "directory"     => "$DATADIR",
-);
-AUTOCNF
-
-chmod 644 $AUTOCONFIG_FILE
-
-# setup crontab task
-su -c "echo \"*/1 * * * * php -f ${OWNCLOUDPATH}/cron.php\" | crontab -" www-data
-
-service apache2 reload
 
 # service discovery through avahi
 
