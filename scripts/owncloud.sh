@@ -95,37 +95,6 @@ $CMD_WWWDATAFOLDER
 
 apt-get -y install miniupnpc ntp ntpdate
 
-# install avahi
-apt-get -y install avahi-daemon
-
-if grep -q inet /etc/group; then
-    # add user avahi to inet group
-    usermod -a -G inet avahi
-fi
-
-# service discovery through avahi
-
-AVAHI_CONFIG=/etc/avahi/services/owncloud.service
-
-cat <<AVAHI > $AVAHI_CONFIG
-<?xml version="1.0" standalone='no'?>
-<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
-<service-group>
-  <name>ownCloud</name>
-  <service>
-    <type>_http._tcp</type>
-    <port>80</port>
-    <txt-record>path=/owncloud</txt-record>
-  </service>
-</service-group>
-AVAHI
-
-chmod 644 $AVAHI_CONFIG
-
-sed 's/AVAHI_DAEMON_DETECT_LOCAL=.*/AVAHI_DAEMON_DETECT_LOCAL=0/g' -i /etc/default/avahi-daemon
-
-service avahi-daemon restart
-
 # add boot script to rc.local
 sed -i '/# By default this script does nothing./a '$BOOT_SCRIPT_NAME /etc/rc.local
 
@@ -135,6 +104,6 @@ wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s i
 /opt/syncloud/repo/system/spm install insider
 /opt/syncloud/repo/system/spm install owncloud
 /opt/syncloud/repo/system/spm install owncloud-ctl
-
+/opt/syncloud/repo/system/spm install discovery
 
 
