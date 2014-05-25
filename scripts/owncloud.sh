@@ -50,7 +50,6 @@ fi
 
 VERSION_TO_INSTALL='latest' #[latest|appstore] 
 DATADIR=/data
-OWNCLOUDPATH='/var/www/owncloud'
 
 apt-get -y install lsb-release
 
