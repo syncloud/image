@@ -8,7 +8,7 @@ fi
 SYNCLOUD_BOARD=$(uname -n)
 
 if [[ ${SYNCLOUD_BOARD} == "Cubian" ]]; then
-    SYNCLOUD_BOARD=$(./cubian-boardname.sh)
+  SYNCLOUD_BOARD=$(./cubian-boardname.sh)
 fi
 
 CI_TEMP=/data/syncloud/ci/temp
@@ -29,6 +29,7 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   RESIZE=
   KILL_HOST_MYSQL=false
   STOP_NTP=false
+  INIT_RANDOM=false
 elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   PARTITION=2
   USER=ubuntu
@@ -42,6 +43,7 @@ elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   RESIZE=
   KILL_HOST_MYSQL=false
   STOP_NTP=false
+  INIT_RANDOM=false
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   PARTITION=1
   USER=cubie
@@ -55,6 +57,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   RESIZE=
   KILL_HOST_MYSQL=true
   STOP_NTP=true
+  INIT_RANDOM=true
 fi
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 
@@ -125,6 +128,11 @@ if [ -n "$RESOLVCONF_FROM" ]; then
   mkdir -p $RESOLV_DIR
   echo "copying resolv conf from $RESOLVCONF_FROM to image$RESOLVCONF_TO"
   cp $RESOLVCONF_FROM image$RESOLVCONF_TO
+fi
+
+if [ "$INIT_RANDOM" = true ] ; then
+  chroot image mknod /dev/random c 1 8
+  chroot image mknod /dev/urandom c 1 9
 fi
 
 # copy syncloud setup script to image
