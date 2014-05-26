@@ -99,7 +99,7 @@ sed -i '/# By default this script does nothing./a '$BOOT_SCRIPT_NAME /etc/rc.loc
 
 echo "root:syncloud" | chpasswd
 
-wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s install
+wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s -x install
 /opt/syncloud/repo/system/spm install insider
 /opt/syncloud/repo/system/spm install owncloud
 /opt/syncloud/repo/system/spm install owncloud-ctl
