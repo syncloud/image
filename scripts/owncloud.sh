@@ -30,21 +30,7 @@ if [[ $HOSTNAME = "Cubian" ]]; then
     locale-gen en_US.UTF-8
 fi
 
-# if this is cubieboard we need to fix few things before installing ownCloud
-if [[ $HOSTNAME = "cubieboard" ]]; then
-    # fix locale warnings
-    locale-gen en_US.UTF-8
-
-    # we don't need mysql - owncloud script should install and configure it
-    apt-get -y remove --purge mysql-server mysql-client mysql-common
-    apt-get -y autoremove
-    apt-get -y autoclean
-    rm -rf /var/lib/mysql
-    rm -rf /var/log/mysql
-    
-    # add setting mac address to the rc.local
-    echo "$SYNCLOUD_TOOLS_PATH/setmacaddr.sh" >> $BOOT_SCRIPT_NAME
-elif [[ $HOSTNAME = "arm"  ]]; then
+if [[ $HOSTNAME = "arm"  ]]; then
   sed -i '/^check_running_system$/i umount /data || true' /opt/scripts/tools/beaglebone-black-eMMC-flasher.sh
 fi
 

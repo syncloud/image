@@ -44,6 +44,20 @@ elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   KILL_HOST_MYSQL=false
   STOP_NTP=false
   INIT_RANDOM=false
+elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
+  PARTITION=1
+  USER=cubie
+  IMAGE_FILE=Cubian-base-r8-a10-large.img
+  IMAGE_FILE_ZIP=$IMAGE_FILE.7z
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://www.dropbox.com/s/spnhzwhsit9ggz6/Cubian-base-r8-a10-large.img.7z -O $IMAGE_FILE_ZIP"
+  UNZIP="p7zip -d"
+  BOARD=cubieboard
+  RESOLVCONF_FROM=/etc/resolv.conf
+  RESOLVCONF_TO=/etc/resolv.conf
+  RESIZE=
+  KILL_HOST_MYSQL=true
+  STOP_NTP=true
+  INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   PARTITION=1
   USER=cubie
