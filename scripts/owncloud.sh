@@ -30,23 +30,23 @@ if [[ $HOSTNAME = "Cubian" ]]; then
     locale-gen en_US.UTF-8
 fi
 
+# ???
 if [[ $HOSTNAME = "arm"  ]]; then
   sed -i '/^check_running_system$/i umount /data || true' /opt/scripts/tools/beaglebone-black-eMMC-flasher.sh
 fi
 
-VERSION_TO_INSTALL='latest' #[latest|appstore] 
-DATADIR=/data
-
+# indentifying OS name and version
 apt-get -y install lsb-release
-
 OS_VERSION=$(lsb_release -sr)
 OS_ID=$(lsb_release -si)
 
+# ???
 if [[ $OS_ID = "Debian" ]]; then
   sed -i 's/wheezy/jessie/g' /etc/apt/sources.list
   echo "libc6 libraries/restart-without-asking boolean true" | debconf-set-selections
   echo "libc6:armhf libraries/restart-without-asking boolean true" | debconf-set-selections
 
+  # ???
   if [ -e /etc/profile.d/raspi-config.sh ]; then
     rm -f /etc/profile.d/raspi-config.sh
     sed -i /etc/inittab \
@@ -54,12 +54,12 @@ if [[ $OS_ID = "Debian" ]]; then
       -e "/#\s*RPICFG_TO_DISABLE/d"
     telinit q
   fi
-
 fi
 
 apt-get -y update
 
 # create data folder
+DATADIR=/data
 mkdir $DATADIR
 
 # command: mount hdd to DATADIR
@@ -83,7 +83,13 @@ apt-get -y install miniupnpc ntp ntpdate
 # add boot script to rc.local
 sed -i '/# By default this script does nothing./a '$BOOT_SCRIPT_NAME /etc/rc.local
 
+# changing root password, so finish setup could be done through ssh under root
 echo "root:syncloud" | chpasswd
+
+# change ssh port to 22 for all cubieboards
+if [[ $HOSTNAME = "Cubian" ]]; then
+  sed -i "s/Port 36000/Port 22/g" /etc/ssh/sshd_config
+fi
 
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s -x install
 /opt/syncloud/repo/system/spm install insider
