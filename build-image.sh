@@ -155,7 +155,7 @@ cp syncloud_setup.sh image/home/$USER
 chroot image rm -rf /var/cache/apt/archives/*.deb
 chroot image rm -rf /opt/Wolfram
 
-chroot image /home/$USER/syncloud_setup.sh 2>&1
+chroot image /home/$USER/syncloud_setup.sh
 
 chroot image rm -rf /var/cache/apt/archives/*.deb
 chroot image rm -rf /opt/Wolfram
