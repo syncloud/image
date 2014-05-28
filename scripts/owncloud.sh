@@ -40,13 +40,13 @@ apt-get -y install lsb-release
 OS_VERSION=$(lsb_release -sr)
 OS_ID=$(lsb_release -si)
 
-# ???
+# use jessie and supress libc6 upgrade interractive questions on debian
 if [[ $OS_ID = "Debian" ]]; then
   sed -i 's/wheezy/jessie/g' /etc/apt/sources.list
   echo "libc6 libraries/restart-without-asking boolean true" | debconf-set-selections
   echo "libc6:armhf libraries/restart-without-asking boolean true" | debconf-set-selections
 
-  # ???
+  # disable pi interractive config
   if [ -e /etc/profile.d/raspi-config.sh ]; then
     rm -f /etc/profile.d/raspi-config.sh
     sed -i /etc/inittab \
