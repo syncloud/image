@@ -30,7 +30,7 @@ if [[ $HOSTNAME = "Cubian" ]]; then
     locale-gen en_US.UTF-8
 fi
 
-# ???
+# tell beagle flasher to skip /data dir
 if [[ $HOSTNAME = "arm"  ]]; then
   sed -i '/^check_running_system$/i umount /data || true' /opt/scripts/tools/beaglebone-black-eMMC-flasher.sh
 fi
