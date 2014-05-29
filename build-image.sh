@@ -132,69 +132,72 @@ fi
 # map /dev/loop0 to image file
 losetup -o $STARTSECTOR /dev/loop0 $SYNCLOUD_IMAGE
 
-if [ -d image ]; then 
-  echo "image dir exists, deleting ..."
-  rm -rf image
+# folder for mounting image file
+IMAGE_FOLDER=imgmnt
+
+if [ -d $IMAGE_FOLDER ]; then 
+  echo "$IMAGE_FOLDER dir exists, deleting ..."
+  rm -rf $IMAGE_FOLDER
 fi
 
-# mount /dev/loop0 to image folder
-rm -rf image
-mkdir image
+# mount /dev/loop0 to IMAGE_FOLDER folder
+rm -rf $IMAGE_FOLDER
+mkdir $IMAGE_FOLDER
 
-mount /dev/loop0 image
+mount /dev/loop0 $IMAGE_FOLDER
 if [ -n "$RESOLVCONF_FROM" ]; then
-  RESOLV_DIR=image/$(dirname $RESOLVCONF_TO)
+  RESOLV_DIR=$IMAGE_FOLDER/$(dirname $RESOLVCONF_TO)
   echo "creatig resolv conf dir: ${RESOLV_DIR}"
   mkdir -p $RESOLV_DIR
-  echo "copying resolv conf from $RESOLVCONF_FROM to image$RESOLVCONF_TO"
-  cp $RESOLVCONF_FROM image$RESOLVCONF_TO
+  echo "copying resolv conf from $RESOLVCONF_FROM to $IMAGE_FOLDER$RESOLVCONF_TO"
+  cp $RESOLVCONF_FROM $IMAGE_FOLDER$RESOLVCONF_TO
 fi
 
 if [ "$INIT_RANDOM" = true ] ; then
-  chroot image mknod /dev/random c 1 8
-  chroot image mknod /dev/urandom c 1 9
+  chroot $IMAGE_FOLDER mknod /dev/random c 1 8
+  chroot $IMAGE_FOLDER mknod /dev/urandom c 1 9
 fi
 
-# copy syncloud setup script to image
-cp syncloud-setup.sh image/home/$USER
+# copy syncloud setup script to IMAGE_FOLDER
+cp syncloud-setup.sh $IMAGE_FOLDER/home/$USER
 
-chroot image rm -rf /var/cache/apt/archives/*.deb
-chroot image rm -rf /opt/Wolfram
+chroot $IMAGE_FOLDER rm -rf /var/cache/apt/archives/*.deb
+chroot $IMAGE_FOLDER rm -rf /opt/Wolfram
 
-chroot image /home/$USER/syncloud-setup.sh
+chroot $IMAGE_FOLDER /home/$USER/syncloud-setup.sh
 
-chroot image rm -rf /var/cache/apt/archives/*.deb
-chroot image rm -rf /opt/Wolfram
+chroot $IMAGE_FOLDER rm -rf /var/cache/apt/archives/*.deb
+chroot $IMAGE_FOLDER rm -rf /opt/Wolfram
 
-if [ -f image/usr/sbin/minissdpd ]; then
-  echo "stopping minissdpd holding the image ..."
-  chroot image /etc/init.d/minissdpd stop
+if [ -f $IMAGE_FOLDER/usr/sbin/minissdpd ]; then
+  echo "stopping minissdpd holding the $IMAGE_FOLDER ..."
+  chroot $IMAGE_FOLDER /etc/init.d/minissdpd stop
 fi
 
 if [ "$STOP_NTP" = true ] ; then
     echo 'Stopping ntp'
-    chroot image service ntp stop
+    chroot $IMAGE_FOLDER service ntp stop
 fi
 
 if [ "$KILL_HOST_MYSQL" = true ] ; then
     echo 'Killing host mysql!'
-    chroot image service mysql stop
+    chroot $IMAGE_FOLDER service mysql stop
     pkill mysqld
 fi
 
 if [ -n "$RESOLVCONF_FROM" ]; then
-  echo "removing resolv conf: image$RESOLVCONF_TO"
-  rm image$RESOLVCONF_TO
+  echo "removing resolv conf: $IMAGE_FOLDER$RESOLVCONF_TO"
+  rm $IMAGE_FOLDER$RESOLVCONF_TO
 fi
 
-while lsof | grep image | grep -v "build-image.sh" > /dev/null
+while lsof | grep $IMAGE_FOLDER | grep -v "build-image.sh" > /dev/null
 do 
   sleep 5
-  echo "waiting for all proccesses using image to die"
+  echo "waiting for all proccesses using $IMAGE_FOLDER to die"
 done
 
-echo "unmounting image"
-umount image
+echo "unmounting $IMAGE_FOLDER"
+umount $IMAGE_FOLDER
 
 echo "removing loop device"
 losetup -d /dev/loop0
