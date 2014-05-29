@@ -2,4 +2,4 @@
 
 BUILDDIR=scripts/
 git rev-parse --short HEAD > $BUILDDIR/version
-makeself --notemp $BUILDDIR syncloud_setup.sh "The ownCloud setup script" ./owncloud.sh
+makeself --notemp $BUILDDIR syncloud-setup.sh "The syncloud setup script" ./syncloud.sh

@@ -78,7 +78,13 @@ IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 echo "existing path: $PATH"
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-SYNCLOUD_IMAGE=syncloud-$BOARD-$(date +%F-%H-%M-%S)-$(git rev-parse --short HEAD).img
+if [[ -z "$1" ]]; then
+  BUILD_ID=$(date +%F-%H-%M-%S)
+else
+  BUILD_ID=$1
+fi
+
+SYNCLOUD_IMAGE=syncloud-$BOARD-$BUILD_ID.img
 
 # build syncloud setup script
 ./build.sh
@@ -150,12 +156,12 @@ if [ "$INIT_RANDOM" = true ] ; then
 fi
 
 # copy syncloud setup script to image
-cp syncloud_setup.sh image/home/$USER
+cp syncloud-setup.sh image/home/$USER
 
 chroot image rm -rf /var/cache/apt/archives/*.deb
 chroot image rm -rf /opt/Wolfram
 
-chroot image /home/$USER/syncloud_setup.sh
+chroot image /home/$USER/syncloud-setup.sh
 
 chroot image rm -rf /var/cache/apt/archives/*.deb
 chroot image rm -rf /opt/Wolfram
