@@ -85,7 +85,10 @@ if [[ $HOSTNAME = "Cubian" ]]; then
   sed -i "s/Port 36000/Port 22/g" /etc/ssh/sshd_config
 fi
 
-wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s -x install
+set -x
+export SHELLOPTS
+
+wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s install
 /opt/syncloud/repo/system/spm install insider
 /opt/syncloud/repo/system/spm install owncloud
 /opt/syncloud/repo/system/spm install owncloud-ctl
