@@ -24,12 +24,6 @@ cp version $SYNCLOUD_CONF_PATH
 # update packages
 apt-get -y update
 
-# if this is Cubian we need to fix few things before installing ownCloud
-if [[ $HOSTNAME = "Cubian" ]]; then
-    # fix locale warnings
-    locale-gen en_US.UTF-8
-fi
-
 # tell beagle flasher to skip /data dir
 if [[ $HOSTNAME = "arm"  ]]; then
   sed -i '/^check_running_system$/i umount /data || true' /opt/scripts/tools/beaglebone-black-eMMC-flasher.sh
