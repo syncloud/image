@@ -86,6 +86,7 @@ if [[ $HOSTNAME = "Cubian" ]]; then
 fi
 
 apt-get -y install python-pip
+hash -r
 
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s -x install
 /opt/syncloud/repo/system/spm install insider
