@@ -115,25 +115,28 @@ echo $FILE_INFO
 # retrieving partition start sector
 STARTSECTOR=$(echo $FILE_INFO | grep -oP 'partition '$PARTITION'.*startsector \K[0-9]*(?=, )')
 STARTSECTOR=$(($STARTSECTOR*512))
-if mount | grep image; then
-  echo "image already mounted, unmounting ..."
-  umount image
-fi
-
-# checking who is using image folder
-lsof | grep image
-
-# if /dev/loop0 is mapped then unmap it
-if losetup -a | grep /dev/loop0; then
-  echo "/dev/loop0 is already setup, deleting ..."
-  losetup -d /dev/loop0
-fi
-
-# map /dev/loop0 to image file
-losetup -o $STARTSECTOR /dev/loop0 $SYNCLOUD_IMAGE
 
 # folder for mounting image file
 IMAGE_FOLDER=imgmnt
+
+if mount | grep $IMAGE_FOLDER; then
+  echo "image already mounted, unmounting ..."
+  umount $IMAGE_FOLDER
+fi
+
+# checking who is using image folder
+lsof | grep $IMAGE_FOLDER
+
+LOOP_DEVICE=/dev/loop0;
+
+# if /dev/loop0 is mapped then unmap it
+if losetup -a | grep $LOOP_DEVICE; then
+  echo "/dev/loop0 is already setup, deleting ..."
+  losetup -d $LOOP_DEVICE
+fi
+
+# map /dev/loop0 to image file
+losetup -o $STARTSECTOR $LOOP_DEVICE $SYNCLOUD_IMAGE
 
 if [ -d $IMAGE_FOLDER ]; then 
   echo "$IMAGE_FOLDER dir exists, deleting ..."
@@ -143,7 +146,7 @@ fi
 # mount /dev/loop0 to IMAGE_FOLDER folder
 mkdir $IMAGE_FOLDER
 
-mount /dev/loop0 $IMAGE_FOLDER
+mount $LOOP_DEVICE $IMAGE_FOLDER
 
 if [ -n "$RESOLVCONF_FROM" ]; then
   RESOLV_DIR=$IMAGE_FOLDER/$(dirname $RESOLVCONF_TO)
@@ -200,6 +203,6 @@ echo "unmounting $IMAGE_FOLDER"
 umount $IMAGE_FOLDER
 
 echo "removing loop device"
-losetup -d /dev/loop0
+losetup -d $LOOP_DEVICE
 
 echo "build finished"
