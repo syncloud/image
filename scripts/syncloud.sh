@@ -74,6 +74,13 @@ $CMD_WWWDATAFOLDER
 
 apt-get -y install ntp ntpdate
 
+service ntp stop
+
+if [ -f /usr/sbin/minissdpd ]; then
+  echo "stopping minissdpd ..."
+  /etc/init.d/minissdpd stop
+fi
+
 # add boot script to rc.local
 sed -i '/# By default this script does nothing./a '$BOOT_SCRIPT_NAME /etc/rc.local
 
