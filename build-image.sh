@@ -141,10 +141,10 @@ if [ -d $IMAGE_FOLDER ]; then
 fi
 
 # mount /dev/loop0 to IMAGE_FOLDER folder
-rm -rf $IMAGE_FOLDER
 mkdir $IMAGE_FOLDER
 
 mount /dev/loop0 $IMAGE_FOLDER
+
 if [ -n "$RESOLVCONF_FROM" ]; then
   RESOLV_DIR=$IMAGE_FOLDER/$(dirname $RESOLVCONF_TO)
   echo "creatig resolv conf dir: ${RESOLV_DIR}"
