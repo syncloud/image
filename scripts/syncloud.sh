@@ -7,6 +7,12 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+cat <<NOSTART > /usr/sbin/policy-rc.d
+#!/bin/sh
+exit 101
+NOSTART
+chmod +x /usr/sbin/policy-rc.d
+
 HOSTNAME=$(uname -n)
 SYNCLOUD_CONF_PATH=/etc/syncloud
 SYNCLOUD_TOOLS_PATH=/usr/local/bin/syncloud
@@ -76,11 +82,6 @@ apt-get -y install ntp ntpdate
 
 service ntp stop
 
-if [ -f /usr/sbin/minissdpd ]; then
-  echo "stopping minissdpd ..."
-  /etc/init.d/minissdpd stop
-fi
-
 # add boot script to rc.local
 sed -i '/# By default this script does nothing./a '$BOOT_SCRIPT_NAME /etc/rc.local
 
@@ -101,4 +102,5 @@ wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s i
 /opt/syncloud/repo/system/spm install owncloud-ctl
 /opt/syncloud/repo/system/spm install discovery
 
-
+# remove no-start-on-install flag
+rm /usr/sbin/policy-rc.d
