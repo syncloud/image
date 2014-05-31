@@ -90,6 +90,7 @@ echo "root:syncloud" | chpasswd
 # change ssh port to 22 for all cubieboards
 if [[ $HOSTNAME = "Cubian" ]]; then
   sed -i "s/Port 36000/Port 22/g" /etc/ssh/sshd_config
+  sed -i "s/PermitRootLogin no/PermitRootLogin yes/g" /etc/ssh/sshd_config
 fi
 
 set -x
