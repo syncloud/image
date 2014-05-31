@@ -7,6 +7,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+#enable "do not start on install" policy
 cat <<NOSTART > /usr/sbin/policy-rc.d
 #!/bin/sh
 exit 101
@@ -80,8 +81,6 @@ $CMD_WWWDATAFOLDER
 
 apt-get -y install ntp ntpdate
 
-service ntp stop
-
 # add boot script to rc.local
 sed -i '/# By default this script does nothing./a '$BOOT_SCRIPT_NAME /etc/rc.local
 
@@ -102,5 +101,5 @@ wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s i
 /opt/syncloud/repo/system/spm install owncloud-ctl
 /opt/syncloud/repo/system/spm install discovery
 
-# remove no-start-on-install flag
+# disable "do not start on install" policy
 rm /usr/sbin/policy-rc.d
