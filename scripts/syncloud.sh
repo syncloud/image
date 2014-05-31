@@ -94,7 +94,7 @@ if [[ $HOSTNAME = "Cubian" ]]; then
 fi
 
 set -x
-export SHELLOPTS
+#export SHELLOPTS
 
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s install
 /opt/syncloud/repo/system/spm install insider
