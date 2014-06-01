@@ -3,7 +3,6 @@
 - cubieboard A10
 - Raspberry Pi Model B
 
-
 ####Tweak device vendor image
 
 Install tools first
