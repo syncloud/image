@@ -1,4 +1,4 @@
-NODE_NAME=$(uname -n)
+NODE_NAME=$(cat /etc/hostname)
 
 if [[ $NODE_NAME != "Cubian" ]]; then 
     echo "This script is checked only on Cubian images" 1>&2

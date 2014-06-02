@@ -5,7 +5,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-SYNCLOUD_BOARD=$(uname -n)
+SYNCLOUD_BOARD=$(cat /etc/hostname)
 
 if [[ ${SYNCLOUD_BOARD} == "Cubian" ]]; then
   SYNCLOUD_BOARD=$(./cubian-boardname.sh)
