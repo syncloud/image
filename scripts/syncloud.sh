@@ -14,7 +14,7 @@ exit 101
 NOSTART
 chmod +x /usr/sbin/policy-rc.d
 
-HOSTNAME=$(uname -n)
+HOSTNAME=$(cat /etc/hostname)
 SYNCLOUD_CONF_PATH=/etc/syncloud
 SYNCLOUD_TOOLS_PATH=/usr/local/bin/syncloud
 cp -r tools $SYNCLOUD_TOOLS_PATH
