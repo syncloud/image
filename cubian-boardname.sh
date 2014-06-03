@@ -15,7 +15,7 @@ fi
 if [[ $CORES_NUM == 2 ]]; then
     TOTAL_MEMORY=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
 
-    if [[ $TOTAL_MEMORY == 827144 ]]; then
+    if [[ $TOTAL_MEMORY == 828096 ]]; then
         echo "cubieboard2"
         exit 0
     fi
