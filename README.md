@@ -5,18 +5,8 @@
 - cubietruck
 - Raspberry Pi Model B
 
-####Tweak device vendor image
-
-Install tools first
-````
-sudo apt-get install sshpass makeself
-````
-
-````
-./build.sh
-````
-
 ## Build
+To build image run command on the target platform:
 ````
 ./build-image.sh
 ````
