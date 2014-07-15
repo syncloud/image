@@ -104,3 +104,25 @@ wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s i
 
 # disable "do not start on install" policy
 rm /usr/sbin/policy-rc.d
+
+# delete unnecessary files
+rm -rf python_games
+sudo apt-get purge -y x11-common midori lxde python3 python3-minimal
+sudo apt-get purge -y `sudo dpkg --get-selections | grep -v "deinstall" | grep $
+sudo apt-get purge -y lxde-common lxde-icon-theme omxplayer
+sudo apt-get purge -y `sudo dpkg --get-selections | grep -v "deinstall" | grep $
+sudo apt-get purge -y gcc-4.5-base:armhf gcc-4.6-base:armhf libraspberrypi-doc $
+sudo apt-get purge -y xdg-utils wireless-tools wpasupplicant penguinspuzzle men$
+sudo apt-get autoremove --purge -y
+sudo rm -R /etc/X11
+sudo rm -R /etc/wpa_supplicant
+sudo rm -R /usr/share/icons
+sudo apt-get update
+sudo rm -R Desktop
+rm ocr_pi.png
+
+# update
+sudo apt-get update
+
+# upgrade
+sudo apt-get upgrade
