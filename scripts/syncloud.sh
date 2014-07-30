@@ -7,6 +7,9 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+#Fix debconf frontend warnings
+DEBCONF_FRONTEND=noninteractive
+
 # enable "do not start on install" policy
 cat <<NOSTART > /usr/sbin/policy-rc.d
 #!/bin/sh
