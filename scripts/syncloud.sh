@@ -112,6 +112,7 @@ set -x
 rm -rf python_games
 apt-get purge -y x11-common midori lxde python3 python3-minimal
 apt-get purge -y lxde-common lxde-icon-theme omxplayer
+apt-get purge -y wolfram-engine
 
 # Something went wrong here
 #sudo apt-get purge -y `sudo dpkg --get-selections | grep -v "deinstall" | grep $
