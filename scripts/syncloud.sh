@@ -108,7 +108,7 @@ fi
 set -x
 # export SHELLOPTS
 
-wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s install
+wget -qO- https://raw.githubusercontent.com/syncloud/apps/release/spm | bash -s install
 /opt/syncloud/repo/system/spm install insider
 /opt/syncloud/repo/system/spm install owncloud
 /opt/syncloud/repo/system/spm install owncloud-ctl
