@@ -124,8 +124,8 @@ apt-get purge -y wolfram-engine
 #sudo apt-get purge -y xdg-utils wireless-tools wpasupplicant penguinspuzzle men$
 
 apt-get autoremove --purge -y
-apt-get update
-apt-get upgrade
+apt-get update -y
+apt-get upgrade -y
 
 rm -Rf /etc/X11
 rm -Rf /etc/wpa_supplicant
