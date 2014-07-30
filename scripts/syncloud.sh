@@ -7,7 +7,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-#enable "do not start on install" policy
+# enable "do not start on install" policy
 cat <<NOSTART > /usr/sbin/policy-rc.d
 #!/bin/sh
 exit 101
@@ -93,8 +93,20 @@ if [[ $HOSTNAME = "Cubian" ]]; then
   sed -i "s/PermitRootLogin no/PermitRootLogin yes/g" /etc/ssh/sshd_config
 fi
 
+# remove python-requests from Debian repo since it is broken on some platforms (Boris, what are these platforms?)
+if dpkg -l | grep python-requests; then
+  apt-get -y remove python-requests
+fi
+
+# install pip2 used for syncloud apps installation
+if ! type pip2; then
+  wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py
+  python get-pip.py
+  hash -r
+fi
+
 set -x
-#export SHELLOPTS
+# export SHELLOPTS
 
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s install
 /opt/syncloud/repo/system/spm install insider
