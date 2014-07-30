@@ -108,6 +108,27 @@ fi
 set -x
 # export SHELLOPTS
 
+# delete unnecessary files
+rm -rf python_games
+apt-get purge -y x11-common midori lxde python3 python3-minimal
+apt-get purge -y lxde-common lxde-icon-theme omxplayer
+
+# Something went wrong here
+#sudo apt-get purge -y `sudo dpkg --get-selections | grep -v "deinstall" | grep $
+#sudo apt-get purge -y `sudo dpkg --get-selections | grep -v "deinstall" | grep $
+#sudo apt-get purge -y gcc-4.5-base:armhf gcc-4.6-base:armhf libraspberrypi-doc $
+#sudo apt-get purge -y xdg-utils wireless-tools wpasupplicant penguinspuzzle men$
+
+apt-get autoremove --purge -y
+apt-get update
+apt-get upgrade
+
+rm -Rf /etc/X11
+rm -Rf /etc/wpa_supplicant
+rm -Rf /usr/share/icons
+rm -Rf /home/pi/Desktop
+rm -f /home/pi/ocr_pi.png
+
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/release/spm | bash -s install
 /opt/syncloud/repo/system/spm install insider
 /opt/syncloud/repo/system/spm install owncloud
@@ -117,24 +138,3 @@ wget -qO- https://raw.githubusercontent.com/syncloud/apps/release/spm | bash -s 
 # disable "do not start on install" policy
 rm /usr/sbin/policy-rc.d
 
-# delete unnecessary files
-rm -rf python_games
-sudo apt-get purge -y x11-common midori lxde python3 python3-minimal
-sudo apt-get purge -y `sudo dpkg --get-selections | grep -v "deinstall" | grep $
-sudo apt-get purge -y lxde-common lxde-icon-theme omxplayer
-sudo apt-get purge -y `sudo dpkg --get-selections | grep -v "deinstall" | grep $
-sudo apt-get purge -y gcc-4.5-base:armhf gcc-4.6-base:armhf libraspberrypi-doc $
-sudo apt-get purge -y xdg-utils wireless-tools wpasupplicant penguinspuzzle men$
-sudo apt-get autoremove --purge -y
-sudo rm -R /etc/X11
-sudo rm -R /etc/wpa_supplicant
-sudo rm -R /usr/share/icons
-sudo apt-get update
-sudo rm -R Desktop
-rm ocr_pi.png
-
-# update
-sudo apt-get update
-
-# upgrade
-sudo apt-get upgrade
