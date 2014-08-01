@@ -125,7 +125,10 @@ apt-get purge -y wolfram-engine
 
 apt-get autoremove --purge -y
 apt-get update -y
-apt-get upgrade -y
+
+#Do not upgrade for now as lsb_release -si starts returning non "Debian" value
+#which brakes pi owncloud installation, need to check
+#apt-get upgrade -y
 
 rm -Rf /etc/X11
 rm -Rf /etc/wpa_supplicant
