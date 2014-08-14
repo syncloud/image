@@ -36,7 +36,7 @@ apt-get -y update
 
 # tell beagle flasher to skip /data dir
 if [[ $HOSTNAME = "arm"  ]]; then
-  sed -i '/^check_running_system$/i umount /data || true' /opt/scripts/tools/beaglebone-black-eMMC-flasher.sh
+  sed -i '/^copy_rootfs$/i umount /data || true' /opt/scripts/tools/beaglebone-black-eMMC-flasher.sh
 fi
 
 # indentifying OS name and version
