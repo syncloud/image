@@ -33,9 +33,9 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   PARTITION=2
   USER=ubuntu
-  IMAGE_FILE=BBB-eMMC-flasher-ubuntu-13.10-2014-02-16-2gb.img
+  IMAGE_FILE=BBB-eMMC-flasher-ubuntu-14.04-console-armhf-2014-08-13-2gb.img.xz
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/saucy/$IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/trusty/$IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=beagleboneblack
   RESOLVCONF_FROM=/run/resolvconf/resolv.conf
