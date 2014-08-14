@@ -158,6 +158,7 @@ if [ -d $IMAGE_FOLDER ]; then
 fi
 
 # mount /dev/loop0 to IMAGE_FOLDER folder
+pwd
 mkdir $IMAGE_FOLDER
 
 mount $LOOP_DEVICE $IMAGE_FOLDER
