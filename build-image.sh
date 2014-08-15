@@ -40,8 +40,10 @@ elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/wheezy/$IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=beagleboneblack
-  RESOLVCONF_FROM=/run/resolvconf/resolv.conf
-  RESOLVCONF_TO=/run/resolvconf/resolv.conf
+  #RESOLVCONF_FROM=/run/resolvconf/resolv.conf
+  #RESOLVCONF_TO=/run/resolvconf/resolv.conf
+  RESOLVCONF_FROM=
+  RESOLVCONF_TO=
   RESIZE=
   KILL_HOST_MYSQL=false
   STOP_NTP=false
