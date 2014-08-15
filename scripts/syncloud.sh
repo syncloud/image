@@ -90,10 +90,12 @@ sed -i '/# By default this script does nothing./a '$BOOT_SCRIPT_NAME /etc/rc.loc
 # changing root password, so finish setup could be done through ssh under root
 echo "root:syncloud" | chpasswd
 
+#All boards should allow root ssh login for initial setup  
+sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" /etc/ssh/sshd_config
+
 # change ssh port to 22 for all cubieboards
 if [[ $HOSTNAME = "Cubian" ]]; then
   sed -i "s/Port 36000/Port 22/g" /etc/ssh/sshd_config
-  sed -i "s/PermitRootLogin no/PermitRootLogin yes/g" /etc/ssh/sshd_config
 fi
 
 # remove python-requests from Debian repo since it is broken on some platforms (Boris, what are these platforms?)
