@@ -179,12 +179,12 @@ if [ "$INIT_RANDOM" = true ] ; then
 fi
 
 # copy syncloud setup script to IMAGE_FOLDER
-cp syncloud-setup.sh $IMAGE_FOLDER/home/$USER
+cp syncloud-setup.sh $IMAGE_FOLDER/tmp
 
 chroot $IMAGE_FOLDER rm -rf /var/cache/apt/archives/*.deb
 chroot $IMAGE_FOLDER rm -rf /opt/Wolfram
 
-chroot $IMAGE_FOLDER /home/$USER/syncloud-setup.sh
+chroot $IMAGE_FOLDER /tmp/syncloud-setup.sh
 
 chroot $IMAGE_FOLDER rm -rf /var/cache/apt/archives/*.deb
 chroot $IMAGE_FOLDER rm -rf /opt/Wolfram
