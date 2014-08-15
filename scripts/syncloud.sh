@@ -82,7 +82,7 @@ echo "$CMD_WWWDATAFOLDER" >> $BOOT_SCRIPT_NAME
 $CMD_MOUNTHDD
 $CMD_WWWDATAFOLDER
 
-apt-get -y install ntp ntpdate
+apt-get -y install ntp ntpdate python
 
 # add boot script to rc.local
 sed -i '/# By default this script does nothing./a '$BOOT_SCRIPT_NAME /etc/rc.local
