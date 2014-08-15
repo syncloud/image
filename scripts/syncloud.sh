@@ -78,6 +78,9 @@ CMD_WWWDATAFOLDER="$SYNCLOUD_TOOLS_PATH/wwwdatafolder.sh $DATADIR"
 # add DATADIR permissions script boot script
 echo "$CMD_WWWDATAFOLDER" >> $BOOT_SCRIPT_NAME
 
+#must be after more critical boot steps
+echo "ntpdate -u pool.ntp.org || true" >> $BOOT_SCRIPT_NAME  
+
 # mount and set permissions to data folder
 $CMD_MOUNTHDD
 $CMD_WWWDATAFOLDER
