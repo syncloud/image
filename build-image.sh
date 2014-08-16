@@ -127,7 +127,7 @@ fi
 cp $IMAGE_FILE_TEMP $SYNCLOUD_IMAGE
 
 # command for getting image partitions information
-FILE_INFO$(parted -sm $SYNCLOUD_IMAGE unit B print)
+FILE_INFO=$(parted -sm $SYNCLOUD_IMAGE unit B print)
 echo $FILE_INFO
 
 # retrieving partition start sector
