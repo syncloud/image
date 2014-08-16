@@ -127,12 +127,11 @@ fi
 cp $IMAGE_FILE_TEMP $SYNCLOUD_IMAGE
 
 # command for getting image partitions information
-FILE_INFO=$(file $SYNCLOUD_IMAGE)
+FILE_INFO$(parted -sm $SYNCLOUD_IMAGE unit B print)
 echo $FILE_INFO
 
 # retrieving partition start sector
-STARTSECTOR=$(echo $FILE_INFO | grep -oP 'partition '$PARTITION'.*startsector \K[0-9]*(?=, )')
-STARTSECTOR=$(($STARTSECTOR*512))
+STARTSECTOR=$(echo $FILE_INFO | grep -oP '^$PARTITION:\K[0-9]*(?=B)')
 
 # folder for mounting image file
 IMAGE_FOLDER=imgmnt
