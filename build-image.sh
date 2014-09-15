@@ -35,17 +35,17 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   PARTITION=2
   USER=ubuntu
-  IMAGE_FILE=BBB-eMMC-flasher-ubuntu-14.04-console-armhf-2014-08-13-2gb.img
-  #IMAGE_FILE=BBB-eMMC-flasher-debian-7.6-console-armhf-2014-08-13-2gb.img
+  #IMAGE_FILE=BBB-eMMC-flasher-ubuntu-14.04-console-armhf-2014-08-13-2gb.img
+  IMAGE_FILE=BBB-eMMC-flasher-debian-7.6-console-armhf-2014-08-13-2gb.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/trusty/$IMAGE_FILE_ZIP"
-  #DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/wheezy/$IMAGE_FILE_ZIP"
+  #DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/trusty/$IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/wheezy/$IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=beagleboneblack
-  RESOLVCONF_FROM=/run/resolvconf/resolv.conf
-  RESOLVCONF_TO=/run/resolvconf/resolv.conf
-  #RESOLVCONF_FROM=
-  #RESOLVCONF_TO=
+  #RESOLVCONF_FROM=/run/resolvconf/resolv.conf
+  #RESOLVCONF_TO=/run/resolvconf/resolv.conf
+  RESOLVCONF_FROM=
+  RESOLVCONF_TO=
   RESIZE=
   KILL_HOST_MYSQL=false
   STOP_NTP=false
