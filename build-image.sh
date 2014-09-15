@@ -34,7 +34,7 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   INIT_RANDOM=false
 elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   PARTITION=2
-  USER=ubuntu
+  USER=debian
   #IMAGE_FILE=BBB-eMMC-flasher-ubuntu-14.04-console-armhf-2014-08-13-2gb.img
   IMAGE_FILE=BBB-eMMC-flasher-debian-7.6-console-armhf-2014-08-13-2gb.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
@@ -44,8 +44,8 @@ elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   BOARD=beagleboneblack
   #RESOLVCONF_FROM=/run/resolvconf/resolv.conf
   #RESOLVCONF_TO=/run/resolvconf/resolv.conf
-  RESOLVCONF_FROM=
-  RESOLVCONF_TO=
+  RESOLVCONF_FROM=/etc/resolv.conf
+  RESOLVCONF_TO=/etc/resolv.conf
   RESIZE=
   KILL_HOST_MYSQL=false
   STOP_NTP=false
