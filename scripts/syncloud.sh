@@ -61,6 +61,8 @@ if [[ $OS_ID = "Debian" ]]; then
 fi
 
 apt-get -y update
+apt-get -yf install
+apt-get -y install build-essential python-dev
 
 # create data folder
 DATADIR=/data
