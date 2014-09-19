@@ -20,8 +20,7 @@ echo "Building board: ${SYNCLOUD_BOARD}"
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   PARTITION=2
   USER=pi
-  NAME=2014-01-07-wheezy-raspbian
-  IMAGE_FILE=2014-01-07-wheezy-raspbian.img
+  IMAGE_FILE=2014-09-09-wheezy-raspbian.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.zip
   DOWNLOAD_IMAGE="wget --progress=dot:mega http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
