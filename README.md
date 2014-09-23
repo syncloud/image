@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/syncloud/image.svg?branch=release)](https://travis-ci.org/syncloud/image)
+
 ####Supported devices
 - BeagleBone Black
 - cubieboard A10

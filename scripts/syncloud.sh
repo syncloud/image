@@ -7,7 +7,10 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-#enable "do not start on install" policy
+#Fix debconf frontend warnings
+DEBCONF_FRONTEND=noninteractive
+
+# enable "do not start on install" policy
 cat <<NOSTART > /usr/sbin/policy-rc.d
 #!/bin/sh
 exit 101
@@ -33,7 +36,7 @@ apt-get -y update
 
 # tell beagle flasher to skip /data dir
 if [[ $HOSTNAME = "arm"  ]]; then
-  sed -i '/^check_running_system$/i umount /data || true' /opt/scripts/tools/beaglebone-black-eMMC-flasher.sh
+  sed -i '/^copy_rootfs$/i umount /data || true' /opt/scripts/tools/beaglebone-black-eMMC-flasher.sh
 fi
 
 # indentifying OS name and version
@@ -58,6 +61,8 @@ if [[ $OS_ID = "Debian" ]]; then
 fi
 
 apt-get -y update
+apt-get -yf install
+apt-get -y install build-essential python-dev
 
 # create data folder
 DATADIR=/data
@@ -75,11 +80,14 @@ CMD_WWWDATAFOLDER="$SYNCLOUD_TOOLS_PATH/wwwdatafolder.sh $DATADIR"
 # add DATADIR permissions script boot script
 echo "$CMD_WWWDATAFOLDER" >> $BOOT_SCRIPT_NAME
 
+#must be after more critical boot steps
+echo "ntpdate -u pool.ntp.org || true" >> $BOOT_SCRIPT_NAME  
+
 # mount and set permissions to data folder
 $CMD_MOUNTHDD
 $CMD_WWWDATAFOLDER
 
-apt-get -y install ntp ntpdate
+apt-get -y install ntp ntpdate python
 
 # add boot script to rc.local
 sed -i '/# By default this script does nothing./a '$BOOT_SCRIPT_NAME /etc/rc.local
@@ -87,16 +95,58 @@ sed -i '/# By default this script does nothing./a '$BOOT_SCRIPT_NAME /etc/rc.loc
 # changing root password, so finish setup could be done through ssh under root
 echo "root:syncloud" | chpasswd
 
+#All boards should allow root ssh login for initial setup  
+sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" /etc/ssh/sshd_config
+
 # change ssh port to 22 for all cubieboards
 if [[ $HOSTNAME = "Cubian" ]]; then
   sed -i "s/Port 36000/Port 22/g" /etc/ssh/sshd_config
-  sed -i "s/PermitRootLogin no/PermitRootLogin yes/g" /etc/ssh/sshd_config
+fi
+
+# remove python-requests from Debian repo since it is broken on some platforms (Boris, what are these platforms?)
+if dpkg -l | grep python-requests; then
+  apt-get -y remove python-requests
+fi
+
+# install pip2 used for syncloud apps installation
+if ! type pip2; then
+  wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py
+  python get-pip.py
+  hash -r
 fi
 
 set -x
-#export SHELLOPTS
+# export SHELLOPTS
 
-wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s install
+# delete unnecessary files
+if [[ $HOSTNAME == "raspberrypi" ]]; then
+
+  rm -rf python_games
+  apt-get purge -y x11-common midori lxde python3 python3-minimal
+  apt-get purge -y lxde-common lxde-icon-theme omxplayer
+  apt-get purge -y wolfram-engine
+
+  # Something went wrong here
+  #sudo apt-get purge -y `sudo dpkg --get-selections | grep -v "deinstall" | grep $
+  #sudo apt-get purge -y `sudo dpkg --get-selections | grep -v "deinstall" | grep $
+  #sudo apt-get purge -y gcc-4.5-base:armhf gcc-4.6-base:armhf libraspberrypi-doc $
+  #sudo apt-get purge -y xdg-utils wireless-tools wpasupplicant penguinspuzzle men$
+
+  apt-get autoremove --purge -y
+  apt-get update -y
+
+  #Do not upgrade for now as lsb_release -si starts returning non "Debian" value
+  #which brakes pi owncloud installation, need to check
+  #apt-get upgrade -y
+
+  rm -Rf /etc/X11
+  rm -Rf /etc/wpa_supplicant
+  rm -Rf /usr/share/icons
+  rm -Rf /home/pi/Desktop
+  rm -f /home/pi/ocr_pi.png
+fi
+
+wget -qO- https://raw.githubusercontent.com/syncloud/apps/release/spm | bash -s install
 /opt/syncloud/repo/system/spm install insider
 /opt/syncloud/repo/system/spm install owncloud
 /opt/syncloud/repo/system/spm install owncloud-ctl
@@ -104,3 +154,4 @@ wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/spm | bash -s i
 
 # disable "do not start on install" policy
 rm /usr/sbin/policy-rc.d
+

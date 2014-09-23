@@ -1,5 +1,7 @@
 #!/bin/bash -x
 
+who mom likes
+
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
    exit 1
@@ -18,8 +20,7 @@ echo "Building board: ${SYNCLOUD_BOARD}"
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   PARTITION=2
   USER=pi
-  NAME=2014-01-07-wheezy-raspbian
-  IMAGE_FILE=2014-01-07-wheezy-raspbian.img
+  IMAGE_FILE=2014-09-09-wheezy-raspbian.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.zip
   DOWNLOAD_IMAGE="wget --progress=dot:mega http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
@@ -32,14 +33,18 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   INIT_RANDOM=false
 elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   PARTITION=2
-  USER=ubuntu
-  IMAGE_FILE=BBB-eMMC-flasher-ubuntu-13.10-2014-02-16-2gb.img
+  USER=debian
+  #IMAGE_FILE=BBB-eMMC-flasher-ubuntu-14.04-console-armhf-2014-08-13-2gb.img
+  IMAGE_FILE=BBB-eMMC-flasher-debian-7.6-console-armhf-2014-08-13-2gb.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/saucy/$IMAGE_FILE_ZIP"
+  #DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/trusty/$IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/wheezy/$IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=beagleboneblack
-  RESOLVCONF_FROM=/run/resolvconf/resolv.conf
-  RESOLVCONF_TO=/run/resolvconf/resolv.conf
+  #RESOLVCONF_FROM=/run/resolvconf/resolv.conf
+  #RESOLVCONF_TO=/run/resolvconf/resolv.conf
+  RESOLVCONF_FROM=/etc/resolv.conf
+  RESOLVCONF_TO=/etc/resolv.conf
   RESIZE=
   KILL_HOST_MYSQL=false
   STOP_NTP=false
@@ -122,13 +127,8 @@ fi
 # copy image file we are going to modify
 cp $IMAGE_FILE_TEMP $SYNCLOUD_IMAGE
 
-# command for getting image partitions information
-FILE_INFO=$(file $SYNCLOUD_IMAGE)
-echo $FILE_INFO
-
 # retrieving partition start sector
-STARTSECTOR=$(echo $FILE_INFO | grep -oP 'partition '$PARTITION'.*startsector \K[0-9]*(?=, )')
-STARTSECTOR=$(($STARTSECTOR*512))
+STARTSECTOR=$(parted -sm $SYNCLOUD_IMAGE unit B print | grep -oP "^${PARTITION}:\K[0-9]*(?=B)")
 
 # folder for mounting image file
 IMAGE_FOLDER=imgmnt
@@ -158,6 +158,7 @@ if [ -d $IMAGE_FOLDER ]; then
 fi
 
 # mount /dev/loop0 to IMAGE_FOLDER folder
+pwd
 mkdir $IMAGE_FOLDER
 
 mount $LOOP_DEVICE $IMAGE_FOLDER
@@ -176,12 +177,12 @@ if [ "$INIT_RANDOM" = true ] ; then
 fi
 
 # copy syncloud setup script to IMAGE_FOLDER
-cp syncloud-setup.sh $IMAGE_FOLDER/home/$USER
+cp syncloud-setup.sh $IMAGE_FOLDER/tmp
 
 chroot $IMAGE_FOLDER rm -rf /var/cache/apt/archives/*.deb
 chroot $IMAGE_FOLDER rm -rf /opt/Wolfram
 
-chroot $IMAGE_FOLDER /home/$USER/syncloud-setup.sh
+chroot $IMAGE_FOLDER /tmp/syncloud-setup.sh
 
 chroot $IMAGE_FOLDER rm -rf /var/cache/apt/archives/*.deb
 chroot $IMAGE_FOLDER rm -rf /opt/Wolfram
