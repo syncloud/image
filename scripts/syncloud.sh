@@ -146,11 +146,12 @@ if [[ $HOSTNAME == "raspberrypi" ]]; then
   rm -f /home/pi/ocr_pi.png
 fi
 
-wget -qO- https://raw.githubusercontent.com/syncloud/apps/release/spm | bash -s install
-/opt/syncloud/repo/system/spm install insider
-/opt/syncloud/repo/system/spm install owncloud
-/opt/syncloud/repo/system/spm install owncloud-ctl
-/opt/syncloud/repo/system/spm install discovery
+wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/sam | bash -s install
+sam install insider
+sam install owncloud
+sam install owncloud-ctl
+sam install discovery
+sam install remote-access
 
 # disable "do not start on install" policy
 rm /usr/sbin/policy-rc.d
