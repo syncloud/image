@@ -146,7 +146,7 @@ if [[ $HOSTNAME == "raspberrypi" ]]; then
   rm -f /home/pi/ocr_pi.png
 fi
 
-wget -qO- https://raw.githubusercontent.com/syncloud/apps/master/sam | bash -s install
+wget -qO- https://raw.githubusercontent.com/syncloud/apps/0.7/sam | bash -s install
 sam install insider
 sam install owncloud
 sam install owncloud-ctl
