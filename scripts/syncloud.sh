@@ -118,35 +118,8 @@ fi
 set -x
 # export SHELLOPTS
 
-# delete unnecessary files
-if [[ $HOSTNAME == "raspberrypi" ]]; then
-
-  rm -rf python_games
-  apt-get purge -y x11-common midori lxde python3 python3-minimal
-  apt-get purge -y lxde-common lxde-icon-theme omxplayer
-  apt-get purge -y wolfram-engine
-
-  # Something went wrong here
-  #sudo apt-get purge -y `sudo dpkg --get-selections | grep -v "deinstall" | grep $
-  #sudo apt-get purge -y `sudo dpkg --get-selections | grep -v "deinstall" | grep $
-  #sudo apt-get purge -y gcc-4.5-base:armhf gcc-4.6-base:armhf libraspberrypi-doc $
-  #sudo apt-get purge -y xdg-utils wireless-tools wpasupplicant penguinspuzzle men$
-
-  apt-get autoremove --purge -y
-  apt-get update -y
-
-  #Do not upgrade for now as lsb_release -si starts returning non "Debian" value
-  #which brakes pi owncloud installation, need to check
-  #apt-get upgrade -y
-
-  rm -Rf /etc/X11
-  rm -Rf /etc/wpa_supplicant
-  rm -Rf /usr/share/icons
-  rm -Rf /home/pi/Desktop
-  rm -f /home/pi/ocr_pi.png
-fi
-
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/0.7/sam | bash -s install
+sam install image-base
 sam install insider
 sam install owncloud
 sam install owncloud-ctl
