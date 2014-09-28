@@ -103,7 +103,7 @@ if [[ $HOSTNAME = "Cubian" ]]; then
   sed -i "s/Port 36000/Port 22/g" /etc/ssh/sshd_config
 fi
 
-# remove python-requests from Debian repo since it is broken on some platforms (Boris, what are these platforms?)
+# https://github.com/syncloud/image/issues/39
 if dpkg -l | grep python-requests; then
   apt-get -y remove python-requests
 fi
