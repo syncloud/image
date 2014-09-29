@@ -92,22 +92,6 @@ apt-get -y install ntp ntpdate python
 # add boot script to rc.local
 sed -i '/# By default this script does nothing./a '$BOOT_SCRIPT_NAME /etc/rc.local
 
-# changing root password, so finish setup could be done through ssh under root
-echo "root:syncloud" | chpasswd
-
-#All boards should allow root ssh login for initial setup  
-sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" /etc/ssh/sshd_config
-
-# change ssh port to 22 for all cubieboards
-if [[ $HOSTNAME = "Cubian" ]]; then
-  sed -i "s/Port 36000/Port 22/g" /etc/ssh/sshd_config
-fi
-
-# https://github.com/syncloud/image/issues/39
-if dpkg -l | grep python-requests; then
-  apt-get -y remove python-requests
-fi
-
 # install pip2 used for syncloud apps installation
 if ! type pip2; then
   wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py
