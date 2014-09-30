@@ -7,6 +7,9 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+set -x
+# export SHELLOPTS
+
 #Fix debconf frontend warnings
 DEBCONF_FRONTEND=noninteractive
 
@@ -17,27 +20,8 @@ exit 101
 NOSTART
 chmod +x /usr/sbin/policy-rc.d
 
-HOSTNAME=$(cat /etc/hostname)
-SYNCLOUD_CONF_PATH=/etc/syncloud
-SYNCLOUD_TOOLS_PATH=/usr/local/bin/syncloud
-cp -r tools $SYNCLOUD_TOOLS_PATH
-
-BOOT_SCRIPT_NAME=$SYNCLOUD_TOOLS_PATH/boot.sh
-
-rm -rf $BOOT_SCRIPT_NAME
-cp boot.templ $BOOT_SCRIPT_NAME
-chmod +x $BOOT_SCRIPT_NAME
-
-mkdir $SYNCLOUD_CONF_PATH
-cp version $SYNCLOUD_CONF_PATH
-
 # update packages
 apt-get -y update
-
-# tell beagle flasher to skip /data dir
-if [[ $HOSTNAME = "arm"  ]]; then
-  sed -i '/^copy_rootfs$/i umount /data || true' /opt/scripts/tools/beaglebone-black-eMMC-flasher.sh
-fi
 
 # indentifying OS name and version
 apt-get -y install lsb-release
@@ -62,35 +46,7 @@ fi
 
 apt-get -y update
 apt-get -yf install
-apt-get -y install build-essential python-dev
-
-# create data folder
-DATADIR=/data
-mkdir $DATADIR
-
-# command: mount hdd to DATADIR
-CMD_MOUNTHDD="python $SYNCLOUD_TOOLS_PATH/mounthdd.py $DATADIR"
-
-# add mounting DATADIR script to boot script
-echo "$CMD_MOUNTHDD" >> $BOOT_SCRIPT_NAME
-
-# command: set permissions for www user to DATADIR  
-CMD_WWWDATAFOLDER="$SYNCLOUD_TOOLS_PATH/wwwdatafolder.sh $DATADIR"
-
-# add DATADIR permissions script boot script
-echo "$CMD_WWWDATAFOLDER" >> $BOOT_SCRIPT_NAME
-
-#must be after more critical boot steps
-echo "ntpdate -u pool.ntp.org || true" >> $BOOT_SCRIPT_NAME  
-
-# mount and set permissions to data folder
-$CMD_MOUNTHDD
-$CMD_WWWDATAFOLDER
-
-apt-get -y install ntp ntpdate python
-
-# add boot script to rc.local
-sed -i '/# By default this script does nothing./a '$BOOT_SCRIPT_NAME /etc/rc.local
+apt-get -y install build-essential python python-dev
 
 # install pip2 used for syncloud apps installation
 if ! type pip2; then
@@ -99,11 +55,10 @@ if ! type pip2; then
   hash -r
 fi
 
-set -x
-# export SHELLOPTS
 
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/0.7/sam | bash -s install
 sam install image-base
+sam install image-boot
 sam install insider
 sam install owncloud
 sam install owncloud-ctl
