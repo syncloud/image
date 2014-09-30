@@ -20,33 +20,9 @@ exit 101
 NOSTART
 chmod +x /usr/sbin/policy-rc.d
 
-# update packages
-apt-get -y update
+####### sam bootstrap #######
 
-# indentifying OS name and version
-apt-get -y install lsb-release
-OS_VERSION=$(lsb_release -sr)
-OS_ID=$(lsb_release -si)
-
-# use jessie and supress libc6 upgrade interractive questions on debian
-if [[ $OS_ID = "Debian" ]]; then
-  sed -i 's/wheezy/jessie/g' /etc/apt/sources.list
-  echo "libc6 libraries/restart-without-asking boolean true" | debconf-set-selections
-  echo "libc6:armhf libraries/restart-without-asking boolean true" | debconf-set-selections
-
-  # disable pi interractive config
-  if [ -e /etc/profile.d/raspi-config.sh ]; then
-    rm -f /etc/profile.d/raspi-config.sh
-    sed -i /etc/inittab \
-      -e "s/^#\(.*\)#\s*RPICFG_TO_ENABLE\s*/\1/" \
-      -e "/#\s*RPICFG_TO_DISABLE/d"
-    telinit q
-  fi
-fi
-
-apt-get -y update
-apt-get -yf install
-apt-get -y install build-essential python python-dev
+apt-get -y install python
 
 # install pip2 used for syncloud apps installation
 if ! type pip2; then
@@ -55,8 +31,10 @@ if ! type pip2; then
   hash -r
 fi
 
-
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/0.7/sam | bash -s install
+
+####### sam bootstrap #######
+
 sam install image-base
 sam install image-boot
 sam install insider
