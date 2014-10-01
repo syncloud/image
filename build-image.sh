@@ -176,6 +176,10 @@ if [ "$INIT_RANDOM" = true ] ; then
   chroot $IMAGE_FOLDER mknod /dev/urandom c 1 9
 fi
 
+#Image build version
+mkdir -p $IMAGE_FOLDER/etc/syncloud
+git rev-parse --short HEAD > $IMAGE_FOLDER/etc/syncloud/version
+
 # copy syncloud setup script to IMAGE_FOLDER
 cp syncloud-setup.sh $IMAGE_FOLDER/tmp
 
