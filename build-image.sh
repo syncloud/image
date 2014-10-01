@@ -105,10 +105,7 @@ fi
 
 SYNCLOUD_IMAGE=syncloud-$BOARD-$BUILD_ID.img
 
-# build syncloud setup script
-./build.sh
-
-# checking if base image file already present, download and resize if doesn't 
+# checking if base image file already present, download and resize if doesn't
 mkdir -p $CI_TEMP
 if [ ! -f $IMAGE_FILE_TEMP ]; then
   echo "Base image $IMAGE_FILE_TEMP is not found, getting new one ..."
@@ -181,15 +178,9 @@ mkdir -p $IMAGE_FOLDER/etc/syncloud
 git rev-parse --short HEAD > $IMAGE_FOLDER/etc/syncloud/version
 
 # copy syncloud setup script to IMAGE_FOLDER
-cp syncloud-setup.sh $IMAGE_FOLDER/tmp
+cp scripts/syncloud.sh $IMAGE_FOLDER/tmp
 
-chroot $IMAGE_FOLDER rm -rf /var/cache/apt/archives/*.deb
-chroot $IMAGE_FOLDER rm -rf /opt/Wolfram
-
-chroot $IMAGE_FOLDER /tmp/syncloud-setup.sh
-
-chroot $IMAGE_FOLDER rm -rf /var/cache/apt/archives/*.deb
-chroot $IMAGE_FOLDER rm -rf /opt/Wolfram
+chroot $IMAGE_FOLDER /tmp/syncloud.sh
 
 if [ -f $IMAGE_FOLDER/usr/sbin/minissdpd ]; then
   echo "stopping minissdpd holding the $IMAGE_FOLDER ..."
