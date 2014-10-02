@@ -32,14 +32,8 @@ function resize_image {
   losetup -d /dev/loop0
 }
 
-FILE_INFO=$(file $SYNCLOUD_IMAGE)
-echo $FILE_INFO
 
-STARTSECTOR=$(echo $FILE_INFO | grep -oP 'partition '$PARTITION'.*startsector \K[0-9]*(?=, )')
-STARTSECTOR=$(($STARTSECTOR*512))
-
-echo $PARTITION
-
+STARTSECTOR=$(parted -sm $SYNCLOUD_IMAGE unit B print | grep -oP "^${PARTITION}:\K[0-9]*(?=B)")
 
 if mount | grep image; then
   echo "image already mounted, unmounting ..."
