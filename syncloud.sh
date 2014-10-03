@@ -35,8 +35,8 @@ wget -qO- https://raw.githubusercontent.com/syncloud/apps/0.7/sam | bash -s inst
 
 ####### sam bootstrap #######
 
-sam install image-base
-sam install image-boot
+sam --debug install image-base
+sam --debug install image-boot
 sam install insider
 sam install owncloud
 sam install owncloud-ctl
