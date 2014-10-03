@@ -5,7 +5,7 @@
 - cubieboard A10
 - cubieboard A20
 - cubietruck
-- Raspberry Pi Model B
+- Raspberry Pi Model B/B+
 
 ## Build
 To build image run command on the target platform:
