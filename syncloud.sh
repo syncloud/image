@@ -11,7 +11,8 @@ set -x
 # export SHELLOPTS
 
 #Fix debconf frontend warnings
-DEBCONF_FRONTEND=noninteractive
+#DEBCONF_FRONTEND=noninteractive
+DEBIAN_FRONTEND=noninteractive
 
 # enable "do not start on install" policy
 cat <<NOSTART > /usr/sbin/policy-rc.d
