@@ -27,7 +27,7 @@ apt-get -y install python
 
 # install pip2 used for syncloud apps installation
 if ! type pip2; then
-  wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py
+  wget --progress=dot:mega -O get-pip.py https://bootstrap.pypa.io/get-pip.py
   python get-pip.py
   hash -r
 fi
