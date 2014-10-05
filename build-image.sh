@@ -95,7 +95,7 @@ fi
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 
 echo "existing path: $PATH"
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 if [[ -z "$1" ]]; then
   BUILD_ID=$(date +%F-%H-%M-%S)
