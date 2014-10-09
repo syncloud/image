@@ -8,6 +8,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 SYNCLOUD_BOARD=$(cat /etc/hostname)
+PLATFORM=$(uname -i)
 
 if [[ ${SYNCLOUD_BOARD} == "Cubian" ]]; then
   SYNCLOUD_BOARD=$(./cubian-boardname.sh)
@@ -91,6 +92,20 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   KILL_HOST_MYSQL=true
   STOP_NTP=true
   INIT_RANDOM=true
+elif [[ ${PLATFORM} == "x86_64" ]]; then
+  PARTITION=1
+  USER=syncloud
+  IMAGE_FILE=syncloud-x86.img
+  IMAGE_FILE_ZIP=$IMAGE_FILE.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://github.com/syncloud/image-x86/releases/download/v0.1/syncloud-x86.img.xz -O $IMAGE_FILE_ZIP"
+  UNZIP=unxz
+  BOARD=x86
+  RESOLVCONF_FROM=
+  RESOLVCONF_TO=
+  RESIZE=
+  KILL_HOST_MYSQL=false
+  STOP_NTP=false
+  INIT_RANDOM=false
 fi
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 
