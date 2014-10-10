@@ -2,3 +2,4 @@ syncloud_setup.sh
 *.img
 *.img.xz
 kernel-qemu
+.idea
