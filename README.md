@@ -15,6 +15,13 @@ To build image run command on the target platform:
 
 # Build under x86
 
+Loop back devices require VM to run with privileged mode, which is not the case for Travis.
+
+The problem is conversion from/to filesystem image is only properly done by kernel fs drivers, 
+so we use loop back device to aks kernel to do that for us.
+
+Until we find reliable complete user space file system (ext2/ext4) tool, we cannot use Travis for testing the image building.
+
 ````
 sudo apt-get install docker.io
 sudo docker pull ubuntu
