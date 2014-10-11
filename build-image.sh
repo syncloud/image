@@ -97,9 +97,9 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
 elif [[ ${PLATFORM} == "x86_64" ]]; then
   STARTSECTOR=0
   USER=syncloud
-  IMAGE_FILE=syncloud-x86.img
+  IMAGE_FILE=syncloud-x86-v0.2.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://github.com/syncloud/image-x86/releases/download/v0.1/syncloud-x86.img.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://github.com/syncloud/image-x86/releases/download/v0.2/syncloud-x86-v0.2.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=x86
   RESOLVCONF_FROM=/etc/resolv.conf

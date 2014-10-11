@@ -12,3 +12,11 @@ To build image run command on the target platform:
 ````
 ./build-image.sh
 ````
+
+# Build under x86
+
+````
+sudo apt-get install docker.io
+sudo docker pull ubuntu
+sudo docker run --privileged=true -i -t ubuntu /bin/bash -c "apt-get update; apt-get -y install git; git clone https://github.com/syncloud/image.git; cd image; ./build-image.sh"
+````
