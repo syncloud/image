@@ -102,8 +102,8 @@ elif [[ ${PLATFORM} == "x86_64" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:mega https://github.com/syncloud/image-x86/releases/download/v0.1/syncloud-x86.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=x86
-  RESOLVCONF_FROM=
-  RESOLVCONF_TO=
+  RESOLVCONF_FROM=/etc/resolv.conf
+  RESOLVCONF_TO=/etc/resolv.conf
   RESIZE=
   KILL_HOST_MYSQL=false
   STOP_NTP=false
