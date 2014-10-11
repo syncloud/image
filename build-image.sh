@@ -99,7 +99,7 @@ elif [[ ${PLATFORM} == "x86_64" ]]; then
   USER=syncloud
   IMAGE_FILE=syncloud-x86-v0.2.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://github.com/syncloud/image-x86/releases/download/v0.2/syncloud-x86-v0.2.img.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://github.com/syncloud/image-x86/releases/download/v0.3/ubuntu-amd64-v0.3.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=x86
   RESOLVCONF_FROM=/etc/resolv.conf
