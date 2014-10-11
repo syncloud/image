@@ -40,7 +40,7 @@ wget -qO- https://raw.githubusercontent.com/syncloud/apps/0.7/sam | bash -s inst
 sam --debug install image-base
 sam --debug install image-boot
 sam install insider
-sam install owncloud
+sam --debug install owncloud
 sam install owncloud-ctl
 sam install discovery
 sam install remote-access
