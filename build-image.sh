@@ -18,6 +18,8 @@ CI_TEMP=/data/syncloud/ci/temp
 
 echo "Building board: ${SYNCLOUD_BOARD}"
 
+apt-get install -y wget parted xz-utils lsof
+
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   PARTITION=2
   USER=pi
@@ -93,7 +95,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   STOP_NTP=true
   INIT_RANDOM=true
 elif [[ ${PLATFORM} == "x86_64" ]]; then
-  PARTITION=1
+  STARTSECTOR=0
   USER=syncloud
   IMAGE_FILE=syncloud-x86.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
@@ -139,8 +141,10 @@ fi
 # copy image file we are going to modify
 cp $IMAGE_FILE_TEMP $SYNCLOUD_IMAGE
 
-# retrieving partition start sector
-STARTSECTOR=$(parted -sm $SYNCLOUD_IMAGE unit B print | grep -oP "^${PARTITION}:\K[0-9]*(?=B)")
+if [ -z "$STARTSECTOR" ]; then
+    # retrieving partition start sector
+    STARTSECTOR=$(parted -sm $SYNCLOUD_IMAGE unit B print | grep -oP "^${PARTITION}:\K[0-9]*(?=B)")
+fi
 
 # folder for mounting image file
 IMAGE_FOLDER=imgmnt
