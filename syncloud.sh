@@ -22,20 +22,7 @@ exit 101
 NOSTART
 chmod +x /usr/sbin/policy-rc.d
 
-####### sam bootstrap #######
-
-apt-get -y install python wget
-
-# install pip2 used for syncloud apps installation
-if ! type pip2; then
-  wget --progress=dot:mega -O get-pip.py https://bootstrap.pypa.io/get-pip.py
-  python get-pip.py
-  hash -r
-fi
-
-wget -qO- https://raw.githubusercontent.com/syncloud/apps/0.7/sam | bash -s install
-
-####### sam bootstrap #######
+wget -qO- https://raw.githubusercontent.com/syncloud/apps/0.7/sam | bash -s bootstrap
 
 sam --debug install image-base
 sam --debug install image-boot
