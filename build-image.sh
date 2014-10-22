@@ -31,8 +31,7 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   RESOLVCONF_FROM=
   RESOLVCONF_TO=
   RESIZE=
-  KILL_HOST_MYSQL=false
-  STOP_NTP=false
+  KILL_SERVICES=false
   INIT_RANDOM=false
 elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   PARTITION=2
@@ -49,8 +48,7 @@ elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
   RESIZE=
-  KILL_HOST_MYSQL=false
-  STOP_NTP=false
+  KILL_SERVICES=false
   INIT_RANDOM=false
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   PARTITION=1
@@ -63,8 +61,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
   RESIZE=
-  KILL_HOST_MYSQL=true
-  STOP_NTP=true
+  KILL_SERVICES=true
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   PARTITION=1
@@ -77,8 +74,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
   RESIZE=
-  KILL_HOST_MYSQL=true
-  STOP_NTP=true
+  KILL_SERVICES=true
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   PARTITION=1
@@ -91,8 +87,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
   RESIZE=
-  KILL_HOST_MYSQL=true
-  STOP_NTP=true
+  KILL_SERVICES=true
   INIT_RANDOM=true
 elif [[ ${PLATFORM} == "x86_64" ]]; then
   STARTSECTOR=0
@@ -105,8 +100,7 @@ elif [[ ${PLATFORM} == "x86_64" ]]; then
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
   RESIZE=
-  KILL_HOST_MYSQL=false
-  STOP_NTP=false
+  KILL_SERVICES=false
   INIT_RANDOM=false
 fi
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
@@ -206,16 +200,20 @@ if [ -f $IMAGE_FOLDER/usr/sbin/minissdpd ]; then
   chroot $IMAGE_FOLDER /etc/init.d/minissdpd stop
 fi
 
-if [ "$STOP_NTP" = true ] ; then
+if [ "$KILL_SERVICES" = true ] ; then
+
     echo 'Stopping ntp'
     chroot $IMAGE_FOLDER service ntp stop
-fi
 
-if [ "$KILL_HOST_MYSQL" = true ] ; then
-    echo 'Killing host mysql!'
+    echo 'Killing mysql!'
     chroot $IMAGE_FOLDER service mysql stop
     pkill mysqld
+    
+    echo 'Killing apache!'
+    chroot $IMAGE_FOLDER service apache2 stop
+    pkill apache2
 fi
+
 
 if [ -n "$RESOLVCONF_FROM" ]; then
   echo "removing resolv conf: $IMAGE_FOLDER$RESOLVCONF_TO"
