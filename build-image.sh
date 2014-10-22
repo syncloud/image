@@ -18,8 +18,6 @@ CI_TEMP=/data/syncloud/ci/temp
 
 echo "Building board: ${SYNCLOUD_BOARD}"
 
-apt-get install -y wget parted xz-utils lsof
-
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   PARTITION=2
   USER=pi
@@ -107,6 +105,8 @@ IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 
 echo "existing path: $PATH"
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+apt-get install -y wget parted xz-utils lsof
 
 if [[ -z "$1" ]]; then
   BUILD_ID=$(date +%F-%H-%M-%S)
