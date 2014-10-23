@@ -8,7 +8,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 set -x
-export SHELLOPTS
+#export SHELLOPTS
 
 #Fix debconf frontend warnings
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
