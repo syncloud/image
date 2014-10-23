@@ -191,9 +191,14 @@ mkdir -p $IMAGE_FOLDER/etc/syncloud
 git rev-parse --short HEAD > $IMAGE_FOLDER/etc/syncloud/version
 
 # copy syncloud setup script to IMAGE_FOLDER
-cp syncloud.sh $IMAGE_FOLDER/tmp
+cp disable-service-restart.sh $IMAGE_FOLDER/tmp
+chroot $IMAGE_FOLDER /tmp/disable-service-restart.sh
 
+cp syncloud.sh $IMAGE_FOLDER/tmp
 chroot $IMAGE_FOLDER /tmp/syncloud.sh
+
+cp enable-service-restart.sh $IMAGE_FOLDER/tmp
+chroot $IMAGE_FOLDER /tmp/enable-service-restart.sh
 
 if [ -f $IMAGE_FOLDER/usr/sbin/minissdpd ]; then
   echo "stopping minissdpd holding the $IMAGE_FOLDER ..."
