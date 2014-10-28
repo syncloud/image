@@ -106,6 +106,7 @@ IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 echo "existing path: $PATH"
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
+apt-get update
 apt-get install -y wget parted xz-utils lsof
 
 if [[ -z "$1" ]]; then
