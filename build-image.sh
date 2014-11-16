@@ -183,13 +183,19 @@ if [ -n "$RESOLVCONF_FROM" ]; then
 fi
 
 if [ "$INIT_RANDOM" = true ] ; then
-  chroot $IMAGE_FOLDER mknod /dev/random c 1 8
-  chroot $IMAGE_FOLDER mknod /dev/urandom c 1 9
+  chroot ${IMAGE_FOLDER} mknod /dev/random c 1 8
+  chroot ${IMAGE_FOLDER} mknod /dev/urandom c 1 9
 fi
 
 #Image build version
-mkdir -p $IMAGE_FOLDER/etc/syncloud
-git rev-parse --short HEAD > $IMAGE_FOLDER/etc/syncloud/version
+mkdir -p ${IMAGE_FOLDER}/etc/syncloud
+git rev-parse --short HEAD > ${IMAGE_FOLDER}/etc/syncloud/version
+
+if [ -f /etc/syncloud/version ]; then
+  cat /etc/syncloud/version > ${IMAGE_FOLDER}/etc/syncloud/builder
+else
+  echo "Non syncloud image (probably base image)" > ${IMAGE_FOLDER}/etc/syncloud/builder
+fi
 
 # copy syncloud setup script to IMAGE_FOLDER
 cp disable-service-restart.sh $IMAGE_FOLDER/tmp
