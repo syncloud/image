@@ -34,15 +34,11 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
   PARTITION=2
   USER=debian
-  #IMAGE_FILE=BBB-eMMC-flasher-debian-7.6-console-armhf-2014-08-13-2gb.img
-  IMAGE_FILE=BBB-eMMC-flasher-debian-7.7-console-armhf-2014-10-29-2gb.img
+  IMAGE_FILE=bone-debian-7.7-console-armhf-2014-10-29-2gb.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
-  #DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/trusty/$IMAGE_FILE_ZIP"
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/flasher/wheezy/$IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/microsd/wheezy/$IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=beagleboneblack
-  #RESOLVCONF_FROM=/run/resolvconf/resolv.conf
-  #RESOLVCONF_TO=/run/resolvconf/resolv.conf
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
   RESIZE=
