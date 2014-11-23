@@ -10,7 +10,7 @@ fi
 set -x
 #export SHELLOPTS
 
-wget -qO- https://raw.githubusercontent.com/syncloud/apps/0.7/sam | bash -s bootstrap
+wget -qO- https://raw.githubusercontent.com/syncloud/apps/0.7/bootstrap.sh | bash
 
 sam install image-base
 sam install image-boot
