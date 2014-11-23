@@ -7,12 +7,10 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-SYNCLOUD_BOARD=$(cat /etc/hostname)
-PLATFORM=$(uname -i)
+wget -qO- https://raw.githubusercontent.com/syncloud/apps/$(<RELEASE)/bootstrap.sh | bash
 
-if [[ ${SYNCLOUD_BOARD} == "Cubian" ]]; then
-  SYNCLOUD_BOARD=$(./cubian-boardname.sh)
-fi
+SYNCLOUD_BOARD=$(syncloud-id name --text)
+PLATFORM=$(uname -i)
 
 CI_TEMP=/data/syncloud/ci/temp
 
@@ -31,7 +29,7 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   RESIZE=
   KILL_SERVICES=false
   INIT_RANDOM=false
-elif [[ ${SYNCLOUD_BOARD} == "arm" ]]; then
+elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   PARTITION=2
   USER=debian
   IMAGE_FILE=bone-debian-7.7-console-armhf-2014-10-29-2gb.img
@@ -197,6 +195,7 @@ fi
 cp disable-service-restart.sh $IMAGE_FOLDER/tmp
 chroot $IMAGE_FOLDER /tmp/disable-service-restart.sh
 
+cp RELEASE $IMAGE_FOLDER/tmp
 cp syncloud.sh $IMAGE_FOLDER/tmp
 chroot $IMAGE_FOLDER /tmp/syncloud.sh
 
