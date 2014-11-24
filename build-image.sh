@@ -102,7 +102,7 @@ fi
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 
 apt-get update
-apt-get install -y wget parted xz-utils lsof
+apt-get install -y wget parted xz-utils lsof libguestfs-tools
 
 if [[ -z "$1" ]]; then
   BUILD_ID=$(date +%F-%H-%M-%S)
@@ -139,24 +139,24 @@ fi
 # folder for mounting image file
 IMAGE_FOLDER=imgmnt
 
-if mount | grep $IMAGE_FOLDER; then
-  echo "image already mounted, unmounting ..."
-  umount $IMAGE_FOLDER
-fi
+#if mount | grep $IMAGE_FOLDER; then
+#  echo "image already mounted, unmounting ..."
+#  umount $IMAGE_FOLDER
+#fi
 
 # checking who is using image folder
-lsof | grep $IMAGE_FOLDER
+#lsof | grep $IMAGE_FOLDER
 
-LOOP_DEVICE=/dev/loop0;
+#LOOP_DEVICE=/dev/loop0;
 
 # if /dev/loop0 is mapped then unmap it
-if losetup -a | grep $LOOP_DEVICE; then
-  echo "/dev/loop0 is already setup, deleting ..."
-  losetup -d $LOOP_DEVICE
-fi
+#if losetup -a | grep $LOOP_DEVICE; then
+#  echo "/dev/loop0 is already setup, deleting ..."
+#  losetup -d $LOOP_DEVICE
+#fi
 
 # map /dev/loop0 to image file
-losetup -o $STARTSECTOR $LOOP_DEVICE $SYNCLOUD_IMAGE
+#losetup -o $STARTSECTOR $LOOP_DEVICE $SYNCLOUD_IMAGE
 
 if [ -d $IMAGE_FOLDER ]; then 
   echo "$IMAGE_FOLDER dir exists, deleting ..."
@@ -167,7 +167,11 @@ fi
 pwd
 mkdir $IMAGE_FOLDER
 
-mount $LOOP_DEVICE $IMAGE_FOLDER
+#mount $LOOP_DEVICE $IMAGE_FOLDER
+
+guestfish --ro -a $SYNCLOUD_IMAGE -m /dev/sda2 <<EOF
+copy-out / ./$IMAGE_FOLDER
+EOF
 
 if [ -n "$RESOLVCONF_FROM" ]; then
   RESOLV_DIR=$IMAGE_FOLDER/$(dirname $RESOLVCONF_TO)
@@ -228,16 +232,23 @@ if [ -n "$RESOLVCONF_FROM" ]; then
   rm $IMAGE_FOLDER$RESOLVCONF_TO
 fi
 
-while lsof | grep $IMAGE_FOLDER | grep -v "build-image.sh" > /dev/null
-do 
-  sleep 5
-  echo "waiting for all proccesses using $IMAGE_FOLDER to die"
-done
+#while lsof | grep $IMAGE_FOLDER | grep -v "build-image.sh" > /dev/null
+#do
+#  sleep 5
+#  echo "waiting for all proccesses using $IMAGE_FOLDER to die"
+#done
 
-echo "unmounting $IMAGE_FOLDER"
-umount $IMAGE_FOLDER
+#echo "unmounting $IMAGE_FOLDER"
+#umount $IMAGE_FOLDER
 
-echo "removing loop device"
-losetup -d $LOOP_DEVICE
+#echo "removing loop device"
+#losetup -d $LOOP_DEVICE
+
+guestfish --rw -a $SYNCLOUD_IMAGE -m /dev/sda2 <<EOF
+copy-in ./$IMAGE_FOLDER /
+EOF
+
+echo "zipping the image"
+xz $SYNCLOUD_IMAGE
 
 echo "build finished"

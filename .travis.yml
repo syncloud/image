@@ -1,8 +1,4 @@
 language: c
 
-before_script:
-  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
-
 script:
-  - sudo ./syncloud.sh
-  - sudo ./syncloud-verify.sh
+  - sudo ./build-image.sh
