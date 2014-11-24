@@ -8,6 +8,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/$(<RELEASE)/bootstrap.sh | bash
+sam install syncloud-id
 
 SYNCLOUD_BOARD=$(syncloud-id name --text)
 PLATFORM=$(uname -i)
