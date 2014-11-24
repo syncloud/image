@@ -168,6 +168,14 @@ pwd
 mkdir $IMAGE_FOLDER
 
 #mount $LOOP_DEVICE $IMAGE_FOLDER
+
+ls -la /usr/bin/guest*
+
+hash -r
+
+echo "kvm"
+sudo chmod 0666 /dev/kvm
+
 echo "fixing kernel rights"
 chmod +r /boot/vmlinuz*
 
