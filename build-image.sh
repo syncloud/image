@@ -7,7 +7,12 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+ls -la /usr/local/bin/pip*
+
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/$(<RELEASE)/bootstrap.sh | bash
+
+ls -la /usr/local/bin/pip*
+
 sam install syncloud-id
 
 SYNCLOUD_BOARD=$(syncloud-id name --text)
