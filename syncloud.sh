@@ -7,11 +7,15 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd ${DIR}
+
 set -x
 #export SHELLOPTS
 
 if [ ! -f RELEASE ]; then
-    echo "Relase file: ${RELEASE_FILE} is missing" 1>&2
+    ls -la
+    echo "Relase file: RELEASE is missing" 1>&2
     exit 1
 fi
 
