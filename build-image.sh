@@ -168,6 +168,8 @@ pwd
 mkdir $IMAGE_FOLDER
 
 #mount $LOOP_DEVICE $IMAGE_FOLDER
+echo "fixing kernel rights"
+chmod +r /boot/vmlinuz*
 
 guestfish --ro -a $SYNCLOUD_IMAGE -m /dev/sda2 <<EOF
 copy-out / ./$IMAGE_FOLDER
