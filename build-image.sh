@@ -11,7 +11,7 @@ echo "existing path: $PATH"
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/$(<RELEASE)/bootstrap.sh | bash
-sam install syncloud-id
+sam install image-tools
 
 SYNCLOUD_BOARD=$(syncloud-id name --text)
 PLATFORM=$(uname -i)
