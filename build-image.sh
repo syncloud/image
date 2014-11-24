@@ -7,12 +7,10 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-ls -la /usr/local/bin/pip*
+echo "existing path: $PATH"
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/$(<RELEASE)/bootstrap.sh | bash
-
-ls -la /usr/local/bin/pip*
-
 sam install syncloud-id
 
 SYNCLOUD_BOARD=$(syncloud-id name --text)
@@ -102,9 +100,6 @@ elif [[ ${PLATFORM} == "x86_64" ]]; then
   INIT_RANDOM=false
 fi
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
-
-echo "existing path: $PATH"
-export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 apt-get update
 apt-get install -y wget parted xz-utils lsof
