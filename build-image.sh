@@ -100,7 +100,7 @@ elif [[ ${PLATFORM} == "x86_64" ]]; then
   INIT_RANDOM=false
 
   #Get real kernel for guestfish on Travis VM
-  apt-get cache search linux-image
+  apt-cache search linux-image
   apt-get install -y linux-image-3.13.0-39-generic
 
 fi
@@ -184,6 +184,7 @@ sudo chmod 0666 /dev/kvm
 echo "fixing kernel rights"
 chmod +r /boot/vmlinuz*
 
+update-guestfs-appliance
 guestfish --ro -a $SYNCLOUD_IMAGE -m /dev/sda2 <<EOF
 copy-out / ./$IMAGE_FOLDER
 EOF
