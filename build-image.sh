@@ -19,7 +19,7 @@ PLATFORM=$(uname -i)
 CI_TEMP=/data/syncloud/ci/temp
 
 echo "Building board: ${SYNCLOUD_BOARD}"
-
+apt-get update
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   PARTITION=2
   USER=pi
@@ -98,10 +98,14 @@ elif [[ ${PLATFORM} == "x86_64" ]]; then
   RESIZE=
   KILL_SERVICES=false
   INIT_RANDOM=false
+
+  #Get real kernel for guestfish on Travis VM
+  apt-get install -y linux-image-$(uname -r)
+
 fi
+
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 
-apt-get update
 apt-get install -y wget parted xz-utils lsof libguestfs-tools guestfish guestmount
 
 if [[ -z "$1" ]]; then
