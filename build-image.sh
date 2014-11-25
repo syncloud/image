@@ -102,7 +102,7 @@ fi
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 
 apt-get update
-apt-get install -y wget parted xz-utils lsof libguestfs-tools
+apt-get install -y wget parted xz-utils lsof libguestfs-tools guestfish guestmount
 
 if [[ -z "$1" ]]; then
   BUILD_ID=$(date +%F-%H-%M-%S)
