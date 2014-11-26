@@ -101,7 +101,6 @@ elif [[ ${PLATFORM} == "x86_64" ]]; then
 
   #Get real kernel for guestfish on Travis VM
   apt-get install -y linux-image-3.13.0-39-generic
-  update-guestfs-appliance
 
 fi
 
@@ -184,6 +183,7 @@ sudo chmod 0666 /dev/kvm
 echo "fixing kernel rights"
 chmod +r /boot/vmlinuz*
 
+update-guestfs-appliance
 guestfish --ro -a $SYNCLOUD_IMAGE -m /dev/sda${PARTITION} <<EOF
 copy-out / ./$IMAGE_FOLDER
 EOF
