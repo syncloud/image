@@ -177,13 +177,15 @@ ls -la /usr/bin/guest*
 
 hash -r
 
+update-guestfs-appliance
+
 echo "kvm"
 sudo chmod 0666 /dev/kvm
 
 echo "fixing kernel rights"
 chmod +r /boot/vmlinuz*
 
-update-guestfs-appliance
+export LIBGUESTFS_DEBUG=1
 guestfish --ro -a $SYNCLOUD_IMAGE -m /dev/sda${PARTITION} <<EOF
 copy-out / ./$IMAGE_FOLDER
 EOF
