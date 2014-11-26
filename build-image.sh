@@ -100,6 +100,7 @@ elif [[ ${PLATFORM} == "x86_64" ]]; then
   INIT_RANDOM=false
 
   #Get real kernel for guestfish on Travis VM
+  apt-get install -y linux-image-3.13.0-39-generic
   update-guestfs-appliance
 
 fi
