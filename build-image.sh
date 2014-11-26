@@ -265,7 +265,7 @@ fi
 #echo "removing loop device"
 #losetup -d $LOOP_DEVICE
 
-guestfish --rw -a $SYNCLOUD_IMAGE -m /dev/sda${PARTITION} <<EOF
+guestfish --rw -a $SYNCLOUD_IMAGE -m /dev/vda <<EOF
 copy-in ./$IMAGE_FOLDER /
 EOF
 
