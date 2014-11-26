@@ -188,7 +188,7 @@ chmod +r /boot/vmlinuz*
 ls -la $IMAGE_FOLDER
 
 export LIBGUESTFS_DEBUG=1
-guestfish --ro -a $SYNCLOUD_IMAGE -m /dev/sda${PARTITION} <<EOF
+guestfish --ro -a $SYNCLOUD_IMAGE -m /dev/vda <<EOF
 copy-out / ./$IMAGE_FOLDER
 EOF
 
