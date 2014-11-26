@@ -185,10 +185,14 @@ sudo chmod 0666 /dev/kvm
 echo "fixing kernel rights"
 chmod +r /boot/vmlinuz*
 
+ls -la $IMAGE_FOLDER
+
 export LIBGUESTFS_DEBUG=1
 guestfish --ro -a $SYNCLOUD_IMAGE -m /dev/sda${PARTITION} <<EOF
 copy-out / ./$IMAGE_FOLDER
 EOF
+
+ls -la $IMAGE_FOLDER
 
 if [ -n "$RESOLVCONF_FROM" ]; then
   RESOLV_DIR=$IMAGE_FOLDER/$(dirname $RESOLVCONF_TO)
