@@ -21,11 +21,11 @@ fi
 
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/$(<RELEASE)/bootstrap.sh | bash
 
-sam install image-base
-sam install image-boot
-sam install image-tools
-sam install insider
-sam install owncloud
-sam install owncloud-ctl
-sam install discovery
-sam install remote-access
+sam install syncloud-image-base
+sam install syncloud-image-boot
+sam install syncloud-image-tools
+sam install syncloud-insider
+sam install syncloud-owncloud
+sam install syncloud-owncloud-ctl
+sam install syncloud-discovery
+sam install syncloud-remote-access
