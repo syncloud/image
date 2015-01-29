@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-syncloud-apache activate localhost
-owncloud-ctl finish test test http
+syncloud-apache --debug activate localhost
+owncloud-ctl --debug finish test test http
 ls -la /data
-owncloud-ctl verify
+owncloud-ctl --debug verify
