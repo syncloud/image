@@ -5,4 +5,4 @@ before_script:
 
 script:
   - sudo ./syncloud.sh
-  - sudo ./syncloud-verify.sh
+  - sudo ./syncloud-verify.py
