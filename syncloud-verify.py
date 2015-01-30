@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 import logging
-from insider.facade import get_insider
-from owncloud import facade
 from syncloud.apache.facade import ApacheFacade
 from syncloud.app import logger
+from syncloud.insider.facade import get_insider
+from syncloud.owncloud import facade
 
 logger.init(logging.DEBUG, True)
 
