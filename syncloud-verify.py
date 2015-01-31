@@ -1,12 +1,13 @@
 #!/usr/bin/env python
+import os
 from syncloud.app import logger
 from syncloud.insider.facade import get_insider
 from syncloud.owncloud import facade
 from syncloud.server.serverfacade import get_server
 import logging
 
-# @responses.activate
-def test_install():
+
+def test_install(email, password):
 
     logger.init(logging.DEBUG, True)
     logging.basicConfig(level=logging.DEBUG)
@@ -30,7 +31,7 @@ def test_install():
 
     server = get_server(insider=insider)
     release = open('RELEASE', 'r').read().strip()
-    server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', 'build@syncloud.it', 'travispassword123', 'travis')
+    server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', email, password, 'travis')
 
     owncloud = facade.get_control(insider)
     owncloud.finish('test', 'test', 'localhost', 'http')

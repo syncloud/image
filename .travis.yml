@@ -4,4 +4,4 @@ before_script:
 script:
 - sudo ./syncloud.sh
 - sudo pip install -r dev_requirements.txt
-- sudo py.test syncloud-verify.py
+- sudo py.test syncloud-verify.py --email=build@syncloud.it --password=travispassword123
