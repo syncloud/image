@@ -10,7 +10,7 @@ import logging
 def test_install(email, password):
 
     logger.init(logging.DEBUG, True)
-    logging.basicConfig(level=logging.DEBUG)
+    # logging.basicConfig(level=logging.DEBUG)
 
     # redirect_email = os.environ['REDIRECT_EMAIL']
     # redirect_password = os.environ['REDIRECT_PASSWORD']
