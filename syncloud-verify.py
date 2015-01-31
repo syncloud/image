@@ -8,7 +8,7 @@ import sys
 
 logger.init(logging.DEBUG, True)
 
-redirect_email = sys.argv[6]
+redirect_email = sys.argv[0]
 redirect_password = sys.argv[1]
 
 server = get_server()
