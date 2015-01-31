@@ -26,11 +26,12 @@ def test_install():
 
     # get_insider().acquire_domain('build@syncloud.it', 'travispassword123', 'travis')
 
-    server = get_server()
+    insider = get_insider(use_upnpc_mock=True)
+
+    server = get_server(insider=insider)
     release = open('RELEASE', 'r').read().strip()
     server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', 'build@syncloud.it', 'travispassword123', 'travis')
 
-    insider = get_insider(use_upnpc_mock=True)
     owncloud = facade.get_control(insider)
     owncloud.finish('test', 'test', 'localhost', 'http')
     owncloud.verify('localhost')
