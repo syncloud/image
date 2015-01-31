@@ -1,10 +1,9 @@
 language: c
 env:
   global:
-    secure: LNbBWFV6IR1ipCfEjdY0j1EiFJdHSPbcB4OQhU2rXHT6flJW4+F+LQ7QBBZ9Zx9N38keL6LgtwKr2zF2cM0NpoPDB+A5MBvLe5DlHjtLD6z5TpwjBnX1QhB24v3ekEF93lq27AT5j+sN5SXbSy7+dC+6sGKXZVaphqG+AHsPi4U=
+  - secure: "LNbBWFV6IR1ipCfEjdY0j1EiFJdHSPbcB4OQhU2rXHT6flJW4+F+LQ7QBBZ9Zx9N38keL6LgtwKr2zF2cM0NpoPDB+A5MBvLe5DlHjtLD6z5TpwjBnX1QhB24v3ekEF93lq27AT5j+sN5SXbSy7+dC+6sGKXZVaphqG+AHsPi4U="
 before_script:
-- echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH
-  PRIVILEGES;\n" | mysql -u root
+- echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
 script:
 - sudo ./syncloud.sh
 - sudo ./syncloud-verify.py ${REDIRECT_EMAIL} ${REDIRECT_PASSWORD}
