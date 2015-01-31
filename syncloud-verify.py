@@ -6,18 +6,20 @@ from syncloud.owncloud import facade
 from syncloud.server.serverfacade import get_server
 import sys
 
-logger.init(logging.DEBUG, True)
+if __name__ == '__main__':
 
-redirect_email = sys.argv[1]
-redirect_password = sys.argv[2]
+    logger.init(logging.DEBUG, True)
 
-print("login: ".format(redirect_email[:3]))
-print("password: ".format(redirect_password[:3]))
+    redirect_email = sys.argv[1]
+    redirect_password = sys.argv[2]
 
-server = get_server()
-release = open('RELEASE', 'r').read().strip()
-server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', redirect_email, redirect_password, 'travis')
+    print("login: ".format(redirect_email[:3]))
+    print("password: ".format(redirect_password[:3]))
 
-owncloud = facade.get_control(get_insider())
-owncloud.finish('test', 'test', 'localhost', 'http')
-owncloud.verify('localhost')
+    server = get_server()
+    release = open('RELEASE', 'r').read().strip()
+    server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', redirect_email, redirect_password, 'travis')
+
+    owncloud = facade.get_control(get_insider())
+    owncloud.finish('test', 'test', 'localhost', 'http')
+    owncloud.verify('localhost')
