@@ -1,10 +1,8 @@
 #!/usr/bin/env python
-import logging
 from syncloud.app import logger
 from syncloud.insider.facade import get_insider
 from syncloud.owncloud import facade
 from syncloud.server.serverfacade import get_server
-import responses
 import logging
 
 # @responses.activate
