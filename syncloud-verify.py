@@ -31,7 +31,8 @@ def test_install(auth):
 
     server = get_server(insider=insider)
     release = open('RELEASE', 'r').read().strip()
-    server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', auth.email, auth.password, 'travis')
+    email, password = auth
+    server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', email, password, 'travis')
 
     owncloud = facade.get_control(insider)
     owncloud.finish('test', 'test', 'localhost', 'http')
