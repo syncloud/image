@@ -1,7 +1,7 @@
 language: c
 env:
   global:
-    secure: P5FISAm469vl6wGS8Obp7Ce86/KxkIHgYwpx9po94dkrBsx6KBdn/vNwmU7LVPV+SNp3WjuIES0xALlIfE52DGn9ZcqMgW2ykmIiB+M1TNXINziRBAeMdjCdRs1f1As0Cg8ABfaFNAz+cDPlECMZKh+LRvsR2g1UcGrk8oWXgGs=
+    secure: "P5FISAm469vl6wGS8Obp7Ce86/KxkIHgYwpx9po94dkrBsx6KBdn/vNwmU7LVPV+SNp3WjuIES0xALlIfE52DGn9ZcqMgW2ykmIiB+M1TNXINziRBAeMdjCdRs1f1As0Cg8ABfaFNAz+cDPlECMZKh+LRvsR2g1UcGrk8oWXgGs="
 before_script:
 - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
 script:
