@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import logging
+import os
 from syncloud.app import logger
 from syncloud.insider.facade import get_insider
 from syncloud.owncloud import facade
@@ -10,8 +11,8 @@ if __name__ == '__main__':
 
     logger.init(logging.DEBUG, True)
 
-    redirect_email = sys.argv[1]
-    redirect_password = sys.argv[2]
+    redirect_email = os.environ['REDIRECT_EMAIL']
+    redirect_password = os.environ['REDIRECT_PASSWORD']
 
     print("login: ".format(redirect_email[:3]))
     print("password: ".format(redirect_password[:3]))
