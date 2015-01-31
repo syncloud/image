@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     server = get_server()
     release = open('RELEASE', 'r').read().strip()
-    server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', 'uild@syncloud.it', 'travispassword123', 'travis')
+    server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', 'build@syncloud.it', 'travispassword123', 'travis')
 
     owncloud = facade.get_control(get_insider())
     owncloud.finish('test', 'test', 'localhost', 'http')
