@@ -11,6 +11,9 @@ logger.init(logging.DEBUG, True)
 redirect_email = sys.argv[1]
 redirect_password = sys.argv[2]
 
+print("login: ".format(redirect_email[:3]))
+print("password: ".format(redirect_password[:3]))
+
 server = get_server()
 release = open('RELEASE', 'r').read().strip()
 server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', redirect_email, redirect_password, 'travis')
