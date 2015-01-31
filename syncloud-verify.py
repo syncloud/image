@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 import logging
-import os
 from syncloud.app import logger
 from syncloud.insider.facade import get_insider
 from syncloud.owncloud import facade
 from syncloud.server.serverfacade import get_server
-import sys
+import responses
 
-if __name__ == '__main__':
+
+@responses.activate
+def test_install():
 
     logger.init(logging.DEBUG, True)
 
@@ -17,9 +18,18 @@ if __name__ == '__main__':
     # print("login: ".format(redirect_email[:3]))
     # print("password: ".format(redirect_password[:3]))
 
+    #test
+    responses.add(responses.POST,
+                      "http://example.com",
+                      status=200,
+                      body='{"user_domain": "travis", "update_token": "some_update_token"}',
+                      content_type="application/json")
+
+    # get_insider().acquire_domain('build@syncloud.it', 'travispassword123', 'travis')
+
     server = get_server()
     release = open('RELEASE', 'r').read().strip()
-    server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', 'build@syncloud.it', 'travispassword123', 'travis')
+    server.activate(release, 'example.com', 'http://example.com', 'build@example.com', 'pass', 'travis')
 
     owncloud = facade.get_control(get_insider())
     owncloud.finish('test', 'test', 'localhost', 'http')
