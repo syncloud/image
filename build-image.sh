@@ -205,6 +205,8 @@ chroot $IMAGE_FOLDER /tmp/syncloud.sh
 cp enable-service-restart.sh $IMAGE_FOLDER/tmp
 chroot $IMAGE_FOLDER /tmp/enable-service-restart.sh
 
+umount $IMAGE_FOLDER/proc
+
 if [ -f $IMAGE_FOLDER/usr/sbin/minissdpd ]; then
   echo "stopping minissdpd holding the $IMAGE_FOLDER ..."
   chroot $IMAGE_FOLDER /etc/init.d/minissdpd stop
