@@ -169,6 +169,8 @@ mkdir $IMAGE_FOLDER
 
 mount $LOOP_DEVICE $IMAGE_FOLDER
 
+mount -t proc proc $IMAGE_FOLDER/proc
+
 if [ -n "$RESOLVCONF_FROM" ]; then
   RESOLV_DIR=$IMAGE_FOLDER/$(dirname $RESOLVCONF_TO)
   echo "creatig resolv conf dir: ${RESOLV_DIR}"
