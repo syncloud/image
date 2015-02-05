@@ -89,7 +89,7 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
   PARTITION=2
   USER=root
   IMAGE_FILE=ubuntu-14.04.1lts-lubuntu-odroid-xu3-20141105.img
-  IMAGE_FILE_ZIP=$IMAGE_FILE.7z
+  IMAGE_FILE_ZIP=$IMAGE_FILE.xz
   DOWNLOAD_IMAGE="wget --progress=dot:mega http://odroid.in/ubuntu_14.04lts/ubuntu-14.04.1lts-lubuntu-odroid-xu3-20141105.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=odroid-xu3
