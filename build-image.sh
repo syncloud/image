@@ -85,6 +85,20 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   RESIZE=
   KILL_SERVICES=true
   INIT_RANDOM=true
+elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
+  PARTITION=2
+  USER=root
+  IMAGE_FILE=ubuntu-14.04.1lts-lubuntu-odroid-xu3-20141105.img
+  IMAGE_FILE_ZIP=$IMAGE_FILE.7z
+  DOWNLOAD_IMAGE="wget --progress=dot:mega http://odroid.in/ubuntu_14.04lts/ubuntu-14.04.1lts-lubuntu-odroid-xu3-20141105.img.xz -O $IMAGE_FILE_ZIP"
+  UNZIP=unxz
+  BOARD=odroid-xu3
+  RESOLVCONF_FROM=/run/resolvconf/resolv.conf
+  RESOLVCONF_TO=/run/resolvconf/resolv.conf
+  RESIZE=
+  KILL_SERVICES=false
+  INIT_RANDOM=false
+
 elif [[ ${PLATFORM} == "x86_64" ]]; then
   STARTSECTOR=0
   USER=syncloud
