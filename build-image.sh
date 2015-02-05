@@ -96,7 +96,7 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
   RESOLVCONF_FROM=/run/resolvconf/resolv.conf
   RESOLVCONF_TO=/run/resolvconf/resolv.conf
   RESIZE=
-  KILL_SERVICES=false
+  KILL_SERVICES=true
   INIT_RANDOM=false
 
 elif [[ ${PLATFORM} == "x86_64" ]]; then
