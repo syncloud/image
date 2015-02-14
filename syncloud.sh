@@ -24,4 +24,4 @@ fi
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/$(<RELEASE)/bootstrap.sh | bash
 
 sam --debug upgrade_all
-sam install syncloud-owncloud
+sam --debug install syncloud-owncloud
