@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import logging
 
-from syncloud import ci
+from syncloud.ci import setup
 from syncloud.app import logger
 from syncloud.insider.facade import get_insider
 from syncloud.owncloud import facade
@@ -25,4 +25,4 @@ def test_install(auth):
     owncloud.finish('test', 'test', 'localhost', 'http')
     owncloud.verify('localhost')
 
-    assert ci.setup.verify()
+    assert setup.verify()
