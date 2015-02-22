@@ -7,6 +7,10 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+#Fix debconf frontend warnings
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export DEBCONF_FRONTEND=noninteractive
+export DEBIAN_FRONTEND=noninteractive
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
