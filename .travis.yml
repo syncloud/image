@@ -7,4 +7,5 @@ before_script:
 script:
 - sudo ./syncloud.sh
 - sudo pip install -r dev_requirements.txt
+- sudo sam install syncloud-image-ci
 - sudo py.test -s syncloud-verify.py --email=$REDIRECT_EMAIL --password=$REDIRECT_PASSWORD
