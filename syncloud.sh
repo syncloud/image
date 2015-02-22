@@ -7,7 +7,6 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-lsb_release -a
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
