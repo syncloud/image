@@ -36,9 +36,9 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   PARTITION=2
   USER=debian
-  IMAGE_FILE=bone-debian-7.7-console-armhf-2014-10-29-2gb.img
+  IMAGE_FILE=bone-debian-7.8-console-armhf-2015-02-19-2gb.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/deb/microsd/wheezy/$IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/rootfs/2015-02-19/microsd/$IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=beagleboneblack
   RESOLVCONF_FROM=/etc/resolv.conf
