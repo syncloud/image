@@ -34,7 +34,7 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   KILL_SERVICES=false
   INIT_RANDOM=false
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
-  PARTITION=2
+  PARTITION=1
   USER=debian
   IMAGE_FILE=bone-debian-7.8-console-armhf-2015-02-19-2gb.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
