@@ -77,7 +77,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   USER=cubie
   IMAGE_FILE=Cubian-base-r5-a20-ct-large.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://www.dropbox.com/s/m5hfp7escijllaj/Cubian-base-r5-a20-ct-large.img.7z -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20-cubietruck-large.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   BOARD=cubietruck
   RESOLVCONF_FROM=/etc/resolv.conf
