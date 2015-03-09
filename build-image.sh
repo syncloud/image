@@ -73,7 +73,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   KILL_SERVICES=true
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
-  PARTITION=1
+  PARTITION=2
   USER=cubie
   IMAGE_FILE="Cubian-nano+headless-x1-a20-cubietruck-large.img"
   IMAGE_FILE_ZIP=$IMAGE_FILE.7z
