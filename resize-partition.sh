@@ -27,7 +27,7 @@ function resize_partition {
   losetup /dev/loop0 $IMAGE_FILE
 
   # print partitions - current state
-  parted -s /dev/loop1 print
+  parted -s /dev/loop0 print
 
   # copy original image to a new bigger file
   losetup /dev/loop1 $IMAGE_FILE-new
