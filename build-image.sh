@@ -21,7 +21,6 @@ CI_TEMP=/data/syncloud/ci/temp
 echo "Building board: ${SYNCLOUD_BOARD}"
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
-  PARTITION=2
   USER=pi
   IMAGE_FILE=2014-12-24-wheezy-raspbian.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.zip
@@ -30,11 +29,10 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   BOARD=raspberrypi
   RESOLVCONF_FROM=
   RESOLVCONF_TO=
-  RESIZE=
+  NEW_SIZE_MB=
   KILL_SERVICES=false
   INIT_RANDOM=false
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
-  PARTITION=1
   USER=debian
   IMAGE_FILE=bone-debian-7.8-console-armhf-2015-02-19-2gb.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
@@ -43,11 +41,10 @@ elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   BOARD=beagleboneblack
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
-  RESIZE=
+  NEW_SIZE_MB=
   KILL_SERVICES=false
   INIT_RANDOM=false
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
-  PARTITION=1
   USER=cubie
   IMAGE_FILE=Cubian-base-r8-a10-large.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.7z
@@ -56,11 +53,10 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   BOARD=cubieboard
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
-  RESIZE=
+  NEW_SIZE_MB=
   KILL_SERVICES=true
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
-  PARTITION=1
   USER=cubie
   IMAGE_FILE=Cubian-base-r5-a20-large.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.7z
@@ -69,24 +65,22 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   BOARD=cubieboard2
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
-  RESIZE=
+  NEW_SIZE_MB=
   KILL_SERVICES=true
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
-  PARTITION=2
   USER=cubie
-  IMAGE_FILE="Cubian-nano+headless-x1-a20-cubietruck-large.img"
+  IMAGE_FILE="Cubian-nano+headless-x1-a20-cubietruck.img"
   IMAGE_FILE_ZIP=$IMAGE_FILE.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20-cubietruck-large.img.7z -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20-cubietruck.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   BOARD=cubietruck
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
-  RESIZE=
+  NEW_SIZE_MB=1600
   KILL_SERVICES=true
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
-  PARTITION=2
   USER=root
   IMAGE_FILE=ubuntu-14.04.1lts-lubuntu-odroid-xu3-20141105.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
@@ -95,12 +89,11 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
   BOARD=odroid-xu3
   RESOLVCONF_FROM=/run/resolvconf/resolv.conf
   RESOLVCONF_TO=/run/resolvconf/resolv.conf
-  RESIZE=
+  NEW_SIZE_MB=
   KILL_SERVICES=true
   INIT_RANDOM=false
 
 elif [[ ${PLATFORM} == "x86_64" ]]; then
-  STARTSECTOR=0
   USER=syncloud
   IMAGE_FILE=syncloud-x86-v0.2.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
@@ -109,7 +102,7 @@ elif [[ ${PLATFORM} == "x86_64" ]]; then
   BOARD=x86
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
-  RESIZE=
+  NEW_SIZE_MB=
   KILL_SERVICES=false
   INIT_RANDOM=false
 fi
@@ -134,9 +127,9 @@ if [ ! -f $IMAGE_FILE_TEMP ]; then
   ls -la
   $UNZIP $IMAGE_FILE_ZIP
 
-  if [ -n "$RESIZE" ]; then
+  if [ -n "$NEW_SIZE_MB" ]; then
     echo "Need to resize base image, resizing ..."
-    ./resize-partition.sh $IMAGE_FILE $PARTITION $RESIZE
+    ./resize-partition.sh $IMAGE_FILE $NEW_SIZE_MB
   fi
 
   mv $IMAGE_FILE $IMAGE_FILE_TEMP
@@ -144,11 +137,6 @@ fi
 
 # copy image file we are going to modify
 cp $IMAGE_FILE_TEMP $SYNCLOUD_IMAGE
-
-if [ -z "$STARTSECTOR" ]; then
-    # retrieving partition start sector
-    STARTSECTOR=$(parted -sm $SYNCLOUD_IMAGE unit B print | grep -oP "^${PARTITION}:\K[0-9]*(?=B)")
-fi
 
 # folder for mounting image file
 IMAGE_FOLDER=imgmnt
@@ -169,8 +157,17 @@ if losetup -a | grep $LOOP_DEVICE; then
   losetup -d $LOOP_DEVICE
 fi
 
+# number of lines in parted print
+PARTED_LINES=$(parted -sm $SYNCLOUD_IMAGE unit B print | wc -l)
+
+# first two lines in parted print are not about partitions
+PARTITION=$(expr $PARTED_LINES - 2)
+
+# get partition start in bytes
+PART_START_BYTES=$(parted -sm $SYNCLOUD_IMAGE unit B print | grep -oP "^${PARTITION}:\K[0-9]*(?=B)")
+
 # map /dev/loop0 to image file
-losetup -o $STARTSECTOR $LOOP_DEVICE $SYNCLOUD_IMAGE
+losetup -o $PART_START_BYTES $LOOP_DEVICE $SYNCLOUD_IMAGE
 
 if [ -d $IMAGE_FOLDER ]; then 
   echo "$IMAGE_FOLDER dir exists, deleting ..."
