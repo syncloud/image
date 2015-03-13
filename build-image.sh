@@ -46,26 +46,26 @@ elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   INIT_RANDOM=false
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   USER=cubie
-  IMAGE_FILE=Cubian-base-r8-a10-large.img
+  IMAGE_FILE="Cubian-nano+headless-x1-a10.img"
   IMAGE_FILE_ZIP=$IMAGE_FILE.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://www.dropbox.com/s/spnhzwhsit9ggz6/Cubian-base-r8-a10-large.img.7z -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a10.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   BOARD=cubieboard
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
-  NEW_SIZE_MB=
+  NEW_SIZE_MB=1600
   KILL_SERVICES=true
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   USER=cubie
-  IMAGE_FILE=Cubian-base-r5-a20-large.img
+  IMAGE_FILE="Cubian-nano+headless-x1-a20.img"
   IMAGE_FILE_ZIP=$IMAGE_FILE.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://www.dropbox.com/s/vh8nsrsloplwji0/Cubian-base-r5-a20-large.img.7z -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   BOARD=cubieboard2
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
-  NEW_SIZE_MB=
+  NEW_SIZE_MB=1600
   KILL_SERVICES=true
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
