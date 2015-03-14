@@ -81,14 +81,14 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   KILL_SERVICES=true
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
-  USER=root
-  IMAGE_FILE=ubuntu-14.04.1lts-lubuntu-odroid-xu3-20141105.img
+  USER=debian
+  IMAGE_FILE=odroid-debian-wheezy-7.5-armhf-20150314.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:mega http://odroid.in/ubuntu_14.04lts/ubuntu-14.04.1lts-lubuntu-odroid-xu3-20141105.img.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud/odroid-debian-wheezy-7.5-armhf-20150314.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=odroid-xu3
-  RESOLVCONF_FROM=/run/resolvconf/resolv.conf
-  RESOLVCONF_TO=/run/resolvconf/resolv.conf
+  RESOLVCONF_FROM=/etc/resolv.conf
+  RESOLVCONF_TO=/etc/resolv.conf
   NEW_SIZE_MB=
   KILL_SERVICES=true
   INIT_RANDOM=false
