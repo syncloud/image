@@ -82,9 +82,9 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
   USER=debian
-  IMAGE_FILE=odroid-debian-wheezy-7.5-armhf-20150314.img
+  IMAGE_FILE=odroid-xu3-debian-wheezy-7.5-armhf-init-20150314.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud/odroid-debian-wheezy-7.5-armhf-20150314.img.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud/odroid-xu3-debian-wheezy-7.5-armhf-init-20150314.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=odroid-xu3
   RESOLVCONF_FROM=/etc/resolv.conf
