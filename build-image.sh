@@ -109,7 +109,7 @@ fi
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 
 apt-get update
-apt-get install -y wget parted xz-utils lsof
+apt-get install -y wget parted xz-utils lsof libpcre3
 
 if [[ -z "$1" ]]; then
   BUILD_ID=$(date +%F-%H-%M-%S)
