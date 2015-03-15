@@ -90,7 +90,7 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
   NEW_SIZE_MB=
-  KILL_SERVICES=true
+  KILL_SERVICES=false
   INIT_RANDOM=false
 
 elif [[ ${PLATFORM} == "x86_64" ]]; then
