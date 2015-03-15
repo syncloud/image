@@ -100,7 +100,7 @@ elif [[ ${PLATFORM} == "x86_64" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:mega https://github.com/syncloud/image-x86/releases/download/v0.3/ubuntu-amd64-v0.3.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
   BOARD=x86
-  RESOLVCONF_FROM=/etc/resolv.conf
+  RESOLVCONF_FROM=/run/resolvconf/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
   NEW_SIZE_MB=
   KILL_SERVICES=false
@@ -186,6 +186,7 @@ if [ -n "$RESOLVCONF_FROM" ]; then
   RESOLV_DIR=$IMAGE_FOLDER/$(dirname $RESOLVCONF_TO)
   echo "creatig resolv conf dir: ${RESOLV_DIR}"
   mkdir -p $RESOLV_DIR
+  rm -rf $IMAGE_FOLDER$RESOLVCONF_TO
   echo "copying resolv conf from $RESOLVCONF_FROM to $IMAGE_FOLDER$RESOLVCONF_TO"
   cp $RESOLVCONF_FROM $IMAGE_FOLDER$RESOLVCONF_TO
 fi
