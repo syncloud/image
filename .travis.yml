@@ -7,6 +7,6 @@ before_script:
 script:
 - sudo ./syncloud.sh
 - sudo pip install -r dev_requirements.txt
-- sed -i 's#mock = .*#mock = true#g' /usr/local/insider/config/insider.cfg
+- sudo sed -i 's#mock = .*#mock = true#g' /usr/local/insider/config/insider.cfg
 - sudo sam --debug install syncloud-image-ci
 - sudo py.test -s syncloud-verify.py --email=$REDIRECT_EMAIL --password=$REDIRECT_PASSWORD
