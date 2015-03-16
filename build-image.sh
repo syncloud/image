@@ -22,7 +22,7 @@ echo "Building board: ${SYNCLOUD_BOARD}"
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   USER=pi
-  IMAGE_FILE=2014-12-24-wheezy-raspbian.img
+  IMAGE_FILE=2015-02-16-raspbian-wheezy.img
   IMAGE_FILE_ZIP=$IMAGE_FILE.zip
   DOWNLOAD_IMAGE="wget --progress=dot:mega http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
