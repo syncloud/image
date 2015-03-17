@@ -53,7 +53,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   BOARD=cubieboard
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
-  NEW_SIZE_MB=1600
+  NEW_SIZE_MB=2000
   KILL_SERVICES=true
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
@@ -65,7 +65,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   BOARD=cubieboard2
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
-  NEW_SIZE_MB=1600
+  NEW_SIZE_MB=2000
   KILL_SERVICES=true
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
@@ -77,7 +77,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   BOARD=cubietruck
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
-  NEW_SIZE_MB=1600
+  NEW_SIZE_MB=2000
   KILL_SERVICES=true
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
