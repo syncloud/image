@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import logging
 
-from syncloud.ci import setup
 from syncloud.app import logger
 from syncloud.insider.facade import get_insider
 from syncloud.owncloud import facade
@@ -28,4 +27,5 @@ def test_install(auth):
 
     # image-ci
     get_sam().install('syncloud-image-ci')
+    from syncloud.ci import setup
     assert setup.verify()
