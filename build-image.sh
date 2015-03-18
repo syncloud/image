@@ -78,7 +78,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
   NEW_SIZE_MB=2000
-  KILL_SERVICES=true
+  KILL_SERVICES=false
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
   USER=debian
