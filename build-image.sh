@@ -54,7 +54,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
   NEW_SIZE_MB=2000
-  KILL_SERVICES=true
+  KILL_SERVICES=false
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   USER=cubie
