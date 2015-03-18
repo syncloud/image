@@ -11,7 +11,7 @@ echo "existing path: $PATH"
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/$(<RELEASE)/bootstrap.sh | bash
-sam install syncloud-image-tools
+pip2 install syncloud-image-tools
 
 SYNCLOUD_BOARD=$(syncloud-id name --text)
 PLATFORM=$(uname -i)
@@ -66,7 +66,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   RESOLVCONF_FROM=/etc/resolv.conf
   RESOLVCONF_TO=/etc/resolv.conf
   NEW_SIZE_MB=2000
-  KILL_SERVICES=true
+  KILL_SERVICES=false
   INIT_RANDOM=true
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   USER=cubie
