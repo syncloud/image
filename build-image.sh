@@ -32,6 +32,7 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   NEW_SIZE_MB=
   KILL_SERVICES=false
   INIT_RANDOM=false
+  RESIZE_PARTITION_ON_FIRST_BOOT=false
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   USER=debian
   IMAGE_FILE=bone-debian-7.8-console-armhf-2015-02-19-2gb.img
@@ -44,6 +45,7 @@ elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   NEW_SIZE_MB=
   KILL_SERVICES=false
   INIT_RANDOM=false
+  RESIZE_PARTITION_ON_FIRST_BOOT=false
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   USER=cubie
   IMAGE_FILE="Cubian-nano+headless-x1-a10.img"
@@ -56,6 +58,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   NEW_SIZE_MB=2000
   KILL_SERVICES=false
   INIT_RANDOM=true
+  RESIZE_PARTITION_ON_FIRST_BOOT=true
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   USER=cubie
   IMAGE_FILE="Cubian-nano+headless-x1-a20.img"
@@ -68,6 +71,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   NEW_SIZE_MB=2000
   KILL_SERVICES=false
   INIT_RANDOM=true
+  RESIZE_PARTITION_ON_FIRST_BOOT=true
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   USER=cubie
   IMAGE_FILE="Cubian-nano+headless-x1-a20-cubietruck.img"
@@ -80,6 +84,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   NEW_SIZE_MB=2000
   KILL_SERVICES=false
   INIT_RANDOM=true
+  RESIZE_PARTITION_ON_FIRST_BOOT=true
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
   USER=debian
   IMAGE_FILE=odroid-xu3-debian-wheezy-7.5-armhf-init-20150314.img
@@ -92,6 +97,7 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
   NEW_SIZE_MB=
   KILL_SERVICES=false
   INIT_RANDOM=false
+  RESIZE_PARTITION_ON_FIRST_BOOT=false
 
 elif [[ ${PLATFORM} == "x86_64" ]]; then
   USER=syncloud
@@ -105,6 +111,7 @@ elif [[ ${PLATFORM} == "x86_64" ]]; then
   NEW_SIZE_MB=
   KILL_SERVICES=false
   INIT_RANDOM=false
+  RESIZE_PARTITION_ON_FIRST_BOOT=false
 fi
 IMAGE_FILE_TEMP=$CI_TEMP/$IMAGE_FILE
 
@@ -222,6 +229,10 @@ umount $IMAGE_FOLDER/proc
 if [ -f $IMAGE_FOLDER/usr/sbin/minissdpd ]; then
   echo "stopping minissdpd holding the $IMAGE_FOLDER ..."
   chroot $IMAGE_FOLDER /etc/init.d/minissdpd stop
+fi
+
+if [ "$RESIZE_PARTITION_ON_FIRST_BOOT" = true ] ; then
+    touch $CUBIAN_RESIZEFS_FLAG_FILE/var/lib/resize_partition_flag
 fi
 
 if [ "$KILL_SERVICES" = true ] ; then
