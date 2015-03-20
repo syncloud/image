@@ -232,7 +232,7 @@ if [ -f $IMAGE_FOLDER/usr/sbin/minissdpd ]; then
 fi
 
 if [ "$RESIZE_PARTITION_ON_FIRST_BOOT" = true ] ; then
-    touch $CUBIAN_RESIZEFS_FLAG_FILE/var/lib/resize_partition_flag
+    touch $IMAGE_FOLDER/var/lib/resize_partition_flag
 fi
 
 if [ "$KILL_SERVICES" = true ] ; then
