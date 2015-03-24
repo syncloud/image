@@ -27,5 +27,7 @@ def test_install(auth):
 
     # image-ci
     get_sam().install('syncloud-image-ci')
-    from syncloud.ci import setup
-    assert setup.verify()
+    from syncloud.ci.facade import ImageCI
+    image_ci = ImageCI()
+    image_ci.activate()
+    assert image_ci.verify()
