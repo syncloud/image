@@ -32,7 +32,7 @@ function resize_partition {
   # copy original image to a new bigger file
   losetup /dev/loop1 $IMAGE_FILE-new
   dd if=/dev/loop0 of=/dev/loop1
-
+  sync
   losetup -d /dev/loop0
 
   # remove partition
@@ -43,7 +43,7 @@ function resize_partition {
 
   # print partitions - after resizing
   parted -s /dev/loop1 print
-
+  sync
   losetup -d /dev/loop1
 
   # new partition size in 4K blocks
@@ -53,6 +53,7 @@ function resize_partition {
   losetup -o $PART_START_BYTES /dev/loop1 $IMAGE_FILE-new
   e2fsck -pf /dev/loop1
   resize2fs /dev/loop1 $SIZE_BLOCKS
+  sync
   losetup -d /dev/loop1
 
   # replace image file with new one
@@ -86,6 +87,7 @@ lsof | grep image
 
 if losetup -a | grep /dev/loop0; then
   echo "/dev/loop0 is already setup, deleting ..."
+  sync
   losetup -d /dev/loop0
 fi
 
