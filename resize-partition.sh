@@ -43,6 +43,8 @@ function resize_partition {
 
   # print partitions - after resizing
   parted -s /dev/loop1 print
+  mount
+  losetup -a
   sync
   losetup -d /dev/loop1
 
