@@ -25,9 +25,16 @@ def test_install(auth):
     owncloud.finish('test', 'test', 'localhost', 'http')
     owncloud.verify('localhost')
 
-    # image-ci
-    get_sam().install('syncloud-image-ci')
+    sam = get_sam()
+
+    sam.install('syncloud-image-ci')
     from syncloud.ci.facade import ImageCI
     image_ci = ImageCI()
     image_ci.activate()
     assert image_ci.verify()
+
+    sam.install('syncloud-gitbucket')
+    from syncloud.gitbucketctl.facade import GitBucketControl
+    gitbucket = GitBucketControl(insider)
+    gitbucket.enable('travis', 'password')
+    assert gitbucket.verify()
