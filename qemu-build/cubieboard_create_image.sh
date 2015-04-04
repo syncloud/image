@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 ADDRESS=$1
 PORT=$2

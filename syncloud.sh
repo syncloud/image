@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 echo "Running from: $PWD"
 
@@ -15,7 +15,7 @@ export DEBIAN_FRONTEND=noninteractive
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
 
-set -x
+#set -x
 #export SHELLOPTS
 
 if [ ! -f RELEASE ]; then

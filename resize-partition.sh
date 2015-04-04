@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 IMAGE_FILE=$1
 
