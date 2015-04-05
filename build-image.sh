@@ -120,7 +120,7 @@ fi
 
 SYNCLOUD_IMAGE=syncloud-${BOARD}-${BUILD_ID}.img
 
-# checking if base image file already present, download and resize if doesn't
+echo "checking if base image file already present, download and resize if doesn't"
 mkdir -p ${CI_TEMP}
 if [ ! -f ${IMAGE_FILE_TEMP} ]; then
   echo "Base image $IMAGE_FILE_TEMP is not found, getting new one ..."
@@ -136,10 +136,10 @@ if [ ! -f ${IMAGE_FILE_TEMP} ]; then
   mv ${IMAGE_FILE} ${IMAGE_FILE_TEMP}
 fi
 
-# copy image file we are going to modify
+echo "copy image file we are going to modify"
 cp ${IMAGE_FILE_TEMP} ${SYNCLOUD_IMAGE}
 
-# folder for mounting image file
+echo "folder for mounting image file"
 IMAGE_FOLDER=imgmnt
 
 if mount | grep ${IMAGE_FOLDER}; then
@@ -147,27 +147,27 @@ if mount | grep ${IMAGE_FOLDER}; then
   umount ${IMAGE_FOLDER}
 fi
 
-# checking who is using image folder
+echo "checking who is using image folder"
 lsof | grep ${IMAGE_FOLDER}
 
 LOOP_DEVICE=/dev/loop0;
 
-# if /dev/loop0 is mapped then unmap it
+echo "if /dev/loop0 is mapped then unmap it"
 if losetup -a | grep ${LOOP_DEVICE}; then
   echo "/dev/loop0 is already setup, deleting ..."
   losetup -d ${LOOP_DEVICE}
 fi
 
-# number of lines in parted print
+echo "number of lines in parted print"
 PARTED_LINES=$(parted -sm ${SYNCLOUD_IMAGE} unit B print | wc -l)
 
-# first two lines in parted print are not about partitions
+echo "first two lines in parted print are not about partitions"
 PARTITION=$(expr ${PARTED_LINES} - 2)
 
-# get partition start in bytes
+echo "get partition start in bytes"
 PART_START_BYTES=$(parted -sm ${SYNCLOUD_IMAGE} unit B print | grep -oP "^${PARTITION}:\K[0-9]*(?=B)")
 
-# map /dev/loop0 to image file
+echo "map ${LOOP_DEVICE} to image file"
 losetup -o ${PART_START_BYTES} ${LOOP_DEVICE} ${SYNCLOUD_IMAGE}
 
 if [ -d ${IMAGE_FOLDER} ]; then
@@ -175,7 +175,7 @@ if [ -d ${IMAGE_FOLDER} ]; then
   rm -rf ${IMAGE_FOLDER}
 fi
 
-# mount /dev/loop0 to IMAGE_FOLDER folder
+echo "mount ${LOOP_DEVICE} to ${IMAGE_FOLDER}"
 pwd
 mkdir ${IMAGE_FOLDER}
 
@@ -197,7 +197,7 @@ if [ "$INIT_RANDOM" = true ] ; then
   chroot ${IMAGE_FOLDER} mknod /dev/urandom c 1 9
 fi
 
-#Image build version
+echo "Image build version"
 mkdir -p ${IMAGE_FOLDER}/etc/syncloud
 git rev-parse --short HEAD > ${IMAGE_FOLDER}/etc/syncloud/version
 
@@ -207,7 +207,7 @@ else
   echo "Non syncloud image (probably base image)" > ${IMAGE_FOLDER}/etc/syncloud/builder
 fi
 
-# copy syncloud setup script to IMAGE_FOLDER
+echo "copy syncloud setup script to ${IMAGE_FOLDER}"
 cp disable-service-restart.sh ${IMAGE_FOLDER}/tmp
 chroot ${IMAGE_FOLDER} /tmp/disable-service-restart.sh
 
