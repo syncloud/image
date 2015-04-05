@@ -26,10 +26,5 @@ fi
 
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/$(<RELEASE)/bootstrap.sh | bash
 
-echo "=== update apt packages ==="
-apt-get -y update
-echo "=== install syncloud dependencies ==="
-apt-get -y install python-dev wget
-
 sam --debug upgrade_all
 sam --debug install syncloud-owncloud
