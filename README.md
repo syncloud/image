@@ -2,8 +2,8 @@
 
 ####Supported devices
 - BeagleBone Black
-- cubieboard A10
-- cubieboard A20
+- cubieboard
+- cubieboard2
 - cubietruck
 - Raspberry Pi Model B/B+
 
