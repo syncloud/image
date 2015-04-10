@@ -17,7 +17,7 @@ CI_TEMP=/data/syncloud/ci/temp
 
 echo "Building board: ${SYNCLOUD_BOARD}"
 
-if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
+if [[ ${SYNCLOUD_BOARD} == "raspberrypi" || ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
   USER=pi
   IMAGE_FILE=2015-02-16-raspbian-wheezy.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
