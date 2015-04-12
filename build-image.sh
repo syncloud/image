@@ -29,7 +29,7 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" || ${SYNCLOUD_BOARD} == "raspberrypi2" 
   NEW_SIZE_MB=
   KILL_SERVICES=false
   INIT_RANDOM=false
-  RESIZE_PARTITION_ON_FIRST_BOOT=false
+  RESIZE_PARTITION_ON_FIRST_BOOT=true
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   USER=debian
   IMAGE_FILE=bone-debian-7.8-console-armhf-2015-02-19-2gb.img
@@ -42,7 +42,7 @@ elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   NEW_SIZE_MB=
   KILL_SERVICES=false
   INIT_RANDOM=false
-  RESIZE_PARTITION_ON_FIRST_BOOT=false
+  RESIZE_PARTITION_ON_FIRST_BOOT=true
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   USER=cubie
   IMAGE_FILE="Cubian-nano+headless-x1-a10.img"
