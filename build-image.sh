@@ -30,6 +30,10 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" || ${SYNCLOUD_BOARD} == "raspberrypi2" 
   KILL_SERVICES=false
   INIT_RANDOM=false
   RESIZE_PARTITION_ON_FIRST_BOOT=true
+  CPU_FREQUENCY_CONTROL=false
+  CPU_FREQUENCY_GOVERNOR=
+  CPU_FREQUENCY_MAX=
+  CPU_FREQUENCY_MIN=
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   USER=debian
   IMAGE_FILE=bone-debian-7.8-console-armhf-2015-02-19-2gb.img
@@ -43,6 +47,10 @@ elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   KILL_SERVICES=false
   INIT_RANDOM=false
   RESIZE_PARTITION_ON_FIRST_BOOT=true
+  CPU_FREQUENCY_CONTROL=false
+  CPU_FREQUENCY_GOVERNOR=
+  CPU_FREQUENCY_MAX=
+  CPU_FREQUENCY_MIN=
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   USER=cubie
   IMAGE_FILE="Cubian-nano+headless-x1-a10.img"
@@ -56,6 +64,10 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   KILL_SERVICES=false
   INIT_RANDOM=true
   RESIZE_PARTITION_ON_FIRST_BOOT=true
+  CPU_FREQUENCY_CONTROL=false
+  CPU_FREQUENCY_GOVERNOR=
+  CPU_FREQUENCY_MAX=
+  CPU_FREQUENCY_MIN=
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   USER=cubie
   IMAGE_FILE="Cubian-nano+headless-x1-a20.img"
@@ -69,11 +81,17 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   KILL_SERVICES=false
   INIT_RANDOM=true
   RESIZE_PARTITION_ON_FIRST_BOOT=true
+  CPU_FREQUENCY_CONTROL=false
+  CPU_FREQUENCY_GOVERNOR=
+  CPU_FREQUENCY_MAX=
+  CPU_FREQUENCY_MIN=
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   USER=cubie
-  IMAGE_FILE="Cubian-nano+headless-x1-a20-cubietruck.img"
+#  IMAGE_FILE="Cubian-nano+headless-x1-a20-cubietruck.img"
+  IMAGE_FILE="cubietruck-debian-base.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20-cubietruck.img.7z -O $IMAGE_FILE_ZIP"
+#  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20-cubietruck.img.7z -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud/cubietruck-debian-base.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   BOARD=cubietruck
   RESOLVCONF_FROM=/etc/resolv.conf
@@ -82,6 +100,10 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   KILL_SERVICES=false
   INIT_RANDOM=true
   RESIZE_PARTITION_ON_FIRST_BOOT=true
+  CPU_FREQUENCY_CONTROL=true
+  CPU_FREQUENCY_GOVERNOR=performance
+  CPU_FREQUENCY_MAX=1056000
+  CPU_FREQUENCY_MIN=648000
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
   USER=debian
   IMAGE_FILE=odroid-xu3-debian-wheezy-7.5-armhf-init-20150314.img
@@ -95,7 +117,10 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
   KILL_SERVICES=false
   INIT_RANDOM=false
   RESIZE_PARTITION_ON_FIRST_BOOT=false
-
+  CPU_FREQUENCY_CONTROL=false
+  CPU_FREQUENCY_GOVERNOR=
+  CPU_FREQUENCY_MAX=
+  CPU_FREQUENCY_MIN=
 elif [[ ${PLATFORM} == "x86_64" ]]; then
   USER=syncloud
   IMAGE_FILE=syncloud-x86-v0.2.img
@@ -109,6 +134,10 @@ elif [[ ${PLATFORM} == "x86_64" ]]; then
   KILL_SERVICES=false
   INIT_RANDOM=false
   RESIZE_PARTITION_ON_FIRST_BOOT=false
+  CPU_FREQUENCY_CONTROL=false
+  CPU_FREQUENCY_GOVERNOR=
+  CPU_FREQUENCY_MAX=
+  CPU_FREQUENCY_MIN=
 fi
 IMAGE_FILE_TEMP=${CI_TEMP}/${IMAGE_FILE}
 
@@ -227,6 +256,13 @@ fi
 
 if [ "$RESIZE_PARTITION_ON_FIRST_BOOT" = true ] ; then
     touch ${IMAGE_FOLDER}/var/lib/resize_partition_flag
+fi
+
+if [ "$CPU_FREQUENCY_CONTROL" = true ] ; then
+    touch ${IMAGE_FOLDER}/var/lib/cpu_frequency_control
+    echo -n ${CPU_FREQUENCY_GOVERNOR} > ${IMAGE_FOLDER}/var/lib/cpu_frequency_governor
+    echo -n ${CPU_FREQUENCY_MAX} > ${IMAGE_FOLDER}/var/lib/cpu_frequency_max
+    echo -n ${CPU_FREQUENCY_MIN} > ${IMAGE_FOLDER}/var/lib/cpu_frequency_min
 fi
 
 if [ "$KILL_SERVICES" = true ] ; then
