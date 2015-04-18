@@ -21,7 +21,7 @@ function resize_partition {
   local NEW_IMAGE_SIZE_MB=$(expr $NEW_IMAGE_SIZE_BYTES / 1024 / 1024 + 1)
 
   # create file of bigger size filled with zeros
-  rm $IMAGE_FILE-new
+  rm -rf $IMAGE_FILE-new
   dd bs=1M count=$NEW_IMAGE_SIZE_MB if=/dev/zero of=$IMAGE_FILE-new
 
   losetup /dev/loop0 $IMAGE_FILE
@@ -59,7 +59,7 @@ function resize_partition {
   losetup -d /dev/loop1
 
   # replace image file with new one
-  rm $IMAGE_FILE
+  rm -rf $IMAGE_FILE
   mv $IMAGE_FILE-new $IMAGE_FILE
 }
 
