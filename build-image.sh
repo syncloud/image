@@ -94,8 +94,8 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud/cubietruck-debian-base.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   BOARD=cubietruck
-  RESOLVCONF_FROM=/etc/resolv.conf
-  RESOLVCONF_TO=/etc/resolv.conf
+  RESOLVCONF_FROM=
+  RESOLVCONF_TO=
   NEW_SIZE_MB=2000
   KILL_SERVICES=false
   INIT_RANDOM=true
