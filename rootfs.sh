@@ -54,7 +54,7 @@ cp syncloud.sh rootfs/root
 chroot rootfs /root/syncloud.sh
 
 chroot rootfs /bin/bash -c "umount /dev/pts"
-chroot rootfs /bin/bash -c "umount /dev/proc"
+chroot rootfs /bin/bash -c "umount /proc"
 
 echo "enable restart"
 cp enable-service-restart.sh rootfs/root
