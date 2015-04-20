@@ -18,42 +18,44 @@ else
   echo "$BASE_ROOTFS_ZIP is here"
 fi
 
-rm -rf dst
-mkdir -p dst/root
+rm -rf rootfs
+mkdir -p rootfs
 
 echo "extracting rootfs"
 
-tar xJf ${BASE_ROOTFS_ZIP} -C dst/root
+tar xJf ${BASE_ROOTFS_ZIP} -C rootfs
 
 if [[ $(uname -m) != *"arm"* ]]; then
     echo "enabling arm binary support"
-    cp /usr/bin/qemu-arm-static dst/root/usr/bin/
+    cp /usr/bin/qemu-arm-static rootfs/usr/bin/
 fi
 
-echo "disable restart"
-cat <<NOSTART > dst/root/usr/sbin/policy-rc.d
-#!/bin/sh
-exit 101
-NOSTART
-chmod +x dst/root/usr/sbin/policy-rc.d
+echo "disable service restart"
+cp disable-service-restart.sh rootfs/root
+chroot rootfs /root/disable-service-restart.sh
 
 echo "configuring rootfs"
-chroot dst/root /bin/bash -c "locale-gen en_US en_US.UTF-8"
-chroot dst/root /bin/bash -c "mount -t devpts devpts /dev/pts"
+chroot rootfs /bin/bash -c "locale-gen en_US en_US.UTF-8"
+chroot rootfs /bin/bash -c "mount -t devpts devpts /dev/pts"
 
-chroot dst/root /bin/bash -c "echo \"root:syncloud\" | chpasswd"
-echo "nameserver 8.8.8.8" > dst/root/run/resolvconf/resolv.conf
-sed -i '/^#.*deb .*universe/s/^# *//' dst/root/etc/apt/sources.list
+chroot rootfs /bin/bash -c "echo \"root:syncloud\" | chpasswd"
+echo "nameserver 8.8.8.8" > rootfs/run/resolvconf/resolv.conf
+sed -i '/^#.*deb .*universe/s/^# *//' rootfs/etc/apt/sources.list
 
 echo "installing ssh server"
-chroot dst/root /bin/bash -c "apt-get update"
-chroot dst/root /bin/bash -c "apt-get -y dist-upgrade"
-chroot dst/root /bin/bash -c "apt-get -y install openssh-server"
-sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" dst/root/etc/ssh/sshd_config
+chroot rootfs /bin/bash -c "apt-get update"
+chroot rootfs /bin/bash -c "apt-get -y dist-upgrade"
+chroot rootfs /bin/bash -c "apt-get -y install openssh-server"
+sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
 
-chroot dst/root /bin/bash -c "umount /dev/pts"
+cp RELEASE rootfs/root
+cp syncloud.sh rootfs/root
+chroot rootfs /root/syncloud.sh
+
+chroot rootfs /bin/bash -c "umount /dev/pts"
 echo "enable restart"
-rm dst/root/usr/sbin/policy-rc.d
+cp enable-service-restart.sh rootfs/root
+chroot rootfs /root/enable-service-restart.sh
 
 FINISH_TIME=$(date +"%s")
 BUILD_TIME=$(($FINISH_TIME-$START_TIME))
