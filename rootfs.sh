@@ -37,6 +37,7 @@ chroot rootfs /root/disable-service-restart.sh
 echo "configuring rootfs"
 chroot rootfs /bin/bash -c "locale-gen en_US en_US.UTF-8"
 chroot rootfs /bin/bash -c "mount -t devpts devpts /dev/pts"
+chroot rootfs /bin/bash -c "mount -t proc proc /proc"
 
 chroot rootfs /bin/bash -c "echo \"root:syncloud\" | chpasswd"
 echo "nameserver 8.8.8.8" > rootfs/run/resolvconf/resolv.conf
@@ -53,6 +54,8 @@ cp syncloud.sh rootfs/root
 chroot rootfs /root/syncloud.sh
 
 chroot rootfs /bin/bash -c "umount /dev/pts"
+chroot rootfs /bin/bash -c "umount /dev/proc"
+
 echo "enable restart"
 cp enable-service-restart.sh rootfs/root
 chroot rootfs /root/enable-service-restart.sh

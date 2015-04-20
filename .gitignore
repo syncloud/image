@@ -3,3 +3,6 @@ syncloud_setup.sh
 *.img.xz
 kernel-qemu
 .idea
+*.tar.gz
+*.tar.xz
+rootfs
