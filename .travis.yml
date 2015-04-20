@@ -5,6 +5,6 @@ env:
 before_script:
 - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
 script:
-- sudo ./syncloud.sh
-- sudo pip install -r dev_requirements.txt
-- sudo py.test -s syncloud-verify.py --email=$REDIRECT_EMAIL --password=$REDIRECT_PASSWORD
+- sudo ./rootfs.sh
+#- sudo pip install -r dev_requirements.txt
+#- sudo py.test -s syncloud-verify.py --email=$REDIRECT_EMAIL --password=$REDIRECT_PASSWORD
