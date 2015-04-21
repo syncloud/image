@@ -51,7 +51,7 @@ sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
 
 cp RELEASE rootfs/root
 cp syncloud.sh rootfs/root
-chroot rootfs /bin/bash -c "export RUNLEVEL=1; /root/syncloud.sh"
+chroot rootfs /bin/bash -c "export RUNLEVEL=0; /root/syncloud.sh"
 
 chroot rootfs /bin/bash -c "umount /dev/pts"
 chroot rootfs /bin/bash -c "umount /proc"
