@@ -6,9 +6,18 @@ if [ "$1" == "" ]; then
 fi
 
 BASE_IMAGE=$1
+BOOT_URL=https://s3-us-west-2.amazonaws.com/syncloud-distributives
 PARTED_SECTOR_UNIT=s
 DD_SECTOR_UNIT=b
 OUTPUT=$(echo ${BASE_IMAGE} | cut -d'.' -f1)
+
+if [ ! -f ${BASE_IMAGE} ]; then
+  echo "getting boot"
+  wget ${BOOT_URL}/${BASE_IMAGE}.7z
+  p7zip -d ${BASE_IMAGE}.7z
+else
+  echo "$BASE_IMAGE is here"
+fi
 
 BOOT_PARTITION_END_SECTOR=$(parted -sm ${BASE_IMAGE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
 rm -rf ${OUTPUT}
