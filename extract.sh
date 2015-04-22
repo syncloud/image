@@ -5,16 +5,18 @@ if [ "$1" == "" ]; then
     exit 1
 fi
 
-BASE_IMAGE=$1
-BASE_IMAGE_ZIP=${BASE_IMAGE}.img.7z
+BOARD_RAW=$1
+BOARD=$( echo ${BOARD_RAW} | sed 's/%2B/+/g' )
+BASE_IMAGE=${BOARD}.img
+BASE_IMAGE_ZIP=${BASE_IMAGE}.7z
 BOOT_URL=https://s3-us-west-2.amazonaws.com/syncloud-distributives
 PARTED_SECTOR_UNIT=s
 DD_SECTOR_UNIT=b
-OUTPUT=$(echo ${BASE_IMAGE})
+OUTPUT=${BOARD}
 
-if [ ! -f ${BASE_IMAGE}.img ]; then
+if [ ! -f ${BASE_IMAGE} ]; then
   echo "getting boot"
-  wget ${BOOT_URL}/${BASE_IMAGE_ZIP}
+  wget ${BOOT_URL}/${BOARD_RAW}.img.7z
   p7zip -d ${BASE_IMAGE_ZIP}
 else
   echo "$BASE_IMAGE is here"
@@ -25,7 +27,7 @@ rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
 
 echo "extracting boot partition with boot loader"
-dd if=${BASE_IMAGE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} - 1 ))
+dd if=${BASE_IMAGE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} ))
 
 echo "extracting kernel modules and firmware from rootfs"
 

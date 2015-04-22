@@ -18,6 +18,7 @@ else
   echo "$BOOT_ZIP is here"
 fi
 echo "extracting boot"
+rm -rf ${BOOT_NAME}
 tar xzf ${BOOT_ZIP}
 
 echo "copying boot"
