@@ -6,15 +6,16 @@ if [ "$1" == "" ]; then
 fi
 
 BASE_IMAGE=$1
+BASE_IMAGE_ZIP=${BASE_IMAGE}.img.7z
 BOOT_URL=https://s3-us-west-2.amazonaws.com/syncloud-distributives
 PARTED_SECTOR_UNIT=s
 DD_SECTOR_UNIT=b
-OUTPUT=$(echo ${BASE_IMAGE} | cut -d'.' -f1)
+OUTPUT=$(echo ${BASE_IMAGE})
 
-if [ ! -f ${BASE_IMAGE} ]; then
+if [ ! -f ${BASE_IMAGE}.img ]; then
   echo "getting boot"
-  wget ${BOOT_URL}/${BASE_IMAGE}.7z
-  p7zip -d ${BASE_IMAGE}.7z
+  wget ${BOOT_URL}/${BASE_IMAGE_ZIP}
+  p7zip -d ${BASE_IMAGE_ZIP}
 else
   echo "$BASE_IMAGE is here"
 fi
