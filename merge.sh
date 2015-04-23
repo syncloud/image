@@ -28,7 +28,7 @@ BOOT_SECTORS=$(( ${BOOT_BYTES} / 512 ))
 echo "boot sectors: ${BOOT_SECTORS}"
 
 DD_CHUNK_SIZE_MB=10
-DD_CHUNK_COUNT=120
+DD_CHUNK_COUNT=200
 ROOTFS_SIZE_BYTES=$(( ${DD_CHUNK_SIZE_MB} * 1024 * 1024 * ${DD_CHUNK_COUNT} ))
 echo "appending $(( ${ROOTFS_SIZE_BYTES} / 1024 / 1024 )) MB"
 dd if=/dev/zero bs=${DD_CHUNK_SIZE_MB}M count=${DD_CHUNK_COUNT} >> ${syncloud_image} 
@@ -68,6 +68,6 @@ kpartx -d ${syncloud_image}
 
 FINISH_TIME=$(date +"%s")
 BUILD_TIME=$(($FINISH_TIME-$START_TIME))
-
+echo "image: ${syncloud_image}"
 echo "Build time: $(($BUILD_TIME / 60)) min"
 
