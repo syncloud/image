@@ -117,11 +117,11 @@ echo ${SYNCLOUD_BOARD} > dst/root/etc/hostname
 
 echo "setting hosts"
 echo "::1 localhost ip6-localhost ip6-loopback" > dst/root/ets/hosts
-echo "fe00::0 ip6-localnet" >> dst/root/ets/hosts
-echo "ff00::0 ip6-mcastprefix" >> dst/root/ets/hosts
-echo "ff02::1 ip6-allnodes" >> dst/root/ets/hosts
-echo "ff02::2 ip6-allrouters" >> dst/root/ets/hosts
-echo "127.0.0.1 localhost" >> dst/root/ets/hosts
+echo "fe00::0 ip6-localnet" >> dst/root/etc/hosts
+echo "ff00::0 ip6-mcastprefix" >> dst/root/etc/hosts
+echo "ff02::1 ip6-allnodes" >> dst/root/etc/hosts
+echo "ff02::2 ip6-allrouters" >> dst/root/etc/hosts
+echo "127.0.0.1 localhost" >> dst/root/etc/hosts
 
 echo "unmounting image"
 umount /dev/mapper/${LOOP}p2
