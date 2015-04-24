@@ -13,6 +13,12 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+function cleanup {
+    echo "cleanup"
+    chroot rootfs /bin/bash -c "umount /dev/pts"
+    chroot rootfs /bin/bash -c "umount /proc"
+}
+
 echo "installing dependencies"
 sudo apt-get -y install p7zip qemu-user-static
 
@@ -22,6 +28,8 @@ if [ ! -f ${BASE_ROOTFS_ZIP} ]; then
 else
   echo "$BASE_ROOTFS_ZIP is here"
 fi
+
+cleanup
 
 rm -rf rootfs
 mkdir -p rootfs
@@ -56,10 +64,9 @@ sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
 
 cp RELEASE rootfs/root
 cp syncloud.sh rootfs/root
-chroot rootfs /bin/bash -c "export RUNLEVEL=0; /root/syncloud.sh"
+chroot rootfs /bin/bash -c "/root/syncloud.sh"
 
-chroot rootfs /bin/bash -c "umount /dev/pts"
-chroot rootfs /bin/bash -c "umount /proc"
+cleanup
 
 echo "enable restart"
 cp enable-service-restart.sh rootfs/root
