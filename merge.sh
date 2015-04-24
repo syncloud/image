@@ -16,9 +16,9 @@ if [ ! -d "rootfs" ]; then
     echo "rootfs is not ready, run 'sudo ./rootfs.sh' first"
 fi
 
-echo "========== ${SYNCLOUD_IMAGE} =========="
 
 SYNCLOUD_BOARD=$1
+echo "========== ${SYNCLOUD_BOARD} =========="
 
 RESIZE_PARTITION_ON_FIRST_BOOT=true
 CPU_FREQUENCY_CONTROL=false
