@@ -12,7 +12,7 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
-echo "Building board: ${SYNCLOUD_BOARD}"
+echo "========== ${SYNCLOUD_IMAGE} =========="
 
 SYNCLOUD_BOARD=$1
 
@@ -131,4 +131,3 @@ FINISH_TIME=$(date +"%s")
 BUILD_TIME=$(($FINISH_TIME-$START_TIME))
 echo "image: ${SYNCLOUD_IMAGE}"
 echo "Build time: $(($BUILD_TIME / 60)) min"
-
