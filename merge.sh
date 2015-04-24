@@ -116,7 +116,7 @@ echo "setting hostname"
 echo ${SYNCLOUD_BOARD} > dst/root/etc/hostname
 
 echo "setting hosts"
-echo "::1 localhost ip6-localhost ip6-loopback" > dst/root/ets/hosts
+echo "::1 localhost ip6-localhost ip6-loopback" > dst/root/etc/hosts
 echo "fe00::0 ip6-localnet" >> dst/root/etc/hosts
 echo "ff00::0 ip6-mcastprefix" >> dst/root/etc/hosts
 echo "ff02::1 ip6-allnodes" >> dst/root/etc/hosts
