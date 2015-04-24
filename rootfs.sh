@@ -15,8 +15,8 @@ fi
 
 function cleanup {
     echo "cleanup"
-    chroot rootfs /bin/bash -c "umount /dev/pts"
-    chroot rootfs /bin/bash -c "umount /proc"
+    umount rootfs/dev/pts
+    umount rootfs/proc
 }
 
 echo "installing dependencies"
