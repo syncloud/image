@@ -8,6 +8,11 @@ image_name=debian-wheezy-7.5-armhf.com-20140603
 BASE_ROOTFS_ZIP=${image_name}.tar.xz
 syncloud_archive=${image_name}-syncloud.tar.xz
 
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
 echo "installing dependencies"
 sudo apt-get -y install p7zip qemu-user-static
 
