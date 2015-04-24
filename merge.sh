@@ -85,10 +85,35 @@ mkdir -p dst/root
 mkfs.ext4 /dev/mapper/${LOOP}p2
 mount /dev/mapper/${LOOP}p2 dst/root
 
+echo "extracting rootfs"
 cp -r rootfs/* dst/root/
 cp -r ${BOOT_NAME}/root/* dst/root/
 
-echo "extracting rootfs"
+echo "applying cpu frequency fix"
+if [ "$CPU_FREQUENCY_CONTROL" = true ] ; then
+    touch dst/root/var/lib/cpu_frequency_control
+    echo -n ${CPU_FREQUENCY_GOVERNOR} > dst/root/var/lib/cpu_frequency_governor
+    echo -n ${CPU_FREQUENCY_MAX} > dst/root/var/lib/cpu_frequency_max
+    echo -n ${CPU_FREQUENCY_MIN} > dst/root/var/lib/cpu_frequency_min
+fi
+
+echo "setting resize on boot flag"
+if [ "$RESIZE_PARTITION_ON_FIRST_BOOT" = true ] ; then
+    touch dst/root/var/lib/resize_partition_flag
+fi
+
+echo "setting hostname"
+echo ${SYNCLOUD_BOARD} > dst/root/etc/hostname
+
+echo "setting hosts"
+echo "::1 localhost ip6-localhost ip6-loopback" > dst/root/ets/hosts
+echo "fe00::0 ip6-localnet" >> dst/root/ets/hosts
+echo "ff00::0 ip6-mcastprefix" >> dst/root/ets/hosts
+echo "ff02::1 ip6-allnodes" >> dst/root/ets/hosts
+echo "ff02::2 ip6-allrouters" >> dst/root/ets/hosts
+echo "127.0.0.1 localhost" >> dst/root/ets/hosts
+
+echo "unmounting image"
 umount /dev/mapper/${LOOP}p2
 kpartx -d ${SYNCLOUD_IMAGE}
 
