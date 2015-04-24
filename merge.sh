@@ -4,6 +4,11 @@ START_TIME=$(date +"%s")
 
 echo "Building board: ${SYNCLOUD_BOARD}"
 
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 board_name"
+    exit 1
+fi
+
 SYNCLOUD_BOARD=$1
 
 RESIZE_PARTITION_ON_FIRST_BOOT=true
