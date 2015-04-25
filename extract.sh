@@ -47,14 +47,8 @@ ls -la extract_rootfs/
 
 mkdir -p ${OUTPUT}/root
 mkdir ${OUTPUT}/root/lib
-cp -rp extract_rootfs/lib ${OUTPUT}/root/lib
 cp -rp extract_rootfs/lib/firmware ${OUTPUT}/root/lib/firmware
 cp -rp extract_rootfs/lib/modules ${OUTPUT}/root/lib/modules
-#cp -rp extract_rootfs/* ${OUTPUT}/root/
-#cp -rp extract_rootfs/opt ${OUTPUT}/root/opt
-#cp -rp extract_rootfs/sbin ${OUTPUT}/root/sbin
-#cp -rp extract_rootfs/bin ${OUTPUT}/root/bin
-#cp -rp extract_rootfs/usr ${OUTPUT}/root/usr
 sync
 
 cleanup
