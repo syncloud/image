@@ -26,8 +26,8 @@ CPU_FREQUENCY_GOVERNOR=
 CPU_FREQUENCY_MAX=
 CPU_FREQUENCY_MIN=
 
-if [[ ${SYNCLOUD_BOARD} == "raspberrypi" || ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
-  BOOT_NAME=Cubian-nano+headless-x1-a20-cubietruck
+if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
+  BOOT_NAME=2015-02-16-raspbian-wheezy
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   BOOT_NAME=Cubian-nano+headless-x1-a20-cubietruck
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
