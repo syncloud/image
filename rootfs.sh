@@ -22,6 +22,11 @@ function cleanup {
 echo "installing dependencies"
 sudo apt-get -y install p7zip qemu-user-static
 
+if [[ $? != 0 ]]; then
+  echo "unable to install dependencies"
+  exit1
+fi
+
 if [ ! -f ${BASE_ROOTFS_ZIP} ]; then
   echo "getting base rootfs"
   wget ${base_url}/${BASE_ROOTFS_ZIP}
