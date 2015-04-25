@@ -6,7 +6,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 if [ "$1" == "" ]; then
-    echo "Usage: $0 base_image"
+    echo "Usage: $0 base.img"
     exit 1
 fi
 
@@ -14,7 +14,7 @@ BASE_IMAGE=$1
 
 PARTED_SECTOR_UNIT=s
 DD_SECTOR_UNIT=b
-OUTPUT=${BOARD}
+OUTPUT=$( echo ${BASE_IMAGE} | rev | cut -c5- | rev )
 
 BOOT_PARTITION_END_SECTOR=$(parted -sm ${BASE_IMAGE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
 rm -rf ${OUTPUT}
