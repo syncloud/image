@@ -100,8 +100,8 @@ mkfs.ext4 /dev/mapper/${LOOP}p2
 mount /dev/mapper/${LOOP}p2 dst/root
 
 echo "extracting rootfs"
-cp -r rootfs/* dst/root/
-cp -r ${BOOT_NAME}/root/* dst/root/
+cp -rp rootfs/* dst/root/
+cp -rp ${BOOT_NAME}/root/* dst/root/
 
 echo "applying cpu frequency fix"
 if [ "$CPU_FREQUENCY_CONTROL" = true ] ; then
