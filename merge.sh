@@ -16,7 +16,6 @@ if [ ! -d "rootfs" ]; then
     echo "rootfs is not ready, run 'sudo ./rootfs.sh' first"
 fi
 
-
 SYNCLOUD_BOARD=$1
 echo "========== ${SYNCLOUD_BOARD} =========="
 
@@ -47,6 +46,14 @@ fi
 BOOT_URL=https://s3-us-west-2.amazonaws.com/syncloud
 BOOT_ZIP=${BOOT_NAME}.tar.gz
 SYNCLOUD_IMAGE=syncloud-${SYNCLOUD_BOARD}.img
+
+function cleanup {
+    echo "cleanup"
+    umount dst/root
+    kpartx -d ${SYNCLOUD_IMAGE}
+}
+
+cleanup
 
 echo "installing dependencies"
 sudo apt-get -y install dosfstools kpartx p7zip
@@ -127,9 +134,7 @@ echo "ff02::1 ip6-allnodes" >> dst/root/etc/hosts
 echo "ff02::2 ip6-allrouters" >> dst/root/etc/hosts
 echo "127.0.0.1 localhost" >> dst/root/etc/hosts
 
-echo "unmounting image"
-umount /dev/mapper/${LOOP}p2
-kpartx -d ${SYNCLOUD_IMAGE}
+cleanup
 
 FINISH_TIME=$(date +"%s")
 BUILD_TIME=$(($FINISH_TIME-$START_TIME))
