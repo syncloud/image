@@ -10,22 +10,11 @@ if [ "$1" == "" ]; then
     exit 1
 fi
 
-BOARD_RAW=$1
-BOARD=$( echo ${BOARD_RAW} | sed 's/%2B/+/g' )
-BASE_IMAGE=${BOARD}.img
-BASE_IMAGE_ZIP=${BASE_IMAGE}.7z
-BOOT_URL=https://s3-us-west-2.amazonaws.com/syncloud-distributives
+BASE_IMAGE=$1
+
 PARTED_SECTOR_UNIT=s
 DD_SECTOR_UNIT=b
 OUTPUT=${BOARD}
-
-if [ ! -f ${BASE_IMAGE} ]; then
-  echo "getting boot"
-  wget ${BOOT_URL}/${BOARD_RAW}.img.7z
-  p7zip -d ${BASE_IMAGE_ZIP}
-else
-  echo "$BASE_IMAGE is here"
-fi
 
 BOOT_PARTITION_END_SECTOR=$(parted -sm ${BASE_IMAGE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
 rm -rf ${OUTPUT}
