@@ -25,18 +25,18 @@ dd if=${BASE_IMAGE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PAR
 
 echo "extracting kernel modules and firmware from rootfs"
 
-rm -rf rootfs
-mkdir -p rootfs
+rm -rf extract_rootfs
+mkdir -p extract_rootfs
 kpartx -a ${BASE_IMAGE}
 LOOP=$(kpartx -l ${BASE_IMAGE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
-mount /dev/mapper/${LOOP}p2 rootfs
+mount /dev/mapper/${LOOP}p2 extract_rootfs
 
-mkdir ${OUTPUT}/root
-cp -r rootfs/lib/firmware ${OUTPUT}/root/firmware
-cp -r rootfs/lib/modules ${OUTPUT}/root/modules
+mkdir ${OUTPUT}/extract_root
+cp -r extract_rootfs/lib/firmware ${OUTPUT}/root/firmware
+cp -r extract_rootfs/lib/modules ${OUTPUT}/root/modules
 sync
 
-umount rootfs
+umount extract_rootfs
 kpartx -d ${BASE_IMAGE}
 
 rm -rf ${OUTPUT}.tar.gz
