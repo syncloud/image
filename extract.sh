@@ -31,7 +31,7 @@ kpartx -a ${BASE_IMAGE}
 LOOP=$(kpartx -l ${BASE_IMAGE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
 mount /dev/mapper/${LOOP}p2 extract_rootfs
 
-mkdir ${OUTPUT}/extract_root
+mkdir ${OUTPUT}/root
 cp -r extract_rootfs/lib/firmware ${OUTPUT}/root/firmware
 cp -r extract_rootfs/lib/modules ${OUTPUT}/root/modules
 sync
