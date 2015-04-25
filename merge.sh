@@ -25,26 +25,21 @@ CPU_FREQUENCY_GOVERNOR=
 CPU_FREQUENCY_MAX=
 CPU_FREQUENCY_MIN=
 
-if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
-  BOOT_NAME=2015-02-16-raspbian-wheezy
-elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
-  BOOT_NAME=Cubian-nano+headless-x1-a20-cubietruck
-elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
-  BOOT_NAME=Cubian-nano+headless-x1-a20-cubietruck
-elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
-  BOOT_NAME=Cubian-nano+headless-x1-a20-cubietruck
-elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
+#if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
+#elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
+#elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
+#elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
+if [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   BOOT_NAME=Cubian-nano+headless-x1-a20-cubietruck
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
   CPU_FREQUENCY_MAX=1056000
   CPU_FREQUENCY_MIN=648000
-elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
-  BOOT_NAME=Cubian-nano+headless-x1-a20-cubietruck
+#elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
 fi
 
 BOOT_URL=https://s3-us-west-2.amazonaws.com/syncloud
-BOOT_ZIP=${BOOT_NAME}.tar.gz
+BOOT_ZIP=${SYNCLOUD_BOARD}.tar.gz
 SYNCLOUD_IMAGE=syncloud-${SYNCLOUD_BOARD}.img
 
 function cleanup {
