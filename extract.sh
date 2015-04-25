@@ -16,6 +16,14 @@ PARTED_SECTOR_UNIT=s
 DD_SECTOR_UNIT=b
 OUTPUT=$( echo ${BASE_IMAGE} | rev | cut -c5- | rev )
 
+function cleanup {
+    echo "cleanup"
+    umount extract_rootfs
+    kpartx -d ${BASE_IMAGE}
+}
+
+cleanup
+
 BOOT_PARTITION_END_SECTOR=$(parted -sm ${BASE_IMAGE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
 rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
@@ -27,19 +35,29 @@ echo "extracting kernel modules and firmware from rootfs"
 
 rm -rf extract_rootfs
 mkdir -p extract_rootfs
-kpartx -a ${BASE_IMAGE}
+kpartx -av ${BASE_IMAGE}
 LOOP=$(kpartx -l ${BASE_IMAGE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
 mount /dev/mapper/${LOOP}p2 extract_rootfs
 
+mount | grep extract_rootfs
+
+losetup -l
+
+ls -la extract_rootfs/
+
 mkdir -p ${OUTPUT}/root
 mkdir ${OUTPUT}/root/lib
+cp -rp extract_rootfs/lib ${OUTPUT}/root/lib
+cp -rp extract_rootfs/lib/firmware ${OUTPUT}/root/lib/firmware
+cp -rp extract_rootfs/lib/modules ${OUTPUT}/root/lib/modules
 #cp -rp extract_rootfs/* ${OUTPUT}/root/
-cp -r extract_rootfs/lib/firmware ${OUTPUT}/root/lib/firmware
-cp -r extract_rootfs/lib/modules ${OUTPUT}/root/lib/modules
+#cp -rp extract_rootfs/opt ${OUTPUT}/root/opt
+#cp -rp extract_rootfs/sbin ${OUTPUT}/root/sbin
+#cp -rp extract_rootfs/bin ${OUTPUT}/root/bin
+#cp -rp extract_rootfs/usr ${OUTPUT}/root/usr
 sync
 
-umount extract_rootfs
-kpartx -d ${BASE_IMAGE}
+cleanup
 
 rm -rf ${OUTPUT}.tar.gz
 tar czf ${OUTPUT}.tar.gz ${OUTPUT}
