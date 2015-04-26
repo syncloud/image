@@ -36,7 +36,7 @@ mkdir -p rootfs
 
 echo "extracting rootfs"
 
-tar xzf ${BASE_ROOTFS_ZIP} -C rootfs
+tar xzf ${BASE_ROOTFS_ZIP}
 
 if [[ $(uname -m) != *"arm"* ]]; then
     echo "enabling arm binary support"
