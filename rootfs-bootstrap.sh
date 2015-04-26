@@ -7,6 +7,8 @@ fi
 
 DEB_REPO=$1
 
+apt-get -y install debootstrap
+
 rm -rf rootfs
 rm -rf rootfs.tar.gz
 
