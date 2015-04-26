@@ -11,7 +11,10 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get -y install debootstrap
 
 function cleanup {
-    umount rootfs/sys
+    if [ -d rootfs/sys ]; then
+        echo "cleaning"
+        umount rootfs/sys
+    fi
 }
 
 cleanup
