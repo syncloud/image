@@ -48,19 +48,12 @@ cp disable-service-restart.sh rootfs/root
 chroot rootfs /root/disable-service-restart.sh
 
 echo "configuring rootfs"
-chroot rootfs /bin/bash -c "locale-gen en_US en_US.UTF-8"
 chroot rootfs /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot rootfs /bin/bash -c "mount -t proc proc /proc"
 
-chroot rootfs /bin/bash -c "echo \"root:syncloud\" | chpasswd"
-echo "nameserver 8.8.8.8" > rootfs/run/resolvconf/resolv.conf
-sed -i '/^#.*deb .*universe/s/^# *//' rootfs/etc/apt/sources.list
-
-echo "installing ssh server"
+echo "upgrade rootfs"
 chroot rootfs /bin/bash -c "apt-get update"
 chroot rootfs /bin/bash -c "apt-get -y dist-upgrade"
-chroot rootfs /bin/bash -c "apt-get -y install openssh-server"
-sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
 
 cp RELEASE rootfs/root
 cp syncloud.sh rootfs/root
