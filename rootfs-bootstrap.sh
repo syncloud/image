@@ -10,9 +10,17 @@ export DEBIAN_FRONTEND=noninteractive
 
 apt-get -y install debootstrap
 
+function cleanup {
+    umount rootfs/sys
+}
+
+cleanup
+
 rm -rf rootfs
 rm -rf rootfs.tar.gz
 
 qemu-debootstrap --no-check-gpg --include=ca-certificates --arch=armhf wheezy rootfs ${DEB_REPO}
+
+cleanup
 
 tar czf rootfs.tar.gz rootfs
