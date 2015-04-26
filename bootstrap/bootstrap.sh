@@ -7,7 +7,7 @@ fi
 
 DISTRO=$1
 
-if [[ ${DISTRO} == "rasbian" ]]; then
+if [[ ${DISTRO} == "raspbian" ]]; then
     REPO=http://archive.raspbian.com/raspbian
     KEY=http://archive.raspbian.org/raspbian.public.key
 elif [[ ${DISTRO} == "debian" ]]; then
