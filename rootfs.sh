@@ -26,10 +26,7 @@ if [[ $? != 0 ]]; then
 fi
 
 if [ ! -f ${BASE_ROOTFS_ZIP} ]; then
-  echo "getting base rootfs from s3.armhf.com"
-  wget http://s3.armhf.com/dist/basefs/debian-wheezy-7.5-armhf.com-20140603
-else
-  echo "$BASE_ROOTFS_ZIP is here"
+  echo "${BASE_ROOTFS_ZIP} not found"
 fi
 
 cleanup
@@ -39,7 +36,7 @@ mkdir -p rootfs
 
 echo "extracting rootfs"
 
-tar xJf ${BASE_ROOTFS_ZIP} -C rootfs
+tar xzf ${BASE_ROOTFS_ZIP} -C rootfs
 
 if [[ $(uname -m) != *"arm"* ]]; then
     echo "enabling arm binary support"
