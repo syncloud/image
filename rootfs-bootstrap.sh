@@ -1,6 +1,11 @@
 #!/bin/bash
 
-DEB_REPO=http://archive.raspbian.com/raspbian
+if [ "$1" == "" ]; then
+    echo "Usage: $0 debian_repo_url"
+    exit 1
+fi
+
+DEB_REPO=$1
 
 rm -rf rootfs
 rm -rf rootfs.tar.gz
