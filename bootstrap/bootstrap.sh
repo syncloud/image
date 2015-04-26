@@ -39,7 +39,6 @@ rm -rf rootfs.tar.gz
 
 qemu-debootstrap --no-check-gpg --include=ca-certificates --arch=armhf wheezy rootfs ${REPO}
 
-echo "export LC_ALL=C" >> rootfs/root/.bashrc
 chroot rootfs wget ${KEY} -O archive.key
 chroot rootfs apt-key add archive.key
 
@@ -51,9 +50,12 @@ chroot rootfs /bin/bash -c "mount -t proc proc /proc"
 
 cp ${DISTRO}.sources.list rootfs/etc/apt/sources.list
 
+echo "LANG=en_US.UTF-8" > rootfs/etc/default/locale
+
 chroot rootfs /bin/bash -c "apt-get update"
 chroot rootfs /bin/bash -c "apt-get -y install locales"
 chroot rootfs /bin/bash -c "locale-gen en_US en_US.UTF-8"
+
 chroot rootfs /bin/bash -c "apt-get -y dist-upgrade"
 
 chroot rootfs /bin/bash -c "apt-get -y install openssh-server"
