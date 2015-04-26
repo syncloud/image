@@ -30,13 +30,14 @@ chroot rootfs /bin/bash -c "echo \"root:syncloud\" | chpasswd"
 chroot rootfs /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot rootfs /bin/bash -c "mount -t proc proc /proc"
 
+chroot rootfs /bin/bash -c "apt-get -y install locales"
+chroot rootfs /bin/bash -c "locale-gen en_US en_US.UTF-8"
+
 echo "deb http://ftp.us.debian.org/debian wheezy main contrib non-free" > rootfs/etc/apt/sources.list
 echo "deb http://security.debian.org wheezy/updates main contrib non-free" >> rootfs/etc/apt/sources.list
 
 chroot rootfs /bin/bash -c "apt-get update"
 chroot rootfs /bin/bash -c "apt-get -y dist-upgrade"
-chroot rootfs /bin/bash -c "apt-get -y install locales"
-chroot rootfs /bin/bash -c "locale-gen en_US en_US.UTF-8"
 
 chroot rootfs /bin/bash -c "apt-get -y install openssh-server"
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
