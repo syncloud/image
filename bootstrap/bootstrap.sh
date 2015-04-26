@@ -39,7 +39,7 @@ rm -rf rootfs.tar.gz
 
 qemu-debootstrap --no-check-gpg --include=ca-certificates --arch=armhf wheezy rootfs ${REPO}
 
-#echo "export LANG=C" >> rootfs/root/.bashrc
+echo "export LC_ALL=C" >> rootfs/root/.bashrc
 chroot rootfs wget ${KEY} -O archive.key
 chroot rootfs apt-key add archive.key
 
