@@ -1,11 +1,20 @@
 #!/bin/bash
 
 if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 debian_repo_url"
+    echo "Usage: $0 distro"
     exit 1
 fi
 
-DEB_REPO=$1
+DISTRO=$1
+
+if [[ ${DISTRO} == "rasbian" ]]; then
+    REPO=http://archive.raspbian.com/raspbian
+elif [[ ${DISTRO} == "debian" ]]; then
+    REPO=http://http.debian.net/debian
+else
+    echo "${DISTRO} is not supported"
+    exit 1
+fi
 
 #Fix debconf frontend warnings
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -26,7 +35,9 @@ cleanup
 rm -rf rootfs
 rm -rf rootfs.tar.gz
 
-qemu-debootstrap --no-check-gpg --include=ca-certificates --arch=armhf wheezy rootfs ${DEB_REPO}
+qemu-debootstrap --no-check-gpg --include=ca-certificates --arch=armhf wheezy rootfs ${REPO}
+
+#echo "export LANG=C" >> rootfs/root/.bashrc
 
 chroot rootfs /bin/bash -c "echo \"root:syncloud\" | chpasswd"
 #echo "nameserver 8.8.8.8" > rootfs/run/resolvconf/resolv.conf
@@ -34,13 +45,11 @@ chroot rootfs /bin/bash -c "echo \"root:syncloud\" | chpasswd"
 chroot rootfs /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot rootfs /bin/bash -c "mount -t proc proc /proc"
 
-chroot rootfs /bin/bash -c "apt-get -y install locales"
-chroot rootfs /bin/bash -c "locale-gen en_US en_US.UTF-8"
-
-echo "deb http://ftp.us.debian.org/debian wheezy main contrib non-free" > rootfs/etc/apt/sources.list
-echo "deb http://security.debian.org wheezy/updates main contrib non-free" >> rootfs/etc/apt/sources.list
+cp ${DISTRO}.sources.list rootfs/etc/apt/sources.list
 
 chroot rootfs /bin/bash -c "apt-get update"
+chroot rootfs /bin/bash -c "apt-get -y install locales"
+chroot rootfs /bin/bash -c "locale-gen en_US en_US.UTF-8"
 chroot rootfs /bin/bash -c "apt-get -y dist-upgrade"
 
 chroot rootfs /bin/bash -c "apt-get -y install openssh-server"
