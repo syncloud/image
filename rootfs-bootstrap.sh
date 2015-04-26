@@ -12,9 +12,7 @@ apt-get -y install debootstrap
 
 function cleanup {
     echo "cleaning"
-    if [ -d rootfs/sys ]; then
-        umount rootfs/sys
-    fi
+    umount rootfs/sys
     umount rootfs/dev/pts
     umount rootfs/proc
 }
