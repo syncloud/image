@@ -4,7 +4,7 @@ START_TIME=$(date +"%s")
 
 export DEBIAN_FRONTEND=noninteractive
 
-BASE_ROOTFS_ZIP=rootfs.tar.xz
+BASE_ROOTFS_ZIP=rootfs.tar.gz
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
