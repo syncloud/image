@@ -4,11 +4,7 @@ START_TIME=$(date +"%s")
 
 export DEBIAN_FRONTEND=noninteractive
 
-base_url=http://s3.armhf.com/dist/basefs
-image_name=debian-wheezy-7.5-armhf.com-20140603
-
-BASE_ROOTFS_ZIP=${image_name}.tar.xz
-syncloud_archive=${image_name}-syncloud.tar.xz
+BASE_ROOTFS_ZIP=rootfs.tar.xz
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
@@ -30,8 +26,8 @@ if [[ $? != 0 ]]; then
 fi
 
 if [ ! -f ${BASE_ROOTFS_ZIP} ]; then
-  echo "getting base rootfs"
-  wget ${base_url}/${BASE_ROOTFS_ZIP}
+  echo "getting base rootfs from s3.armhf.com"
+  wget http://s3.armhf.com/dist/basefs/debian-wheezy-7.5-armhf.com-20140603
 else
   echo "$BASE_ROOTFS_ZIP is here"
 fi
