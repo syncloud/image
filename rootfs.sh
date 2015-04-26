@@ -2,6 +2,8 @@
 
 START_TIME=$(date +"%s")
 
+export DEBIAN_FRONTEND=noninteractive
+
 base_url=http://s3.armhf.com/dist/basefs
 image_name=debian-wheezy-7.5-armhf.com-20140603
 
