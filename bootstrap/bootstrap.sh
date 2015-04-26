@@ -9,8 +9,10 @@ DISTRO=$1
 
 if [[ ${DISTRO} == "rasbian" ]]; then
     REPO=http://archive.raspbian.com/raspbian
+    KEY=http://archive.raspbian.org/raspbian.public.key
 elif [[ ${DISTRO} == "debian" ]]; then
     REPO=http://http.debian.net/debian
+    KEY=https://ftp-master.debian.org/keys/archive-key-7.0.asc
 else
     echo "${DISTRO} is not supported"
     exit 1
@@ -38,6 +40,8 @@ rm -rf rootfs.tar.gz
 qemu-debootstrap --no-check-gpg --include=ca-certificates --arch=armhf wheezy rootfs ${REPO}
 
 #echo "export LANG=C" >> rootfs/root/.bashrc
+chroot rootfs wget ${KEY} -O archive.key
+chroot rootfs apt-key add archive.key
 
 chroot rootfs /bin/bash -c "echo \"root:syncloud\" | chpasswd"
 #echo "nameserver 8.8.8.8" > rootfs/run/resolvconf/resolv.conf
