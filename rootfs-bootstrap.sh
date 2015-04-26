@@ -6,6 +6,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 DEB_REPO=$1
+export DEBIAN_FRONTEND=noninteractive
 
 apt-get -y install debootstrap
 
