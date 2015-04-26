@@ -40,7 +40,7 @@ tar xzf ${BASE_ROOTFS_ZIP}
 
 if [[ $(uname -m) != *"arm"* ]]; then
     echo "enabling arm binary support"
-    cp /usr/bin/qemu-arm-static rootfs/usr/bin/
+    cp $(which qemu-arm-static) rootfs/usr/bin
 fi
 
 echo "disable service restart"

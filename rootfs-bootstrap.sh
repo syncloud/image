@@ -13,8 +13,6 @@ apt-get -y install debootstrap
 rm -rf rootfs
 rm -rf rootfs.tar.gz
 
-debootstrap --foreign --no-check-gpg --include=ca-certificates --arch=armhf wheezy rootfs ${DEB_REPO}
-cp $(which qemu-arm-static) rootfs/usr/bin
-chroot rootfs /debootstrap/debootstrap --second-stage --verbose
+qemu-debootstrap --no-check-gpg --include=ca-certificates --arch=armhf wheezy rootfs ${DEB_REPO}
 
 tar czf rootfs.tar.gz rootfs
