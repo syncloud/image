@@ -6,6 +6,10 @@ if [ "$#" -ne 1 ]; then
 fi
 
 DEB_REPO=$1
+
+#Fix debconf frontend warnings
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export DEBCONF_FRONTEND=noninteractive
 export DEBIAN_FRONTEND=noninteractive
 
 apt-get -y install debootstrap
