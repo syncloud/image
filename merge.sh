@@ -30,11 +30,24 @@ CPU_FREQUENCY_GOVERNOR=
 CPU_FREQUENCY_MAX=
 CPU_FREQUENCY_MIN=
 
-#if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
+if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
+  BOOT_NAME=2015-02-16-raspbian-wheezy
 #elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
-#elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
-#elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
-if [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
+#  single partition now :(
+#  BOOT_NAME=
+elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
+  BOOT_NAME=Cubian-nano+headless-x1-a10
+  CPU_FREQUENCY_CONTROL=true
+  CPU_FREQUENCY_GOVERNOR=performance
+  CPU_FREQUENCY_MAX=1056000
+  CPU_FREQUENCY_MIN=648000
+elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
+  BOOT_NAME=Cubian-nano+headless-x1-a20
+  CPU_FREQUENCY_CONTROL=true
+  CPU_FREQUENCY_GOVERNOR=performance
+  CPU_FREQUENCY_MAX=1056000
+  CPU_FREQUENCY_MIN=648000
+elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   BOOT_NAME=Cubian-nano+headless-x1-a20-cubietruck
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
