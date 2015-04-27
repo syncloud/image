@@ -60,7 +60,7 @@ chroot rootfs apt-get -y dist-upgrade
 chroot rootfs apt-get -y install openssh-server
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
 
-chroot rootfs apt-get -y install python-dev wget less
+chroot rootfs apt-get -y install python-dev gcc wget less
 
 cleanup
 
