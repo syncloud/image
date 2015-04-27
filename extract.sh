@@ -24,9 +24,9 @@ function cleanup {
 
 cleanup
 
-parted -sm ${BASE_IMAGE} unit ${PARTED_SECTOR_UNIT} print
+parted -sm ${BASE_IMAGE} print | tail -n +3
 
-PARTITIONS=$(parted -sm ${BASE_IMAGE} unit ${PARTED_SECTOR_UNIT} print | wc -l)
+PARTITIONS=$(parted -sm ${BASE_IMAGE} print | tail -n +3 | wc -l)
 if [ ${PARTITIONS} == 1 ]; then
     echo "single partition is not supported yet"
     exit 1
