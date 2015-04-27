@@ -24,6 +24,14 @@ function cleanup {
 
 cleanup
 
+parted -sm ${BASE_IMAGE} unit ${PARTED_SECTOR_UNIT} print
+
+PARTITIONS=$(parted -sm ${BASE_IMAGE} unit ${PARTED_SECTOR_UNIT} print | ec -l)
+if [ ${PARTITIONS} == 1 ]; then
+    echo "single partition is not supported yet"
+    exit 1
+fi
+
 BOOT_PARTITION_END_SECTOR=$(parted -sm ${BASE_IMAGE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
 rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
