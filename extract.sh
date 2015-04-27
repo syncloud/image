@@ -26,7 +26,7 @@ cleanup
 
 parted -sm ${BASE_IMAGE} unit ${PARTED_SECTOR_UNIT} print
 
-PARTITIONS=$(parted -sm ${BASE_IMAGE} unit ${PARTED_SECTOR_UNIT} print | ec -l)
+PARTITIONS=$(parted -sm ${BASE_IMAGE} unit ${PARTED_SECTOR_UNIT} print | wc -l)
 if [ ${PARTITIONS} == 1 ]; then
     echo "single partition is not supported yet"
     exit 1
