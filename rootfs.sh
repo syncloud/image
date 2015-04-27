@@ -17,6 +17,8 @@ function cleanup {
     umount rootfs/proc
 }
 
+printenv
+
 echo "installing dependencies"
 sudo apt-get -y install p7zip qemu-user-static
 
