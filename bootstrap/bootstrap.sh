@@ -50,10 +50,11 @@ chroot rootfs /bin/bash -c "mount -t proc proc /proc"
 
 cp ${DISTRO}.sources.list rootfs/etc/apt/sources.list
 
-echo "LANG=en_US.UTF-8" > rootfs/etc/default/locale
+#echo "LANG=en_US.UTF-8" > rootfs/etc/default/locale
 
 chroot rootfs /bin/bash -c "apt-get update"
 chroot rootfs /bin/bash -c "apt-get -y install locales"
+sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' rootfs/etc/locale.gen
 chroot rootfs /bin/bash -c "locale-gen en_US en_US.UTF-8"
 
 chroot rootfs /bin/bash -c "apt-get -y dist-upgrade"
