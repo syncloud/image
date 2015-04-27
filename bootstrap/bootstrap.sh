@@ -52,17 +52,15 @@ chroot rootfs /bin/bash -c "mount -t proc proc /proc"
 
 cp ${DISTRO}.sources.list rootfs/etc/apt/sources.list
 
-#echo "LANG=en_US.UTF-8" > rootfs/etc/default/locale
-
-chroot rootfs /bin/bash -c "apt-get update"
-chroot rootfs /bin/bash -c "apt-get -y install locales"
+chroot rootfs apt-get update
+chroot rootfs apt-get -y install locales
 sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' rootfs/etc/locale.gen
 chroot rootfs /bin/bash -c "locale-gen en_US en_US.UTF-8"
-
-chroot rootfs /bin/bash -c "apt-get -y dist-upgrade"
-
-chroot rootfs /bin/bash -c "apt-get -y install openssh-server"
+chroot rootfs apt-get -y dist-upgrade
+chroot rootfs apt-get -y install openssh-server
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
+
+chroot rootfs apt-get -y install python-dev wget less
 
 cleanup
 
