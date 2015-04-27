@@ -19,6 +19,8 @@ function cleanup {
 
 printenv
 
+export TMPDIR=/tmp
+
 echo "installing dependencies"
 sudo apt-get -y install p7zip qemu-user-static
 
