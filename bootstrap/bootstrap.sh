@@ -18,6 +18,8 @@ else
     exit 1
 fi
 
+echo "Open file limit: $(ulimit -n)"
+
 #Fix debconf frontend warnings
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export DEBCONF_FRONTEND=noninteractive
