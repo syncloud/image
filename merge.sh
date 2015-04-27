@@ -16,6 +16,11 @@ if [ ! -d "rootfs" ]; then
     echo "rootfs is not ready, run 'sudo ./rootfs.sh' first"
 fi
 
+#Fix debconf frontend warnings
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export DEBCONF_FRONTEND=noninteractive
+export DEBIAN_FRONTEND=noninteractive
+
 SYNCLOUD_BOARD=$1
 echo "========== ${SYNCLOUD_BOARD} =========="
 
