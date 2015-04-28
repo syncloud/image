@@ -22,6 +22,8 @@ tar xzf syncloud-rootfs.tar.gz
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export DEBCONF_FRONTEND=noninteractive
 export DEBIAN_FRONTEND=noninteractive
+export TMPDIR=/tmp
+export TMP=/tmp
 
 SYNCLOUD_BOARD=$1
 echo "========== ${SYNCLOUD_BOARD} =========="

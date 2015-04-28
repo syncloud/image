@@ -2,7 +2,12 @@
 
 START_TIME=$(date +"%s")
 
+#Fix debconf frontend warnings
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export DEBCONF_FRONTEND=noninteractive
 export DEBIAN_FRONTEND=noninteractive
+export TMPDIR=/tmp
+export TMP=/tmp
 
 BASE_ROOTFS_ZIP=rootfs.tar.gz
 
@@ -18,9 +23,6 @@ function cleanup {
 }
 
 printenv
-
-export TMPDIR=/tmp
-export TMP=/tmp
 
 echo "installing dependencies"
 sudo apt-get -y install p7zip qemu-user-static
