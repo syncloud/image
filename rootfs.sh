@@ -49,7 +49,7 @@ fi
 
 echo "disable service restart"
 cp disable-service-restart.sh rootfs/root
-chroot rootfs /root/disable-service-restart.sh
+#chroot rootfs /root/disable-service-restart.sh
 
 echo "configuring rootfs"
 chroot rootfs /bin/bash -c "mount -t devpts devpts /dev/pts"
@@ -67,7 +67,7 @@ cleanup
 
 echo "enable restart"
 cp enable-service-restart.sh rootfs/root
-chroot rootfs /root/enable-service-restart.sh
+#chroot rootfs /root/enable-service-restart.sh
 
 FINISH_TIME=$(date +"%s")
 BUILD_TIME=$(($FINISH_TIME-$START_TIME))
