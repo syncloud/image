@@ -12,9 +12,11 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
-if [ ! -d "rootfs" ]; then
+if [ ! -f "syncloud-rootfs.tar.gz" ]; then
     echo "rootfs is not ready, run 'sudo ./rootfs.sh' first"
 fi
+
+tar xzf syncloud-rootfs.tar.gz
 
 #Fix debconf frontend warnings
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -119,7 +121,7 @@ mkdir -p dst/root
 mkfs.ext4 /dev/mapper/${LOOP}p2
 mount /dev/mapper/${LOOP}p2 dst/root
 
-echo "extracting rootfs"
+echo "copying rootfs"
 cp -rp rootfs/* dst/root/
 cp -rp ${BOOT_NAME}/root/* dst/root/
 
