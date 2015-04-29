@@ -70,7 +70,7 @@ chroot rootfs /bin/bash -c "mount -t proc proc /proc"
 #mount --bind /var/run/dbus/ rootfs/var/run/dbus/
 
 cp ${DISTRO}.sources.list rootfs/etc/apt/sources.list
-
+cp -rf etc rootfs/
 chroot rootfs apt-get update
 chroot rootfs apt-get -y dist-upgrade
 chroot rootfs apt-get -y install openssh-server python-dev gcc wget less bootlogd systemd
