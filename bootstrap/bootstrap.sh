@@ -30,10 +30,19 @@ export TMP=/tmp
 apt-get -y install debootstrap
 
 function cleanup {
+
+    echo "open files"
+    lsof | grep rootfs
+
+    echo "chroot processes"
+    ps auxfw | grep qemu-arm-static
+    pkill -f qemu-arm-static
+
     echo "cleaning"
     umount rootfs/sys
     umount rootfs/dev/pts
     umount rootfs/proc
+#    umount rootfs/var/run/dbus/
 }
 
 cleanup
@@ -58,6 +67,7 @@ chroot rootfs /bin/bash -c "echo \"root:syncloud\" | chpasswd"
 
 chroot rootfs /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot rootfs /bin/bash -c "mount -t proc proc /proc"
+#mount --bind /var/run/dbus/ rootfs/var/run/dbus/
 
 cp ${DISTRO}.sources.list rootfs/etc/apt/sources.list
 
