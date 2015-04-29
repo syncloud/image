@@ -155,7 +155,7 @@ echo "127.0.0.1 localhost" >> dst/root/etc/hosts
 
 cleanup
 
-xz ${SYNCLOUD_IMAGE}
+xz -0 ${SYNCLOUD_IMAGE}
 
 FINISH_TIME=$(date +"%s")
 BUILD_TIME=$(($FINISH_TIME-$START_TIME))
