@@ -77,10 +77,12 @@ sudo apt-get -y install dosfstools kpartx p7zip
 
 if [ ! -f ${BOOT_ZIP} ]; then
   echo "getting boot"
-  wget ${BOOT_URL}/${BOOT_ZIP}
+  wget --progress=dot:mega ${BOOT_URL}/${BOOT_ZIP}
 else
   echo "$BOOT_ZIP is here"
 fi
+
+
 echo "extracting boot"
 rm -rf ${BOOT_NAME}
 tar xzf ${BOOT_ZIP}
