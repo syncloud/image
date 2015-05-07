@@ -44,6 +44,7 @@ function cleanup {
     fi
     losetup -a
     kpartx -v ${SYNCLOUD_IMAGE}
+    echo "removing loop devices"
     kpartx -d ${SYNCLOUD_IMAGE}
 }
 
@@ -113,6 +114,8 @@ echo "ff00::0 ip6-mcastprefix" >> dst/root/etc/hosts
 echo "ff02::1 ip6-allnodes" >> dst/root/etc/hosts
 echo "ff02::2 ip6-allrouters" >> dst/root/etc/hosts
 echo "127.0.0.1 localhost" >> dst/root/etc/hosts
+
+sync
 
 cleanup
 
