@@ -87,11 +87,11 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   CPU_FREQUENCY_MIN=
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   USER=cubie
-#  IMAGE_FILE="Cubian-nano+headless-x1-a20-cubietruck.img"
-  IMAGE_FILE="cubietruck-debian-base.img"
+  IMAGE_FILE="Cubian-nano+headless-x1-a20-cubietruck.img"
+#  IMAGE_FILE="cubietruck-debian-base.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
-#  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20-cubietruck.img.7z -O $IMAGE_FILE_ZIP"
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud/cubietruck-debian-base.img.7z -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20-cubietruck.img.7z -O $IMAGE_FILE_ZIP"
+#  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud/cubietruck-debian-base.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   BOARD=cubietruck
   RESOLVCONF_FROM=
