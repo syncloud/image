@@ -8,12 +8,21 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 board_name"
+    echo "Usage: $0 board"
     exit 1
 fi
+SYNCLOUD_BOARD=$1
+echo "========== ${SYNCLOUD_BOARD} =========="
 
 if [ ! -f "syncloud-rootfs.tar.gz" ]; then
-    echo "rootfs is not ready, run 'sudo ./rootfs.sh' first"
+    echo "rootfs is not ready, run 'sudo ./rootfs.sh'"
+fi
+
+BOOT_ZIP=${SYNCLOUD_BOARD}.tar.gz
+if [ ! -f ${BOOT_ZIP} ]; then
+  echo "${BOOT_ZIP} is not ready, run 'sudo ./extract ${SYNCLOUD_BOARD}'"
+else
+  echo "$BOOT_ZIP is here"
 fi
 
 tar xzf syncloud-rootfs.tar.gz
@@ -25,43 +34,7 @@ export DEBIAN_FRONTEND=noninteractive
 export TMPDIR=/tmp
 export TMP=/tmp
 
-SYNCLOUD_BOARD=$1
-echo "========== ${SYNCLOUD_BOARD} =========="
-
 RESIZE_PARTITION_ON_FIRST_BOOT=true
-CPU_FREQUENCY_CONTROL=false
-CPU_FREQUENCY_GOVERNOR=
-CPU_FREQUENCY_MAX=
-CPU_FREQUENCY_MIN=
-
-if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
-  BOOT_NAME=2015-02-16-raspbian-wheezy
-#elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
-#  single partition now :(
-#  BOOT_NAME=
-elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
-  BOOT_NAME=Cubian-nano+headless-x1-a10
-  CPU_FREQUENCY_CONTROL=true
-  CPU_FREQUENCY_GOVERNOR=performance
-  CPU_FREQUENCY_MAX=1056000
-  CPU_FREQUENCY_MIN=648000
-elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
-  BOOT_NAME=Cubian-nano+headless-x1-a20
-  CPU_FREQUENCY_CONTROL=true
-  CPU_FREQUENCY_GOVERNOR=performance
-  CPU_FREQUENCY_MAX=1056000
-  CPU_FREQUENCY_MIN=648000
-elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
-  BOOT_NAME=Cubian-nano+headless-x1-a20-cubietruck
-  CPU_FREQUENCY_CONTROL=true
-  CPU_FREQUENCY_GOVERNOR=performance
-  CPU_FREQUENCY_MAX=1056000
-  CPU_FREQUENCY_MIN=648000
-#elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
-fi
-
-BOOT_URL=https://s3-us-west-2.amazonaws.com/syncloud
-BOOT_ZIP=${SYNCLOUD_BOARD}.tar.gz
 SYNCLOUD_IMAGE=syncloud-${SYNCLOUD_BOARD}.img
 
 function cleanup {
@@ -75,20 +48,12 @@ cleanup
 echo "installing dependencies"
 sudo apt-get -y install dosfstools kpartx p7zip
 
-if [ ! -f ${BOOT_ZIP} ]; then
-  echo "getting boot"
-  wget --progress=dot:mega ${BOOT_URL}/${BOOT_ZIP}
-else
-  echo "$BOOT_ZIP is here"
-fi
-
-
 echo "extracting boot"
-rm -rf ${BOOT_NAME}
+rm -rf ${SYNCLOUD_BOARD}
 tar xzf ${BOOT_ZIP}
 
 echo "copying boot"
-cp ${BOOT_NAME}/boot ${SYNCLOUD_IMAGE}
+cp ${SYNCLOUD_BOARD}/boot ${SYNCLOUD_IMAGE}
 BOOT_BYTES=$(wc -c "${SYNCLOUD_IMAGE}" | cut -f 1 -d ' ')
 BOOT_SECTORS=$(( ${BOOT_BYTES} / 512 ))
 echo "boot sectors: ${BOOT_SECTORS}"
@@ -127,15 +92,7 @@ mount /dev/mapper/${LOOP}p2 dst/root
 
 echo "copying rootfs"
 cp -rp rootfs/* dst/root/
-cp -rp ${BOOT_NAME}/root/* dst/root/
-
-echo "applying cpu frequency fix"
-if [ "$CPU_FREQUENCY_CONTROL" = true ] ; then
-    touch dst/root/var/lib/cpu_frequency_control
-    echo -n ${CPU_FREQUENCY_GOVERNOR} > dst/root/var/lib/cpu_frequency_governor
-    echo -n ${CPU_FREQUENCY_MAX} > dst/root/var/lib/cpu_frequency_max
-    echo -n ${CPU_FREQUENCY_MIN} > dst/root/var/lib/cpu_frequency_min
-fi
+cp -rp ${SYNCLOUD_BOARD}/root/* dst/root/
 
 echo "setting resize on boot flag"
 if [ "$RESIZE_PARTITION_ON_FIRST_BOOT" = true ] ; then
