@@ -80,10 +80,11 @@ mkdir ${OUTPUT}
 
 echo "applying cpu frequency fix"
 if [ "$CPU_FREQUENCY_CONTROL" = true ] ; then
-    touch dst/root/var/lib/cpu_frequency_control
-    echo -n ${CPU_FREQUENCY_GOVERNOR} > dst/root/var/lib/cpu_frequency_governor
-    echo -n ${CPU_FREQUENCY_MAX} > dst/root/var/lib/cpu_frequency_max
-    echo -n ${CPU_FREQUENCY_MIN} > dst/root/var/lib/cpu_frequency_min
+    mkdir -p ${OUTPUT}/root/var/lib
+    touch ${OUTPUT}/root/var/lib/cpu_frequency_control
+    echo -n ${CPU_FREQUENCY_GOVERNOR} > ${OUTPUT}/root/var/lib/cpu_frequency_governor
+    echo -n ${CPU_FREQUENCY_MAX} > ${OUTPUT}/root/var/lib/cpu_frequency_max
+    echo -n ${CPU_FREQUENCY_MIN} > ${OUTPUT}/root/var/lib/cpu_frequency_min
 fi
 
 echo "extracting boot partition with boot loader"
@@ -103,7 +104,6 @@ losetup -l
 
 ls -la extract_rootfs/
 
-mkdir -p ${OUTPUT}/root
 mkdir ${OUTPUT}/root/lib
 cp -rp extract_rootfs/lib/firmware ${OUTPUT}/root/lib/firmware
 cp -rp extract_rootfs/lib/modules ${OUTPUT}/root/lib/modules
