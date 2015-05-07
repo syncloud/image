@@ -39,7 +39,11 @@ SYNCLOUD_IMAGE=syncloud-${SYNCLOUD_BOARD}.img
 
 function cleanup {
     echo "cleanup"
-    umount dst/root
+    if mount | grep ${SYNCLOUD_IMAGE}; then
+        umount dst/root
+    fi
+    losetup -a
+    kpartx -v ${SYNCLOUD_IMAGE}
     kpartx -d ${SYNCLOUD_IMAGE}
 }
 
