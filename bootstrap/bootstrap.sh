@@ -75,7 +75,7 @@ chroot rootfs apt-get update
 chroot rootfs apt-get -y dist-upgrade
 chroot rootfs apt-get -y install openssh-server python-dev gcc wget less bootlogd systemd
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
-yes 'Yes, do as I say!' 2>/dev/null | chroot rootfs apt-get install -y --force-yes systemd-sysv
+#yes 'Yes, do as I say!' 2>/dev/null | chroot rootfs apt-get install -y --force-yes systemd-sysv
 
 cleanup
 
