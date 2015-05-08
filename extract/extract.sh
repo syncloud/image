@@ -69,8 +69,9 @@ function cleanup {
     kpartx -d ${IMAGE_FILE}
 }
 
-cleanup
+apt-get install unzip
 
+cleanup
 
 if [ ! -f ${IMAGE_FILE} ]; then
   echo "Base image $IMAGE_FILE is not found, getting new one ..."
