@@ -18,18 +18,31 @@ CPU_FREQUENCY_MAX=
 CPU_FREQUENCY_MIN=
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
-  BOOT_NAME=2015-02-16-raspbian-wheezy
-#elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
-#  single partition now :(
-#  BOOT_NAME=
+  IMAGE_FILE=2015-02-16-raspbian-wheezy.img
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
+  DOWNLOAD_IMAGE="wget --progress=dot:mega http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
+  UNZIP=unzip
+elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
+  echo "single partition is not supported yet"
+  exit 1
+  IMAGE_FILE=bone-debian-7.8-console-armhf-2015-02-19-2gb.img
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/rootfs/2015-02-19/microsd/$IMAGE_FILE_ZIP"
+  UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
-  BOOT_NAME=Cubian-nano+headless-x1-a10
+  IMAGE_FILE="Cubian-nano+headless-x1-a10.img"
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a10.img.7z -O $IMAGE_FILE_ZIP"
+  UNZIP="p7zip -d"
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
   CPU_FREQUENCY_MAX=1056000
   CPU_FREQUENCY_MIN=648000
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
-  BOOT_NAME=Cubian-nano+headless-x1-a20
+  IMAGE_FILE="Cubian-nano+headless-x1-a20.img"
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
+  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20.img.7z -O $IMAGE_FILE_ZIP"
+  UNZIP="p7zip -d"
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
   CPU_FREQUENCY_MAX=1056000

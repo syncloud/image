@@ -16,11 +16,15 @@ echo "========== ${SYNCLOUD_BOARD} =========="
 
 if [ ! -f "syncloud-rootfs.tar.gz" ]; then
     echo "rootfs is not ready, run 'sudo ./rootfs.sh'"
+    exit 1
+elae
+    echo "syncloud-rootfs.tar.gz is here"
 fi
 
 BOOT_ZIP=${SYNCLOUD_BOARD}.tar.gz
 if [ ! -f ${BOOT_ZIP} ]; then
   echo "${BOOT_ZIP} is not ready, run 'sudo ./extract ${SYNCLOUD_BOARD}'"
+  exit 1
 else
   echo "$BOOT_ZIP is here"
 fi
