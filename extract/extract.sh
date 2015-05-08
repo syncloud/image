@@ -18,7 +18,7 @@ CPU_FREQUENCY_MAX=
 CPU_FREQUENCY_MIN=
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
-  IMAGE_FILE=2015-02-16-raspbian-wheezy.img
+  IMAGE_FILE=2015-05-05-raspbian-wheezy.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:mega http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
