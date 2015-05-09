@@ -43,9 +43,9 @@ SYNCLOUD_IMAGE=syncloud-${SYNCLOUD_BOARD}.img
 
 function cleanup {
     echo "cleanup"
-    if mount | grep ${SYNCLOUD_IMAGE}; then
+    #if mount | grep ${SYNCLOUD_IMAGE}; then
         umount dst/root
-    fi
+    #fi
     losetup -a
     kpartx -v ${SYNCLOUD_IMAGE}
     echo "removing loop devices"
