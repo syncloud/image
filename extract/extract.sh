@@ -119,9 +119,13 @@ mount | grep extract_rootfs
 
 losetup -l
 
+echo "source rootfs"
 ls -la extract_rootfs/
 
-mkdir ${OUTPUT}/root/lib
+echo "target rootfs"
+ls -la ${OUTPUT}
+
+mkdir -p ${OUTPUT}/root/lib
 cp -rp extract_rootfs/lib/firmware ${OUTPUT}/root/lib/firmware
 cp -rp extract_rootfs/lib/modules ${OUTPUT}/root/lib/modules
 sync
