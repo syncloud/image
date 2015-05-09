@@ -76,8 +76,11 @@ cleanup
 if [ ! -f ${IMAGE_FILE} ]; then
   echo "Base image $IMAGE_FILE is not found, getting new one ..."
   ${DOWNLOAD_IMAGE}
+  pushd
+  cd /tmp
   ls -la
   ${UNZIP} ${IMAGE_FILE_ZIP}
+  popd
 fi
 
 parted -sm ${IMAGE_FILE} print | tail -n +3
