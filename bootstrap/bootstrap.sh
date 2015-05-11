@@ -73,7 +73,7 @@ cp ${DISTRO}.sources.list rootfs/etc/apt/sources.list
 cp -rf etc rootfs/
 chroot rootfs apt-get update
 chroot rootfs apt-get -y dist-upgrade
-chroot rootfs apt-get -y install openssh-server python-dev gcc wget less bootlogd systemd
+chroot rootfs apt-get -y install openssh-server python-dev gcc wget less bootlogd parted
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
 #yes 'Yes, do as I say!' 2>/dev/null | chroot rootfs apt-get install -y --force-yes systemd-sysv
 
