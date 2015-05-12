@@ -59,23 +59,15 @@ chroot rootfs wget ${KEY} -O archive.key
 chroot rootfs apt-key add archive.key
 
 chroot rootfs /bin/bash -c "echo \"root:syncloud\" | chpasswd"
-#echo "nameserver 8.8.8.8" > rootfs/run/resolvconf/resolv.conf
-
-#mount -o bind /dev rootfs/dev
-#mount -o bind /proc rootfs/proc
-#mount -o bind /sys rootfs/sys
-
 chroot rootfs /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot rootfs /bin/bash -c "mount -t proc proc /proc"
-#mount --bind /var/run/dbus/ rootfs/var/run/dbus/
 
-cp ${DISTRO}.sources.list rootfs/etc/apt/sources.list
+cp -rf ${DISTRO}/* rootfs/
 cp -rf etc rootfs/
 chroot rootfs apt-get update
 chroot rootfs apt-get -y dist-upgrade
 chroot rootfs apt-get -y install openssh-server python-dev gcc wget less bootlogd parted
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
-#yes 'Yes, do as I say!' 2>/dev/null | chroot rootfs apt-get install -y --force-yes systemd-sysv
 
 cleanup
 
