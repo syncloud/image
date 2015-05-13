@@ -66,7 +66,7 @@ cp -rf ${DISTRO}/* rootfs/
 cp -rf etc rootfs/
 chroot rootfs apt-get update
 chroot rootfs apt-get -y dist-upgrade
-chroot rootfs apt-get -y install openssh-server python-dev gcc wget less bootlogd parted
+chroot rootfs apt-get -y install openssh-server python-dev gcc wget less bootlogd parted lsb-release
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
 
 cleanup
