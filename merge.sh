@@ -52,10 +52,10 @@ function cleanup {
     kpartx -d ${SYNCLOUD_IMAGE}
 }
 
-cleanup
-
 echo "installing dependencies"
-sudo apt-get -y install dosfstools kpartx p7zip
+apt-get -y install dosfstools kpartx p7zip
+
+cleanup
 
 echo "extracting boot"
 rm -rf ${SYNCLOUD_BOARD}
