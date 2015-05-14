@@ -27,7 +27,7 @@ export DEBIAN_FRONTEND=noninteractive
 export TMPDIR=/tmp
 export TMP=/tmp
 
-apt-get -y install debootstrap
+apt-get -y install debootstrap qemu-user-static
 
 function cleanup {
 
