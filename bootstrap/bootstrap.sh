@@ -10,9 +10,15 @@ DISTRO=$1
 if [[ ${DISTRO} == "raspbian" ]]; then
     REPO=http://archive.raspbian.com/raspbian
     KEY=http://archive.raspbian.org/raspbian.public.key
+    ARCH=armhf
 elif [[ ${DISTRO} == "debian" ]]; then
     REPO=http://http.debian.net/debian
-    KEY=https://ftp-master.debian.org/keys/archive-key-7.0.asc
+    KEY=https://ftp-master.debian.org/keys/archive-key-8.asc
+    ARCH=armhf
+elif [[ ${DISTRO} == "amd64" ]]; then
+    REPO=http://http.debian.net/debian
+    KEY=https://ftp-master.debian.org/keys/archive-key-8.asc
+    ARCH=amd64
 else
     echo "${DISTRO} is not supported"
     exit 1
