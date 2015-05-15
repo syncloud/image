@@ -68,8 +68,9 @@ chroot rootfs /bin/bash -c "echo \"root:syncloud\" | chpasswd"
 chroot rootfs /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot rootfs /bin/bash -c "mount -t proc proc /proc"
 
-cp -rf ${DISTRO}/* rootfs/
-cp -rf etc rootfs/
+if [ -d ${DISTRO} ]; then
+    cp -rf ${DISTRO}/* rootfs/
+fi
 chroot rootfs apt-get update
 chroot rootfs apt-get -y dist-upgrade
 chroot rootfs /bin/bash -c "echo \"mysql-server-5.5 mysql-server/root_password password root\" | debconf-set-selections"
