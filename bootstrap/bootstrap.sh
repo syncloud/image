@@ -56,7 +56,7 @@ cleanup
 rm -rf rootfs
 rm -rf rootfs.tar.gz
 
-qemu-debootstrap --no-check-gpg --include=ca-certificates,locales --arch=armhf jessie rootfs ${REPO}
+qemu-debootstrap --no-check-gpg --include=ca-certificates,locales --arch=${ARCH} jessie rootfs ${REPO}
 
 sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' rootfs/etc/locale.gen
 chroot rootfs /bin/bash -c "locale-gen en_US en_US.UTF-8"
