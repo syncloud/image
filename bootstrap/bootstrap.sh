@@ -49,6 +49,8 @@ function cleanup {
     umount rootfs/dev/pts
     umount rootfs/proc
 #    umount rootfs/var/run/dbus/
+    echo "open files"
+    lsof | grep rootfs
 }
 
 cleanup
