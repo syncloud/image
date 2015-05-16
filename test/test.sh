@@ -1,15 +1,26 @@
 #!/bin/bash
 
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd ${DIR}
+
 apt-get install docker.io sshpass
 service docker start
+
+if [ ! -f syncloud-rootfs.tar.gz ]; then
+  echo "syncloud-rootfs.tar.gz is not ready, run 'sudo ./rootfs.sh'"
+  exit 1
+fi
+
+SSH="sshpass -p \"syncloud\" ssh -o StrictHostKeyChecking=no root@localhost -p 2222"
+
 echo "extracting rootfs"
 tar xzf syncloud-rootfs.tar.gz
 
-cp RELEASE rootfs/
-cp dev_requirements.txt rootfs/
+cp ../info/RELEASE rootfs/
+cp requirements.txt rootfs/
 cp conftest.py rootfs/
-cp syncloud-verify.py rootfs/
-chmod +x rootfs/syncloud-verify.py
+cp verify.py rootfs/
+chmod +x rootfs/verify.py
 
 echo "importing rootfs"
 tar -C rootfs -c . | docker import - syncloud
@@ -21,16 +32,15 @@ sleep 10
 
 echo "running tests"
 ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:2222
-sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 pip install -U pytest
-sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 pip install -r /dev_requirements.txt
-sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 "cd /; py.test -s syncloud-verify.py --email=$REDIRECT_EMAIL --password=$REDIRECT_PASSWORD"
+${SSH} pip install -U pytest
+${SSH} pip install -r /requirements.txt
+${SSH} "cd /; py.test -s verify.py --email=$REDIRECT_EMAIL --password=$REDIRECT_PASSWORD"
 
 echo "docker images"
 docker images -q
 
 echo "removing images"
 docker rm $(docker kill $(docker ps -qa))
---docker rmi $(docker images -q)
 
 echo "docker images"
 docker images -q

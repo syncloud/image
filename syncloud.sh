@@ -18,13 +18,13 @@ cd ${DIR}
 #set -x
 #export SHELLOPTS
 
-if [ ! -f RELEASE ]; then
+if [ ! -f info/RELEASE ]; then
     ls -la
-    echo "Relase file: RELEASE is missing" 1>&2
+    echo "Relase file: info/RELEASE is missing" 1>&2
     exit 1
 fi
 
-wget -qO- https://raw.githubusercontent.com/syncloud/apps/$(<RELEASE)/bootstrap.sh | bash
+wget -qO- https://raw.githubusercontent.com/syncloud/apps/$(<info/RELEASE)/bootstrap.sh | bash
 
 sam --debug upgrade_all
 sam --debug install syncloud-owncloud

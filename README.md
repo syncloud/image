@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/syncloud/image.svg?branch=release)](https://travis-ci.org/syncloud/image)
+[![Build Status](http://build.syncloud.org:8111/app/rest/builds/buildType:%28id:Image_DebianX64_Test%29/statusIcon)](http://build.syncloud.org:8111/viewType.html?buildTypeId=Image_DebianX64_Test)
 
 ####Supported devices
 - BeagleBone Black
