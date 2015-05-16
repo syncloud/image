@@ -3,7 +3,7 @@
 apt-get install docker.io
 service docker start
 echo "extracting rootfs"
-tar xzf rootfs.tar.gz
+tar xzf syncloud-rootfs.tar.gz
 
 cp syncloud-verify.py rootfs/
 chmod +x rootfs/syncloud-verify.py
