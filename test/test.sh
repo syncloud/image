@@ -22,8 +22,8 @@ sleep 10
 echo "running tests"
 ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:2222
 sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 pip install -U pytest
-sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 pip install -r dev_requirements.txt
-sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 py.test -s /syncloud-verify.py --email=$REDIRECT_EMAIL --password=$REDIRECT_PASSWORD
+sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 pip install -r /dev_requirements.txt
+sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 cd /; py.test -s syncloud-verify.py --email=$REDIRECT_EMAIL --password=$REDIRECT_PASSWORD
 
 echo "docker images"
 docker images -q
