@@ -66,6 +66,11 @@ cp RELEASE rootfs/root
 cp syncloud.sh rootfs/root
 chroot rootfs /bin/bash -c "/root/syncloud.sh"
 
+if [[ $? != 0 ]]; then
+  echo "syncloud build failed"
+  exit1
+fi
+
 cleanup
 
 echo "enable restart"
