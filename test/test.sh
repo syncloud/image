@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apt-get install docker.io
+apt-get install docker.io sshpass
 service docker start
 echo "extracting rootfs"
 tar xzf syncloud-rootfs.tar.gz
@@ -17,7 +17,7 @@ docker run --name rootfs --privileged -d -it -p 2222:22 syncloud /sbin/init
 sleep 10
 
 echo "running tests"
-ssh root@localhost -p 2222 /syncloud-verify.py
+sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 /syncloud-verify.py
 
 echo "docker images"
 docker images -q
