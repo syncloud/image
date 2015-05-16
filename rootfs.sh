@@ -62,7 +62,7 @@ echo "upgrade rootfs"
 chroot rootfs /bin/bash -c "apt-get update"
 chroot rootfs /bin/bash -c "apt-get -y dist-upgrade"
 
-cp info/RELEASE rootfs/root
+cp -R info rootfs/root/
 cp syncloud.sh rootfs/root
 chroot rootfs /bin/bash -c "/root/syncloud.sh"
 
