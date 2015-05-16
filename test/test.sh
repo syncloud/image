@@ -12,7 +12,7 @@ if [ ! -f syncloud-rootfs.tar.gz ]; then
 fi
 
 function sshexec {
-    sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 "$1"
+    sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 "TEAMCITY_VERSION=${TEAMCITY_VERSION} $1"
 }
 
 echo "extracting rootfs"
