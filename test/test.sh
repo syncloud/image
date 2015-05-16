@@ -17,6 +17,7 @@ docker run --name rootfs --privileged -d -it -p 2222:22 syncloud /sbin/init
 sleep 10
 
 echo "running tests"
+ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:2222
 sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 /syncloud-verify.py
 
 echo "docker images"
