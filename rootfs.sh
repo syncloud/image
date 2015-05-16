@@ -68,7 +68,7 @@ chroot rootfs /bin/bash -c "/root/syncloud.sh"
 
 if [[ $? != 0 ]]; then
   echo "syncloud build failed"
-  exit1
+  exit 1
 fi
 
 cleanup
