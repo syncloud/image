@@ -18,8 +18,12 @@ fi
 
 function cleanup {
     echo "cleanup"
-    umount rootfs/dev/pts
-    umount rootfs/proc
+    if mount | grep rootfs/dev/pts; then
+        umount rootfs/dev/pts
+    fi
+    if mount | grep rootfs/proc; then
+        umount rootfs/proc
+    fi
 }
 
 printenv
