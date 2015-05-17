@@ -115,6 +115,7 @@ sync
 
 cleanup
 
+echo "zipping"
 xz -0 ${SYNCLOUD_IMAGE}
 
 FINISH_TIME=$(date +"%s")
