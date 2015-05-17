@@ -12,7 +12,7 @@ if [ ! -f syncloud-rootfs.tar.gz ]; then
 fi
 
 function sshexec {
-    sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 "TEAMCITY_VERSION=9 $1"
+    sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 "$1"
 }
 
 echo "extracting rootfs"
@@ -36,7 +36,7 @@ echo "running tests"
 ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:2222
 sshexec "pip install -U pytest"
 sshexec "pip install -r /requirements.txt"
-sshexec "cd /; py.test -s verify.py --email=$REDIRECT_EMAIL --password=$REDIRECT_PASSWORD"
+sshexec "cd /; TEAMCITY_VERSION=9 py.test -s verify.py --email=$REDIRECT_EMAIL --password=$REDIRECT_PASSWORD"
 
 echo "docker images"
 docker images -q
