@@ -43,6 +43,7 @@ docker images -q
 
 echo "removing images"
 docker rm $(docker kill $(docker ps -qa))
+docker rmi $(docker images -q)
 
 echo "docker images"
 docker images -q

@@ -6,7 +6,7 @@ def pytest_addoption(parser):
     parser.addoption("--password", action="store")
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def auth(request):
     config = request.config
     return config.getoption("--email"), config.getoption("--password")
