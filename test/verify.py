@@ -40,10 +40,10 @@ def test_owncloud():
     # assert image_ci.verify()
 
 
-def test_gitbucket():
-    sam = get_sam()
-    sam.install('syncloud-gitbucket')
-    from syncloud.gitbucketctl.facade import GitBucketControl
-    gitbucket = GitBucketControl(get_insider())
-    gitbucket.enable('travis', 'password')
-    assert gitbucket.verify()
+# def test_gitbucket():
+#     sam = get_sam()
+#     sam.install('syncloud-gitbucket')
+#     from syncloud.gitbucketctl.facade import GitBucketControl
+#     gitbucket = GitBucketControl(get_insider())
+#     gitbucket.enable('travis', 'password')
+#     assert gitbucket.verify()
