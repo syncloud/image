@@ -1,42 +1,49 @@
 #!/usr/bin/env python
 import logging
+import pytest
 
 from syncloud.app import logger
 from syncloud.insider.facade import get_insider
-from syncloud.owncloud import facade
 from syncloud.sam.manager import get_sam
 from syncloud.server.serverfacade import get_server
 
 
-def test_install(auth):
+@pytest.fixture(scope="session", autouse=True)
+def activate_device(auth):
 
     logger.init(logging.DEBUG, True)
+    # persist upnp mock setting
     get_insider().insider_config.set_upnpc_mock(True)
-    insider = get_insider()
-
-    # End-user device activation (secret keys generation ...)
-    server = get_server(insider=insider)
+    server = get_server(insider=get_insider())
     release = open('RELEASE', 'r').read().strip()
     email, password = auth
     server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', email, password, 'teamcity')
 
-    # ownCloud
-    owncloud = facade.get_control(insider)
-    owncloud.finish('test', 'test', 'localhost', 'http')
-    owncloud.verify('localhost')
+    # request.addfinalizer(finalizer_function)
 
+
+def test_owncloud():
     sam = get_sam()
+    sam.install('syncloud-owncloud')
+    from syncloud.owncloud import facade
+    owncloud = facade.get_control(get_insider())
+    owncloud.finish('test', 'test', 'localhost', 'http')
+    assert owncloud.verify('localhost')
 
-    sam.install('syncloud-image-ci')
-    from syncloud.ci.facade import ImageCI
-    image_ci = ImageCI(insider)
-    image_ci.activate()
-    assert image_ci.verify()
 
-    # systemctl is not found on travis, not sure why
+# def test_imageci():
+    # sam = get_sam()
+    # sam.install('syncloud-image-ci')
+    # from syncloud.ci.facade import ImageCI
+    # image_ci = ImageCI(insider)
+    # image_ci.activate()
+    # assert image_ci.verify()
 
-    # sam.install('syncloud-gitbucket')
-    # from syncloud.gitbucketctl.facade import GitBucketControl
-    # gitbucket = GitBucketControl(insider)
-    # gitbucket.enable('travis', 'password')
-    # assert gitbucket.verify()
+
+def test_gitbucket():
+    sam = get_sam()
+    sam.install('syncloud-gitbucket')
+    from syncloud.gitbucketctl.facade import GitBucketControl
+    gitbucket = GitBucketControl(get_insider())
+    gitbucket.enable('travis', 'password')
+    assert gitbucket.verify()

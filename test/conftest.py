@@ -5,6 +5,7 @@ def pytest_addoption(parser):
     parser.addoption("--email", action="store")
     parser.addoption("--password", action="store")
 
+
 @pytest.fixture
 def auth(request):
     config = request.config
