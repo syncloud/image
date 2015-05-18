@@ -80,7 +80,7 @@ chroot rootfs /bin/bash -c "echo 'mysql-server-5.5 mysql-server/root_password_ag
 chroot rootfs /bin/bash -c "echo 'slapd/root_password password syncloud' | debconf-set-selections"
 chroot rootfs /bin/bash -c "echo 'slapd/root_password_again password syncloud' | debconf-set-selections"
 chroot rootfs apt-get -y install openssh-server python-dev gcc wget less bootlogd parted lsb-release unzip bzip2\
- mysql-server-5.5 libmysqlclient-dev ldap-utils slapd
+ mysql-server-5.5 libmysqlclient-dev ldap-utils slapd libldap2-dev
 
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
 
