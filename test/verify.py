@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import logging
+import convertible
 import pytest
+import requests
 
 from syncloud.app import logger
 from syncloud.insider.facade import get_insider
@@ -17,9 +19,17 @@ def activate_device(auth):
     server = get_server(insider=get_insider())
     release = open('RELEASE', 'r').read().strip()
     email, password = auth
-    server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', email, password, 'teamcity')
+    server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', email, password, 'teamcity', 'user', 'password')
 
     # request.addfinalizer(finalizer_function)
+
+
+def test_server():
+    session = requests.session()
+    response = session.post('localhost/server/rest/login', data={'name': 'user', 'password': 'password'})
+    print(response.text)
+    assert session.get('localhost/server/rest/user').status_code == 200
+    assert convertible.from_json(response.text).name == 'name'
 
 
 def test_owncloud():
