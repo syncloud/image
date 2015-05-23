@@ -16,6 +16,7 @@ function sshexec {
 }
 
 echo "extracting rootfs"
+rm -rf rootfs
 tar xzf syncloud-rootfs.tar.gz
 
 echo "rootfs version: $(<rootfs/version)"
@@ -37,7 +38,7 @@ sleep 10
 echo "running tests"
 ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:2222
 
-sshexec "rootfs version (docker):"
+sshexec "echo \"rootfs version (docker):\'"
 sshexec "cat /version"
 sshexec "pip2 freeze | grep syncloud"
 sshexec "pip2 install -U pytest"
