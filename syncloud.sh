@@ -28,3 +28,4 @@ wget -qO- https://raw.githubusercontent.com/syncloud/apps/$(<info/RELEASE)/boots
 
 sam --debug upgrade_all
 sam --debug install syncloud-owncloud
+pip2 freeze | grep syncloud

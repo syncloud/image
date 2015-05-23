@@ -80,4 +80,7 @@ sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
 
 cleanup
 
+echo "cleaning apt cache"
+rm -rf rootfs/var/cache/apt/archives/*.deb
+
 tar czf rootfs.tar.gz rootfs
