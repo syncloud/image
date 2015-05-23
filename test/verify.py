@@ -7,6 +7,7 @@ import requests
 from syncloud.app import logger
 from syncloud.insider.facade import get_insider
 from syncloud.sam.manager import get_sam
+from syncloud.sam.pip import Pip
 from syncloud.server.serverfacade import get_server
 
 
@@ -14,12 +15,16 @@ from syncloud.server.serverfacade import get_server
 def activate_device(auth):
 
     logger.init(logging.DEBUG, True)
+
+    Pip(None).log_version('syncloud-platform')
+
     # persist upnp mock setting
     get_insider().insider_config.set_upnpc_mock(True)
+
     server = get_server(insider=get_insider())
     release = open('RELEASE', 'r').read().strip()
     email, password = auth
-    server.activate(release, 'syncloud.info', 'http://api.syncloud.info:81', email, password, 'teamcity', 'user', 'password')
+    server.activate_new(release, 'syncloud.info', 'http://api.syncloud.info:81', email, password, 'teamcity', 'user', 'password')
 
     # request.addfinalizer(finalizer_function)
 
@@ -28,8 +33,8 @@ def test_server():
     session = requests.session()
     response = session.post('http://localhost/server/rest/login', data={'name': 'user', 'password': 'password'})
     print(response.text)
-    assert session.get('http://localhost/server/rest/user').status_code == 200
-    assert convertible.from_json(response.text).name == 'name'
+    assert session.get('http://localhost/server/rest/user', allow_redirects=True).status_code == 200
+    assert convertible.from_json(response.text).name == 'user'
 
 
 def test_owncloud():
