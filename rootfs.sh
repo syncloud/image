@@ -24,6 +24,13 @@ function cleanup {
     if mount | grep rootfs/proc; then
         umount rootfs/proc
     fi
+
+    echo killing "chroot services"
+    lsof | grep rootfs | grep -v java | awk '{print $1 $2}' | sort | uniq
+
+    lsof | grep rootfs | grep -v java | awk '{print $2}' | sort | uniq | xzrgs kill -9
+
+    lsof | grep rootfs
 }
 
 printenv

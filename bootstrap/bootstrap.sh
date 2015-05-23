@@ -51,6 +51,13 @@ function cleanup {
 #    umount rootfs/var/run/dbus/
     echo "open files"
     lsof | grep rootfs
+
+    echo killing "chroot services"
+    lsof | grep rootfs | grep -v java | awk '{print $1 $2}' | sort | uniq
+
+    lsof | grep rootfs | grep -v java | awk '{print $2}' | sort | uniq | xzrgs kill -9
+
+    lsof | grep rootfs
 }
 
 cleanup
