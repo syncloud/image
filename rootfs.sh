@@ -17,13 +17,10 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 function cleanup {
-    echo "cleanup"
-    if mount | grep rootfs/dev/pts; then
-        umount rootfs/dev/pts
-    fi
-    if mount | grep rootfs/proc; then
-        umount rootfs/proc
-    fi
+    mount | grep rootfs
+    echo "cleanup mount"
+    mount | grep rootfs | awk '{print $3}' | xargs umount
+    mount | grep rootfs
 
     echo "killing chroot services"
     lsof | grep rootfs | grep -v java | awk '{print $1 $2}' | sort | uniq

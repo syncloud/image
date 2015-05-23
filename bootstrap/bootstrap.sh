@@ -37,26 +37,14 @@ apt-get -y install debootstrap qemu-user-static
 
 function cleanup {
 
-    echo "open files"
-    lsof | grep rootfs
-
-    echo "chroot processes"
-    ps auxfw | grep qemu-arm-static
-    pkill -f qemu-arm-static
-
-    echo "cleaning"
-    umount rootfs/sys
-    umount rootfs/dev/pts
-    umount rootfs/proc
-#    umount rootfs/var/run/dbus/
-    echo "open files"
-    lsof | grep rootfs
+    mount | grep rootfs
+    echo "cleanup mount"
+    mount | grep rootfs | awk '{print $3}' | xargs umount
+    mount | grep rootfs
 
     echo "killing chroot services"
     lsof | grep rootfs | grep -v java | awk '{print $1 $2}' | sort | uniq
-
     lsof | grep rootfs | grep -v java | awk '{print $2}' | sort | uniq | xargs kill -9
-
     lsof | grep rootfs
 }
 
