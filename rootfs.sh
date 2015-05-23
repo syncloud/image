@@ -54,6 +54,10 @@ if [[ $(uname -m) != *"arm"* ]]; then
     cp $(which qemu-arm-static) rootfs/usr/bin
 fi
 
+VERSION=$(git rev-parse --short HEAD)
+echo "setting version ${VERSION}"
+echo ${VERSION} > rootfs/version
+
 echo "disable service restart"
 cp disable-service-restart.sh rootfs/root
 chroot rootfs /root/disable-service-restart.sh
