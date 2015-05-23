@@ -33,7 +33,7 @@ tar -C rootfs -c . | docker import - syncloud
 echo "starting rootfs"
 docker run --name rootfs --privileged -d -it -p 2222:22 syncloud /sbin/init
 
-sleep 10
+sleep 3
 
 echo "running tests"
 ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:2222
