@@ -25,10 +25,10 @@ function cleanup {
         umount rootfs/proc
     fi
 
-    echo killing "chroot services"
+    echo "killing chroot services"
     lsof | grep rootfs | grep -v java | awk '{print $1 $2}' | sort | uniq
 
-    lsof | grep rootfs | grep -v java | awk '{print $2}' | sort | uniq | xzrgs kill -9
+    lsof | grep rootfs | grep -v java | awk '{print $2}' | sort | uniq | xargs kill -9
 
     lsof | grep rootfs
 }
@@ -56,13 +56,11 @@ echo "extracting rootfs"
 
 tar xzf ${BASE_ROOTFS_ZIP}
 
-if [[ $(uname -m) != *"arm"* ]]; then
-    echo "enabling arm binary support"
-    cp $(which qemu-arm-static) rootfs/usr/bin
-fi
+echo "enabling arm binary support"
+cp $(which qemu-arm-static) rootfs/usr/bin
 
-echo "setting version ${build.number}"
-echo ${build.number} > rootfs/version
+echo "setting version ${BUILD_NUMBER}"
+echo ${BUILD_NUMBER} > rootfs/version
 
 echo "disable service restart"
 cp disable-service-restart.sh rootfs/root

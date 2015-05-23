@@ -18,6 +18,8 @@ function sshexec {
 echo "extracting rootfs"
 tar xzf syncloud-rootfs.tar.gz
 
+echo "rootfs version: $(<rootfs/version)"
+
 cp ../info/RELEASE rootfs/
 cp requirements.txt rootfs/
 cp conftest.py rootfs/
