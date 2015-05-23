@@ -55,7 +55,7 @@ function cleanup {
     echo killing "chroot services"
     lsof | grep rootfs | grep -v java | awk '{print $1 $2}' | sort | uniq
 
-    lsof | grep rootfs | grep -v java | awk '{print $2}' | sort | uniq | xzrgs kill -9
+    lsof | grep rootfs | grep -v java | awk '{print $2}' | sort | uniq | xargs kill -9
 
     lsof | grep rootfs
 }
