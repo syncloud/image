@@ -26,9 +26,9 @@ def activate_device(auth):
 
 def test_server():
     session = requests.session()
-    response = session.post('localhost/server/rest/login', data={'name': 'user', 'password': 'password'})
+    response = session.post('http://localhost/server/rest/login', data={'name': 'user', 'password': 'password'})
     print(response.text)
-    assert session.get('localhost/server/rest/user').status_code == 200
+    assert session.get('http://localhost/server/rest/user').status_code == 200
     assert convertible.from_json(response.text).name == 'name'
 
 
