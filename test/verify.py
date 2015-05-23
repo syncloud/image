@@ -34,7 +34,6 @@ def test_server():
     response = session.post('http://localhost/server/rest/login', data={'name': 'user', 'password': 'password'})
     print(response.text)
     assert session.get('http://localhost/server/rest/user', allow_redirects=True).status_code == 200
-    assert convertible.from_json(response.text).name == 'user'
 
 
 def test_owncloud():
