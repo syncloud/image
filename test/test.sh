@@ -36,8 +36,12 @@ sleep 10
 
 echo "running tests"
 ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:2222
-sshexec "pip install -U pytest"
-sshexec "pip install -r /requirements.txt"
+
+sshexec "rootfs version (docker):"
+sshexec "cat /version"
+sshexec "pip2 freeze | grep syncloud"
+sshexec "pip2 install -U pytest"
+sshexec "pip2 install -r /requirements.txt"
 sshexec "cd /; TEAMCITY_VERSION=9 py.test -s verify.py --email=$REDIRECT_EMAIL --password=$REDIRECT_PASSWORD"
 
 echo "docker images"
