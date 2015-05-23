@@ -21,7 +21,7 @@ def activate_device(auth):
     # persist upnp mock setting
     get_insider().insider_config.set_upnpc_mock(True)
 
-    server = get_server(insider=get_insider())
+    server = get_server(insider=get_insider(use_upnpc_mock=True))
     release = open('RELEASE', 'r').read().strip()
     email, password = auth
     server.activate_new(release, 'syncloud.info', 'http://api.syncloud.info:81', email, password, 'teamcity', 'user', 'password')
@@ -41,7 +41,7 @@ def test_owncloud():
     sam = get_sam()
     sam.install('syncloud-owncloud')
     from syncloud.owncloud import facade
-    owncloud = facade.get_control(get_insider())
+    owncloud = facade.get_control(get_insider(use_upnpc_mock=True))
     owncloud.finish('test', 'test', 'localhost', 'http')
     assert owncloud.verify('localhost')
 
