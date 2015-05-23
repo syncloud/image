@@ -38,8 +38,7 @@ apt-get -y install debootstrap qemu-user-static
 function cleanup {
 
     mount | grep rootfs
-    echo "cleanup mount"
-    mount | grep rootfs | awk '{print $3}' | xargs umount
+    mount | grep rootfs | awk '{print "umounting "$1; system("umount "$3)}'
     mount | grep rootfs
 
     echo "killing chroot services"
