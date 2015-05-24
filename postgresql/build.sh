@@ -3,6 +3,8 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
 
+export TMPDIR=/tmp
+export TMP=/tmp
 VERSION=9.4.2
 
 apt-get -y install build-essential flex bison libreadline-dev zlib1g-dev
