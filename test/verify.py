@@ -31,9 +31,9 @@ def activate_device(auth):
 
 def test_server():
     session = requests.session()
-    response = session.get('http://localhost/server/rest/user')
+    response = session.get('http://localhost/server/rest/user', allow_redirects=False)
     print(response.text)
-    assert response.status_code == 400
+    assert response.status_code == 302
     response = session.post('http://localhost/server/rest/login', data={'name': 'user', 'password': 'password'})
     print(response.text)
     assert session.get('http://localhost/server/rest/user').status_code == 200
