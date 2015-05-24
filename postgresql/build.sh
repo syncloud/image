@@ -6,15 +6,17 @@ cd ${DIR}
 export TMPDIR=/tmp
 export TMP=/tmp
 VERSION=9.4.2
+ROOT=/opt/syncloud-platform
+PREFIX=${ROOT}/postgresql
 
 apt-get -y install build-essential flex bison libreadline-dev zlib1g-dev
 rm -rf postgresql-${VERSION}.tar.bz2*
 wget https://ftp.postgresql.org/pub/source/v${VERSION}/postgresql-${VERSION}.tar.bz2
 tar xjf postgresql-${VERSION}.tar.bz2
 cd postgresql-${VERSION}
-./configure --prefix /opt/postgresql
+./configure --prefix ${PREFIX}
 make
-rm -rf /opt/postgresql
+rm -rf ${PREFIX}
 make install
 cd ..
 tar czf postgresql-${VERSION}.tar.gz -C /opt postgresql
