@@ -36,7 +36,7 @@ def test_server():
     assert response.status_code == 302
     response = session.post('http://localhost/server/rest/login', data={'name': 'user', 'password': 'password'})
     print(response.text)
-    assert session.get('http://localhost/server/rest/user').status_code == 200
+    assert session.get('http://localhost/server/rest/user', allow_redirects=False).status_code == 200
 
 
 def test_owncloud():
