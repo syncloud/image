@@ -3,14 +3,16 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
 
-apt-get -y install build-essential flex bison libreadline-dev zlib
+VERSION=9.4.2
 
-wget https://ftp.postgresql.org/pub/source/v9.4.2/postgresql-9.4.2.tar.bz2
-tar xjvf postgresql-9.4.2.tar.bz2
-cd postgresql-9.4.2
+apt-get -y install build-essential flex bison libreadline-dev zlib1g-dev
+rm -rf postgresql-${VERSION}.tar.bz2*
+wget https://ftp.postgresql.org/pub/source/v${VERSION}/postgresql-${VERSION}.tar.bz2
+tar xjf postgresql-${VERSION}.tar.bz2
+cd postgresql-${VERSION}
 ./configure --prefix /opt/postgresql
 make
 rm -rf /opt/postgresql
 make install
 cd ..
-tar czvf postgresql-9.4.2.tar.gz -C /opt postgresql
+tar czf postgresql-${VERSION}.tar.gz -C /opt postgresql
