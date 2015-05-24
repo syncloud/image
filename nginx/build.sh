@@ -14,7 +14,7 @@ rm -rf postgresql-${VERSION}.tar.bz2*
 wget http://nginx.org/download/nginx-${VERSION}.tar.gz
 tar xzf nginx-${VERSION}.tar.gz
 cd nginx-${VERSION}
-./configure --prefix ${PREFIX}
+./configure --prefix=${PREFIX}
 make
 rm -rf ${PREFIX}
 make install
