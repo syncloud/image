@@ -19,4 +19,4 @@ make
 rm -rf ${PREFIX}
 make install
 cd ..
-tar czf postgresql-${VERSION}.tar.gz -C /opt postgresql
+tar czf postgresql-${VERSION}.tar.gz -C ${ROOT} postgresql
