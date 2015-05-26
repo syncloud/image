@@ -10,4 +10,4 @@ fi
 tar xzf rootfs.tar.gz
 cp build.sh rootfs/root
 chroot rootfs root/build.sh
-mv rootfs/root/nginx*.tar.gz .
+mv rootfs/root/build/nginx*.tar.gz .
