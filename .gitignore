@@ -6,3 +6,4 @@ kernel-qemu
 *.tar.gz
 *.tar.xz
 rootfs
+build

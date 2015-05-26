@@ -11,7 +11,11 @@ ROOT=/opt/syncloud-platform
 PREFIX=${ROOT}/postgresql
 
 apt-get -y install build-essential flex bison libreadline-dev zlib1g-dev
-rm -rf ${NAME}-${VERSION}.tar.bz2*
+
+rm -rf build
+mkdir -p build
+cd build
+
 wget https://ftp.postgresql.org/pub/source/v${VERSION}/${NAME}-${VERSION}.tar.bz2
 tar xjf ${NAME}-${VERSION}.tar.bz2
 cd ${NAME}-${VERSION}
@@ -21,3 +25,5 @@ rm -rf ${PREFIX}
 make install
 cd ..
 tar czf ${NAME}-${VERSION}.tar.gz -C ${ROOT} ${NAME}
+
+cd ..
