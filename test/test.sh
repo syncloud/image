@@ -15,8 +15,25 @@ function sshexec {
     sshpass -p "syncloud" ssh -o StrictHostKeyChecking=no root@localhost -p 2222 "$1"
 }
 
+function cleanup {
+
+    echo "cleaning old rootfs"
+    rm -rf rootfs
+
+    echo "docker images"
+    docker images -q
+
+    echo "removing images"
+    docker rm $(docker kill $(docker ps -qa))
+    docker rmi $(docker images -q)
+
+    echo "docker images"
+    docker images -q
+}
+
+cleanup
+
 echo "extracting rootfs"
-rm -rf rootfs
 tar xzf syncloud-rootfs.tar.gz
 
 echo "rootfs version: $(<rootfs/version)"
@@ -45,12 +62,4 @@ sshexec "pip2 install -U pytest"
 sshexec "pip2 install -r /requirements.txt"
 sshexec "cd /; TEAMCITY_VERSION=9 py.test -s verify.py --email=$REDIRECT_EMAIL --password=$REDIRECT_PASSWORD"
 
-echo "docker images"
-docker images -q
-
-echo "removing images"
-docker rm $(docker kill $(docker ps -qa))
-docker rmi $(docker images -q)
-
-echo "docker images"
-docker images -q
+cleanup
