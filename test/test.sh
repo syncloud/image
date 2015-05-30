@@ -62,4 +62,4 @@ sshexec "pip2 install -U pytest"
 sshexec "pip2 install -r /requirements.txt"
 sshexec "cd /; TEAMCITY_VERSION=9 py.test -s verify.py --email=$REDIRECT_EMAIL --password=$REDIRECT_PASSWORD"
 
-cleanup
+#cleanup
