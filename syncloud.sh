@@ -27,5 +27,5 @@ fi
 wget -qO- https://raw.githubusercontent.com/syncloud/apps/$(<info/RELEASE)/bootstrap.sh | bash
 
 sam --debug upgrade_all
-sam --debug install syncloud-owncloud
+#sam --debug install syncloud-owncloud
 pip2 freeze | grep syncloud
