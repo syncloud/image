@@ -78,6 +78,8 @@ chroot rootfs apt-get -y install sudo openssh-server python-dev gcc wget less bo
 
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
 
+mkdir rootfs/opt/data
+
 cleanup
 
 echo "cleaning apt cache"
