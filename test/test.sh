@@ -42,7 +42,6 @@ cp ../info/RELEASE rootfs/
 cp requirements.txt rootfs/
 cp conftest.py rootfs/
 cp verify.py rootfs/
-chmod +x rootfs/verify.py
 
 echo "importing rootfs"
 tar -C rootfs -c . | docker import - syncloud
@@ -61,5 +60,3 @@ sshexec "pip2 freeze | grep syncloud"
 sshexec "pip2 install -U pytest"
 sshexec "pip2 install -r /requirements.txt"
 sshexec "cd /; TEAMCITY_VERSION=9 py.test -s verify.py --email=$REDIRECT_EMAIL --password=$REDIRECT_PASSWORD"
-
-#cleanup
