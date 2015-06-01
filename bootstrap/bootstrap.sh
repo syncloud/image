@@ -44,6 +44,7 @@ function cleanup {
     echo "killing chroot services"
     lsof | grep rootfs | grep -v java | awk '{print $1 $2}' | sort | uniq
     lsof | grep rootfs | grep -v java | awk '{print $2}' | sort | uniq | xargs kill -9
+    echo "chroot services after kill"
     lsof | grep rootfs
 }
 
@@ -68,9 +69,11 @@ chroot rootfs /bin/bash -c "echo \"root:syncloud\" | chpasswd"
 chroot rootfs /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot rootfs /bin/bash -c "mount -t proc proc /proc"
 
+echo "copy system files to get image working"
 if [ -d ${DISTRO} ]; then
     cp -rf ${DISTRO}/* rootfs/
 fi
+
 chroot rootfs apt-get update
 chroot rootfs apt-get -y dist-upgrade
 chroot rootfs /bin/bash -c "echo 'mysql-server-5.5 mysql-server/root_password password root' | debconf-set-selections"
@@ -82,6 +85,10 @@ chroot rootfs apt-get -y install sudo openssh-server python-dev gcc wget less bo
 
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
 
+echo "copy system files again as some packages might have replaced our files"
+if [ -d ${DISTRO} ]; then
+    cp -rf ${DISTRO}/* rootfs/
+fi
 mkdir rootfs/opt/data
 mkdir rootfs/opt/app
 
