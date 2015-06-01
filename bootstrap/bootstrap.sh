@@ -57,6 +57,10 @@ qemu-debootstrap --no-check-gpg --include=ca-certificates,locales --arch=${ARCH}
 sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' rootfs/etc/locale.gen
 chroot rootfs /bin/bash -c "locale-gen en_US en_US.UTF-8"
 
+echo "disable service restart"
+cp disable-service-restart.sh rootfs/root
+chroot rootfs /root/disable-service-restart.sh
+
 chroot rootfs wget ${KEY} -O archive.key
 chroot rootfs apt-key add archive.key
 
@@ -80,6 +84,10 @@ sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
 
 mkdir rootfs/opt/data
 mkdir rootfs/opt/app
+
+echo "enable restart"
+cp enable-service-restart.sh rootfs/root
+chroot rootfs /root/enable-service-restart.sh
 
 cleanup
 
