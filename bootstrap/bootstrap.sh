@@ -84,6 +84,9 @@ chroot rootfs apt-get -y install sudo openssh-server python-dev gcc wget less bo
  mysql-server libmysqlclient-dev ldap-utils slapd libldap2-dev libsasl2-dev libssl-dev curl dbus avahi-daemon \
  miniupnpc ntp udisks-glue
 
+wget --no-check-certificate --progress=dot:mega -O rootfs/root/get-pip.py https://bootstrap.pypa.io/get-pip.py 2>&1
+chroot rootfs python root/get-pip.py
+
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
 
 echo "copy system files again as some packages might have replaced our files"
