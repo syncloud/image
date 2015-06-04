@@ -82,7 +82,7 @@ chroot rootfs /bin/bash -c "echo 'slapd/root_password password syncloud' | debco
 chroot rootfs /bin/bash -c "echo 'slapd/root_password_again password syncloud' | debconf-set-selections"
 chroot rootfs apt-get -y install sudo openssh-server python-dev gcc wget less bootlogd parted lsb-release unzip bzip2\
  mysql-server libmysqlclient-dev ldap-utils slapd libldap2-dev libsasl2-dev libssl-dev curl dbus avahi-daemon \
- miniupnpc ntp udisks-glue
+ miniupnpc ntp udisks-glue libpq-dev
 
 wget --no-check-certificate --progress=dot:mega -O rootfs/root/get-pip.py https://bootstrap.pypa.io/get-pip.py 2>&1
 chroot rootfs python root/get-pip.py
