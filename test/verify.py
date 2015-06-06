@@ -11,10 +11,3 @@ from syncloud.sam.pip import Pip
 from syncloud.server.serverfacade import get_server
 
 
-def test_owncloud():
-    sam = get_sam()
-    sam.install('syncloud-owncloud')
-    from syncloud.owncloud import facade
-    owncloud = facade.get_control(get_insider(use_upnpc_mock=True))
-    owncloud.finish('test', 'test', 'localhost', 'http')
-    assert owncloud.verify('localhost')
