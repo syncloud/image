@@ -16,6 +16,7 @@ elif [[ ${DISTRO} == "debian" ]]; then
     KEY=https://ftp-master.debian.org/keys/archive-key-8.asc
     ARCH=armhf
 elif [[ ${DISTRO} == "amd64" ]]; then
+    DISTRO=debian
     REPO=http://http.debian.net/debian
     KEY=https://ftp-master.debian.org/keys/archive-key-8.asc
     ARCH=amd64
