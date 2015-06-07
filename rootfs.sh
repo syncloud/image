@@ -86,8 +86,13 @@ cp enable-service-restart.sh rootfs/root
 chroot rootfs /root/enable-service-restart.sh
 
 tar czf syncloud-rootfs.tar.gz rootfs
+rm -rf build
+mkdir build
+mv syncloud-rootfs.tar.gz build/rootfs.tar.gz
 
 FINISH_TIME=$(date +"%s")
 BUILD_TIME=$(($FINISH_TIME-$START_TIME))
+
+echo "rootfs: build/rootfs.tar.gz"
 
 echo "Build time: $(($BUILD_TIME / 60)) min"
