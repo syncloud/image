@@ -15,19 +15,13 @@ def activate_device(auth):
 
     logger.init(logging.DEBUG, True)
 
-    print("installing latest platform")
-    get_sam().update("0.9")
-    get_sam().install("syncloud-platform")
-
     # persist upnp mock setting
     get_insider().insider_config.set_upnpc_mock(True)
-
     server = get_server(insider=get_insider(use_upnpc_mock=True))
     email, password = auth
     server.activate('test', 'syncloud.info', 'http://api.syncloud.info:81', email, password, 'teamcity', 'user', 'password', False)
 
 def test_owncloud_activation():
-    # logger.init(logging.DEBUG, True)
 
     print("installing local owncloud build")
     get_sam().install("syncloud-owncloud")
