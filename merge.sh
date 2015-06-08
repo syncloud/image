@@ -14,11 +14,11 @@ fi
 SYNCLOUD_BOARD=$1
 echo "========== ${SYNCLOUD_BOARD} =========="
 
-if [ ! -f "syncloud-rootfs.tar.gz" ]; then
+if [ ! -f "rootfs.tar.gz" ]; then
     echo "rootfs is not ready, run 'sudo ./rootfs.sh'"
     exit 1
 elae
-    echo "syncloud-rootfs.tar.gz is here"
+    echo "rootfs.tar.gz is here"
 fi
 
 BOOT_ZIP=${SYNCLOUD_BOARD}.tar.gz
@@ -29,7 +29,7 @@ else
   echo "$BOOT_ZIP is here"
 fi
 
-tar xzf syncloud-rootfs.tar.gz
+tar xzf rootfs.tar.gz
 
 #Fix debconf frontend warnings
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
