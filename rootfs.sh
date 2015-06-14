@@ -22,9 +22,9 @@ function cleanup {
     mount | grep rootfs
 
     echo "killing chroot services"
-    lsof | grep rootfs | grep -v java | grep -v rootfs.sh | awk '{print $1" "$2}' | sort | uniq
+    lsof | grep rootfs | grep -v java | grep -v docker | grep -v rootfs.sh | awk '{print $1" "$2}' | sort | uniq
 
-    lsof | grep rootfs | grep -v java | grep -v rootfs.sh | awk '{print $2}' | sort | uniq | xargs kill -9
+    lsof | grep rootfs | grep -v java | grep -v docker | grep -v rootfs.sh | awk '{print $2}' | sort | uniq | xargs kill -9
 
     lsof | grep rootfs
 }
