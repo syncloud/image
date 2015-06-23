@@ -1,25 +1,29 @@
 #!/bin/bash
 
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 distro"
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 distro sam_version"
     exit 1
 fi
 
 DISTRO=$1
+SAM_VERSION=$2
 
 if [[ ${DISTRO} == "raspbian" ]]; then
     REPO=http://archive.raspbian.com/raspbian
     KEY=http://archive.raspbian.org/raspbian.public.key
-    ARCH=armhf
+    DEBOOTSTRAP_ARCH=armhf
+    ARCH=armv7l
 elif [[ ${DISTRO} == "debian" ]]; then
     REPO=http://http.debian.net/debian
     KEY=https://ftp-master.debian.org/keys/archive-key-8.asc
-    ARCH=armhf
+    DEBOOTSTRAP_ARCH=armhf
+    ARCH=armv7l
 elif [[ ${DISTRO} == "amd64" ]]; then
     DISTRO=debian
     REPO=http://http.debian.net/debian
     KEY=https://ftp-master.debian.org/keys/archive-key-8.asc
-    ARCH=amd64
+    DEBOOTSTRAP_ARCH=amd64
+    ARCH=x86_64
 else
     echo "${DISTRO} is not supported"
     exit 1
@@ -36,6 +40,8 @@ export TMP=/tmp
 
 apt-get -y install debootstrap qemu-user-static
 
+ROOTFS=/tmp/rootfs
+
 function cleanup {
 
     mount | grep rootfs
@@ -43,66 +49,70 @@ function cleanup {
     mount | grep rootfs
 
     echo "killing chroot services"
-    lsof | grep rootfs | grep -v java | awk '{print $1 $2}' | sort | uniq
-    lsof | grep rootfs | grep -v java | awk '{print $2}' | sort | uniq | xargs kill -9
+    lsof 2>&1 | grep rootfs | grep -v java | awk '{print $1 $2}' | sort | uniq
+    lsof 2>&1 | grep rootfs | grep -v java | awk '{print $2}' | sort | uniq | xargs kill -9
     echo "chroot services after kill"
-    lsof | grep rootfs
+    lsof 2>&1 | grep rootfs
 }
 
 cleanup
 
-rm -rf rootfs
+rm -rf ${ROOTFS}
 rm -rf rootfs.tar.gz
 
-qemu-debootstrap --no-check-gpg --include=ca-certificates,locales --arch=${ARCH} jessie rootfs ${REPO}
+qemu-debootstrap --no-check-gpg --include=ca-certificates,locales --arch=${DEBOOTSTRAP_ARCH} jessie ${ROOTFS} ${REPO}
 
-sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' rootfs/etc/locale.gen
-chroot rootfs /bin/bash -c "locale-gen en_US en_US.UTF-8"
+sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' ${ROOTFS}/etc/locale.gen
+chroot ${ROOTFS} /bin/bash -c "locale-gen en_US en_US.UTF-8"
 
 echo "disable service restart"
-cp disable-service-restart.sh rootfs/root
-chroot rootfs /root/disable-service-restart.sh
+cp disable-service-restart.sh ${ROOTFS}/root
+chroot ${ROOTFS} /root/disable-service-restart.sh
 
-chroot rootfs wget ${KEY} -O archive.key
-chroot rootfs apt-key add archive.key
+chroot ${ROOTFS} wget ${KEY} -O archive.key
+chroot ${ROOTFS} apt-key add archive.key
 
-chroot rootfs /bin/bash -c "echo \"root:syncloud\" | chpasswd"
-chroot rootfs /bin/bash -c "mount -t devpts devpts /dev/pts"
-chroot rootfs /bin/bash -c "mount -t proc proc /proc"
+chroot ${ROOTFS} /bin/bash -c "echo \"root:syncloud\" | chpasswd"
+chroot ${ROOTFS} /bin/bash -c "mount -t devpts devpts /dev/pts"
+chroot ${ROOTFS} /bin/bash -c "mount -t proc proc /proc"
 
 echo "copy system files to get image working"
 if [ -d ${DISTRO} ]; then
-    cp -rf ${DISTRO}/* rootfs/
+    cp -rf ${DISTRO}/* ${ROOTFS}/
 fi
 
-chroot rootfs apt-get update
-chroot rootfs apt-get -y dist-upgrade
-chroot rootfs /bin/bash -c "echo 'slapd/root_password password syncloud' | debconf-set-selections"
-chroot rootfs /bin/bash -c "echo 'slapd/root_password_again password syncloud' | debconf-set-selections"
-chroot rootfs apt-get -y install sudo openssh-server python-dev gcc wget less bootlogd parted lsb-release unzip bzip2\
+chroot ${ROOTFS} apt-get update
+chroot ${ROOTFS} apt-get -y dist-upgrade
+chroot ${ROOTFS} /bin/bash -c "echo 'slapd/root_password password syncloud' | debconf-set-selections"
+chroot ${ROOTFS} /bin/bash -c "echo 'slapd/root_password_again password syncloud' | debconf-set-selections"
+chroot ${ROOTFS} apt-get -y install sudo openssh-server python-dev gcc wget less bootlogd parted lsb-release unzip bzip2\
  libldap2-dev libsasl2-dev libssl-dev curl dbus avahi-daemon \
  miniupnpc ntp udisks-glue libpq-dev
 
-wget --no-check-certificate --progress=dot:mega -O rootfs/root/get-pip.py https://bootstrap.pypa.io/get-pip.py 2>&1
-chroot rootfs python root/get-pip.py
+wget --no-check-certificate --progress=dot:mega -O ${ROOTFS}/root/get-pip.py https://bootstrap.pypa.io/get-pip.py 2>&1
+chroot ${ROOTFS} python root/get-pip.py
 
-sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" rootfs/etc/ssh/sshd_config
+sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" ${ROOTFS}/etc/ssh/sshd_config
 
 echo "copy system files again as some packages might have replaced our files"
 if [ -d ${DISTRO} ]; then
-    cp -rf ${DISTRO}/* rootfs/
+    cp -rf ${DISTRO}/* ${ROOTFS}/
 fi
-mkdir rootfs/opt/data
-mkdir rootfs/opt/app
+mkdir ${ROOTFS}/opt/data
+mkdir ${ROOTFS}/opt/app
+
+SAM=sam-${SAM_VERSION}-${ARCH}.tar.gz
+wget http://apps.syncloud.org/apps/${SAM}
+tar xzf ${SAM} -C ${ROOTFS}/opt/app
 
 echo "enable restart"
-cp enable-service-restart.sh rootfs/root
-chroot rootfs /root/enable-service-restart.sh
+cp enable-service-restart.sh ${ROOTFS}/root
+chroot ${ROOTFS} /root/enable-service-restart.sh
 
 cleanup
 
 echo "cleaning apt cache"
-rm -rf rootfs/var/cache/apt/archives/*.deb
+rm -rf ${ROOTFS}/var/cache/apt/archives/*.deb
 
 echo "zipping bootstrap"
-tar czf rootfs.tar.gz rootfs
+tar czf rootfs.tar.gz -C ${ROOTFS} .
