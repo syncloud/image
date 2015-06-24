@@ -96,7 +96,7 @@ chroot ${ROOTFS} /root/enable-service-restart.sh
 rm -rf build
 mkdir build
 echo "zipping"
-tar czf build/syncloud-rootfs.tar.gz -C ${ROOTFS} .
+tar czf build/rootfs.tar.gz -C ${ROOTFS} .
 
 FINISH_TIME=$(date +"%s")
 BUILD_TIME=$(($FINISH_TIME-$START_TIME))
