@@ -9,7 +9,21 @@ export DEBIAN_FRONTEND=noninteractive
 export TMPDIR=/tmp
 export TMP=/tmp
 
-BASE_ROOTFS_ZIP=rootfs.tar.gz
+
+ARCH=$(dpkg-architecture -q DEB_HOST_GNU_CPU)
+if [ ! -z "$1" ]; then
+    ARCH=$1
+fi
+
+BASE_ROOTFS_ZIP=rootfs-${ARCH}.tar.gz
+ROOTFS=/tmp/rootfs
+
+if [ ! -f ${BASE_ROOTFS_ZIP} ]; then
+  wget http://build.syncloud.org:8111/guestAuth/repository/download/debian_rootfs_${ARCH}/lastSuccessful/rootfs.tar.gz\
+  -O ${BASE_ROOTFS_ZIP} --progress dot:giga
+else
+  echo "skipping rootfs"
+fi
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
@@ -22,14 +36,12 @@ function cleanup {
     mount | grep rootfs
 
     echo "killing chroot services"
-    lsof | grep rootfs | grep -v java | grep -v docker | grep -v rootfs.sh | awk '{print $1" "$2}' | sort | uniq
+    lsof 2>&1 | grep rootfs | grep -v java | grep -v docker | grep -v rootfs.sh | awk '{print $1" "$2}' | sort | uniq
 
-    lsof | grep rootfs | grep -v java | grep -v docker | grep -v rootfs.sh | awk '{print $2}' | sort | uniq | xargs kill -9
+    lsof 2>&1 | grep rootfs | grep -v java | grep -v docker | grep -v rootfs.sh | awk '{print $2}' | sort | uniq | xargs kill -9
 
-    lsof | grep rootfs
+    lsof 2>&1 | grep rootfs
 }
-
-printenv
 
 echo "installing dependencies"
 sudo apt-get -y install p7zip qemu-user-static
@@ -45,34 +57,30 @@ fi
 
 cleanup
 
-rm -rf rootfs
-mkdir -p rootfs
+rm -rf ${ROOTFS}
+mkdir -p ${ROOTFS}
 
 echo "extracting rootfs"
 
-tar xzf ${BASE_ROOTFS_ZIP}
+tar xzf ${BASE_ROOTFS_ZIP} -C ${ROOTFS}
 
 echo "enabling arm binary support"
-cp $(which qemu-arm-static) rootfs/usr/bin
+cp $(which qemu-arm-static) ${ROOTFS}/usr/bin
 
 echo "setting version ${BUILD_NUMBER}"
-echo ${BUILD_NUMBER} > rootfs/version
+echo ${BUILD_NUMBER} > ${ROOTFS}/version
 
 echo "disable service restart"
-cp disable-service-restart.sh rootfs/root
-chroot rootfs /root/disable-service-restart.sh
+cp disable-service-restart.sh ${ROOTFS}/root
+chroot ${ROOTFS} /root/disable-service-restart.sh
 
 echo "configuring rootfs"
-chroot rootfs /bin/bash -c "mount -t devpts devpts /dev/pts"
-chroot rootfs /bin/bash -c "mount -t proc proc /proc"
+chroot ${ROOTFS} /bin/bash -c "mount -t devpts devpts /dev/pts"
+chroot ${ROOTFS} /bin/bash -c "mount -t proc proc /proc"
 
-echo "upgrade rootfs"
-chroot rootfs /bin/bash -c "apt-get update"
-chroot rootfs /bin/bash -c "apt-get -y dist-upgrade"
-
-cp -R info rootfs/root/
-cp syncloud.sh rootfs/root
-chroot rootfs /bin/bash -c "/root/syncloud.sh"
+cp -R info ${ROOTFS}/root/
+cp syncloud.sh ${ROOTFS}/root
+chroot ${ROOTFS} /bin/bash -c "/root/syncloud.sh"
 
 if [[ $? != 0 ]]; then
   echo "syncloud build failed"
@@ -82,13 +90,13 @@ fi
 cleanup
 
 echo "enable restart"
-cp enable-service-restart.sh rootfs/root
-chroot rootfs /root/enable-service-restart.sh
+cp enable-service-restart.sh ${ROOTFS}/root
+chroot ${ROOTFS} /root/enable-service-restart.sh
 
-tar czf syncloud-rootfs.tar.gz rootfs
 rm -rf build
 mkdir build
-mv syncloud-rootfs.tar.gz build/rootfs.tar.gz
+echo "zipping"
+tar czf build/syncloud-rootfs.tar.gz -C ${ROOTFS} .
 
 FINISH_TIME=$(date +"%s")
 BUILD_TIME=$(($FINISH_TIME-$START_TIME))

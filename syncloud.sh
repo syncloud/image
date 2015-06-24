@@ -15,17 +15,15 @@ export DEBIAN_FRONTEND=noninteractive
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
 
-#set -x
-#export SHELLOPTS
-
 if [ ! -f info/RELEASE ]; then
     ls -la
     echo "Relase file: info/RELEASE is missing" 1>&2
     exit 1
 fi
 
-wget -qO- https://raw.githubusercontent.com/syncloud/apps/$(<info/RELEASE)/bootstrap.sh | bash
-
-sam --debug upgrade_all
+/opt/app/sam/bin/sam update --release $(<info/RELEASE)
+/opt/app/sam/bin/sam --debug upgrade_all
 #sam --debug install syncloud-owncloud
-pip2 freeze | grep syncloud
+/opt/app/sam/bin/sam list
+
+rm -rf /tmp/*
