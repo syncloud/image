@@ -29,7 +29,9 @@ else
   echo "$BOOT_ZIP is here"
 fi
 
-tar xzf rootfs.tar.gz
+rm -rf roofts
+mkdir rootfs
+tar xzf rootfs.tar.gz -C rootfs
 
 #Fix debconf frontend warnings
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
