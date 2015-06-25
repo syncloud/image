@@ -1,2 +1,3 @@
+requests
 pytest-cov==1.6
 teamcity-messages
