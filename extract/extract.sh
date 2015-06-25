@@ -20,19 +20,24 @@ CPU_FREQUENCY_MIN=
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   IMAGE_FILE=/tmp/2015-05-05-raspbian-wheezy.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:mega http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
+elif [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
+  IMAGE_FILE=/tmp/jessie-rpi2-20150202.img
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.gz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga https://images.collabora.co.uk/rpi2/jessie-rpi2-20150202.img.gz -O $IMAGE_FILE_ZIP"
+  UNZIP=gunzip
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   echo "single partition is not supported yet"
   exit 1
   IMAGE_FILE=/tmp/bone-debian-7.8-console-armhf-2015-02-19-2gb.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://rcn-ee.net/rootfs/2015-02-19/microsd/$IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga https://rcn-ee.net/rootfs/2015-02-19/microsd/$IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   IMAGE_FILE="/tmp/Cubian-nano+headless-x1-a10.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a10.img.7z -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a10.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
@@ -41,7 +46,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   IMAGE_FILE="/tmp/Cubian-nano+headless-x1-a20.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20.img.7z -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
@@ -50,7 +55,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   IMAGE_FILE="/tmp/Cubian-nano+headless-x1-a20-cubietruck.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:mega https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20-cubietruck.img.7z -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20-cubietruck.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
@@ -121,6 +126,7 @@ losetup -l
 
 echo "source rootfs"
 ls -la extract_rootfs/
+ls -la extract_rootfs/lib/modules
 
 echo "target rootfs"
 ls -la ${OUTPUT}
