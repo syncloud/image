@@ -9,17 +9,22 @@ export DEBIAN_FRONTEND=noninteractive
 export TMPDIR=/tmp
 export TMP=/tmp
 
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 distro [arch]"
+    exit 1
+fi
+DISTRO=$1
 
 ARCH=$(dpkg-architecture -q DEB_HOST_GNU_CPU)
-if [ ! -z "$1" ]; then
-    ARCH=$1
+if [ ! -z "$2" ]; then
+    ARCH=$2
 fi
 
 BASE_ROOTFS_ZIP=rootfs-${ARCH}.tar.gz
 ROOTFS=/tmp/rootfs
 
 if [ ! -f ${BASE_ROOTFS_ZIP} ]; then
-  wget http://build.syncloud.org:8111/guestAuth/repository/download/debian_rootfs_${ARCH}/lastSuccessful/rootfs.tar.gz\
+  wget http://build.syncloud.org:8111/guestAuth/repository/download/${DISTRO}_rootfs_${ARCH}/lastSuccessful/rootfs.tar.gz\
   -O ${BASE_ROOTFS_ZIP} --progress dot:giga
 else
   echo "skipping rootfs"
