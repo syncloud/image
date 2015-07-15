@@ -7,17 +7,18 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 board"
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 board distro"
     exit 1
 fi
 SYNCLOUD_BOARD=$1
+DISTRO=$2
 echo "========== ${SYNCLOUD_BOARD} =========="
 
 if [ ! -f "rootfs.tar.gz" ]; then
-    wget http://build.syncloud.org:8111/guestAuth/repository/download/${SYNCLOUD_BOARD}_rootfs_syncloud_armv7l/lastSuccessful/rootfs.tar.gz\
+    wget http://build.syncloud.org:8111/guestAuth/repository/download/${DISTRO}_rootfs_syncloud_armv7l/lastSuccessful/rootfs.tar.gz\
   -O rootfs.tar.gz --progress dot:giga
-elae
+else
     echo "rootfs.tar.gz is here"
 fi
 
