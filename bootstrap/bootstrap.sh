@@ -89,7 +89,7 @@ chroot ${ROOTFS} apt-get -y install sudo openssh-server python-dev gcc wget less
  libldap2-dev libsasl2-dev libssl-dev curl dbus avahi-daemon \
  miniupnpc ntp udisks-glue libpq-dev
 
-wget --no-check-certificate --progress=dot:mega -O ${ROOTFS}/root/get-pip.py https://bootstrap.pypa.io/get-pip.py 2>&1
+wget --no-check-certificate --progress=dot:giga -O ${ROOTFS}/root/get-pip.py https://bootstrap.pypa.io/get-pip.py 2>&1
 chroot ${ROOTFS} python root/get-pip.py
 
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" ${ROOTFS}/etc/ssh/sshd_config
@@ -102,7 +102,7 @@ mkdir ${ROOTFS}/opt/data
 mkdir ${ROOTFS}/opt/app
 
 SAM=sam-${SAM_VERSION}-${ARCH}.tar.gz
-wget http://apps.syncloud.org/apps/${SAM}
+wget http://apps.syncloud.org/apps/${SAM} --progress=dot:giga
 tar xzf ${SAM} -C ${ROOTFS}/opt/app
 
 echo "enable restart"

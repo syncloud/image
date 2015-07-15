@@ -29,10 +29,6 @@ else
   echo "$BOOT_ZIP is here"
 fi
 
-rm -rf roofts
-mkdir rootfs
-tar xzf rootfs.tar.gz -C rootfs
-
 #Fix debconf frontend warnings
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export DEBCONF_FRONTEND=noninteractive
@@ -42,12 +38,15 @@ export TMP=/tmp
 
 RESIZE_PARTITION_ON_FIRST_BOOT=true
 SYNCLOUD_IMAGE=syncloud-${SYNCLOUD_BOARD}.img
+SRC_ROOTFS=rootfs
+DST_ROOTFS=dst/root
 
 function cleanup {
     echo "cleanup"
-    #if mount | grep ${SYNCLOUD_IMAGE}; then
-        umount dst/root
-    #fi
+    mount | grep ${DST_ROOTFS}
+    mount | grep ${DST_ROOTFS} | awk '{print "umounting "$1; system("umount "$3)}'
+    mount | grep ${DST_ROOTFS}
+    rm -rf ${SRC_ROOTFS}
     losetup -a
     kpartx -v ${SYNCLOUD_IMAGE}
     echo "removing loop devices"
@@ -58,6 +57,9 @@ echo "installing dependencies"
 apt-get -y install dosfstools kpartx p7zip
 
 cleanup
+
+mkdir ${SRC_ROOTFS}
+tar xzf rootfs.tar.gz -C${SRC_ROOTFS}
 
 echo "extracting boot"
 rm -rf ${SYNCLOUD_BOARD}
@@ -96,22 +98,22 @@ q
 kpartx -a ${SYNCLOUD_IMAGE}
 LOOP=$(kpartx -l ${SYNCLOUD_IMAGE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
 rm -rf dst
-mkdir -p dst/root
+mkdir -p ${DST_ROOTFS}
 
 mkfs.ext4 /dev/mapper/${LOOP}p2
-mount /dev/mapper/${LOOP}p2 dst/root
+mount /dev/mapper/${LOOP}p2 ${DST_ROOTFS}
 
 echo "copying rootfs"
-cp -rp rootfs/* dst/root/
-cp -rp ${SYNCLOUD_BOARD}/root/* dst/root/
+cp -rp ${SRC_ROOTFS}/* ${DST_ROOTFS}/
+cp -rp ${SYNCLOUD_BOARD}/root/* ${DST_ROOTFS}/
 
 echo "setting resize on boot flag"
 if [ "$RESIZE_PARTITION_ON_FIRST_BOOT" = true ] ; then
-    touch dst/root/var/lib/resize_partition_flag
+    touch ${DST_ROOTFS}/var/lib/resize_partition_flag
 fi
 
 echo "setting hostname"
-echo ${SYNCLOUD_BOARD} > dst/root/etc/hostname
+echo ${SYNCLOUD_BOARD} > ${DST_ROOTFS}/etc/hostname
 
 sync
 

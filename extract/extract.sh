@@ -5,6 +5,8 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+apt-get install -y kpartx
+
 if [ "$1" == "" ]; then
     echo "Usage: $0 board"
     exit 1
@@ -23,10 +25,10 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
-  IMAGE_FILE=/tmp/jessie-rpi2-20150202.img
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.gz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga https://images.collabora.co.uk/rpi2/jessie-rpi2-20150202.img.gz -O $IMAGE_FILE_ZIP"
-  UNZIP=gunzip
+  IMAGE_FILE=/tmp/2015-05-05-raspbian-wheezy.img
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
+  DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
+  UNZIP=unzip
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   echo "single partition is not supported yet"
   exit 1
