@@ -9,7 +9,7 @@ export DEBIAN_FRONTEND=noninteractive
 export TMPDIR=/tmp
 export TMP=/tmp
 
-if [ "$#" -ne 1 ]; then
+if [ "$#" -lt 1 ]; then
     echo "Usage: $0 distro [arch]"
     exit 1
 fi
