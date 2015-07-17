@@ -83,11 +83,8 @@ fi
 
 chroot ${ROOTFS} apt-get update
 chroot ${ROOTFS} apt-get -y dist-upgrade
-chroot ${ROOTFS} apt-get -y install sudo openssh-server python-dev gcc wget less bootlogd parted lsb-release unzip bzip2\
- libldap2-dev libsasl2-dev libssl-dev curl dbus avahi-daemon    ntp libpq-dev
-
-wget --no-check-certificate --progress=dot:giga -O ${ROOTFS}/root/get-pip.py https://bootstrap.pypa.io/get-pip.py 2>&1
-chroot ${ROOTFS} python root/get-pip.py
+chroot ${ROOTFS} apt-get -y install sudo openssh-server wget less bootlogd parted lsb-release unzip bzip2\
+ libldap2-dev libsasl2-dev libssl-dev curl dbus avahi-daemon ntp libpq-dev
 
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" ${ROOTFS}/etc/ssh/sshd_config
 
