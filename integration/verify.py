@@ -22,7 +22,7 @@ def test_login():
 
 
 def test_owncloud_install():
-    response = session.get('http://localhost/server/rest/install?app_id=syncloud-owncloud', allow_redirects=False)
+    response = session.get('http://localhost/server/rest/install?app_id=owncloud', allow_redirects=False)
     assert response.status_code == 200
     response = session.get('http://localhost/owncloud/', allow_redirects=False)
     assert response.status_code == 200
