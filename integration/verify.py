@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from os.path import dirname
 import requests
+import time
 
 DIR = dirname(__file__)
 
@@ -24,5 +25,6 @@ def test_login():
 def test_owncloud_install():
     response = session.get('http://localhost/server/rest/install?app_id=owncloud', allow_redirects=False)
     assert response.status_code == 200
+    time.sleep(3)
     response = session.get('http://localhost/owncloud/', allow_redirects=False)
     assert response.status_code == 200
