@@ -47,11 +47,6 @@ tar xzf ${APP_DIR}/3rdparty/rootfs-${ARCH}.tar.gz -C ${ROOTFS}
 
 #echo "rootfs version: $(<rootfs/version)"
 sed -i 's/Port 22/Port 2222/g' ${ROOTFS}/etc/ssh/sshd_config
-mkdir ${ROOTFS}/test
-
-echo "copying all files to rootfs"
-rsync -a ${APP_DIR}/ ${ROOTFS}/test --exclude=/3rdparty
-
 echo "importing rootfs"
 tar -C ${ROOTFS} -c . | docker import - syncloud
 

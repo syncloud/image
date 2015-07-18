@@ -13,11 +13,15 @@ fi
 
 apt-get install sshpass
 
-if [[ -n "$TEAMCITY_VERSION" ]]; then
-    TC="export TEAMCITY_VERSION=\"$TEAMCITY_VERSION\" ; "
-fi
+SCP="sshpass -p syncloud scp -o StrictHostKeyChecking=no -P 2222"
 
-SSH="sshpass -p syncloud ssh -o StrictHostKeyChecking=no root@localhost -p 2222"
-${SSH} "pip2 install -U pytest"
-${SSH} "pip2 install -r /test/dev_requirements.txt"
-${SSH} "$TC py.test -s /test/integration/verify.py --email=$1 --password=$2 --domain=$3 --release=$4"
+wget --no-check-certificate --progress=dot:giga -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py 2>&1
+python /tmp/get-pip.py
+
+pip2 install -U pytest
+pip2 install -r dev_requirements.txt
+py.test -s verify.py --email=$1 --password=$2 --domain=$3 --release=$4
+
+${SCP} root@localhost:/var/log/sam.log .
+${SCP} root@localhost:/opt/app/platform/uwsgi/internal.log .
+${SCP} root@localhost:/opt/app/platform/uwsgi/public.log .
