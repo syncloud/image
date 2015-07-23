@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ROOTFS=/tmp/rootfs
+ROOTFS=/tmp/image/rootfs
 APP_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )
 cd ${APP_DIR}
 if [[ $EUID -ne 0 ]]; then
@@ -23,12 +23,12 @@ service docker start
 
 function cleanup {
 
-    mount | grep rootfs
-    mount | grep rootfs | awk '{print "umounting "$1; system("umount "$3)}'
-    mount | grep rootfs
+    mount | grep ${ROOTFS}
+    mount | grep ${ROOTFS} | awk '{print "umounting "$1; system("umount "$3)}'
+    mount | grep ${ROOTFS}
 
     echo "cleaning old rootfs"
-    rm -rf /tmp/rootfs
+    rm -rf ${ROOTFS}
 
     echo "docker images"
     docker images -q

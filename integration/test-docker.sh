@@ -14,7 +14,7 @@ fi
 apt-get install sshpass
 
 SCP="sshpass -p syncloud scp -o StrictHostKeyChecking=no -P 2222"
-
+apt-get -y remove python-pip
 wget --no-check-certificate --progress=dot:giga -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py 2>&1
 python /tmp/get-pip.py
 

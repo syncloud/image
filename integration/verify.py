@@ -28,3 +28,13 @@ def test_owncloud_install():
     time.sleep(3)
     response = session.get('http://localhost/owncloud/', allow_redirects=False)
     assert response.status_code == 200
+
+
+def test_owncloud_upgrade():
+    response = session.get('http://localhost/server/rest/upgrade?app_id=owncloud', allow_redirects=False)
+    assert response.status_code == 200
+
+
+def test_owncloud_remove():
+    response = session.get('http://localhost/server/rest/remove?app_id=owncloud', allow_redirects=False)
+    assert response.status_code == 200
