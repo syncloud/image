@@ -41,5 +41,4 @@ ${PYTHON_DIR}/bin/pip2 install -r dev_requirements.txt
 ${PYTHON_DIR}/bin/py.test -s verify.py --email=$1 --password=$2 --domain=$3 --release=$4
 
 ${SCP} root@localhost:/var/log/sam.log .
-${SCP} root@localhost:/opt/app/platform/uwsgi/internal.log .
-${SCP} root@localhost:/opt/app/platform/uwsgi/public.log .
+${SCP} root@localhost:/opt/data/platform/log/\* .
