@@ -14,11 +14,8 @@ if [ "$#" -lt 1 ]; then
     exit 1
 fi
 DISTRO=$1
-
-ARCH=$(dpkg-architecture -q DEB_HOST_GNU_CPU)
-if [ ! -z "$2" ]; then
-    ARCH=$2
-fi
+ARCH=$2
+SAM_VERSION=$3
 
 BASE_ROOTFS_ZIP=rootfs-${ARCH}.tar.gz
 ROOTFS=/tmp/rootfs
@@ -82,6 +79,11 @@ chroot ${ROOTFS} /root/disable-service-restart.sh
 echo "configuring rootfs"
 chroot ${ROOTFS} /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot ${ROOTFS} /bin/bash -c "mount -t proc proc /proc"
+
+echo "installing sam ${SAM_VERSION}-${ARCH}"
+SAM=sam-${SAM_VERSION}-${ARCH}.tar.gz
+wget http://apps.syncloud.org/apps/${SAM} --progress=dot:giga
+tar xzf ${SAM} -C ${ROOTFS}/opt/app
 
 cp -R info ${ROOTFS}/root/
 cp syncloud.sh ${ROOTFS}/root

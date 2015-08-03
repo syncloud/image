@@ -6,7 +6,6 @@ if [ "$#" -ne 2 ]; then
 fi
 
 DISTRO=$1
-SAM_VERSION=$2
 
 if [[ ${DISTRO} == "raspbian" ]]; then
     REPO=http://archive.raspbian.com/raspbian
@@ -84,7 +83,7 @@ fi
 chroot ${ROOTFS} apt-get update
 chroot ${ROOTFS} apt-get -y dist-upgrade
 chroot ${ROOTFS} apt-get -y install sudo openssh-server wget less bootlogd parted lsb-release unzip bzip2\
- libldap2-dev libsasl2-dev libssl-dev curl dbus avahi-daemon ntp libpq-dev
+ libldap2-dev libsasl2-dev libssl-dev curl dbus avahi-daemon ntp libpq-dev lshw
 
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" ${ROOTFS}/etc/ssh/sshd_config
 
@@ -94,10 +93,6 @@ if [ -d ${DISTRO} ]; then
 fi
 mkdir ${ROOTFS}/opt/data
 mkdir ${ROOTFS}/opt/app
-
-SAM=sam-${SAM_VERSION}-${ARCH}.tar.gz
-wget http://apps.syncloud.org/apps/${SAM} --progress=dot:giga
-tar xzf ${SAM} -C ${ROOTFS}/opt/app
 
 echo "enable restart"
 cp enable-service-restart.sh ${ROOTFS}/root
