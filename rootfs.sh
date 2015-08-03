@@ -9,8 +9,8 @@ export DEBIAN_FRONTEND=noninteractive
 export TMPDIR=/tmp
 export TMP=/tmp
 
-if [ "$#" -lt 1 ]; then
-    echo "Usage: $0 distro [arch]"
+if [ "$#" -lt 3 ]; then
+    echo "Usage: $0 distro arch sam_version"
     exit 1
 fi
 DISTRO=$1

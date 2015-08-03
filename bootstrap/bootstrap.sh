@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ "$#" -ne 2 ]; then
-    echo "Usage: $0 distro sam_version"
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 distro"
     exit 1
 fi
 
