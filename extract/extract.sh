@@ -30,11 +30,9 @@ elif [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
-  echo "single partition is not supported yet"
-  exit 1
-  IMAGE_FILE=/tmp/bone-debian-7.8-console-armhf-2015-02-19-2gb.img
+  IMAGE_FILE=/tmp/${SYNCLOUD_BOARD}.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga https://rcn-ee.net/rootfs/2015-02-19/microsd/$IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga http://debian.beagleboard.org/images/bone-debian-7.8-lxde-4gb-armhf-2015-03-01-4gb.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   IMAGE_FILE="/tmp/Cubian-nano+headless-x1-a10.img"
