@@ -82,6 +82,7 @@ fi
 
 chroot ${ROOTFS} apt-get update
 chroot ${ROOTFS} apt-get -y dist-upgrade
+chroot ${ROOTFS} apt-get -y dpkg-dev
 chroot ${ROOTFS} apt-get -y install sudo openssh-server wget less bootlogd parted lsb-release unzip bzip2\
  libldap2-dev libsasl2-dev libssl-dev curl dbus avahi-daemon ntp libpq-dev lshw udisks2
 
