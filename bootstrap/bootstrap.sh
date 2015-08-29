@@ -74,8 +74,6 @@ chroot ${ROOTFS} apt-key add archive.key
 chroot ${ROOTFS} /bin/bash -c "echo \"root:syncloud\" | chpasswd"
 chroot ${ROOTFS} /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot ${ROOTFS} /bin/bash -c "mount -t proc proc /proc"
-chroot ${ROOTFS} /bin/bash -c "ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ''"
-chroot ${ROOTFS} /bin/bash -c "cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys"
 
 echo "copy system files to get image working"
 if [ -d ${DISTRO} ]; then
@@ -87,6 +85,8 @@ chroot ${ROOTFS} apt-get -y dist-upgrade
 chroot ${ROOTFS} apt-get -y dpkg-dev
 chroot ${ROOTFS} apt-get -y install sudo openssh-server wget less bootlogd parted lsb-release unzip bzip2\
  libldap2-dev libsasl2-dev libssl-dev curl dbus avahi-daemon ntp libpq-dev lshw udisks2
+chroot ${ROOTFS} ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ''
+chroot ${ROOTFS} /bin/bash -c "cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys"
 
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" ${ROOTFS}/etc/ssh/sshd_config
 
