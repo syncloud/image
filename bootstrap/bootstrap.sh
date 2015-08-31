@@ -18,7 +18,6 @@ elif [[ ${DISTRO} == "debian" ]]; then
     DEBOOTSTRAP_ARCH=armhf
     ARCH=armv7l
 elif [[ ${DISTRO} == "amd64" ]]; then
-    DISTRO=debian
     REPO=http://http.debian.net/debian
     KEY=https://ftp-master.debian.org/keys/archive-key-8.asc
     DEBOOTSTRAP_ARCH=amd64
