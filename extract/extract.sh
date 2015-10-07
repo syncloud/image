@@ -61,7 +61,15 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   CPU_FREQUENCY_GOVERNOR=performance
   CPU_FREQUENCY_MAX=1056000
   CPU_FREQUENCY_MIN=648000
-#elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
+#elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]];
+elif [[ ${SYNCLOUD_BOARD} == "bananapi" ]];
+
+  IMAGE_FILE="/tmp/bananapi.img"
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
+  DOWNLOAD_IMAGE="wget --progress=dot:giga 
+https://drive.google.com/file/d/0BzoTh3Vdt47fMjlVNExCMXlkUTA/view?usp=docslist_api -O $IMAGE_FILE_ZIP"
+  UNZIP="p7zip -d"
+then
 fi
 
 PARTED_SECTOR_UNIT=s
