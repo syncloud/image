@@ -62,13 +62,11 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   CPU_FREQUENCY_MAX=1056000
   CPU_FREQUENCY_MIN=648000
 #elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]];
-elif [[ ${SYNCLOUD_BOARD} == "bananapi" ]]; then
-
-  IMAGE_FILE="/tmp/bananapi.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:giga 
- https://drive.google.com/uc?export=download&confirm=SDB7&id=0BzoTh3Vdt47fMjlVNExCMXlkUTA -O $IMAGE_FILE_ZIP"
-  UNZIP="p7zip -d"
+elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
+  IMAGE_FILE="/tmp/M2-raspberry-kernel3.3-LCD.img"
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
+  DOWNLOAD_IMAGE="wget --progress=dot:giga http://3rdparty.syncloud.org/BPI-M2_Raspbian_V4.0_lcd.zip -O $IMAGE_FILE_ZIP"
+  UNZIP=unzip
 fi
 
 PARTED_SECTOR_UNIT=s
