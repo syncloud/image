@@ -67,7 +67,7 @@ elif [[ ${SYNCLOUD_BOARD} == "bananapi" ]]; then
   IMAGE_FILE="/tmp/bananapi.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
   DOWNLOAD_IMAGE="wget --progress=dot:giga 
-https://drive.google.com/file/d/0BzoTh3Vdt47fMjlVNExCMXlkUTA/view?usp=docslist_api -O $IMAGE_FILE_ZIP"
+ https://drive.google.com/uc?export=download&confirm=SDB7&id=0BzoTh3Vdt47fMjlVNExCMXlkUTA -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
 fi
 
