@@ -9,13 +9,14 @@ export DEBIAN_FRONTEND=noninteractive
 export TMPDIR=/tmp
 export TMP=/tmp
 
-if [ "$#" -lt 3 ]; then
-    echo "Usage: $0 distro arch sam_version"
+if [ "$#" -lt 4 ]; then
+    echo "Usage: $0 distro arch sam_version release"
     exit 1
 fi
 DISTRO=$1
 ARCH=$2
 SAM_VERSION=$3
+RELEASE=$4
 
 BASE_ROOTFS_ZIP=rootfs-${ARCH}.tar.gz
 ROOTFS=/tmp/rootfs
@@ -82,12 +83,12 @@ chroot ${ROOTFS} /bin/bash -c "mount -t proc proc /proc"
 
 echo "installing sam ${SAM_VERSION}-${ARCH}"
 SAM=sam-${SAM_VERSION}-${ARCH}.tar.gz
-wget http://apps.syncloud.org/apps/${SAM} --progress=dot:giga
+wget http://apps.syncloud.org/apps/${SAM} --progress=dot:giga -O ${SAM}
 tar xzf ${SAM} -C ${ROOTFS}/opt/app
 
 cp -R info ${ROOTFS}/root/
 cp syncloud.sh ${ROOTFS}/root
-chroot ${ROOTFS} /bin/bash -c "/root/syncloud.sh"
+chroot ${ROOTFS} /bin/bash -c "/root/syncloud.sh ${RELEASE}"
 
 if [[ $? != 0 ]]; then
   echo "syncloud build failed"
