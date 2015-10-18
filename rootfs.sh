@@ -86,7 +86,6 @@ SAM=sam-${SAM_VERSION}-${ARCH}.tar.gz
 wget http://apps.syncloud.org/apps/${SAM} --progress=dot:giga -O ${SAM}
 tar xzf ${SAM} -C ${ROOTFS}/opt/app
 
-cp -R info ${ROOTFS}/root/
 cp syncloud.sh ${ROOTFS}/root
 chroot ${ROOTFS} /bin/bash -c "/root/syncloud.sh ${RELEASE}"
 
