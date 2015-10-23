@@ -1,8 +1,8 @@
 #### Supported devices
 
 - BeagleBone Black [![Build Status](http://build.syncloud.org:8111/app/rest/builds/buildType:%28id:syncloud_image_beagleboneblack%29/statusIcon)](http://build.syncloud.org:8111/viewType.html?buildTypeId=syncloud_image_beagleboneblack)
-- cubieboard2 [![Build Status](http://build.syncloud.org:8111/app/rest/builds/buildType:%28id:syncloud_ImageCubieboard2%29/statusIcon)](http://build.syncloud.org:8111/viewType.html?buildTypeId=syncloud_ImageCubieboard2)
-- cubietruck [![Build Status](http://build.syncloud.org:8111/app/rest/builds/buildType:%28id:syncloud_ImageCubietruck%29/statusIcon)](http://build.syncloud.org:8111/viewType.html?buildTypeId=syncloud_ImageCubietruck)
+- Cubieboard 2 [![Build Status](http://build.syncloud.org:8111/app/rest/builds/buildType:%28id:syncloud_ImageCubieboard2%29/statusIcon)](http://build.syncloud.org:8111/viewType.html?buildTypeId=syncloud_ImageCubieboard2)
+- Cubietruck [![Build Status](http://build.syncloud.org:8111/app/rest/builds/buildType:%28id:syncloud_ImageCubietruck%29/statusIcon)](http://build.syncloud.org:8111/viewType.html?buildTypeId=syncloud_ImageCubietruck)
 - Raspberry Pi Model B/B+/2 [![Build Status](http://build.syncloud.org:8111/app/rest/builds/buildType:%28id:syncloud_image_raspberrypi2%29/statusIcon)](http://build.syncloud.org:8111/viewType.html?buildTypeId=syncloud_image_raspberrypi2)
 - Banana PI M2 [![Build Status](http://build.syncloud.org:8111/app/rest/builds/buildType:%28id:syncloud_image_bananapim2%29/statusIcon)](http://build.syncloud.org:8111/viewType.html?buildTypeId=syncloud_image_bananapim2)
 
