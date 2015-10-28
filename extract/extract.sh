@@ -61,7 +61,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   CPU_FREQUENCY_GOVERNOR=performance
   CPU_FREQUENCY_MAX=1056000
   CPU_FREQUENCY_MIN=648000
-elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]];
+elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
   IMAGE_FILE="/tmp/ubuntu-15.04-mate-odroid-xu3-20150710.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga http://dn.odroid.com/5422/ODROID-XU3/Ubuntu/ubuntu-15.04-mate-odroid-xu3-20150710.img.xz -O $IMAGE_FILE_ZIP"
