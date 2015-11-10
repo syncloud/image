@@ -97,6 +97,9 @@ q
 " | fdisk ${SYNCLOUD_IMAGE}
 
 kpartx -a ${SYNCLOUD_IMAGE}
+
+kpartx -l ${SYNCLOUD_IMAGE}
+
 LOOP=$(kpartx -l ${SYNCLOUD_IMAGE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
 rm -rf dst
 mkdir -p ${DST_ROOTFS}
