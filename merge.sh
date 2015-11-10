@@ -96,13 +96,19 @@ w
 q
 " | fdisk ${SYNCLOUD_IMAGE}
 
+ls -la /dev/mapper/*
+
 kpartx -a ${SYNCLOUD_IMAGE}
+
+kpartx -v ${SYNCLOUD_IMAGE
 
 kpartx -l ${SYNCLOUD_IMAGE}
 
 LOOP=$(kpartx -l ${SYNCLOUD_IMAGE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
 rm -rf dst
 mkdir -p ${DST_ROOTFS}
+
+ls -la /dev/mapper/*
 
 mkfs.ext4 /dev/mapper/${LOOP}p2
 mount /dev/mapper/${LOOP}p2 ${DST_ROOTFS}
