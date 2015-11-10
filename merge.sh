@@ -100,7 +100,7 @@ ls -la /dev/mapper/*
 
 kpartx -a ${SYNCLOUD_IMAGE}
 
-kpartx -v ${SYNCLOUD_IMAGE
+kpartx -v ${SYNCLOUD_IMAGE}
 
 kpartx -l ${SYNCLOUD_IMAGE}
 
