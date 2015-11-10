@@ -120,8 +120,12 @@ sync
 
 cleanup
 
+ls -la ${DST_ROOTFS}
+
 echo "zipping"
 xz -0 ${SYNCLOUD_IMAGE}
+
+ls -la ${SYNCLOUD_IMAGE}
 
 FINISH_TIME=$(date +"%s")
 BUILD_TIME=$(($FINISH_TIME-$START_TIME))
