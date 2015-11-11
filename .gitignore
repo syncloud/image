@@ -7,3 +7,8 @@ kernel-qemu
 *.tar.xz
 rootfs
 build
+dst
+*.iml
+*tar.gz*
+*.log
+*.pyc

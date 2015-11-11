@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 START_TIME=$(date +"%s")
 
@@ -43,7 +43,9 @@ SRC_ROOTFS=rootfs
 DST_ROOTFS=dst/root
 
 function cleanup {
-    echo "cleanup"
+    echo "===== cleanup ====="
+
+    ls -la /dev/mapper/*
     mount | grep ${DST_ROOTFS}
     mount | grep ${DST_ROOTFS} | awk '{print "umounting "$1; system("umount "$3)}'
     mount | grep ${DST_ROOTFS}
@@ -98,11 +100,8 @@ q
 
 ls -la /dev/mapper/*
 
-kpartx -a ${SYNCLOUD_IMAGE}
-
-kpartx -v ${SYNCLOUD_IMAGE}
-
 kpartx -l ${SYNCLOUD_IMAGE}
+kpartx -asv ${SYNCLOUD_IMAGE}
 
 LOOP=$(kpartx -l ${SYNCLOUD_IMAGE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
 rm -rf dst
@@ -134,7 +133,7 @@ ls -la ${DST_ROOTFS}
 echo "zipping"
 xz -0 ${SYNCLOUD_IMAGE}
 
-ls -la ${SYNCLOUD_IMAGE}
+ls -la ${SYNCLOUD_IMAGE}.xz
 
 FINISH_TIME=$(date +"%s")
 BUILD_TIME=$(($FINISH_TIME-$START_TIME))
