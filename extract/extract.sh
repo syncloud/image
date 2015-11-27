@@ -23,12 +23,12 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   IMAGE_FILE=/tmp/2015-09-24-raspbian-jessie.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
-  UNZIP=unzip
+  UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
   IMAGE_FILE=/tmp/2015-11-21-raspbian-jessie.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
-  UNZIP=unzip
+  UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   IMAGE_FILE=/tmp/${SYNCLOUD_BOARD}.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
