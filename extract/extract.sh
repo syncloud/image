@@ -125,7 +125,7 @@ echo "extracting kernel modules and firmware from rootfs"
 
 rm -rf extract_rootfs
 mkdir -p extract_rootfs
-kpartx -av ${IMAGE_FILE}
+kpartx -avs ${IMAGE_FILE}
 LOOP=$(kpartx -l ${IMAGE_FILE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
 mount /dev/mapper/${LOOP}p2 extract_rootfs
 
