@@ -149,6 +149,7 @@ boot_ini=extract_boot/boot.ini
 if [ -f ${boot_ini} ]; then
     cat ${boot_ini}
     sed -i 's#root=.* #root=/dev/mmcblk0p1 #g' ${boot_ini}
+    cat ${boot_ini}
 fi
 
 echo "target rootfs"
