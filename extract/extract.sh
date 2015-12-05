@@ -80,6 +80,7 @@ OUTPUT=${SYNCLOUD_BOARD}
 function cleanup {
     echo "cleanup"
     umount extract_rootfs
+    umount extract_boot
     kpartx -d ${IMAGE_FILE}
 }
 
@@ -136,6 +137,13 @@ losetup -l
 echo "source rootfs"
 ls -la extract_rootfs/
 ls -la extract_rootfs/lib/modules
+
+rm -rf extract_boot
+mkdir -p extract_boot
+mount /dev/mapper/${LOOP}p1 extract_boot
+
+echo "source boot"
+ls -la extract_boot/
 
 echo "target rootfs"
 ls -la ${OUTPUT}
