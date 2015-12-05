@@ -145,6 +145,12 @@ mount /dev/mapper/${LOOP}p1 extract_boot
 echo "source boot"
 ls -la extract_boot/
 
+boot_ini=extract_boot/boot.ini
+if [ -f ${boot_ini} ]; then
+    cat ${boot_ini}
+    sed 's#root=.* #root=/dev/mmc0#g' ${boot_ini}
+fi
+
 echo "target rootfs"
 ls -la ${OUTPUT}
 
