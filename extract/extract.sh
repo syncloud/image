@@ -80,7 +80,7 @@ OUTPUT=${SYNCLOUD_BOARD}
 function cleanup {
     echo "cleanup"
     umount extract_rootfs
-    umount extract_boot
+    umount boot
     kpartx -d ${IMAGE_FILE}
 }
 
@@ -123,10 +123,14 @@ echo "fixing boot"
 
 LOOP=$(kpartx -l ${IMAGE_FILE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
 
+echo "LOOP: ${LOOP}"
+
 rm -rf boot
 mkdir -p boot
 kpartx -avs ${IMAGE_FILE}
 mount /dev/mapper/${LOOP}p1 boot
+
+mount | grep boot
 
 ls -la boot/
 
@@ -137,8 +141,12 @@ if [ -f ${boot_ini} ]; then
     cat ${boot_ini}
 fi
 
+rm -rf ${OUTPUT}-boot.tar.gz
+tar czf ${OUTPUT}-boot.tar.gz boot
+
 umount /dev/mapper/${LOOP}p1
 kpartx -d ${IMAGE_FILE}
+rm -rf boot
 
 echo "extracting boot partition with boot loader"
 dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} ))
