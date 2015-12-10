@@ -119,6 +119,27 @@ if [ "$CPU_FREQUENCY_CONTROL" = true ] ; then
     echo -n ${CPU_FREQUENCY_MIN} > ${OUTPUT}/root/var/lib/cpu_frequency_min
 fi
 
+echo "fixing boot"
+
+LOOP=$(kpartx -l ${IMAGE_FILE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
+
+rm -rf boot
+mkdir -p boot
+kpartx -avs ${IMAGE_FILE}
+mount /dev/mapper/${LOOP}p1 boot
+
+ls -la boot/
+
+boot_ini=boot/boot.ini
+if [ -f ${boot_ini} ]; then
+    cat ${boot_ini}
+    sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${boot_ini}
+    cat ${boot_ini}
+fi
+
+umount /dev/mapper/${LOOP}p1
+kpartx -d ${IMAGE_FILE}
+
 echo "extracting boot partition with boot loader"
 dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} ))
 
@@ -137,20 +158,6 @@ losetup -l
 echo "source rootfs"
 ls -la extract_rootfs/
 ls -la extract_rootfs/lib/modules
-
-rm -rf extract_boot
-mkdir -p extract_boot
-mount /dev/mapper/${LOOP}p1 extract_boot
-
-echo "source boot"
-ls -la extract_boot/
-
-boot_ini=extract_boot/boot.ini
-if [ -f ${boot_ini} ]; then
-    cat ${boot_ini}
-    sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${boot_ini}
-    cat ${boot_ini}
-fi
 
 echo "target rootfs"
 ls -la ${OUTPUT}
