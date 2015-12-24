@@ -6,7 +6,7 @@ Unmount it (for example /dev/disk3)
 ````
 sudo diskutil unmountDisk /dev/disk3
 ````
-Write an image
+Write an image (for example beagleboneblack-1.0)
 ````
 sudo dd if=./syncloud-beagleboneblack-1.0.img of=/dev/disk3
 ````
