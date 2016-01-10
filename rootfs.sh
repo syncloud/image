@@ -1,5 +1,5 @@
 #!/bin/bash
-
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 START_TIME=$(date +"%s")
 
 #Fix debconf frontend warnings
@@ -19,7 +19,7 @@ SAM_VERSION=$3
 RELEASE=$4
 
 BASE_ROOTFS_ZIP=rootfs-${ARCH}.tar.gz
-ROOTFS=/tmp/rootfs
+ROOTFS=${DIR}/rootfs
 
 if [ ! -f ${BASE_ROOTFS_ZIP} ]; then
   wget http://build.syncloud.org:8111/guestAuth/repository/download/${DISTRO}_rootfs_${ARCH}/lastSuccessful/rootfs.tar.gz\
