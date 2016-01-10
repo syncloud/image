@@ -47,7 +47,7 @@ function cleanup {
 }
 
 echo "installing dependencies"
-sudo apt-get -y install p7zip qemu-user-static lsof
+sudo apt-get -y install p7zip qemu-user-static
 
 if [[ $? != 0 ]]; then
   echo "unable to install dependencies"

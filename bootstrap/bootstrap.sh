@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
 if [ "$#" -ne 1 ]; then
     echo "Usage: $0 distro"
     exit 1
@@ -36,9 +38,9 @@ export DEBIAN_FRONTEND=noninteractive
 export TMPDIR=/tmp
 export TMP=/tmp
 
-apt-get -y install debootstrap qemu-user-static
+apt-get -y install debootstrap qemu-user-static lsof
 
-ROOTFS=/tmp/rootfs
+ROOTFS=${DIR}/rootfs
 
 function cleanup {
 
