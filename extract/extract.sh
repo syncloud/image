@@ -61,7 +61,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   CPU_FREQUENCY_GOVERNOR=performance
   CPU_FREQUENCY_MAX=1056000
   CPU_FREQUENCY_MIN=648000
-elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3" ]]; then
+elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
   IMAGE_FILE="/tmp/ubuntu-14.04lts-server-odroid-xu3-20150725.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga http://odroid.in/ubuntu_14.04lts/ubuntu-14.04lts-server-odroid-xu3-20150725.img.xz -O $IMAGE_FILE_ZIP"
