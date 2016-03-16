@@ -88,6 +88,11 @@ apt-get install unzip
 
 cleanup
 
+if [ ! -z "$TEAMCITY_VERSION" ]; then
+  echo "running under TeamCity, cleaning base image cache"
+  rm -rf ${IMAGE_FILE}
+fi
+
 if [ ! -f ${IMAGE_FILE} ]; then
   echo "Base image $IMAGE_FILE is not found, getting new one ..."
   ${DOWNLOAD_IMAGE}
