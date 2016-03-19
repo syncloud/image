@@ -8,7 +8,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 if [ "$#" -ne 2 ]; then
-    echo "Usage: $0 board distro"
+    echo "Usage: $0 board [debian|raspbian]"
     exit 1
 fi
 SYNCLOUD_BOARD=$1

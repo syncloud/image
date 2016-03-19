@@ -5,12 +5,12 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-apt-get install -y kpartx
-
 if [ "$1" == "" ]; then
     echo "Usage: $0 board"
     exit 1
 fi
+
+apt-get install -y kpartx
 
 SYNCLOUD_BOARD=$1
 
@@ -20,14 +20,16 @@ CPU_FREQUENCY_MAX=
 CPU_FREQUENCY_MIN=
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
-  IMAGE_FILE=/tmp/2016-02-26-raspbian-jessie.img
+  VERSION=2016-03-18
+  IMAGE_FILE=/tmp/${VERSION}-raspbian-jessie.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian/images/raspbian-${VERSION}/${VERSION}-raspbian-jessie.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
-  IMAGE_FILE=/tmp/2016-02-26-raspbian-jessie.img
+  VERSION=2016-03-18
+  IMAGE_FILE=/tmp/${VERSION}-raspbian-jessie.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian_latest -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian/images/raspbian-${VERSION}/${VERSION}-raspbian-jessie.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   IMAGE_FILE=/tmp/${SYNCLOUD_BOARD}.img
@@ -71,6 +73,9 @@ elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga http://3rdparty.syncloud.org/BPI-M2_Raspbian_V4.0_lcd.zip -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
+else
+    echo "board is not supported: ${SYNCLOUD_BOARD}"
+    exit 1
 fi
 
 PARTED_SECTOR_UNIT=s
