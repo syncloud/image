@@ -24,10 +24,8 @@ fi
 
 BOOT_ZIP=${SYNCLOUD_BOARD}.tar.gz
 if [ ! -f ${BOOT_ZIP} ]; then
-  wget http://build.syncloud.org:8111/guestAuth/repository/download/boot_extract/lastSuccessful/${BOOT_ZIP}\
-  -O ${BOOT_ZIP} --progress dot:giga
-else
-  echo "$BOOT_ZIP is here"
+  echo "missing ${BOOT_ZIP}"
+  exit 1
 fi
 
 #Fix debconf frontend warnings
