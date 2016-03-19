@@ -29,7 +29,7 @@ elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
   VERSION=2016-02-29
   IMAGE_FILE=/tmp/${VERSION}-raspbian-jessie.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian/images/raspbian-${VERSION}/${VERSION}-raspbian-jessie.zip -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian/images/raspbian-${VERSION}/2016-02-26-raspbian-jessie.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   IMAGE_FILE=/tmp/${SYNCLOUD_BOARD}.img
