@@ -19,14 +19,14 @@ CPU_FREQUENCY_GOVERNOR=
 CPU_FREQUENCY_MAX=
 CPU_FREQUENCY_MIN=
 
-if [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
-  VERSION=2016-03-18
+if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
+  VERSION=2016-02-09
   IMAGE_FILE=/tmp/${VERSION}-raspbian-jessie.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian/images/raspbian-${VERSION}/${VERSION}-raspbian-jessie.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
-elif [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
-  VERSION=2016-03-18
+elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
+  VERSION=2016-02-29
   IMAGE_FILE=/tmp/${VERSION}-raspbian-jessie.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian/images/raspbian-${VERSION}/${VERSION}-raspbian-jessie.zip -O $IMAGE_FILE_ZIP"
