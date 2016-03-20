@@ -57,7 +57,7 @@ def coopy_logs(app, device_logs=None):
         device_logs = '/opt/data/{0}/log/*'.format(app)
     log_dir = join(LOG_DIR, '{0}_log'.format(app))
     os.mkdir(log_dir)
-    run_scp('root@localhost:{0} {1}'.format(device_logs, log_dir), password=DEVICE_PASSWORD, throw=False)
+    run_scp('root@localhost:{0} {1}'.format(device_logs, log_dir), password=LOGS_SSH_PASSWORD, throw=False)
 
 
 @pytest.fixture(scope='module')
