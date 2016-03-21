@@ -67,6 +67,8 @@ docker run --net host -v /var/run/dbus:/var/run/dbus --name rootfs --privileged 
 #echo "sleeping for services to start"
 #sleep 10
 
+ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:2222
+
 sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p 2222 root@localhost date
 while test $? -gt 0
 do
