@@ -20,20 +20,21 @@ CPU_FREQUENCY_MAX=
 CPU_FREQUENCY_MIN=
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
-#  DIR_VERSION=2016-02-09; FILE_VERSION=2016-02-09 Does not work
-#  DIR_VERSION=2016-02-26; FILE_VERSION=2016-02-26 Does not work
-  DIR_VERSION=2015-11-24; FILE_VERSION=2015-11-21
-  IMAGE_FILE=/tmp/${FILE_VERSION}-raspbian-jessie.img
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian/images/raspbian-${DIR_VERSION}/${FILE_VERSION}-raspbian-jessie.zip -O $IMAGE_FILE_ZIP"
-  UNZIP="unzip -o"
-elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
-#  DIR_VERSION=2016-02-09; FILE_VERSION=2016-02-09 Works
-#  DIR_VERSION=2016-02-29; FILE_VERSION=2016-02-26 Works
+#  DIR_VERSION=2015-11-24; FILE_VERSION=2015-11-21
+#  DIR_VERSION=2016-02-09; FILE_VERSION=2016-02-09
+#  DIR_VERSION=2016-02-26; FILE_VERSION=2016-02-26
   DIR_VERSION=2016-03-18; FILE_VERSION=2016-03-18
   IMAGE_FILE=/tmp/${FILE_VERSION}-raspbian-jessie.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian/images/raspbian-${DIR_VERSION}/${FILE_VERSION}-raspbian-jessie.zip -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-${DIR_VERSION}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
+  UNZIP="unzip -o"
+elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
+#  DIR_VERSION=2016-02-09; FILE_VERSION=2016-02-09
+#  DIR_VERSION=2016-02-29; FILE_VERSION=2016-02-26
+  DIR_VERSION=2016-03-18; FILE_VERSION=2016-03-18
+  IMAGE_FILE=/tmp/${FILE_VERSION}-raspbian-jessie.img
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
+  DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-${DIR_VERSION}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   IMAGE_FILE=/tmp/${SYNCLOUD_BOARD}.img
