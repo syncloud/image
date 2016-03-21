@@ -1,0 +1,2 @@
+# disable persistent network interface names as we have only one network interface (eth0)
+# also this feature breaks sd cards reuse on different devices
