@@ -38,6 +38,7 @@ export DEBIAN_FRONTEND=noninteractive
 export TMPDIR=/tmp
 export TMP=/tmp
 
+apt-get update
 apt-get -y install debootstrap qemu-user-static lsof
 
 ROOTFS=${DIR}/rootfs
