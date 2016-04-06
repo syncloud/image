@@ -74,7 +74,7 @@ def device_domain(auth):
 @pytest.fixture(scope='function')
 def syncloud_session():
     session = requests.session()
-    session.post('http://localhost/server/rest/login', data={'name': DEVICE_USER, 'password': DEVICE_PASSWORD})
+    session.post('http://localhost/rest/login', data={'name': DEVICE_USER, 'password': DEVICE_PASSWORD})
 
     return session
 
@@ -110,7 +110,7 @@ def wait_for_sam(syncloud_session):
     sam_running = True
     while sam_running:
         try:
-            response = syncloud_session.get('http://localhost/server/rest/settings/sam_status')
+            response = syncloud_session.get('http://localhost/rest/settings/sam_status')
             if response.status_code == 200:
                 json = convertible.from_json(response.text)
                 sam_running = json.is_running
@@ -121,7 +121,7 @@ def wait_for_sam(syncloud_session):
 
 
 def test_login(syncloud_session):
-    syncloud_session.post('http://localhost/server/rest/login', data={'name': DEVICE_USER, 'password': DEVICE_PASSWORD})
+    syncloud_session.post('http://localhost/rest/login', data={'name': DEVICE_USER, 'password': DEVICE_PASSWORD})
 
 
 def test_owncloud_install(syncloud_session, device_domain):
@@ -149,7 +149,7 @@ def test_mail_remove(syncloud_session):
 
 
 def app_install(syncloud_session, name, device_domain):
-    response = syncloud_session.get('http://localhost/server/rest/install?app_id={0}'.format(name),
+    response = syncloud_session.get('http://localhost/rest/install?app_id={0}'.format(name),
                                     allow_redirects=False)
     assert response.status_code == 200
     wait_for_sam(syncloud_session)
@@ -159,13 +159,13 @@ def app_install(syncloud_session, name, device_domain):
 
 
 def app_upgrade(syncloud_session, name):
-    response = syncloud_session.get('http://localhost/server/rest/upgrade?app_id={0}'.format(name),
+    response = syncloud_session.get('http://localhost/rest/upgrade?app_id={0}'.format(name),
                                     allow_redirects=False)
     assert response.status_code == 200
 
 
 def app_remove(syncloud_session, name):
-    response = syncloud_session.get('http://localhost/server/rest/remove?app_id={0}'.format(name),
+    response = syncloud_session.get('http://localhost/rest/remove?app_id={0}'.format(name),
                                     allow_redirects=False)
     assert response.status_code == 200
     wait_for_sam(syncloud_session)
