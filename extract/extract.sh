@@ -76,7 +76,7 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "odroid-c2" ]]; then
   IMAGE_FILE="/tmp/ubuntu64-16.04lts-mate-odroid-c2-20160226.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga http://east.us.odroid.in/ubuntu_16.04lts/${IMAGE_FILE_ZIP} -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga http://east.us.odroid.in/ubuntu_16.04lts/ubuntu64-16.04lts-mate-odroid-c2-20160226.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
   IMAGE_FILE="/tmp/M2-raspberry-kernel3.3-LCD.img"
