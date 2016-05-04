@@ -124,6 +124,10 @@ if [ ! -f ${IMAGE_FILE} ]; then
   popd
 fi
 
+echo "fdisk info:"
+fdisk -l ${IMAGE_FILE}
+
+echo "parted info:"
 parted -sm ${IMAGE_FILE} print | tail -n +3
 
 PARTITIONS=$(parted -sm ${IMAGE_FILE} print | tail -n +3 | wc -l)
