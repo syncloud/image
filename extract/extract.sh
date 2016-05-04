@@ -84,7 +84,7 @@ elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:giga http://3rdparty.syncloud.org/BPI-M2_Raspbian_V4.0_lcd.zip -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
 elif [[ ${SYNCLOUD_BOARD} == "vbox" ]]; then
-  IMAGE_FILE_NAME="debian-vbox.img"
+  IMAGE_FILE_NAME="debian-vbox-8gb.img"
   IMAGE_FILE="/tmp/$IMAGE_FILE_NAME"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga https://s3-us-west-2.amazonaws.com/syncloud-distributives/$IMAGE_FILE_NAME.xz -O $IMAGE_FILE_ZIP"
@@ -196,6 +196,7 @@ losetup -l
 echo "source rootfs"
 ls -la extract_rootfs/
 ls -la extract_rootfs/lib/modules
+ls -la extract_rootfs/boot
 
 echo "target rootfs"
 ls -la ${OUTPUT}
@@ -203,6 +204,7 @@ ls -la ${OUTPUT}
 mkdir -p ${OUTPUT}/root/lib
 cp -rp extract_rootfs/lib/firmware ${OUTPUT}/root/lib/firmware
 cp -rp extract_rootfs/lib/modules ${OUTPUT}/root/lib/modules
+cp -rp extract_rootfs/boot ${OUTPUT}/root/boot
 sync
 
 cleanup
