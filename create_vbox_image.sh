@@ -24,7 +24,7 @@ VBoxManage modifyvm $VM --boot1 dvd --boot2 disk --boot3 none --boot4 none
 
 VBoxManage modifyvm $VM --memory 1024 --vram 128
 
-VBoxManage modifyvm $VM --nic1 bridged --bridgeadapter1 e1000g0
+VBoxManage modifyvm $VM --nic1 bridged --bridgeadapter1 eth0
 
 VBoxHeadless -s $VM
 
