@@ -130,6 +130,9 @@ cleanup
 
 ls -la ${DST_ROOTFS}
 
+echo "fdisk info:"
+fdisk -l ${SYNCLOUD_IMAGE}
+
 echo "zipping"
 xz -0 ${SYNCLOUD_IMAGE}
 
