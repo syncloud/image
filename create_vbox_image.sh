@@ -12,6 +12,10 @@ tar czvf syncloud.vdi.tar.gz syncloud.vdi
 
 VM='Syncloud-VM'
 
+VBoxManage controlvm poweroff $VM
+
+VBoxManage unregistervm --name $VM --remove
+
 VBoxManage createvm --name $VM --ostype "Debian_64" --register
 
 VBoxManage storagectl $VM --name "SATA Controller" --add sata --controller IntelAHCI
