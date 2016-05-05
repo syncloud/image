@@ -8,6 +8,8 @@ VBoxManage convertdd syncloud-vbox.img syncloud.vdi --format VDI
 
 cp syncloud.vdi syncloud-test.vdi
 
+tar czvf syncloud.vdi.tar.gz syncloud.vdi
+
 VM='Syncloud-VM'
 
 VBoxManage createvm --name $VM --ostype "Debian_64" --register
