@@ -110,6 +110,13 @@ mkdir -p ${DST_ROOTFS}
 ls -la /dev/mapper/*
 
 mkfs.ext4 /dev/mapper/${LOOP}p2
+
+if [ -f "${SRC_ROOTFS}/uuid" ]; then
+    UUID=$(<${SRC_ROOTFS}/uuid)
+    echo "setting uuid $UUID"
+    tune2fs /dev/mapper/${LOOP}p2 -U $UUID
+fi
+
 mount /dev/mapper/${LOOP}p2 ${DST_ROOTFS}
 
 echo "copying rootfs"

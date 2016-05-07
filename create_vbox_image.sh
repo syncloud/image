@@ -14,7 +14,7 @@ VM='Syncloud-VM'
 
 VBoxManage controlvm $VM poweroff
 
-VBoxManage unregistervm $VM --remove
+VBoxManage unregistervm $VM --delete
 
 VBoxManage createvm --name $VM --ostype "Debian_64" --register
 
