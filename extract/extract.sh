@@ -187,7 +187,7 @@ rm -rf extract_rootfs
 mkdir -p extract_rootfs
 kpartx -avs ${IMAGE_FILE}
 LOOP=$(kpartx -l ${IMAGE_FILE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
-blkid /dev/mapper/${LOOP}p2
+blkid /dev/mapper/${LOOP}p2 -s UUID -o value > uuid
 mount /dev/mapper/${LOOP}p2 extract_rootfs
 
 mount | grep extract_rootfs
@@ -205,6 +205,7 @@ ls -la ${OUTPUT}
 mkdir -p ${OUTPUT}/root/lib
 cp -rp extract_rootfs/lib/firmware ${OUTPUT}/root/lib/firmware
 cp -rp extract_rootfs/lib/modules ${OUTPUT}/root/lib/modules
+cp uuid ${OUTPUT}/root/uuid
 cp -rp extract_rootfs/boot ${OUTPUT}/root/boot
 sync
 
