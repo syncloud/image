@@ -20,6 +20,10 @@ VBoxManage createvm --name $VM --ostype "Debian_64" --register
 
 VBoxManage storagectl $VM --name "SATA Controller" --add sata --controller IntelAHCI
 
+VBoxManage list hdds
+
+ls -la
+
 VBoxManage storageattach $VM --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium syncloud-test.vdi
 
 VBoxManage modifyvm $VM --ioapic on
