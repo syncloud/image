@@ -12,9 +12,9 @@ tar czvf syncloud.vdi.tar.gz syncloud.vdi
 
 VM='Syncloud-VM'
 
-VBoxManage controlvm poweroff $VM
+VBoxManage controlvm $VM poweroff
 
-VBoxManage unregistervm --name $VM --remove
+VBoxManage unregistervm $VM --remove
 
 VBoxManage createvm --name $VM --ostype "Debian_64" --register
 
