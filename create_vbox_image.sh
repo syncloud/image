@@ -9,15 +9,16 @@ rm -rf syncloud-test.vdi
 
 VBoxManage convertdd syncloud-vbox.img syncloud.vdi --format VDI
 
-cp syncloud.vdi syncloud-test.vdi
-
-tar czvf syncloud.vdi.tar.gz syncloud.vdi
-
 VM='Syncloud-VM'
+SSH_PORT=3333
 
 VBoxManage controlvm $VM poweroff
 
 VBoxManage unregistervm $VM --delete
+
+cp syncloud.vdi syncloud-test.vdi
+
+tar czvf syncloud.vdi.tar.gz syncloud.vdi
 
 VBoxManage createvm --name $VM --ostype "Debian_64" --register
 
@@ -33,9 +34,20 @@ VBoxManage modifyvm $VM --ioapic on
 
 VBoxManage modifyvm $VM --boot1 dvd --boot2 disk --boot3 none --boot4 none
 
-VBoxManage modifyvm $VM --memory 1024 --vram 128
+VBoxManage modifyvm $VM -memory 1024 --vram 128
 
-VBoxManage modifyvm $VM --nic1 bridged --bridgeadapter1 eth0
+VBoxManage modifyvm $VM --natpf1 "guestssh,tcp,,${SSH_PORT},,22"
 
-VBoxHeadless -s $VM
+VBoxManage startvm $VM
 
+sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@localhost date
+while test $? -gt 0
+do
+  sleep 1
+  echo "Waiting for SSH ..."
+  sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@localhost date
+done
+
+sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@localhost journalctl
+
+VBoxManage controlvm $VM poweroff
