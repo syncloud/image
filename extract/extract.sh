@@ -187,6 +187,7 @@ rm -rf extract_rootfs
 mkdir -p extract_rootfs
 kpartx -avs ${IMAGE_FILE}
 LOOP=$(kpartx -l ${IMAGE_FILE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
+blkid /dev/mapper/${LOOP}p2
 mount /dev/mapper/${LOOP}p2 extract_rootfs
 
 mount | grep extract_rootfs
