@@ -19,7 +19,7 @@ VBoxManage unregistervm $VM --delete
 cp syncloud.vdi syncloud-test.vdi
 
 tar czvf syncloud.vdi.tar.gz syncloud.vdi
-rm -rf ~/"VirtualBox VMs"/$VM
+rm -rf /root/"VirtualBox VMs"/$VM
 
 VBoxManage createvm --name $VM --ostype "Debian_64" --register
 
