@@ -35,7 +35,7 @@ VBoxManage modifyvm $VM --ioapic on
 
 VBoxManage modifyvm $VM --boot1 dvd --boot2 disk --boot3 none --boot4 none
 
-VBoxManage modifyvm $VM -memory 1024 --vram 128
+VBoxManage modifyvm $VM --memory 1024 --vram 128
 
 VBoxManage modifyvm $VM --natpf1 "guestssh,tcp,,${SSH_PORT},,22"
 
