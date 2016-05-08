@@ -123,6 +123,8 @@ echo "copying rootfs"
 cp -rp ${SRC_ROOTFS}/* ${DST_ROOTFS}/
 cp -rp ${SYNCLOUD_BOARD}/root/* ${DST_ROOTFS}/
 
+mv ${DST_ROOTFS}/etc/fstab.vbox ${DST_ROOTFS}/etc/fstab
+
 echo "setting resize on boot flag"
 if [ "$RESIZE_PARTITION_ON_FIRST_BOOT" = true ] ; then
     touch ${DST_ROOTFS}/var/lib/resize_partition_flag
