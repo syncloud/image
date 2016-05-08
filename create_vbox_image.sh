@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
@@ -40,20 +40,23 @@ VBoxManage modifyvm $VM --natpf1 "guestssh,tcp,,${SSH_PORT},,22"
 
 VBoxManage startvm $VM
 
-sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@localhost date
 
 ATTEMPT=0
 TOTAL_ATTEMPTS=10
+
+sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@localhost date
+
 while test $? -gt 0
 do
   sleep 1
   echo "Waiting for SSH ..."
-  sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@localhost date
   ATTEMPT=$((ATTEMPT +1))
   echo "attempt $ATTEMPT of $TOTAL_ATTEMPTS"
   if [[ $ATTEMPT -gt $TOTAL_ATTEMPTS ]]; then
     break
   fi
+  sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@localhost date
+  
 done
 
 sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@localhost journalctl
