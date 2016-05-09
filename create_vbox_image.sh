@@ -39,7 +39,7 @@ VBoxManage modifyvm $VM --memory 1024 --vram 128
 
 VBoxManage modifyvm $VM --natpf1 "guestssh,tcp,,${SSH_PORT},,22"
 
-VBoxManage startvm $VM
+VBoxHeadless --startvm $VM &
 
 
 ATTEMPT=0
