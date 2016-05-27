@@ -42,6 +42,8 @@ SYNCLOUD_IMAGE=syncloud-${SYNCLOUD_BOARD}.img
 SRC_ROOTFS=rootfs
 DST_ROOTFS=dst/root
 
+SRC_FILES=files/${SYNCLOUD_BOARD}
+
 function cleanup {
     echo "===== cleanup ====="
 
@@ -122,6 +124,9 @@ mount /dev/mapper/${LOOP}p2 ${DST_ROOTFS}
 echo "copying rootfs"
 cp -rp ${SRC_ROOTFS}/* ${DST_ROOTFS}/
 cp -rp ${SYNCLOUD_BOARD}/root/* ${DST_ROOTFS}/
+
+echo "copying files"
+cp -rp ${SRC_FILES}/* ${DST_ROOTFS}/
 
 mv ${DST_ROOTFS}/etc/fstab.vbox ${DST_ROOTFS}/etc/fstab
 
