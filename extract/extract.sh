@@ -83,6 +83,11 @@ elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga http://3rdparty.syncloud.org/BPI-M2_Raspbian_V4.0_lcd.zip -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
+elif [[ ${SYNCLOUD_BOARD} == "bananapim1" ]]; then
+  IMAGE_FILE="/tmp/BPI-M1_Debian_V2_beta.img"
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga https://s3-us-west-2.amazonaws.com/syncloud-distributives/BPI-M1_Debian_V2_beta.img.xz -O $IMAGE_FILE_ZIP"
+  UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "vbox" ]]; then
   IMAGE_FILE_NAME="debian-vbox-8gb.img"
   IMAGE_FILE="/tmp/$IMAGE_FILE_NAME"
