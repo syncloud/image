@@ -19,32 +19,29 @@ CPU_FREQUENCY_GOVERNOR=
 CPU_FREQUENCY_MAX=
 CPU_FREQUENCY_MIN=
 
+SYNCLOUD_DISTR_URL="https://s3-us-west-2.amazonaws.com/syncloud-distributives"
+
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
-#  DIR_VERSION=2015-11-24; FILE_VERSION=2015-11-21
-#  DIR_VERSION=2016-02-09; FILE_VERSION=2016-02-09
-#  DIR_VERSION=2016-02-26; FILE_VERSION=2016-02-26
-  DIR_VERSION=2016-03-18; FILE_VERSION=2016-03-18
+  FILE_VERSION=2016-03-18
   IMAGE_FILE=/tmp/${FILE_VERSION}-raspbian-jessie-lite.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-${DIR_VERSION}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
-#  DIR_VERSION=2016-02-09; FILE_VERSION=2016-02-09
-#  DIR_VERSION=2016-02-29; FILE_VERSION=2016-02-26
-  DIR_VERSION=2016-03-18; FILE_VERSION=2016-03-18
+  FILE_VERSION=2016-03-18
   IMAGE_FILE=/tmp/${FILE_VERSION}-raspbian-jessie-lite.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-${DIR_VERSION}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   IMAGE_FILE=/tmp/${SYNCLOUD_BOARD}.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga http://builds.beagleboard.org/images/master/08132bf0d0cb284d1148c5d329fe3c8e1aaee44d/bone-debian-8.2-tester-2gb-armhf-2015-11-12-2gb.img.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/bone-debian-8.2-tester-2gb-armhf-2015-11-12-2gb.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   IMAGE_FILE="/tmp/Cubian-nano+headless-x1-a10.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:giga https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a10.img.7z -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/Cubian-nano%2Bheadless-x1-a10.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
@@ -53,7 +50,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   IMAGE_FILE="/tmp/Cubian-nano+headless-x1-a20.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:giga https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20.img.7z -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/Cubian-nano%2Bheadless-x1-a20.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
@@ -62,7 +59,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   IMAGE_FILE="/tmp/Cubian-nano+headless-x1-a20-cubietruck.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:giga https://s3-us-west-2.amazonaws.com/syncloud-distributives/Cubian-nano%2Bheadless-x1-a20-cubietruck.img.7z -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/Cubian-nano%2Bheadless-x1-a20-cubietruck.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
@@ -71,28 +68,28 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
   IMAGE_FILE="/tmp/ubuntu-14.04lts-server-odroid-xu3-20150725.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga http://odroid.in/ubuntu_14.04lts/ubuntu-14.04lts-server-odroid-xu3-20150725.img.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/ubuntu-14.04lts-server-odroid-xu3-20150725.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "odroid-c2" ]]; then
   IMAGE_FILE="/tmp/ubuntu64-16.04lts-mate-odroid-c2-20160226.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga http://east.us.odroid.in/ubuntu_16.04lts/ubuntu64-16.04lts-mate-odroid-c2-20160226.img.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/ubuntu64-16.04lts-mate-odroid-c2-20160226.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
   IMAGE_FILE="/tmp/M2-raspberry-kernel3.3-LCD.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga http://3rdparty.syncloud.org/BPI-M2_Raspbian_V4.0_lcd.zip -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/BPI-M2_Raspbian_V4.0_lcd.zip -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
 elif [[ ${SYNCLOUD_BOARD} == "bananapim1" ]]; then
   IMAGE_FILE="/tmp/BPI-M1_Debian_V2_beta.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga https://s3-us-west-2.amazonaws.com/syncloud-distributives/BPI-M1_Debian_V2_beta.img.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/BPI-M1_Debian_V2_beta.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "vbox" ]]; then
   IMAGE_FILE_NAME="debian-vbox-8gb.img"
   IMAGE_FILE="/tmp/$IMAGE_FILE_NAME"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga https://s3-us-west-2.amazonaws.com/syncloud-distributives/$IMAGE_FILE_NAME.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_NAME.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 else
     echo "board is not supported: ${SYNCLOUD_BOARD}"
