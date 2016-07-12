@@ -89,7 +89,7 @@ chroot ${ROOTFS} apt-get -y install sudo openssh-server wget less bootlogd parte
  libldap2-dev libsasl2-dev libssl-dev curl dbus avahi-daemon ntp libpq-dev udisks2 exfat-utils exfat-fuse
 chroot ${ROOTFS} ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ''
 chroot ${ROOTFS} /bin/bash -c "cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys"
-
+sed -i -e'/AVAHI_DAEMON_DETECT_LOCAL/s/1/0/' ${ROOTFS}/etc/default/avahi-daemon
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" ${ROOTFS}/etc/ssh/sshd_config
 
 echo "copy system files again as some packages might have replaced our files"
