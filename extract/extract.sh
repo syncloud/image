@@ -162,28 +162,35 @@ rm -rf boot
 mkdir -p boot
 kpartx -avs ${IMAGE_FILE}
 kpartx -l ${IMAGE_FILE}
-mount /dev/mapper/${LOOP}p1 boot
 
-mount | grep boot
+FS_TYPE=$(blkid -s TYPE -o value /dev/mapper/${LOOP}p1)
+if [[ "${FS_TYPE}" == *"swap"*  ]]; then
+    echo "not using boot partition as it is: ${FS_TYPE}"
+else
+    mount /dev/mapper/${LOOP}p1 boot
 
-ls -la boot/
+    mount | grep boot
 
-boot_ini=boot/boot.ini
-if [ -f ${boot_ini} ]; then
-    cat ${boot_ini}
-    sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${boot_ini}
-    cat ${boot_ini}
+    ls -la boot/
+
+    boot_ini=boot/boot.ini
+    if [ -f ${boot_ini} ]; then
+        cat ${boot_ini}
+        sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${boot_ini}
+        cat ${boot_ini}
+    fi
+
+    rm -rf ${OUTPUT}-boot.tar.gz
+    tar czf ${OUTPUT}-boot.tar.gz boot
+
+    umount /dev/mapper/${LOOP}p1
+    kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
+    rm -rf boot
+
+    echo "extracting boot partition with boot loader"
+    dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} ))
+
 fi
-
-rm -rf ${OUTPUT}-boot.tar.gz
-tar czf ${OUTPUT}-boot.tar.gz boot
-
-umount /dev/mapper/${LOOP}p1
-kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
-rm -rf boot
-
-echo "extracting boot partition with boot loader"
-dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} ))
 
 echo "extracting kernel modules and firmware from rootfs"
 
