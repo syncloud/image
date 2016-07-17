@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ex
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
@@ -68,8 +68,8 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
   IMAGE_FILE_NAME="ubuntu-16.04-mate-odroid-xu3-20160708.img"
   IMAGE_FILE="/tmp/${IMAGE_FILE_NAME}"
-  IMAGE_FILE_ZIP=${IMAGE_FILE_NAME}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP} -O $IMAGE_FILE_ZIP"
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "odroid-c2" ]]; then
   IMAGE_FILE="/tmp/ubuntu64-16.04lts-mate-odroid-c2-20160226.img"
@@ -103,9 +103,9 @@ OUTPUT=${SYNCLOUD_BOARD}
 
 function cleanup {
     echo "cleanup"
-    umount extract_rootfs
-    umount boot
-    kpartx -d ${IMAGE_FILE}
+    umount extract_rootfs || true
+    umount boot || true
+    kpartx -d ${IMAGE_FILE} || true
 }
 
 apt-get install unzip
