@@ -10,7 +10,7 @@ if [ "$1" == "" ]; then
     exit 1
 fi
 
-apt-get install -y kpartx
+apt-get install -y kpartx pigz
 
 SYNCLOUD_BOARD=$1
 
@@ -161,6 +161,7 @@ echo "LOOP: ${LOOP}"
 rm -rf boot
 mkdir -p boot
 kpartx -avs ${IMAGE_FILE}
+kpartx -l ${IMAGE_FILE}
 mount /dev/mapper/${LOOP}p1 boot
 
 mount | grep boot
@@ -215,7 +216,7 @@ sync
 cleanup
 
 rm -rf ${OUTPUT}.tar.gz
-tar czf ${OUTPUT}.tar.gz ${OUTPUT}
+tar -c --use-compress-program=pigz -f ${OUTPUT}.tar.gz ${OUTPUT}
 
 echo "result: $OUTPUT.tar.gz"
 
