@@ -179,7 +179,7 @@ rm -rf ${OUTPUT}-boot.tar.gz
 tar czf ${OUTPUT}-boot.tar.gz boot
 
 umount /dev/mapper/${LOOP}p1
-kpartx -d ${IMAGE_FILE}
+kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
 rm -rf boot
 
 echo "extracting boot partition with boot loader"
