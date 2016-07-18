@@ -165,8 +165,10 @@ kpartx -l ${IMAGE_FILE}
 
 FS_TYPE=$(blkid -s TYPE -o value /dev/mapper/${LOOP}p1)
 if [[ "${FS_TYPE}" == *"swap"*  ]]; then
-    echo "not using boot partition as it is: ${FS_TYPE}"
+    echo "not inspecting boot partition as it is: ${FS_TYPE}"
 else
+    echo "inspecting boot partition"
+
     mount /dev/mapper/${LOOP}p1 boot
 
     mount | grep boot
@@ -187,10 +189,11 @@ else
     kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
     rm -rf boot
 
-    echo "extracting boot partition with boot loader"
-    dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} ))
-
 fi
+
+echo "extracting boot partition with boot loader"
+
+dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} ))
 
 echo "extracting kernel modules and firmware from rootfs"
 
