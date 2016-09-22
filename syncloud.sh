@@ -7,11 +7,12 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$#" -lt 1 ]; then
-    echo "Usage: $0 release"
+if [ "$#" -lt 2 ]; then
+    echo "Usage: $0 release point_to_release"
     exit 1
 fi
 RELEASE=$1
+POINT_TO_RELEASE=$2
 
 #Fix debconf frontend warnings
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -23,7 +24,7 @@ cd ${DIR}
 
 /opt/app/sam/bin/sam --debug update --release ${RELEASE}
 /opt/app/sam/bin/sam --debug upgrade_all
-#sam --debug install syncloud-owncloud
 /opt/app/sam/bin/sam list
+/opt/app/sam/bin/sam set_release ${POINT_TO_RELEASE}
 
 rm -rf /tmp/*

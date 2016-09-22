@@ -9,14 +9,15 @@ export DEBIAN_FRONTEND=noninteractive
 export TMPDIR=/tmp
 export TMP=/tmp
 
-if [ "$#" -lt 4 ]; then
-    echo "Usage: $0 distro arch sam_version release"
+if [ "$#" -lt 5 ]; then
+    echo "Usage: $0 distro arch sam_version release point_to_release"
     exit 1
 fi
 DISTRO=$1
 ARCH=$2
 SAM_VERSION=$3
 RELEASE=$4
+POINT_TO_RELEASE=$5
 
 BASE_ROOTFS_ZIP=rootfs-${ARCH}.tar.gz
 ROOTFS=${DIR}/rootfs
@@ -87,7 +88,7 @@ wget http://apps.syncloud.org/apps/${SAM} --progress=dot:giga -O ${SAM}
 tar xzf ${SAM} -C ${ROOTFS}/opt/app
 
 cp syncloud.sh ${ROOTFS}/root
-chroot ${ROOTFS} /bin/bash -c "/root/syncloud.sh ${RELEASE}"
+chroot ${ROOTFS} /bin/bash -c "/root/syncloud.sh ${RELEASE} ${POINT_TO_RELEASE}"
 
 if [[ $? != 0 ]]; then
   echo "syncloud build failed"
