@@ -24,6 +24,8 @@ cd ${DIR}
 
 /opt/app/sam/bin/sam --debug update --release ${RELEASE}
 /opt/app/sam/bin/sam --debug upgrade_all
+#This is needed to make sure that update is properly done on fresh platform
+/opt/app/sam/bin/sam --debug update --release ${RELEASE}
 /opt/app/sam/bin/sam list
 /opt/app/sam/bin/sam set_release ${POINT_TO_RELEASE}
 
