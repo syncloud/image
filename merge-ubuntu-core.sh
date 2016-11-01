@@ -18,7 +18,7 @@ ARCH=$3
 echo "==== ${SYNCLOUD_BOARD}, ${DISTRO}, ${ARCH} ===="
 
 if [ ! -f "rootfs.tar.gz" ]; then
-    wget http://build.syncloud.org:8111/guestAuth/repository/download/${DISTRO}_rootfs_syncloud_${ARCH}/lastSuccessful/rootfs.tar.gz\
+    wget http://cdimage.ubuntu.com/cdimage/ubuntu-core/vivid/daily-preinstalled/current/vivid-preinstalled-core-armhf.tar.gz\
   -O rootfs.tar.gz --progress dot:giga
 else
     echo "rootfs.tar.gz is here"
