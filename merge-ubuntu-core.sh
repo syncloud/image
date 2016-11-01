@@ -38,7 +38,7 @@ export TMPDIR=/tmp
 export TMP=/tmp
 
 RESIZE_PARTITION_ON_FIRST_BOOT=true
-SYNCLOUD_IMAGE=syncloud-${SYNCLOUD_BOARD}.img
+SYNCLOUD_IMAGE=syncloud-ubuntu-core-${SYNCLOUD_BOARD}.img
 SRC_ROOTFS=rootfs
 DST_ROOTFS=dst/root
 
