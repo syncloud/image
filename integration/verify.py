@@ -26,6 +26,7 @@ DEVICE_USER = 'user'
 DEVICE_PASSWORD = 'password'
 DEFAULT_DEVICE_PASSWORD = 'syncloud'
 LOGS_SSH_PASSWORD = DEFAULT_DEVICE_PASSWORD
+APPS = ['owncloud', 'mail', 'nextcloud', 'diaspora', 'files', 'gogs']
 
 
 @pytest.fixture(scope="session")
@@ -38,8 +39,8 @@ def module_teardown():
 
     coopy_logs('sam', '/var/log/sam.log')
     coopy_logs('platform')
-    coopy_logs('owncloud')
-    coopy_logs('mail')
+    for app in APPS:
+        coopy_logs(app)
 
     run_ssh('netstat -l', password=DEVICE_PASSWORD)
 
@@ -124,48 +125,27 @@ def test_login(syncloud_session):
     syncloud_session.post('http://localhost/rest/login', data={'name': DEVICE_USER, 'password': DEVICE_PASSWORD})
 
 
-def test_owncloud_install(syncloud_session, device_domain):
-    app_install(syncloud_session, 'owncloud', device_domain)
+@pytest.mark.parametrize("app", APPS)
+def test_app_install(syncloud_session, app, device_domain):
+    response = syncloud_session.get('http://localhost/rest/install?app_id={0}'.format(app), allow_redirects=False)
 
-
-def test_mail_install(syncloud_session, device_domain):
-    app_install(syncloud_session, 'mail', device_domain)
-
-
-def test_owncloud_upgrade(syncloud_session):
-    app_upgrade(syncloud_session, 'owncloud')
-
-
-def test_mail_upgrade(syncloud_session):
-    app_upgrade(syncloud_session, 'mail')
-
-
-def test_owncloud_remove(syncloud_session):
-    app_remove(syncloud_session, 'owncloud')
-
-
-def test_mail_remove(syncloud_session):
-    app_remove(syncloud_session, 'mail')
-
-
-def app_install(syncloud_session, name, device_domain):
-    response = syncloud_session.get('http://localhost/rest/install?app_id={0}'.format(name),
-                                    allow_redirects=False)
     assert response.status_code == 200
     wait_for_sam(syncloud_session)
-    response = requests.get('http://127.0.0.1', headers={"Host": '{0}.{1}'.format(name, device_domain)},
+    response = requests.get('http://127.0.0.1', headers={"Host": '{0}.{1}'.format(app, device_domain)},
                             allow_redirects=True)
     assert response.status_code == 200
 
 
-def app_upgrade(syncloud_session, name):
-    response = syncloud_session.get('http://localhost/rest/upgrade?app_id={0}'.format(name),
+@pytest.mark.parametrize("app", APPS)
+def test_app_upgrade(syncloud_session, app):
+    response = syncloud_session.get('http://localhost/rest/upgrade?app_id={0}'.format(app),
                                     allow_redirects=False)
     assert response.status_code == 200
 
 
-def app_remove(syncloud_session, name):
-    response = syncloud_session.get('http://localhost/rest/remove?app_id={0}'.format(name),
+@pytest.mark.parametrize("app", APPS)
+def test_app_remove(syncloud_session, app):
+    response = syncloud_session.get('http://localhost/rest/remove?app_id={0}'.format(app),
                                     allow_redirects=False)
     assert response.status_code == 200
     wait_for_sam(syncloud_session)
