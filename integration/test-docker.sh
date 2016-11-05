@@ -10,7 +10,7 @@ fi
 
 ./docker.sh $5
 
-pip2 install -r ${DIR}/../src/dev_requirements.txt
+pip2 install -r ${DIR}/dev_requirements.txt
 pip2 install -U pytest
 
 py.test -sx verify.py --email=$1 --password=$2 --domain=$3 --release=$4 --arch=$5
