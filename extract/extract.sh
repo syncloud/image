@@ -89,9 +89,9 @@ elif [[ ${SYNCLOUD_BOARD} == "bananapim1" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "bananapim3" ]]; then
   IMAGE_FILE_NAME="2016-05-15-debian-8-jessie-lite-bpi-m3-sd-emmc.img"
   IMAGE_FILE="/tmp/${IMAGE_FILE_NAME}"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.zip -O $IMAGE_FILE_ZIP"
-  UNZIP=unzip
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.xz -O $IMAGE_FILE_ZIP"
+  UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "vbox" ]]; then
   IMAGE_FILE_NAME="debian-vbox-8gb.img"
   IMAGE_FILE="/tmp/$IMAGE_FILE_NAME"
