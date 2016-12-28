@@ -84,7 +84,6 @@ fi
 
 chroot ${ROOTFS} apt-get update
 chroot ${ROOTFS} apt-get -y dist-upgrade
-chroot ${ROOTFS} apt-get -y dpkg-dev
 chroot ${ROOTFS} apt-get -y install sudo openssh-server wget less bootlogd parted lsb-release unzip bzip2\
   libssl-dev curl dbus avahi-daemon ntp libpq-dev udisks2 exfat-utils exfat-fuse
 chroot ${ROOTFS} ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ''
