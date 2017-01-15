@@ -57,7 +57,6 @@ mkdir -p ${ROOTFS}
 
 echo "extracting rootfs"
 tar xzf ${APP_DIR}/3rdparty/rootfs-${ARCH}.tar.gz -C ${ROOTFS}
-sed -i 's/Port 22/Port 2222/g' ${ROOTFS}/etc/ssh/sshd_config
 
 echo "importing rootfs"
 tar -C ${ROOTFS} -c . | docker import - syncloud
