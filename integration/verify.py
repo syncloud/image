@@ -96,9 +96,6 @@ def test_activate_device(auth):
                                    'user_domain': domain, 'device_username': DEVICE_USER,
                                    'device_password': DEVICE_PASSWORD})
     assert response.status_code == 200
-    set_docker_ssh_port(DEVICE_PASSWORD)
-    run_ssh('systemctl restart platform-uwsgi-public', password=DEVICE_PASSWORD)
-    wait_for_platform_web()
     global LOGS_SSH_PASSWORD
     LOGS_SSH_PASSWORD = DEVICE_PASSWORD
 
