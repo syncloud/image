@@ -139,6 +139,10 @@ def test_app_upgrade(syncloud_session, app):
                                     allow_redirects=False)
     assert response.status_code == 200
 
+    response = syncloud_session.get('http://localhost/rest/installed_apps')
+    assert response.status_code == 200
+    assert app in response.text
+
 
 @pytest.mark.parametrize("app", APPS)
 def test_app_remove(syncloud_session, app):
