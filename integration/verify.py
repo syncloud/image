@@ -131,6 +131,9 @@ def test_app_install(syncloud_session, app, device_domain):
     response = requests.get('http://127.0.0.1', headers={"Host": '{0}.{1}'.format(app, device_domain)},
                             allow_redirects=True)
     assert response.status_code == 200
+    response = syncloud_session.get('http://localhost/rest/installed_apps')
+    assert response.status_code == 200
+    assert app in response.text
 
 
 @pytest.mark.parametrize("app", APPS)
@@ -138,10 +141,6 @@ def test_app_upgrade(syncloud_session, app):
     response = syncloud_session.get('http://localhost/rest/upgrade?app_id={0}'.format(app),
                                     allow_redirects=False)
     assert response.status_code == 200
-
-    response = syncloud_session.get('http://localhost/rest/installed_apps')
-    assert response.status_code == 200
-    assert app in response.text
 
 
 @pytest.mark.parametrize("app", APPS)
