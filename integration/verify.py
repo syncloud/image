@@ -128,9 +128,7 @@ def test_app_install(syncloud_session, app, device_domain):
 
     assert response.status_code == 200
     wait_for_sam(syncloud_session)
-    response = requests.get('http://127.0.0.1', headers={"Host": '{0}.{1}'.format(app, device_domain)},
-                            allow_redirects=True)
-    assert response.status_code == 200
+    
     response = syncloud_session.get('http://localhost/rest/installed_apps')
     assert response.status_code == 200
     assert app in response.text
