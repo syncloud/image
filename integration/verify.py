@@ -26,7 +26,7 @@ DEVICE_USER = 'user'
 DEVICE_PASSWORD = 'password'
 DEFAULT_DEVICE_PASSWORD = 'syncloud'
 LOGS_SSH_PASSWORD = DEFAULT_DEVICE_PASSWORD
-APPS = ['owncloud', 'mail', 'nextcloud', 'diaspora', 'files']
+APPS = ['owncloud', 'mail', 'nextcloud', 'diaspora', 'files', 'gogs', 'talk']
 
 
 @pytest.fixture(scope="session")
