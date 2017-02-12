@@ -45,9 +45,9 @@ VBoxHeadless --startvm $VM &
 ATTEMPT=0
 TOTAL_ATTEMPTS=10
 
-sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@localhost date
-
 ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:${SSH_PORT}
+
+sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@localhost date
 
 while test $? -gt 0
 do
