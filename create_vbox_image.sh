@@ -47,6 +47,8 @@ TOTAL_ATTEMPTS=10
 
 sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@localhost date
 
+ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:${SSH_PORT}
+
 while test $? -gt 0
 do
   sleep 1
@@ -54,7 +56,8 @@ do
   ATTEMPT=$((ATTEMPT +1))
   echo "attempt $ATTEMPT of $TOTAL_ATTEMPTS"
   if [[ $ATTEMPT -gt $TOTAL_ATTEMPTS ]]; then
-    break
+    echo "unable to connect to vbox instance"
+    exit 1
   fi
   sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@localhost date
   
