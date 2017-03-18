@@ -45,15 +45,15 @@ ROOTFS=${DIR}/rootfs
 
 function cleanup {
 
-    mount | grep rootfs
-    mount | grep rootfs | awk '{print "umounting "$1; system("umount "$3)}'
-    mount | grep rootfs
+    mount | grep rootfs || true
+    mount | grep rootfs | awk '{print "umounting "$1; system("umount "$3)}' || true
+    mount | grep rootfs || true
 
     echo "killing chroot services"
     lsof 2>&1 | grep rootfs | grep -v java | awk '{print $1 $2}' | sort | uniq
     lsof 2>&1 | grep rootfs | grep -v java | awk '{print $2}' | sort | uniq | xargs kill -9
     echo "chroot services after kill"
-    lsof 2>&1 | grep rootfs
+    lsof 2>&1 | grep rootfs || true
 }
 
 cleanup
