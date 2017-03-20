@@ -23,23 +23,23 @@ SYNCLOUD_DISTR_URL="https://s3-us-west-2.amazonaws.com/syncloud-distributives"
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
   FILE_VERSION=2016-03-18
-  IMAGE_FILE=/tmp/${FILE_VERSION}-raspbian-jessie-lite.img
+  IMAGE_FILE=${FILE_VERSION}-raspbian-jessie-lite.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
   FILE_VERSION=2016-03-18
-  IMAGE_FILE=/tmp/${FILE_VERSION}-raspbian-jessie-lite.img
+  IMAGE_FILE=${FILE_VERSION}-raspbian-jessie-lite.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
-  IMAGE_FILE=/tmp/${SYNCLOUD_BOARD}.img
+  IMAGE_FILE=${SYNCLOUD_BOARD}.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/bone-debian-8.2-tester-2gb-armhf-2015-11-12-2gb.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
-  IMAGE_FILE="/tmp/Cubian-nano+headless-x1-a10.img"
+  IMAGE_FILE="Cubian-nano+headless-x1-a10.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/Cubian-nano%2Bheadless-x1-a10.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
@@ -48,7 +48,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   CPU_FREQUENCY_MAX=1056000
   CPU_FREQUENCY_MIN=648000
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
-  IMAGE_FILE="/tmp/Cubian-nano+headless-x1-a20.img"
+  IMAGE_FILE="Cubian-nano+headless-x1-a20.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/Cubian-nano%2Bheadless-x1-a20.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
@@ -57,7 +57,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   CPU_FREQUENCY_MAX=1056000
   CPU_FREQUENCY_MIN=648000
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
-  IMAGE_FILE="/tmp/Cubian-nano+headless-x1-a20-cubietruck.img"
+  IMAGE_FILE="Cubian-nano+headless-x1-a20-cubietruck.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/Cubian-nano%2Bheadless-x1-a20-cubietruck.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
@@ -67,34 +67,34 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   CPU_FREQUENCY_MIN=648000
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
   IMAGE_FILE_NAME="ubuntu-16.04-mate-odroid-xu3-20160708.img"
-  IMAGE_FILE="/tmp/${IMAGE_FILE_NAME}"
+  IMAGE_FILE=${IMAGE_FILE_NAME}
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "odroid-c2" ]]; then
-  IMAGE_FILE="/tmp/ubuntu64-16.04lts-mate-odroid-c2-20160226.img"
+  IMAGE_FILE="ubuntu64-16.04lts-mate-odroid-c2-20160226.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/ubuntu64-16.04lts-mate-odroid-c2-20160226.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
-  IMAGE_FILE="/tmp/M2-raspberry-kernel3.3-LCD.img"
+  IMAGE_FILE="M2-raspberry-kernel3.3-LCD.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/BPI-M2_Raspbian_V4.0_lcd.zip -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
 elif [[ ${SYNCLOUD_BOARD} == "bananapim1" ]]; then
-  IMAGE_FILE="/tmp/BPI-M1_Debian_V2_beta.img"
+  IMAGE_FILE="BPI-M1_Debian_V2_beta.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/BPI-M1_Debian_V2_beta.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "bananapim3" ]]; then
   IMAGE_FILE_NAME="2016-05-15-debian-8-jessie-lite-bpi-m3-sd-emmc.img"
-  IMAGE_FILE="/tmp/${IMAGE_FILE_NAME}"
+  IMAGE_FILE=${IMAGE_FILE_NAME}
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "vbox" ]]; then
   IMAGE_FILE_NAME="debian-vbox-8gb.img"
-  IMAGE_FILE="/tmp/$IMAGE_FILE_NAME"
+  IMAGE_FILE=$IMAGE_FILE_NAME
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_NAME.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
@@ -112,6 +112,7 @@ function cleanup {
     umount extract_rootfs || true
     umount boot || true
     kpartx -d ${IMAGE_FILE} || true
+    rm -rf *.img
 }
 
 apt-get install unzip
@@ -120,17 +121,14 @@ cleanup
 
 if [ ! -z "$TEAMCITY_VERSION" ]; then
   echo "running under TeamCity, cleaning base image cache"
-  rm -rf ${IMAGE_FILE}
+  rm -rf ${IMAGE_FILE_ZIP}
 fi
 
-if [ ! -f ${IMAGE_FILE} ]; then
-  echo "Base image $IMAGE_FILE is not found, getting new one ..."
+if [ ! -f ${IMAGE_FILE_ZIP} ]; then
+  echo "Base image $IMAGE_FILE_ZIP is not found, getting new one ..."
   ${DOWNLOAD_IMAGE}
-  pushd .
-  cd /tmp
   ls -la
   ${UNZIP} ${IMAGE_FILE_ZIP}
-  popd
 fi
 
 echo "fdisk info:"
