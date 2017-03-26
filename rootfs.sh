@@ -10,14 +10,22 @@ export TMPDIR=/tmp
 export TMP=/tmp
 
 if [ "$#" -lt 5 ]; then
-    echo "Usage: $0 distro arch sam_version release point_to_release"
+    echo "Usage: $0 distro arch release point_to_release"
     exit 1
 fi
+
 DISTRO=$1
 ARCH=$2
-SAM_VERSION=$3
-RELEASE=$4
-POINT_TO_RELEASE=$5
+RELEASE=$3
+POINT_TO_RELEASE=$4
+
+SAMCMD=/opt/app/sam/bin/sam
+
+if [ ! -f ${SAMCMD} ]; then
+    ${DIR}/install-sam.sh 85 stable
+fi
+
+SAM_VERSION=$(${SAMCMD} --text version ${RELEASE} sam)
 
 BASE_ROOTFS_ZIP=rootfs-${ARCH}.tar.gz
 ROOTFS=${DIR}/rootfs
