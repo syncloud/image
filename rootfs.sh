@@ -58,16 +58,11 @@ function cleanup {
 echo "installing dependencies"
 sudo apt-get -y install p7zip qemu-user-static
 
-if [[ $? != 0 ]]; then
-  echo "unable to install dependencies"
-  exit1
-fi
-
 if [ ! -f ${BASE_ROOTFS_ZIP} ]; then
   echo "${BASE_ROOTFS_ZIP} not found"
 fi
 
-cleanup
+cleanup || true
 
 rm -rf ${ROOTFS}
 mkdir -p ${ROOTFS}
@@ -98,12 +93,7 @@ tar xzf ${SAM} -C ${ROOTFS}/opt/app
 cp syncloud.sh ${ROOTFS}/root
 chroot ${ROOTFS} /bin/bash -c "/root/syncloud.sh ${RELEASE} ${POINT_TO_RELEASE}"
 
-if [[ $? != 0 ]]; then
-  echo "syncloud build failed"
-  exit 1
-fi
-
-cleanup
+cleanup || true
 
 echo "enable restart"
 cp enable-service-restart.sh ${ROOTFS}/root
