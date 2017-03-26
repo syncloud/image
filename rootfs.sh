@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ex
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 START_TIME=$(date +"%s")
 
@@ -9,7 +9,12 @@ export DEBIAN_FRONTEND=noninteractive
 export TMPDIR=/tmp
 export TMP=/tmp
 
-if [ "$#" -lt 5 ]; then
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
+if [ "$#" -lt 4 ]; then
     echo "Usage: $0 distro arch release point_to_release"
     exit 1
 fi
@@ -35,11 +40,6 @@ if [ ! -f ${BASE_ROOTFS_ZIP} ]; then
   -O ${BASE_ROOTFS_ZIP} --progress dot:giga
 else
   echo "skipping rootfs"
-fi
-
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
 fi
 
 function cleanup {
