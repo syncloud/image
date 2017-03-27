@@ -11,7 +11,7 @@ contentType="application/x-compressed-tar"
 dateValue=`date -R`
 stringToSign="PUT\n\n${contentType}\n${dateValue}\n${resource}"
 signature=`echo -en ${stringToSign} | openssl sha1 -hmac ${s3Secret} -binary | base64`
-curl -X PUT -T "${local_file}" \
+curl -k -X PUT -T "${local_file}" \
   -H "Host: ${bucket}.s3.amazonaws.com" \
   -H "Date: ${dateValue}" \
   -H "Content-Type: ${contentType}" \
