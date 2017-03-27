@@ -186,7 +186,7 @@ else
         cat ${boot_ini}
     fi
 
-    rm -rf ${OUTPUT}-boot.tar.gz
+    rm -rf *-boot.tar.gz
     tar czf ${OUTPUT}-boot.tar.gz boot
 
     umount /dev/mapper/${LOOP}p1
