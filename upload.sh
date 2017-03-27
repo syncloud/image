@@ -1,11 +1,11 @@
 #!/bin/bash -e
 
 local_file=$1
-file=$2
-s3Key=$3
-s3Secret=$4
+bucket=$2
+file=$3
+s3Key=$4
+s3Secret=$5
 
-bucket=rootfs.syncloud.org
 resource="/${bucket}/${file}"
 contentType="application/x-compressed-tar"
 dateValue=`date -R`
