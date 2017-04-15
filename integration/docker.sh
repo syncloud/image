@@ -65,10 +65,15 @@ echo "starting rootfs"
 docker run -v /var/run/dbus:/var/run/dbus --name rootfs --cap-add=ALL -p 2222:22 -p 80:80 -p 81:81 --privileged -d -it syncloud /sbin/init
 
 ssh-keygen -f "/root/.ssh/known_hosts" -R [localhost]:2222
-
+ssh_attempts=0
 sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p 2222 root@localhost date
 while test $? -gt 0
 do
+  ssh_attempts=$((ssh_attempts+1))
+  if [ $ssh_attempts -gt 100 ]; then
+    echo "exhausted $ssh_attempts attempts"
+    exit 1
+  fi
   sleep 1
   echo "Waiting for SSH ..."
   sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p 2222 root@localhost date
