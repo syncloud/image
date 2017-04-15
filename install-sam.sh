@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 
 if [ "$#" -lt 2 ]; then
