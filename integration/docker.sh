@@ -27,7 +27,7 @@ else
 fi
 
 apt-get install -y docker.io sshpass
-service docker start
+service docker restart
 
 function cleanup {
 
