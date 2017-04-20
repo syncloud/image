@@ -70,7 +70,7 @@ sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p 2222 root@localhost date
 while test $? -gt 0
 do
   ssh_attempts=$((ssh_attempts+1))
-  if [ $ssh_attempts -gt 100 ]; then
+  if [ $ssh_attempts -gt 200 ]; then
     echo "exhausted $ssh_attempts attempts"
     exit 1
   fi
