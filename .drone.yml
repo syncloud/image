@@ -17,7 +17,7 @@ pipeline:
     #  - ./unit-test.sh
       #- ./upload.sh $DRONE_BRANCH $VERSION
     volumes:
-      - /proc:/proc
+      - /proc:/proc:ro
   
 matrix:
   include:
