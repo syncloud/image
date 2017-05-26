@@ -16,7 +16,8 @@ pipeline:
     #  - ./build.sh $VERSION
     #  - ./unit-test.sh
       #- ./upload.sh $DRONE_BRANCH $VERSION
-
+    volumes:
+      - /proc:/proc
   
 matrix:
   include:
