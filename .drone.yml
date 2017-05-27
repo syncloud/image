@@ -11,7 +11,7 @@ pipeline:
     secrets: [ARTIFACT_SSH_KEY]
     commands:
       - ./bootstrap/bootstrap.sh ${arch}
-      - ./upload-artifact.sh bootstrap/rootfs-${arch}.tar.gz
+      - ./upload-artifact.sh rootfs-${arch}.tar.gz
     privileged: true
   
 matrix:
