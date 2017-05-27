@@ -14,30 +14,27 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$#" -lt 4 ]; then
-    echo "Usage: $0 distro arch release point_to_release"
+if [ "$#" -lt 3 ]; then
+    echo "Usage: $0 arch release point_to_release"
     exit 1
 fi
 
-DISTRO=$1
-ARCH=$2
-RELEASE=$3
-POINT_TO_RELEASE=$4
-
+ARCH=$1
+RELEASE=$2
+POINT_TO_RELEASE=$3
+SAM_VERSION=85
 SAMCMD=/opt/app/sam/bin/sam
+SAM_ARCH=$(uname -m)
 
 if [ ! -f ${SAMCMD} ]; then
-    ${DIR}/install-sam.sh 85 stable
+    ${DIR}/install-sam.sh ${SAM_VERSION} stable
 fi
-
-SAM_VERSION=$(${SAMCMD} --text version ${RELEASE} sam)
 
 BASE_ROOTFS_ZIP=rootfs-${ARCH}.tar.gz
 ROOTFS=${DIR}/rootfs
 
 if [ ! -f ${BASE_ROOTFS_ZIP} ]; then
-  wget http://build.syncloud.org:8111/guestAuth/repository/download/${DISTRO}_rootfs_${ARCH}/lastSuccessful/rootfs.tar.gz\
-  -O ${BASE_ROOTFS_ZIP} --progress dot:giga
+  wget http://artifact.syncloud.org/image/${BASE_ROOTFS_ZIP}.tar.gz --progress dot:giga
 else
   echo "skipping rootfs"
 fi
@@ -85,8 +82,7 @@ echo "configuring rootfs"
 chroot ${ROOTFS} /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot ${ROOTFS} /bin/bash -c "mount -t proc proc /proc"
 
-echo "installing sam ${SAM_VERSION}-${ARCH}"
-SAM=sam-${SAM_VERSION}-${ARCH}.tar.gz
+SAM=sam-${SAM_VERSION}-${SAM_ARCH}.tar.gz
 wget http://apps.syncloud.org/apps/${SAM} --progress=dot:giga -O ${SAM}
 tar xzf ${SAM} -C ${ROOTFS}/opt/app
 
@@ -101,12 +97,5 @@ chroot ${ROOTFS} /root/enable-service-restart.sh
 
 rm -rf build
 mkdir build
-echo "zipping"
-tar czf build/rootfs.tar.gz -C ${ROOTFS} .
 
-FINISH_TIME=$(date +"%s")
-BUILD_TIME=$(($FINISH_TIME-$START_TIME))
-
-echo "rootfs: build/rootfs.tar.gz"
-
-echo "Build time: $(($BUILD_TIME / 60)) min"
+tar czf build/syncloud-rootfs-${ARCH}.tar.gz -C ${ROOTFS} .

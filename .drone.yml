@@ -6,7 +6,7 @@ clone:
     depth: 50
 
 pipeline:
-  build:
+  rootfs:
     image: ${container}
     secrets: [ARTIFACT_SSH_KEY]
     commands:
@@ -14,6 +14,14 @@ pipeline:
       - ./upload-artifact.sh rootfs-${arch}.tar.gz
     privileged: true
   
+  syncloud-rootfs:
+    image: ${container}
+    secrets: [ARTIFACT_SSH_KEY]
+    commands:
+      - ./rootfs.sh ${arch} rc stable
+      - ./upload-artifact.sh syncloud-rootfs-${arch}.tar.gz
+    privileged: true
+     
 matrix:
   include:
     - platform: linux/arm
