@@ -26,6 +26,9 @@ SAM_VERSION=85
 SAMCMD=/opt/app/sam/bin/sam
 SAM_ARCH=$(uname -m)
 
+echo "installing dependencies"
+sudo apt-get -y install p7zip qemu-user-static
+
 if [ ! -f ${SAMCMD} ]; then
     ${DIR}/install-sam.sh ${SAM_VERSION} stable
 fi
@@ -51,9 +54,6 @@ function cleanup {
 
     lsof 2>&1 | grep rootfs
 }
-
-echo "installing dependencies"
-sudo apt-get -y install p7zip qemu-user-static
 
 if [ ! -f ${BASE_ROOTFS_ZIP} ]; then
   echo "${BASE_ROOTFS_ZIP} not found"
