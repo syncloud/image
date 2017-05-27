@@ -8,14 +8,10 @@ clone:
 pipeline:
   build:
     image: ${container}
-    #secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    secrets: [ARTIFACT_SSH_KEY]
     commands:
-      - ./bootstrap/bootstrap.sh ${distro}
-    #  - VERSION=$(date +%y%m%d)
-    #  - ./deps.sh
-    #  - ./build.sh $VERSION
-    #  - ./unit-test.sh
-      #- ./upload.sh $DRONE_BRANCH $VERSION
+      - ./bootstrap/bootstrap.sh ${arch}
+      - ./upload-artifact.sh bootstrap/rootfs-${arch}.tar.gz
     privileged: true
   
 matrix:
@@ -23,8 +19,8 @@ matrix:
     - platform: linux/arm
       container: armv7/armhf-debian:8
       git: syncloud/armhf-drone-git
-      distro: debian
+      arch: armhf
     - platform: linux/amd64
       container: debian:8
       git: plugins/git
-      distro: amd64
+      arch: amd64

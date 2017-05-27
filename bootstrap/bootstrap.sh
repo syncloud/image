@@ -3,31 +3,13 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 distro"
+    echo "Usage: $0 arch"
     exit 1
 fi
 
-DISTRO=$1
-
-if [[ ${DISTRO} == "raspbian" ]]; then
-    REPO=http://archive.raspbian.com/raspbian
-    KEY=http://archive.raspbian.org/raspbian.public.key
-    DEBOOTSTRAP_ARCH=armhf
-    ARCH=armv7l
-elif [[ ${DISTRO} == "debian" ]]; then
-    REPO=http://http.debian.net/debian
-    KEY=https://ftp-master.debian.org/keys/archive-key-8.asc
-    DEBOOTSTRAP_ARCH=armhf
-    ARCH=armv7l
-elif [[ ${DISTRO} == "amd64" ]]; then
-    REPO=http://http.debian.net/debian
-    KEY=https://ftp-master.debian.org/keys/archive-key-8.asc
-    DEBOOTSTRAP_ARCH=amd64
-    ARCH=x86_64
-else
-    echo "${DISTRO} is not supported"
-    exit 1
-fi
+ARCH=$1
+REPO=http://http.debian.net/debian
+KEY=https://ftp-master.debian.org/keys/archive-key-8.asc
 
 echo "Open file limit: $(ulimit -n)"
 
@@ -61,7 +43,7 @@ cleanup
 rm -rf ${ROOTFS}
 rm -rf rootfs.tar.gz
 
-qemu-debootstrap --no-check-gpg --include=ca-certificates,locales --arch=${DEBOOTSTRAP_ARCH} jessie ${ROOTFS} ${REPO}
+qemu-debootstrap --no-check-gpg --include=ca-certificates,locales --arch=${ARCH} jessie ${ROOTFS} ${REPO}
 
 sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' ${ROOTFS}/etc/locale.gen
 chroot ${ROOTFS} /bin/bash -c "locale-gen en_US en_US.UTF-8"
@@ -78,8 +60,8 @@ chroot ${ROOTFS} /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot ${ROOTFS} /bin/bash -c "mount -t proc proc /proc"
 
 echo "copy system files to get image working"
-if [ -d ${DISTRO} ]; then
-    cp -rf ${DISTRO}/* ${ROOTFS}/
+if [ -d ${ARCH} ]; then
+    cp -rf ${ARCH}/* ${ROOTFS}/
 fi
 
 chroot ${ROOTFS} apt-get update
@@ -91,8 +73,8 @@ sed -i -e'/AVAHI_DAEMON_DETECT_LOCAL/s/1/0/' ${ROOTFS}/etc/default/avahi-daemon
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" ${ROOTFS}/etc/ssh/sshd_config
 
 echo "copy system files again as some packages might have replaced our files"
-if [ -d ${DISTRO} ]; then
-    cp -rf ${DISTRO}/* ${ROOTFS}/
+if [ -d ${ARCH} ]; then
+    cp -rf ${ARCH}/* ${ROOTFS}/
 fi
 mkdir ${ROOTFS}/opt/data
 mkdir ${ROOTFS}/opt/app
@@ -107,4 +89,4 @@ echo "cleaning apt cache"
 rm -rf ${ROOTFS}/var/cache/apt/archives/*.deb
 
 echo "zipping bootstrap"
-tar czf rootfs.tar.gz -C ${ROOTFS} .
+tar czf rootfs-${ARCH}.tar.gz -C ${ROOTFS} .
