@@ -21,7 +21,7 @@ export TMPDIR=/tmp
 export TMP=/tmp
 
 apt-get update
-apt-get -y install debootstrap qemu-user-static lsof
+apt-get -y install debootstrap lsof ssh
 
 ROOTFS=${DIR}/rootfs
 
@@ -43,7 +43,7 @@ cleanup
 rm -rf ${ROOTFS}
 rm -rf rootfs.tar.gz
 
-qemu-debootstrap --no-check-gpg --include=ca-certificates,locales --arch=${ARCH} jessie ${ROOTFS} ${REPO}
+debootstrap --no-check-gpg --include=ca-certificates,locales --arch=${ARCH} jessie ${ROOTFS} ${REPO}
 
 sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' ${ROOTFS}/etc/locale.gen
 chroot ${ROOTFS} /bin/bash -c "locale-gen en_US en_US.UTF-8"
