@@ -27,7 +27,7 @@ SAMCMD=/opt/app/sam/bin/sam
 SAM_ARCH=$(uname -m)
 
 echo "installing dependencies"
-sudo apt-get -y install p7zip qemu-user-static
+apt-get -y install p7zip qemu-user-static
 
 if [ ! -f ${SAMCMD} ]; then
     ${DIR}/install-sam.sh ${SAM_VERSION} stable
