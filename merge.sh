@@ -128,7 +128,9 @@ cp -rp ${SYNCLOUD_BOARD}/root/* ${DST_ROOTFS}/
 echo "copying files"
 cp -rp ${SRC_FILES}/* ${DST_ROOTFS}/
 
-mv ${DST_ROOTFS}/etc/fstab.vbox ${DST_ROOTFS}/etc/fstab
+if [ -f ${DST_ROOTFS}/etc/fstab.vbox ]; then
+  mv ${DST_ROOTFS}/etc/fstab.vbox ${DST_ROOTFS}/etc/fstab
+fi
 
 echo "setting resize on boot flag"
 if [ "$RESIZE_PARTITION_ON_FIRST_BOOT" = true ] ; then
@@ -154,7 +156,4 @@ xz -0 ${SYNCLOUD_IMAGE} -k
 
 ls -la ${SYNCLOUD_IMAGE}.xz
 
-FINISH_TIME=$(date +"%s")
-BUILD_TIME=$(($FINISH_TIME-$START_TIME))
 echo "image: ${SYNCLOUD_IMAGE}"
-echo "Build time: $(($BUILD_TIME / 60)) min"
