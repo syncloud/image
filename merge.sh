@@ -7,21 +7,20 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$#" -ne 3 ]; then
-    echo "Usage: $0 board debian|raspbian arch"
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 board arch"
     exit 1
 fi
 
 SYNCLOUD_BOARD=$1
-DISTRO=$2
-ARCH=$3
-echo "==== ${SYNCLOUD_BOARD}, ${DISTRO}, ${ARCH} ===="
+ARCH=$2
+ROOTFS_FILE=syncloid-rootfs-${ARCH}.tar.gz
+echo "==== ${SYNCLOUD_BOARD}, ${ARCH} ===="
 
-if [ ! -f "rootfs.tar.gz" ]; then
-    wget http://build.syncloud.org:8111/guestAuth/repository/download/${DISTRO}_rootfs_syncloud_${ARCH}/lastSuccessful/rootfs.tar.gz\
-  -O rootfs.tar.gz --progress dot:giga
+if [ ! -f $ROOTFS_FILE ]; then
+    wget http://artifact.syncloud.org/image/syncloud-rootfs-${ARCH}.tar.gz --progress dot:giga
 else
-    echo "rootfs.tar.gz is here"
+    echo "$ROOTFS_FILE is here"
 fi
 
 BOOT_ZIP=${SYNCLOUD_BOARD}.tar.gz
@@ -64,7 +63,7 @@ apt-get -y install dosfstools kpartx p7zip
 cleanup
 
 mkdir ${SRC_ROOTFS}
-tar xzf rootfs.tar.gz -C${SRC_ROOTFS}
+tar xzf $ROOTFS_FILE -C${SRC_ROOTFS}
 
 echo "extracting boot"
 rm -rf ${SYNCLOUD_BOARD}
