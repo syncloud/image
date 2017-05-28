@@ -1,19 +1,33 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
-local_file=$1
-bucket=$2
-file=$3
-s3Key=$4
-s3Secret=$5
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-resource="/${bucket}/${file}"
-contentType="application/x-compressed-tar"
-dateValue=`date -R`
-stringToSign="PUT\n\n${contentType}\n${dateValue}\n${resource}"
-signature=`echo -en ${stringToSign} | openssl sha1 -hmac ${s3Secret} -binary | base64`
-curl -k -X PUT -T "${local_file}" \
-  -H "Host: ${bucket}.s3.amazonaws.com" \
-  -H "Date: ${dateValue}" \
-  -H "Content-Type: ${contentType}" \
-  -H "Authorization: AWS ${s3Key}:${signature}" \
-  https://${bucket}.s3.amazonaws.com/${file}
+app=platform
+branch=$1
+build_number=$2
+bucket=apps.syncloud.org
+arch=$(uname -m)
+
+mkdir -p /opt/app
+SAMCMD=/opt/app/sam/bin/sam
+
+if [ ! -f ${SAMCMD} ]; then
+    ${DIR}/install-sam.sh 85 stable
+fi
+
+if [ ! -f /usr/bin/s3cmd ]; then
+    ${DIR}/install-s3cmd.sh
+fi
+
+if [ "${branch}" == "master" ] || [ "${branch}" == "stable" ] ; then
+  
+  s3cmd put ${app}-${build_number}-${arch}.tar.gz s3://${bucket}/apps/${app}-${build_number}-${arch}.tar.gz
+  
+  if [ "${branch}" == "stable" ]; then
+    branch=rc
+  fi
+
+  ${SAMCMD} release $branch $branch --override ${app}=${build_number}
+
+fi
+
