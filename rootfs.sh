@@ -1,9 +1,8 @@
 #!/bin/bash -ex
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-START_TIME=$(date +"%s")
 
 #Fix debconf frontend warnings
-export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+#export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export DEBCONF_FRONTEND=noninteractive
 export DEBIAN_FRONTEND=noninteractive
 export TMPDIR=/tmp
@@ -27,7 +26,8 @@ SAMCMD=/opt/app/sam/bin/sam
 SAM_ARCH=$(uname -m)
 
 echo "installing dependencies"
-apt-get -y install p7zip qemu-user-static
+apt-get -qq update
+apt-get -qq install wget ssh
 
 if [ ! -f ${SAMCMD} ]; then
     ${DIR}/install-sam.sh ${SAM_VERSION} stable
