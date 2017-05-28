@@ -68,9 +68,6 @@ echo "extracting rootfs"
 
 tar xzf ${BASE_ROOTFS_ZIP} -C ${ROOTFS}
 
-echo "enabling arm binary support"
-cp $(which qemu-arm-static) ${ROOTFS}/usr/bin
-
 echo "setting version ${BUILD_NUMBER}"
 echo ${BUILD_NUMBER} > ${ROOTFS}/version
 
