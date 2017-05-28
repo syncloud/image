@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -xe
 
 START_TIME=$(date +"%s")
 
@@ -14,7 +14,7 @@ fi
 
 SYNCLOUD_BOARD=$1
 ARCH=$2
-ROOTFS_FILE=syncloid-rootfs-${ARCH}.tar.gz
+ROOTFS_FILE=syncloud-rootfs-${ARCH}.tar.gz
 echo "==== ${SYNCLOUD_BOARD}, ${ARCH} ===="
 
 if [ ! -f $ROOTFS_FILE ]; then
@@ -47,14 +47,14 @@ function cleanup {
     echo "===== cleanup ====="
 
     ls -la /dev/mapper/*
-    mount | grep ${DST_ROOTFS}
-    mount | grep ${DST_ROOTFS} | awk '{print "umounting "$1; system("umount "$3)}'
-    mount | grep ${DST_ROOTFS}
+    mount | grep ${DST_ROOTFS} || true
+    mount | grep ${DST_ROOTFS} | awk '{print "umounting "$1; system("umount "$3)}' || true
+    mount | grep ${DST_ROOTFS} || true
     rm -rf ${SRC_ROOTFS}
     losetup -a
     kpartx -v ${SYNCLOUD_IMAGE}
     echo "removing loop devices"
-    kpartx -d ${SYNCLOUD_IMAGE}
+    kpartx -d ${SYNCLOUD_IMAGE} || true
 }
 
 echo "installing dependencies"

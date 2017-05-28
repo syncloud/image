@@ -159,14 +159,12 @@ fi
 
 echo "fixing boot"
 
-LOOP=$(kpartx -l ${IMAGE_FILE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
-
-echo "LOOP: ${LOOP}"
-
 rm -rf boot
 mkdir -p boot
 kpartx -avs ${IMAGE_FILE}
 kpartx -l ${IMAGE_FILE}
+LOOP=$(kpartx -l ${IMAGE_FILE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
+echo "LOOP: ${LOOP}"
 
 FS_TYPE=$(blkid -s TYPE -o value /dev/mapper/${LOOP}p1)
 if [[ "${FS_TYPE}" == *"swap"*  ]]; then
