@@ -92,7 +92,5 @@ echo "enable restart"
 cp enable-service-restart.sh ${ROOTFS}/root
 chroot ${ROOTFS} /root/enable-service-restart.sh
 
-rm -rf build
-mkdir build
-
-tar czf build/syncloud-rootfs-${ARCH}.tar.gz -C ${ROOTFS} .
+rm -rf syncloud-rootfs-${ARCH}.tar.gz
+tar czf syncloud-rootfs-${ARCH}.tar.gz -C ${ROOTFS} .
