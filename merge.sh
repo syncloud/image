@@ -58,7 +58,8 @@ function cleanup {
 }
 
 echo "installing dependencies"
-apt-get -y install dosfstools kpartx p7zip
+apt-get -qq update
+apt-get -qq install dosfstools kpartx p7zip
 
 cleanup
 

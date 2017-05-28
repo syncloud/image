@@ -10,7 +10,8 @@ if [ "$1" == "" ]; then
     exit 1
 fi
 
-apt-get install -y kpartx pigz parted
+apt-get -qq update
+apt-get install -qq kpartx pigz parted
 
 SYNCLOUD_BOARD=$1
 
