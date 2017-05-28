@@ -11,7 +11,7 @@ if [ "$1" == "" ]; then
 fi
 
 apt-get -qq update
-apt-get install -qq kpartx pigz parted
+apt-get install -qq kpartx pigz parted wget
 
 SYNCLOUD_BOARD=$1
 
