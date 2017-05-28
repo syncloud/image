@@ -24,13 +24,20 @@ pipeline:
     
   image-arm:
     image: ${container}
-    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=17.05
-      - ./extract/extract.sh cubietruck
-      - ./merge.sh cubietruck ${arch} $RELEASE
-      - ./upload.sh $RELEASE syncloud-cubietruck-$RELEASE.img.xz
-      
+      - ./extract-merge-upload.sh cubietruck $RELEASE ${arch}
+      - ./extract-merge-upload.sh bananapim1 $RELEASE ${arch}
+      - ./extract-merge-upload.sh bananapim2 $RELEASE ${arch}
+      - ./extract-merge-upload.sh bananapim3 $RELEASE ${arch}
+      - ./extract-merge-upload.sh beagleboneblack $RELEASE ${arch}
+      - ./extract-merge-upload.sh cubieboard $RELEASE ${arch}
+      - ./extract-merge-upload.sh cubieboard2 $RELEASE ${arch}
+      - ./extract-merge-upload.sh odroid-c2 $RELEASE ${arch}
+      - ./extract-merge-upload.sh odroid-xu $RELEASE ${arch}
+      - ./extract-merge-upload.sh raspberrypi2 $RELEASE ${arch}
+      - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${arch}
     privileged: true
     when:
       platform: linux/arm
