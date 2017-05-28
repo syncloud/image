@@ -59,7 +59,7 @@ function cleanup {
 
 echo "installing dependencies"
 apt-get -qq update
-apt-get -qq install dosfstools kpartx p7zip
+apt-get -qq install dosfstools kpartx p7zip xz-utils
 
 cleanup
 
@@ -155,5 +155,3 @@ echo "zipping"
 xz -0 ${SYNCLOUD_IMAGE} -k
 
 ls -la ${SYNCLOUD_IMAGE}.xz
-
-echo "image: ${SYNCLOUD_IMAGE}"

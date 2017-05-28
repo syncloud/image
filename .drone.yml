@@ -22,13 +22,16 @@ pipeline:
       - ./upload-artifact.sh syncloud-rootfs-${arch}.tar.gz
     privileged: true
     
-  image:
+  image-arm:
     image: ${container}
     secrets: [ARTIFACT_SSH_KEY]
     commands:
       - ./extract/extract.sh cubietruck
       - ./merge.sh cubietruck ${arch}
     privileged: true
+    when:
+      platform: linux/arm
+      
      
 matrix:
   include:
