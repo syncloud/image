@@ -7,13 +7,14 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$#" -ne 2 ]; then
-    echo "Usage: $0 board arch"
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 board arch release"
     exit 1
 fi
 
 SYNCLOUD_BOARD=$1
 ARCH=$2
+RELEASE=$3
 ROOTFS_FILE=syncloud-rootfs-${ARCH}.tar.gz
 echo "==== ${SYNCLOUD_BOARD}, ${ARCH} ===="
 
@@ -37,7 +38,7 @@ export TMPDIR=/tmp
 export TMP=/tmp
 
 RESIZE_PARTITION_ON_FIRST_BOOT=true
-SYNCLOUD_IMAGE=syncloud-${SYNCLOUD_BOARD}.img
+SYNCLOUD_IMAGE=syncloud-${SYNCLOUD_BOARD}-$RELEASE.img
 SRC_ROOTFS=rootfs
 DST_ROOTFS=dst/root
 

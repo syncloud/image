@@ -24,10 +24,13 @@ pipeline:
     
   image-arm:
     image: ${container}
-    secrets: [ARTIFACT_SSH_KEY]
+    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
+      - RELEASE=17.05
       - ./extract/extract.sh cubietruck
-      - ./merge.sh cubietruck ${arch}
+      - ./merge.sh cubietruck ${arch} $RELEASE
+      - ./upload.sh $RELEASE syncloud-cubietruck-$RELEASE.img.xz
+      
     privileged: true
     when:
       platform: linux/arm
