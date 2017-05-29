@@ -5,5 +5,5 @@ RELEASE=$2
 ARCH=$3
 
 ./extract/extract.sh $BOARD
-./merge.sh cubietruck $ARCH $RELEASE
+./merge.sh $BOARD $ARCH $RELEASE
 ./upload.sh $RELEASE syncloud-$BOARD-$RELEASE.img.xz

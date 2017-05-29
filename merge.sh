@@ -58,10 +58,6 @@ function cleanup {
     kpartx -d ${SYNCLOUD_IMAGE} || true
 }
 
-echo "installing dependencies"
-apt-get -qq update
-apt-get -qq install dosfstools kpartx p7zip xz-utils
-
 cleanup
 
 mkdir ${SRC_ROOTFS}

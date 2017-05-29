@@ -10,6 +10,7 @@ pipeline:
     image: ${container}
     secrets: [ARTIFACT_SSH_KEY]
     commands:
+      - ./deps.sh
       - ./bootstrap/bootstrap.sh ${arch}
       - ./upload-artifact.sh rootfs-${arch}.tar.gz
     privileged: true
@@ -18,6 +19,7 @@ pipeline:
     image: ${container}
     secrets: [ARTIFACT_SSH_KEY]
     commands:
+      - ./deps.sh
       - ./rootfs.sh ${arch} rc stable
       - ./upload-artifact.sh syncloud-rootfs-${arch}.tar.gz
     privileged: true
@@ -27,6 +29,7 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=17.05
+      - ./deps.sh
       - ./extract-merge-upload.sh cubietruck $RELEASE ${arch}
       - ./extract-merge-upload.sh bananapim1 $RELEASE ${arch}
       - ./extract-merge-upload.sh bananapim2 $RELEASE ${arch}

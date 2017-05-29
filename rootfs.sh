@@ -22,16 +22,7 @@ ARCH=$1
 RELEASE=$2
 POINT_TO_RELEASE=$3
 SAM_VERSION=85
-SAMCMD=/opt/app/sam/bin/sam
 SAM_ARCH=$(uname -m)
-
-echo "installing dependencies"
-apt-get -qq update
-apt-get -qq install wget ssh
-
-if [ ! -f ${SAMCMD} ]; then
-    ${DIR}/install-sam.sh ${SAM_VERSION} stable
-fi
 
 BASE_ROOTFS_ZIP=rootfs-${ARCH}.tar.gz
 ROOTFS=${DIR}/rootfs

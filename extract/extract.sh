@@ -10,9 +10,6 @@ if [ "$1" == "" ]; then
     exit 1
 fi
 
-apt-get -qq update
-apt-get install -qq kpartx pigz parted wget p7zip
-
 SYNCLOUD_BOARD=$1
 
 CPU_FREQUENCY_CONTROL=false
@@ -115,8 +112,6 @@ function cleanup {
     kpartx -d ${IMAGE_FILE} || true
     rm -rf *.img
 }
-
-apt-get install unzip
 
 cleanup
 

@@ -20,9 +20,6 @@ export DEBIAN_FRONTEND=noninteractive
 export TMPDIR=/tmp
 export TMP=/tmp
 
-apt-get update
-apt-get -y install debootstrap lsof ssh
-
 ROOTFS=${DIR}/rootfs
 
 function cleanup {
