@@ -38,7 +38,7 @@ pipeline:
       - ./extract-merge-upload.sh cubieboard $RELEASE ${arch}
       - ./extract-merge-upload.sh cubieboard2 $RELEASE ${arch}
       - ./extract-merge-upload.sh odroid-c2 $RELEASE ${arch}
-      - ./extract-merge-upload.sh odroid-xu $RELEASE ${arch}
+      - ./extract-merge-upload.sh odroid-xu3and4 $RELEASE ${arch}
       - ./extract-merge-upload.sh raspberrypi2 $RELEASE ${arch}
       - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${arch}
     privileged: true
