@@ -115,8 +115,8 @@ function cleanup {
 
 cleanup
 
-if [ ! -z "$TEAMCITY_VERSION" ]; then
-  echo "running under TeamCity, cleaning base image cache"
+if [ ! -z "$CI" ]; then
+  echo "running under CI, cleaning base image cache"
   rm -rf ${IMAGE_FILE_ZIP}
 fi
 
