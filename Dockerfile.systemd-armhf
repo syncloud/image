@@ -1,2 +1,2 @@
 FROM syncloud/rootfs-armhf
-CMD [“/sbin/init”]
+CMD ["/sbin/init"]
