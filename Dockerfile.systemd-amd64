@@ -1,0 +1,2 @@
+FROM syncloud/rootfs-amd64
+CMD [“/usr/sbin/init”]
