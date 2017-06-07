@@ -45,6 +45,12 @@ pipeline:
     when:
       platform: linux/arm
       
+services:
+  device:
+    image: syncloud/systemd-${arch}
+    privileged: true
+    volumes:
+      - /var/run/dbus:/var/run/dbus
      
 matrix:
   include:
