@@ -30,17 +30,17 @@ APPS = ['owncloud', 'mail', 'nextcloud', 'diaspora', 'files']
 
 
 @pytest.fixture(scope="session")
-def module_setup(request):
-    request.addfinalizer(module_teardown)
+def module_setup(request, device_host):
+    request.addfinalizer(lambda: module_teardown(device_host))
 
 
-def module_teardown():
+def module_teardown(device_host):
     os.mkdir(LOG_DIR)
 
-    coopy_logs('sam', '/var/log/sam.log')
-    coopy_logs('platform')
+    coopy_logs(device_host, 'sam', '/var/log/sam.log')
+    coopy_logs(device_host, 'platform')
     for app in APPS:
-        coopy_logs(app)
+        copy_logs(device_host, app)
 
     run_ssh('netstat -l', password=DEVICE_PASSWORD)
 
@@ -53,12 +53,12 @@ def module_teardown():
     print('-------------------------------------------------------')
 
 
-def coopy_logs(app, device_logs=None):
+def copy_logs(device_host, app, device_logs=None):
     if not device_logs:
         device_logs = '/opt/data/{0}/log/*'.format(app)
     log_dir = join(LOG_DIR, '{0}_log'.format(app))
     os.mkdir(log_dir)
-    run_scp('root@localhost:{0} {1}'.format(device_logs, log_dir), password=LOGS_SSH_PASSWORD, throw=False)
+    run_scp('root@{0}:{1} {2}'.format(device_host, device_logs, log_dir), password=LOGS_SSH_PASSWORD, throw=False)
 
 
 @pytest.fixture(scope='module')
@@ -68,7 +68,7 @@ def user_domain(device_domain):
 
 @pytest.fixture(scope='module')
 def device_domain(auth):
-    email, password, domain, release, arch = auth
+    email, password, domain, release = auth
     return '{0}.{1}'.format(domain, SYNCLOUD_INFO)
 
 
@@ -84,13 +84,13 @@ def test_start(module_setup):
     shutil.rmtree(LOG_DIR, ignore_errors=True)
 
 
-def test_activate_device(auth):
-    email, password, domain, release, arch = auth
+def test_activate_device(auth, device_host):
+    email, password, domain, release = auth
 
-    run_ssh('/opt/app/sam/bin/sam update --release {0}'.format(release), password=DEFAULT_DEVICE_PASSWORD)
-    run_ssh('/opt/app/sam/bin/sam --debug upgrade platform', password=DEFAULT_DEVICE_PASSWORD)
-    wait_for_platform_web()
-    response = requests.post('http://localhost:81/rest/activate',
+    run_ssh(device_host, '/opt/app/sam/bin/sam update --release {0}'.format(release), password=DEFAULT_DEVICE_PASSWORD)
+    run_ssh(device_host, '/opt/app/sam/bin/sam --debug upgrade platform', password=DEFAULT_DEVICE_PASSWORD)
+    wait_for_platform_web(device_host)
+    response = requests.post('http://{0}:81/rest/activate'.format(device_host),
                              data={'main_domain': 'syncloud.info', 'redirect_email': email,
                                    'redirect_password': password,
                                    'user_domain': domain, 'device_username': DEVICE_USER,
@@ -100,15 +100,15 @@ def test_activate_device(auth):
     LOGS_SSH_PASSWORD = DEVICE_PASSWORD
 
 
-def wait_for_platform_web():
-    print(check_output('while ! nc -w 1 -z localhost 80; do sleep 1; done', shell=True))
+def wait_for_platform_web(device_host):
+    print(check_output('while ! nc -w 1 -z {0} 80; do sleep 1; done'.format(device_host), shell=True))
 
 
-def wait_for_sam(syncloud_session):
+def wait_for_sam(device_host, syncloud_session):
     sam_running = True
     while sam_running:
         try:
-            response = syncloud_session.get('http://localhost/rest/settings/sam_status')
+            response = syncloud_session.get('http://{0}/rest/settings/sam_status'.format(device_host))
             if response.status_code == 200:
                 json = convertible.from_json(response.text)
                 sam_running = json.is_running
@@ -118,32 +118,32 @@ def wait_for_sam(syncloud_session):
         time.sleep(1)
 
 
-def test_login(syncloud_session):
-    syncloud_session.post('http://localhost/rest/login', data={'name': DEVICE_USER, 'password': DEVICE_PASSWORD})
+def test_login(syncloud_session, device_host):
+    syncloud_session.post('http://{0}/rest/login'.format(device_host), data={'name': DEVICE_USER, 'password': DEVICE_PASSWORD})
 
 
 @pytest.mark.parametrize("app", APPS)
-def test_app_install(syncloud_session, app, device_domain):
-    response = syncloud_session.get('http://localhost/rest/install?app_id={0}'.format(app), allow_redirects=False)
+def test_app_install(syncloud_session, app, device_domain, device_host):
+    response = syncloud_session.get('http://{0}/rest/install?app_id={1}'.format(device_host, app), allow_redirects=False)
 
     assert response.status_code == 200
-    wait_for_sam(syncloud_session)
+    wait_for_sam(device_host, syncloud_session)
     
-    response = syncloud_session.get('http://localhost/rest/installed_apps')
+    response = syncloud_session.get('http://{0}/rest/installed_apps'.foemat(device_host))
     assert response.status_code == 200
     assert app in response.text
 
 
 @pytest.mark.parametrize("app", APPS)
-def test_app_upgrade(syncloud_session, app):
-    response = syncloud_session.get('http://localhost/rest/upgrade?app_id={0}'.format(app),
+def test_app_upgrade(syncloud_session, app, device_host):
+    response = syncloud_session.get('http://{0}/rest/upgrade?app_id={1}'.format(device_host, app),
                                     allow_redirects=False)
     assert response.status_code == 200
 
 
 @pytest.mark.parametrize("app", APPS)
-def test_app_remove(syncloud_session, app):
-    response = syncloud_session.get('http://localhost/rest/remove?app_id={0}'.format(app),
+def test_app_remove(syncloud_session, app, device_host):
+    response = syncloud_session.get('http://{0}/rest/remove?app_id={1}'.format(app, device_host),
                                     allow_redirects=False)
     assert response.status_code == 200
-    wait_for_sam(syncloud_session)
+    wait_for_sam(device_host, syncloud_session)

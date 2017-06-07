@@ -3,14 +3,32 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
 
-if [[ -z "$1" || -z "$2" || -z "$3" || -z "$4" || -z "$5" ]]; then
-    echo "usage $0 redirect_user redirect_password redirect_domain release app_arch"
+if [[ -z "$5" ]]; then
+    echo "usage $0 redirect_user redirect_password redirect_domain release device_host"
     exit 1
 fi
 
-./docker.sh $5
+RELEASE=$4
+DEVICE_HOST=$5
+
+attempts=100
+attempt=0
+
+set +e
+sshpass -p syncloud ssh -o StrictHostKeyChecking=no root@${DEVICE_HOST} date
+while test $? -gt 0
+do
+  if [ $attempt -gt $attempts ]; then
+    exit 1
+  fi
+  sleep 3
+  echo "Waiting for SSH $attempt"
+  attempt=$((attempt+1))
+  sshpass -p syncloud ssh -o StrictHostKeyChecking=no root@${DEVICE_HOST} date
+done
+set -e
 
 pip2 install -r ${DIR}/dev_requirements.txt
 pip2 install -U pytest
 
-py.test -sx verify.py --email=$1 --password=$2 --domain=$3 --release=$4 --arch=$5
+py.test -sx verify.py --email=$1 --password=$2 --domain=$3 --release=$4 --device-host=$5

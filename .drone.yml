@@ -7,29 +7,32 @@ clone:
 
 pipeline:
   rootfs:
-    image: ${container}
+    image: syncloud/image-deps-${arch}
     secrets: [ARTIFACT_SSH_KEY]
     commands:
-      - ./deps.sh
       - ./bootstrap/bootstrap.sh ${arch}
       - ./upload-artifact.sh rootfs-${arch}.tar.gz
     privileged: true
   
   syncloud-rootfs:
-    image: ${container}
+    image: syncloud/image-deps-${arch}
     secrets: [ARTIFACT_SSH_KEY]
     commands:
-      - ./deps.sh
       - ./rootfs.sh ${arch} rc stable
       - ./upload-artifact.sh syncloud-rootfs-${arch}.tar.gz
     privileged: true
-    
-  image-arm:
-    image: ${container}
+  
+  test:
+    image: syncloud/image-deps-${arch}
+    commands:
+      - ./integration/test-docker.sh teamcity@syncloud.it password teamcity master device
+    privileged: true
+      
+  image:
+    image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=17.05
-      - ./deps.sh
       - ./extract-merge-upload.sh cubietruck $RELEASE ${arch}
       - ./extract-merge-upload.sh bananapim1 $RELEASE ${arch}
       - ./extract-merge-upload.sh bananapim2 $RELEASE ${arch}
@@ -42,8 +45,8 @@ pipeline:
       - ./extract-merge-upload.sh raspberrypi2 $RELEASE ${arch}
       - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${arch}
     privileged: true
-    when:
-      platform: linux/arm
+    #when:
+    #  platform: linux/arm
       
 services:
   device:
@@ -55,10 +58,8 @@ services:
 matrix:
   include:
     - platform: linux/arm
-      container: armv7/armhf-debian:8
       git: syncloud/armhf-drone-git
       arch: armhf
-    - platform: linux/amd64
-      container: debian:8
-      git: plugins/git
-      arch: amd64
+    #- platform: linux/amd64
+    #  git: plugins/git
+    #  arch: amd64

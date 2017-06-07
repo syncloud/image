@@ -2,25 +2,17 @@ from subprocess import check_output, STDOUT, CalledProcessError
 
 import time
 
-DOCKER_SSH_PORT = 2222
-SSH = 'ssh -o StrictHostKeyChecking=no -p {0} root@localhost'.format(DOCKER_SSH_PORT)
-SCP = 'scp -o StrictHostKeyChecking=no -P {0}'.format(DOCKER_SSH_PORT)
-
-
-def set_docker_ssh_port(password):
-    run_ssh("sed -i 's/ssh_port.*/ssh_port = {0}/g' /opt/app/platform/config/platform.cfg".format(DOCKER_SSH_PORT),
-            password=password)
-
+SSH_OPTS= '-o StrictHostKeyChecking=no'
 
 def run_scp(command, throw=True, debug=True, password='syncloud'):
-    return _run_command('{0} {1}'.format(SCP, command), throw, debug, password)
+    return _run_command('scp {0} {1}'.format(SSH_OPTS, command), throw, debug, password)
 
 
-def run_ssh(command, throw=True, debug=True, password='syncloud', retries=0, sleep=1):
+def run_ssh(host, command, throw=True, debug=True, password='syncloud', retries=0, sleep=1):
     retry = 0
     while True:
         try:
-            return _run_command('{0} "{1}"'.format(SSH, command), throw, debug, password)
+            return _run_command('ssh {0} root@{1} "{2}"'.format(SSH_OPTS, host, command), throw, debug, password)
         except Exception, e:
             if retry >= retries:
                 raise e
@@ -29,14 +21,10 @@ def run_ssh(command, throw=True, debug=True, password='syncloud', retries=0, sle
             print('retrying {0}'.format(retry))
 
 
-def ssh_command(password, command):
-    return 'sshpass -p {0} {1}'.format(password, command)
-
-
 def _run_command(command, throw, debug, password):
     try:
         print('ssh command: {0}'.format(command))
-        output = check_output(ssh_command(password, command), shell=True, stderr=STDOUT).strip()
+        output = check_output('sshpass -p {0} {1}'.format(password, command), shell=True, stderr=STDOUT).strip()
         if debug:
             print output
             print
