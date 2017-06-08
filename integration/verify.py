@@ -12,7 +12,7 @@ import requests
 import shutil
 import smtplib
 from email.mime.text import MIMEText
-from integration.util.ssh import run_scp, ssh_command, SSH, run_ssh, set_docker_ssh_port
+from integration.util.ssh import run_scp, SSH, run_ssh, set_docker_ssh_port
 from requests.adapters import HTTPAdapter
 import getpass, imaplib
 import logging
@@ -49,7 +49,6 @@ def module_teardown(device_host):
 
     print('-------------------------------------------------------')
     print('syncloud docker image is running')
-    print('connect using: {0}'.format(ssh_command(DEVICE_PASSWORD, SSH)))
     print('-------------------------------------------------------')
 
 
