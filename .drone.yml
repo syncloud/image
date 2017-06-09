@@ -13,7 +13,9 @@ pipeline:
       - ./bootstrap/bootstrap.sh ${arch}
       - ./upload-artifact.sh rootfs-${arch}.tar.gz
     privileged: true
-  
+    when:
+      platform: disable
+ 
   syncloud-rootfs:
     image: syncloud/image-deps-${arch}
     secrets: [ARTIFACT_SSH_KEY]
@@ -21,7 +23,9 @@ pipeline:
       - ./rootfs.sh ${arch} rc stable
       - ./upload-artifact.sh syncloud-rootfs-${arch}.tar.gz
     privileged: true
-  
+    when:
+      platform: disable
+ 
   test:
     image: syncloud/image-deps-${arch}
     commands:
@@ -45,8 +49,16 @@ pipeline:
       - ./extract-merge-upload.sh raspberrypi2 $RELEASE ${arch}
       - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${arch}
     privileged: true
-    #when:
-    #  platform: linux/arm
+    when:
+      platform: linux/arm
+
+  ci-artifact:
+    image: syncloud/platform-build-deps-${arch}
+    secrets: [ARTIFACT_SSH_KEY]
+    commands:
+      - ./upload-artifact.sh integration/log ci/$DRONE_BUILD_NUMBER-${arch}
+    when:
+      status: [ failure, success ] 
       
 services:
   device:
