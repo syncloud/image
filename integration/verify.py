@@ -72,9 +72,9 @@ def device_domain(auth):
 
 
 @pytest.fixture(scope='function')
-def syncloud_session():
+def syncloud_session(device_domain):
     session = requests.session()
-    session.post('http://localhost/rest/login', data={'name': DEVICE_USER, 'password': DEVICE_PASSWORD})
+    session.post('http://{0}/rest/login'.format(device_domain), data={'name': DEVICE_USER, 'password': DEVICE_PASSWORD})
 
     return session
 
