@@ -122,13 +122,13 @@ def test_login(syncloud_session, device_host):
 
 
 @pytest.mark.parametrize("app", APPS)
-def test_app_install(syncloud_session, app, device_domain, device_host):
+def test_app_install(syncloud_session, app, device_host):
     response = syncloud_session.get('http://{0}/rest/install?app_id={1}'.format(device_host, app), allow_redirects=False)
 
     assert response.status_code == 200
     wait_for_sam(device_host, syncloud_session)
     
-    response = syncloud_session.get('http://{0}/rest/installed_apps'.foemat(device_host))
+    response = syncloud_session.get('http://{0}/rest/installed_apps'.format(device_host))
     assert response.status_code == 200
     assert app in response.text
 
