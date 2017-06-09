@@ -12,7 +12,7 @@ import requests
 import shutil
 import smtplib
 from email.mime.text import MIMEText
-from integration.util.ssh import run_scp, SSH, run_ssh, set_docker_ssh_port
+from integration.util.ssh import run_scp, run_ssh
 from requests.adapters import HTTPAdapter
 import getpass, imaplib
 import logging
