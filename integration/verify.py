@@ -37,8 +37,8 @@ def module_setup(request, device_host):
 def module_teardown(device_host):
     os.mkdir(LOG_DIR)
 
-    coopy_logs(device_host, 'sam', '/var/log/sam.log')
-    coopy_logs(device_host, 'platform')
+    copy_logs(device_host, 'sam', '/var/log/sam.log')
+    copy_logs(device_host, 'platform')
     for app in APPS:
         copy_logs(device_host, app)
 
