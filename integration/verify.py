@@ -42,7 +42,7 @@ def module_teardown(device_host):
     for app in APPS:
         copy_logs(device_host, app)
 
-    run_ssh('netstat -l', password=DEVICE_PASSWORD)
+    run_ssh(device_host, 'netstat -l', password=DEVICE_PASSWORD)
 
     # print('systemd logs')
     # run_ssh('journalctl', password=DEVICE_PASSWORD)
