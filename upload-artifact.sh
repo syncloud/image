@@ -5,8 +5,8 @@ if [ -z "$ARTIFACT_SSH_KEY" ]; then
   exit 1
 fi
 
-if [ -z "$2" ]; then
-  echo "usage $0 src dst"
+if [ -z "$1" ]; then
+  echo "usage $0 src [dst]"
   exit 1
 fi
 
