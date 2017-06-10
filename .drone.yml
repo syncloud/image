@@ -38,7 +38,7 @@ pipeline:
     image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
-      - RELEASE=$(<release)
+      - RELEASE=$(cat release)
       - ./extract-merge-upload.sh cubietruck $RELEASE ${arch}
       - ./extract-merge-upload.sh bananapim1 $RELEASE ${arch}
     privileged: true
@@ -50,7 +50,7 @@ pipeline:
     image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
-      - RELEASE=$(<release)
+      - RELEASE=$(cat release)
       - ./extract-merge-upload.sh beagleboneblack $RELEASE ${arch}
       - ./extract-merge-upload.sh bananapim2 $RELEASE ${arch}
       - ./extract-merge-upload.sh bananapim3 $RELEASE ${arch}
@@ -64,7 +64,7 @@ pipeline:
     image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
-      - RELEASE=$(<release)
+      - RELEASE=$(cat release)
       - ./extract-merge-upload.sh cubieboard $RELEASE ${arch}
       - ./extract-merge-upload.sh cubieboard2 $RELEASE ${arch}
       - ./extract-merge-upload.sh odroid-c2 $RELEASE ${arch}
@@ -78,7 +78,7 @@ pipeline:
     image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
-      - RELEASE=$(<release)
+      - RELEASE=$(cat release)
       - ./extract-merge-upload.sh odroid-xu3and4 $RELEASE ${arch}
       - ./extract-merge-upload.sh raspberrypi2 $RELEASE ${arch}
       - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${arch}
