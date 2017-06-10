@@ -17,7 +17,7 @@ CPU_FREQUENCY_GOVERNOR=
 CPU_FREQUENCY_MAX=
 CPU_FREQUENCY_MIN=
 
-SYNCLOUD_DISTR_URL="https://s3-us-west-2.amazonaws.com/syncloud-distributives"
+SYNCLOUD_DISTR_URL="http://artifact.syncloud.org/image/base"
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
   FILE_VERSION=2016-03-18

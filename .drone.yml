@@ -39,8 +39,8 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh cubietruck $RELEASE ${arch}
-      - ./extract-merge-upload.sh bananapim1 $RELEASE ${arch}
+      - ./extract-merge-upload.sh cubietruck $RELEASE ${arch} $DRONE_BRANCH
+      - ./extract-merge-upload.sh bananapim1 $RELEASE ${arch} $DRONE_BRANCH
     privileged: true
     when:
       platform: linux/arm
@@ -51,9 +51,9 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh beagleboneblack $RELEASE ${arch}
-      - ./extract-merge-upload.sh bananapim2 $RELEASE ${arch}
-      - ./extract-merge-upload.sh bananapim3 $RELEASE ${arch}
+      - ./extract-merge-upload.sh beagleboneblack $RELEASE ${arch} $DRONE_BRANCH
+      - ./extract-merge-upload.sh bananapim2 $RELEASE ${arch} $DRONE_BRANCH
+      - ./extract-merge-upload.sh bananapim3 $RELEASE ${arch} $DRONE_BRANCH
 
     privileged: true
     when:
@@ -65,9 +65,9 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh cubieboard $RELEASE ${arch}
-      - ./extract-merge-upload.sh cubieboard2 $RELEASE ${arch}
-      - ./extract-merge-upload.sh odroid-c2 $RELEASE ${arch}
+      - ./extract-merge-upload.sh cubieboard $RELEASE ${arch} $DRONE_BRANCH
+      - ./extract-merge-upload.sh cubieboard2 $RELEASE ${arch} $DRONE_BRANCH
+      - ./extract-merge-upload.sh odroid-c2 $RELEASE ${arch} $DRONE_BRANCH
 
     privileged: true
     when:
@@ -79,9 +79,9 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh odroid-xu3and4 $RELEASE ${arch}
-      - ./extract-merge-upload.sh raspberrypi2 $RELEASE ${arch}
-      - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${arch}
+      - ./extract-merge-upload.sh odroid-xu3and4 $RELEASE ${arch} $DRONE_BRANCH
+      - ./extract-merge-upload.sh raspberrypi2 $RELEASE ${arch} $DRONE_BRANCH
+      - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${arch} $DRONE_BRANCH
 
     privileged: true
     when:
@@ -107,6 +107,6 @@ matrix:
     - platform: linux/arm
       git: syncloud/armhf-drone-git
       arch: armhf
-    #- platform: linux/amd64
-    #  git: plugins/git
-    #  arch: amd64
+    - platform: linux/amd64
+      git: plugins/git
+      arch: amd64
