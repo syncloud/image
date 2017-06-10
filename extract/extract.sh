@@ -104,11 +104,13 @@ fi
 PARTED_SECTOR_UNIT=s
 DD_SECTOR_UNIT=b
 OUTPUT=${SYNCLOUD_BOARD}
+ROOTFS=extract_${SYNCLOUD_BOARD}
+BOOT=boot_${SYNCLOUD_BOARD}
 
 function cleanup {
     echo "cleanup"
-    umount extract_rootfs || true
-    umount boot || true
+    umount $ROOTFS || true
+    umount $BOOT || true
     kpartx -d ${IMAGE_FILE} || true
     rm -rf *.img
 }
@@ -154,8 +156,8 @@ fi
 
 echo "fixing boot"
 
-rm -rf boot
-mkdir -p boot
+rm -rf $BOOT
+mkdir -p $BOOT
 kpartx -avs ${IMAGE_FILE}
 kpartx -l ${IMAGE_FILE}
 LOOP=$(kpartx -l ${IMAGE_FILE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
@@ -167,25 +169,25 @@ if [[ "${FS_TYPE}" == *"swap"*  ]]; then
 else
     echo "inspecting boot partition"
 
-    mount /dev/mapper/${LOOP}p1 boot
+    mount /dev/mapper/${LOOP}p1 $BOOT
 
-    mount | grep boot
+    mount | grep $BOOT
 
-    ls -la boot/
+    ls -la $BOOT/
 
-    boot_ini=boot/boot.ini
+    boot_ini=$BOOT/boot.ini
     if [ -f ${boot_ini} ]; then
         cat ${boot_ini}
         sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${boot_ini}
         cat ${boot_ini}
     fi
 
-    rm -rf *-boot.tar.gz
-    tar czf ${OUTPUT}-boot.tar.gz boot
+    rm -rf ${OUTPUT}-boot.tar.gz
+    tar czf ${OUTPUT}-boot.tar.gz $BOOT
 
     umount /dev/mapper/${LOOP}p1
     kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
-    rm -rf boot
+    rm -rf $BOOT
 
 fi
 
@@ -195,30 +197,30 @@ dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PAR
 
 echo "extracting kernel modules and firmware from rootfs"
 
-rm -rf extract_rootfs
-mkdir -p extract_rootfs
+rm -rf $ROOTFS
+mkdir -p $ROOTFS
 kpartx -avs ${IMAGE_FILE}
 LOOP=$(kpartx -l ${IMAGE_FILE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
 blkid /dev/mapper/${LOOP}p2 -s UUID -o value > uuid
-mount /dev/mapper/${LOOP}p2 extract_rootfs
+mount /dev/mapper/${LOOP}p2 $ROOTFS
 
-mount | grep extract_rootfs
+mount | grep $ROOTFS
 
 losetup -l
 
 echo "source rootfs"
-ls -la extract_rootfs/
-ls -la extract_rootfs/lib/modules
-ls -la extract_rootfs/boot
+ls -la $ROOTFS/
+ls -la $ROOTFS/lib/modules
+ls -la $ROOTFS/boot
 
 echo "target rootfs"
 ls -la ${OUTPUT}
 
 mkdir -p ${OUTPUT}/root/lib
-cp -rp extract_rootfs/lib/firmware ${OUTPUT}/root/lib/firmware
-cp -rp extract_rootfs/lib/modules ${OUTPUT}/root/lib/modules
+cp -rp $ROOTFS/lib/firmware ${OUTPUT}/root/lib/firmware
+cp -rp $ROOTFS/lib/modules ${OUTPUT}/root/lib/modules
 cp uuid ${OUTPUT}/root/uuid
-cp -rp extract_rootfs/boot ${OUTPUT}/root/boot
+cp -rp $ROOTFS/boot ${OUTPUT}/root/boot
 sync
 
 cleanup

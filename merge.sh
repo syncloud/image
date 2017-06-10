@@ -39,8 +39,8 @@ export TMP=/tmp
 
 RESIZE_PARTITION_ON_FIRST_BOOT=true
 SYNCLOUD_IMAGE=syncloud-${SYNCLOUD_BOARD}-$RELEASE.img
-SRC_ROOTFS=rootfs
-DST_ROOTFS=dst/root
+SRC_ROOTFS=rootfs_${SYNCLOUD_BOARD}
+DST_ROOTFS=dst_${SYNCLOUD_BOARD}/root
 
 SRC_FILES=files/${SYNCLOUD_BOARD}
 
@@ -103,7 +103,7 @@ kpartx -l ${SYNCLOUD_IMAGE}
 kpartx -asv ${SYNCLOUD_IMAGE}
 
 LOOP=$(kpartx -l ${SYNCLOUD_IMAGE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
-rm -rf dst
+rm -rf dst_${SYNCLOUD_BOARD}
 mkdir -p ${DST_ROOTFS}
 
 ls -la /dev/mapper/*
