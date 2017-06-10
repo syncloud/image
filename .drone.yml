@@ -13,8 +13,6 @@ pipeline:
       - ./bootstrap/bootstrap.sh ${arch}
       - ./upload-artifact.sh rootfs-${arch}.tar.gz
     privileged: true
-    when:
-      platform: disable
  
   syncloud-rootfs:
     image: syncloud/image-deps-${arch}
@@ -23,35 +21,72 @@ pipeline:
       - ./rootfs.sh ${arch} rc stable
       - ./upload-artifact.sh syncloud-rootfs-${arch}.tar.gz
     privileged: true
-    when:
-      platform: disable
  
   test:
     image: syncloud/image-deps-${arch}
     commands:
       - ./integration/test-docker.sh teamcity@syncloud.it password teamcity master device
     privileged: true
-      
+     
+  version:
+    image: syncloud/image-deps-${arch}
+    commands:
+      - echo "17.05" > release
+  
   image:
+    group: image
     image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
-      - RELEASE=17.05
+      - RELEASE=$(<release)
       - ./extract-merge-upload.sh cubietruck $RELEASE ${arch}
       - ./extract-merge-upload.sh bananapim1 $RELEASE ${arch}
+    privileged: true
+    when:
+      platform: linux/arm
+      
+  image:
+    group: image
+    image: syncloud/image-deps-${arch}
+    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    commands:
+      - RELEASE=$(<release)
+      - ./extract-merge-upload.sh beagleboneblack $RELEASE ${arch}
       - ./extract-merge-upload.sh bananapim2 $RELEASE ${arch}
       - ./extract-merge-upload.sh bananapim3 $RELEASE ${arch}
-      - ./extract-merge-upload.sh beagleboneblack $RELEASE ${arch}
-      - ./extract-merge-upload.sh cubieboard $RELEASE ${arch}
-      - ./extract-merge-upload.sh cubieboard2 $RELEASE ${arch}
-      - ./extract-merge-upload.sh odroid-c2 $RELEASE ${arch}
-      - ./extract-merge-upload.sh odroid-xu3and4 $RELEASE ${arch}
-      - ./extract-merge-upload.sh raspberrypi2 $RELEASE ${arch}
-      - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${arch}
+
     privileged: true
     when:
       platform: linux/arm
 
+  image:
+    group: image
+    image: syncloud/image-deps-${arch}
+    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    commands:
+      - RELEASE=$(<release)
+      - ./extract-merge-upload.sh cubieboard $RELEASE ${arch}
+      - ./extract-merge-upload.sh cubieboard2 $RELEASE ${arch}
+      - ./extract-merge-upload.sh odroid-c2 $RELEASE ${arch}
+
+    privileged: true
+    when:
+      platform: linux/arm
+      
+  image:
+    group: image
+    image: syncloud/image-deps-${arch}
+    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    commands:
+      - RELEASE=$(<release)
+      - ./extract-merge-upload.sh odroid-xu3and4 $RELEASE ${arch}
+      - ./extract-merge-upload.sh raspberrypi2 $RELEASE ${arch}
+      - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${arch}
+
+    privileged: true
+    when:
+      platform: linux/arm
+            
   ci-artifact:
     image: syncloud/platform-build-deps-${arch}
     secrets: [ARTIFACT_SSH_KEY]
