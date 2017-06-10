@@ -142,7 +142,7 @@ def test_app_upgrade(syncloud_session, app, device_host):
 
 @pytest.mark.parametrize("app", APPS)
 def test_app_remove(syncloud_session, app, device_host):
-    response = syncloud_session.get('http://{0}/rest/remove?app_id={1}'.format(app, device_host),
+    response = syncloud_session.get('http://{0}/rest/remove?app_id={1}'.format(device_host, app),
                                     allow_redirects=False)
     assert response.status_code == 200
     wait_for_sam(device_host, syncloud_session)
