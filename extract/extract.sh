@@ -129,6 +129,11 @@ if [ ! -f ${IMAGE_FILE_ZIP} ]; then
   ${UNZIP} ${IMAGE_FILE_ZIP}
 fi
 
+if [ ! -f ${IMAGE_FILE} ]; then
+  echo "${IMAGE_FILE} not found"
+  exit 1
+fi
+
 echo "fdisk info:"
 fdisk -l ${IMAGE_FILE}
 
