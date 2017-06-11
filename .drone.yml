@@ -33,60 +33,127 @@ pipeline:
     commands:
       - echo "17.05" > release
   
-  image_1:
+  image_cubietruck:
     group: image
     image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh cubietruck $RELEASE ${arch} $DRONE_BRANCH
       - ./extract-merge-upload.sh bananapim1 $RELEASE ${arch} $DRONE_BRANCH
     privileged: true
     when:
       platform: linux/arm
       
-  image_2:
+  image_bananapim1:
+    group: image
+    image: syncloud/image-deps-${arch}
+    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    commands:
+      - RELEASE=$(cat release)
+      - ./extract-merge-upload.sh bananapim1 $RELEASE ${arch} $DRONE_BRANCH
+    privileged: true
+    when:
+      platform: linux/arm
+
+  image_beagleboneblack:
     group: image
     image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh beagleboneblack $RELEASE ${arch} $DRONE_BRANCH
-      - ./extract-merge-upload.sh bananapim2 $RELEASE ${arch} $DRONE_BRANCH
-      - ./extract-merge-upload.sh bananapim3 $RELEASE ${arch} $DRONE_BRANCH
-
     privileged: true
     when:
       platform: linux/arm
 
-  image_3:
+  image_bananapim2:
+    group: image
+    image: syncloud/image-deps-${arch}
+    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    commands:
+      - RELEASE=$(cat release)
+      - ./extract-merge-upload.sh bananapim2 $RELEASE ${arch} $DRONE_BRANCH
+    privileged: true
+    when:
+      platform: linux/arm
+
+  image_bananapim3:
+    group: image
+    image: syncloud/image-deps-${arch}
+    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    commands:
+      - RELEASE=$(cat release)
+      - ./extract-merge-upload.sh bananapim3 $RELEASE ${arch} $DRONE_BRANCH
+    privileged: true
+    when:
+      platform: linux/arm
+
+  image_cubieboard:
     group: image
     image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh cubieboard $RELEASE ${arch} $DRONE_BRANCH
-      - ./extract-merge-upload.sh cubieboard2 $RELEASE ${arch} $DRONE_BRANCH
-      - ./extract-merge-upload.sh odroid-c2 $RELEASE ${arch} $DRONE_BRANCH
-
     privileged: true
     when:
       platform: linux/arm
-      
-  image_4:
+
+  image_cubieboard2:
+    group: image
+    image: syncloud/image-deps-${arch}
+    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    commands:
+      - RELEASE=$(cat release)
+      - ./extract-merge-upload.sh cubieboard2 $RELEASE ${arch} $DRONE_BRANCH
+    privileged: true
+    when:
+      platform: linux/arm
+
+  image_odroid-c2:
+    group: image
+    image: syncloud/image-deps-${arch}
+    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    commands:
+      - RELEASE=$(cat release)
+      - ./extract-merge-upload.sh odroid-c2 $RELEASE ${arch} $DRONE_BRANCH
+    privileged: true
+    when:
+      platform: linux/arm
+
+  image_odroid-xu3and4:
     group: image
     image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh odroid-xu3and4 $RELEASE ${arch} $DRONE_BRANCH
-      - ./extract-merge-upload.sh raspberrypi2 $RELEASE ${arch} $DRONE_BRANCH
-      - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${arch} $DRONE_BRANCH
-
     privileged: true
     when:
       platform: linux/arm
-            
+
+  image_raspberrypi2:
+    group: image
+    image: syncloud/image-deps-${arch}
+    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    commands:
+      - RELEASE=$(cat release)
+      - ./extract-merge-upload.sh raspberrypi2 $RELEASE ${arch} $DRONE_BRANCH
+    privileged: true
+    when:
+      platform: linux/arm
+
+  image_raspberrypi3:
+    group: image
+    image: syncloud/image-deps-${arch}
+    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    commands:
+      - RELEASE=$(cat release)
+      - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${arch} $DRONE_BRANCH
+    privileged: true
+    when:
+      platform: linux/arm
+
   ci-artifact:
     image: syncloud/platform-build-deps-${arch}
     secrets: [ARTIFACT_SSH_KEY]

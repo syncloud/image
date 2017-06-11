@@ -114,7 +114,7 @@ def wait_for_sam(device_host, syncloud_session):
         except Exception, e:
             pass
         print('waiting for sam to finish its work')
-        time.sleep(1)
+        time.sleep(5)
 
 
 def test_login(syncloud_session, device_host):
