@@ -33,7 +33,7 @@ pipeline:
     commands:
       - echo "17.05" > release
   
-  image:
+  image_1:
     group: image
     image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
@@ -45,7 +45,7 @@ pipeline:
     when:
       platform: linux/arm
       
-  image:
+  image_2:
     group: image
     image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
@@ -59,7 +59,7 @@ pipeline:
     when:
       platform: linux/arm
 
-  image:
+  image_3:
     group: image
     image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
@@ -73,7 +73,7 @@ pipeline:
     when:
       platform: linux/arm
       
-  image:
+  image_4:
     group: image
     image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
