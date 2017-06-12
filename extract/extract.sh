@@ -11,6 +11,10 @@ if [ "$1" == "" ]; then
 fi
 
 SYNCLOUD_BOARD=$1
+BUILD_DIR=build_$SYNCLOUD_BOARD
+rm -rf $BUILD_DIR
+mkdir $BUILD_DIR
+cd $BUILD_DIR
 
 CPU_FREQUENCY_CONTROL=false
 CPU_FREQUENCY_GOVERNOR=
@@ -127,6 +131,7 @@ if [ ! -f ${IMAGE_FILE_ZIP} ]; then
   ${DOWNLOAD_IMAGE}
   ls -la
   ${UNZIP} ${IMAGE_FILE_ZIP}
+  ls -la
 fi
 
 if [ ! -f ${IMAGE_FILE} ]; then
