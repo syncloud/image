@@ -39,7 +39,7 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh bananapim1 $RELEASE ${arch} $DRONE_BRANCH
+      - ./extract-merge-upload.sh cubietruck $RELEASE ${arch} $DRONE_BRANCH
     privileged: true
     when:
       platform: linux/arm
