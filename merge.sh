@@ -24,7 +24,7 @@ else
     echo "$ROOTFS_FILE is here"
 fi
 
-BOOT_ZIP=${SYNCLOUD_BOARD}.tar.gz
+BOOT_ZIP=boot_${SYNCLOUD_BOARD}/${SYNCLOUD_BOARD}.tar.gz
 if [ ! -f ${BOOT_ZIP} ]; then
   echo "missing ${BOOT_ZIP}"
   exit 1
