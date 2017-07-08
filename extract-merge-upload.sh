@@ -1,9 +1,9 @@
 #!/bin/bash -xe
 
+ARCH=$(dpkg --print-architecture)
 BOARD=$1
 RELEASE=$2
-ARCH=$3
-BRANCH=$4
+BRANCH=$3
 
 ./extract/extract.sh $BOARD
 ./merge.sh $BOARD $ARCH $RELEASE

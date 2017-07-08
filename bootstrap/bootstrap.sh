@@ -2,12 +2,7 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 arch"
-    exit 1
-fi
-
-ARCH=$1
+ARCH=$(dpkg --print-architecture)
 REPO=http://http.debian.net/debian
 KEY=https://ftp-master.debian.org/keys/archive-key-8.asc
 

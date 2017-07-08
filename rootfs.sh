@@ -13,14 +13,14 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$#" -lt 3 ]; then
-    echo "Usage: $0 arch release point_to_release"
+if [ "$#" -lt 2 ]; then
+    echo "Usage: $0 release point_to_release"
     exit 1
 fi
 
-ARCH=$1
-RELEASE=$2
-POINT_TO_RELEASE=$3
+ARCH=$(dpkg --print-architecture)
+RELEASE=$1
+POINT_TO_RELEASE=$2
 SAM_VERSION=85
 SAM_ARCH=$(uname -m)
 
