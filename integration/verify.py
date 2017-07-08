@@ -1,21 +1,15 @@
+import logging
 import os
-import sys
-from os import listdir
-from os.path import dirname, join, abspath, isdir
+import shutil
 import time
+from os.path import dirname, join
 from subprocess import check_output
 
 import convertible
 import pytest
-import re
 import requests
-import shutil
-import smtplib
-from email.mime.text import MIMEText
+
 from integration.util.ssh import run_scp, run_ssh
-from requests.adapters import HTTPAdapter
-import getpass, imaplib
-import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -26,7 +20,7 @@ DEVICE_USER = 'user'
 DEVICE_PASSWORD = 'password'
 DEFAULT_DEVICE_PASSWORD = 'syncloud'
 LOGS_SSH_PASSWORD = DEFAULT_DEVICE_PASSWORD
-APPS = ['owncloud', 'mail', 'nextcloud', 'diaspora', 'files']
+APPS = ['owncloud', 'mail', 'nextcloud', 'diaspora', 'files', 'gogs']
 
 
 @pytest.fixture(scope="session")
