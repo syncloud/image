@@ -144,7 +144,7 @@ pipeline:
       platform: linux/arm
 
   ci-artifact:
-    image: syncloud/platform-build-deps-${arch}
+    image: syncloud/image-deps-${arch}
     secrets: [ARTIFACT_SSH_KEY]
     commands:
       - ./upload-artifact.sh integration/log ci/$DRONE_BUILD_NUMBER-$(dpkg --print-architecture)
