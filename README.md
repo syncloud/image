@@ -1,11 +1,6 @@
-#### Supported devices
+## Docker rootfs
 
-- BeagleBone Black [![Build Status](http://build.syncloud.org:8111/app/rest/builds/buildType:%28id:syncloud_image_beagleboneblack%29/statusIcon)](http://build.syncloud.org:8111/viewType.html?buildTypeId=syncloud_image_beagleboneblack)
-- Cubieboard 2 [![Build Status](http://build.syncloud.org:8111/app/rest/builds/buildType:%28id:syncloud_ImageCubieboard2%29/statusIcon)](http://build.syncloud.org:8111/viewType.html?buildTypeId=syncloud_ImageCubieboard2)
-- Cubietruck [![Build Status](http://build.syncloud.org:8111/app/rest/builds/buildType:%28id:syncloud_ImageCubietruck%29/statusIcon)](http://build.syncloud.org:8111/viewType.html?buildTypeId=syncloud_ImageCubietruck)
-- Raspberry Pi Model 2 [![Build Status](http://build.syncloud.org:8111/app/rest/builds/buildType:%28id:syncloud_image_raspberrypi2%29/statusIcon)](http://build.syncloud.org:8111/viewType.html?buildTypeId=syncloud_image_raspberrypi2)
-- Banana PI M2 [![Build Status](http://build.syncloud.org:8111/app/rest/builds/buildType:%28id:syncloud_image_bananapim2%29/statusIcon)](http://build.syncloud.org:8111/viewType.html?buildTypeId=syncloud_image_bananapim2)
-- Odroid XU3/4 [![Build Status](http://build.syncloud.org:8111/app/rest/builds/buildType:%28id:syncloud_image_odroid_xu3%29/statusIcon)](http://build.syncloud.org:8111/viewType.html?buildTypeId=syncloud_image_odroid_xu3)
+docker import syncloud-rootfs-[arch].tar.gz syncloud/rootfs-[arch]
 
 ## Build
 
@@ -43,7 +38,3 @@ Merge syncloud root file system with extracted bootloader for a board
 ````
 sudo ./merge.sh [board] [distro]
 ````
-
-### See all this in action
-
-Check out our build server at http://build.syncloud.org:8111
