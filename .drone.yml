@@ -31,7 +31,7 @@ pipeline:
   version:
     image: syncloud/image-deps-${arch}
     commands:
-      - echo "17.05" > release
+      - echo "17.08" > release
   
   image_cubietruck:
     image: syncloud/image-deps-${arch}
