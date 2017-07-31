@@ -116,6 +116,7 @@ function cleanup {
     umount $ROOTFS || true
     umount $BOOT || true
     kpartx -d ${IMAGE_FILE} || true
+    losetup -l
     rm -rf *.img
 }
 

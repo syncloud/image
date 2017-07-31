@@ -65,9 +65,8 @@ sed -i -e'/AVAHI_DAEMON_DETECT_LOCAL/s/1/0/' ${ROOTFS}/etc/default/avahi-daemon
 sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" ${ROOTFS}/etc/ssh/sshd_config
 
 echo "copy system files again as some packages might have replaced our files"
-if [ -d ${ARCH} ]; then
-    cp -rf ${ARCH}/* ${ROOTFS}/
-fi
+
+cp -rf ${DIR}/${ARCH}/* ${ROOTFS}/
 mkdir ${ROOTFS}/opt/data
 mkdir ${ROOTFS}/opt/app
 
