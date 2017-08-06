@@ -4,7 +4,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 ARCH=$(dpkg --print-architecture)
 REPO=http://http.debian.net/debian
-KEY=https://ftp-master.debian.org/keys/archive-key-8.asc
+KEY=https://ftp-master.debian.org/keys/archive-key-9.asc
 
 echo "Open file limit: $(ulimit -n)"
 
@@ -24,8 +24,8 @@ function cleanup {
     mount | grep rootfs || true
 
     echo "killing chroot services"
-    lsof 2>&1 | grep rootfs | grep -v java | awk '{print $1 $2}' | sort | uniq
-    lsof 2>&1 | grep rootfs | grep -v java | awk '{print $2}' | sort | uniq | xargs kill -9 || true
+    lsof 2>&1 | grep rootfs | awk '{print $1 $2}' | sort | uniq
+    lsof 2>&1 | grep rootfs | awk '{print $2}' | sort | uniq | xargs kill -9 || true
     echo "chroot services after kill"
     lsof 2>&1 | grep rootfs || true
 }
@@ -47,6 +47,7 @@ chroot ${ROOTFS} /root/disable-service-restart.sh
 chroot ${ROOTFS} wget ${KEY} -O archive.key
 chroot ${ROOTFS} apt-key add archive.key
 
+mount -v --bind /dev ${ROOTFS}/dev
 chroot ${ROOTFS} /bin/bash -c "echo \"root:syncloud\" | chpasswd"
 chroot ${ROOTFS} /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot ${ROOTFS} /bin/bash -c "mount -t proc proc /proc"
@@ -73,6 +74,11 @@ mkdir ${ROOTFS}/opt/app
 echo "enable restart"
 cp enable-service-restart.sh ${ROOTFS}/root
 chroot ${ROOTFS} /root/enable-service-restart.sh
+
+umount ${ROOTFS}/dev/pts
+umount ${ROOTFS}/dev
+umount ${ROOTFS}/proc
+
 
 cleanup
 
