@@ -42,7 +42,7 @@ pipeline:
     privileged: true
     when:
       platform: linux/arm
-      
+
   image_bananapim1:
     image: syncloud/image-deps-${arch}
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
@@ -142,6 +142,16 @@ pipeline:
     privileged: true
     when:
       platform: linux/arm
+
+  image_vbox:
+    image: syncloud/image-deps-${arch}
+    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    commands:
+      - RELEASE=$(cat release)
+      - ./extract-merge-upload.sh vbox $RELEASE $DRONE_BRANCH
+    privileged: true
+    when:
+      platform: linux/amd64
 
   ci-artifact:
     image: syncloud/image-deps-${arch}
