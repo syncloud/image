@@ -39,9 +39,9 @@ function cleanup {
     mount | grep rootfs
 
     echo "killing chroot services"
-    lsof 2>&1 | grep rootfs | grep -v java | grep -v docker | grep -v rootfs.sh | awk '{print $1" "$2}' | sort | uniq
+    lsof 2>&1 | grep rootfs | grep -v docker | grep -v rootfs.sh | awk '{print $1" "$2}' | sort | uniq
 
-    lsof 2>&1 | grep rootfs | grep -v java | grep -v docker | grep -v rootfs.sh | awk '{print $2}' | sort | uniq | xargs kill -9
+    lsof 2>&1 | grep rootfs | grep -v docker | grep -v rootfs.sh | awk '{print $2}' | sort | uniq | xargs kill -9
 
     lsof 2>&1 | grep rootfs
 }
@@ -67,6 +67,7 @@ cp disable-service-restart.sh ${ROOTFS}/root
 chroot ${ROOTFS} /root/disable-service-restart.sh
 
 echo "configuring rootfs"
+mount -v --bind /dev ${ROOTFS}/dev
 chroot ${ROOTFS} /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot ${ROOTFS} /bin/bash -c "mount -t proc proc /proc"
 
@@ -76,6 +77,10 @@ tar xzf ${SAM} -C ${ROOTFS}/opt/app
 
 cp syncloud.sh ${ROOTFS}/root
 chroot ${ROOTFS} /bin/bash -c "/root/syncloud.sh ${RELEASE} ${POINT_TO_RELEASE}"
+
+umount ${ROOTFS}/dev/pts
+umount ${ROOTFS}/dev
+umount ${ROOTFS}/proc
 
 cleanup || true
 
