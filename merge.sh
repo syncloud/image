@@ -62,10 +62,12 @@ cleanup
 
 mkdir ${SRC_ROOTFS}
 tar xzf $ROOTFS_FILE -C${SRC_ROOTFS}
+rm -rf $ROOTFS_FILE
 
 echo "extracting boot"
 rm -rf ${SYNCLOUD_BOARD}
 tar xzf ${BOOT_ZIP}
+rm -rf ${BOOT_ZIP}
 
 echo "copying boot"
 cp ${SYNCLOUD_BOARD}/boot ${SYNCLOUD_IMAGE}
@@ -120,6 +122,7 @@ mount /dev/mapper/${LOOP}p2 ${DST_ROOTFS}
 
 echo "copying rootfs"
 cp -rp ${SRC_ROOTFS}/* ${DST_ROOTFS}/
+rm -rf ${SRC_ROOTFS}
 cp -rp ${SYNCLOUD_BOARD}/root/* ${DST_ROOTFS}/
 
 echo "copying files"
@@ -149,6 +152,6 @@ echo "fdisk info:"
 fdisk -l ${SYNCLOUD_IMAGE}
 
 echo "zipping"
-xz -0 ${SYNCLOUD_IMAGE} -k
+xz -0 ${SYNCLOUD_IMAGE} 
 
 ls -la ${SYNCLOUD_IMAGE}.xz

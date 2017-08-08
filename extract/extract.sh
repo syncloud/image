@@ -238,6 +238,6 @@ cleanup
 
 rm -rf ${OUTPUT}.tar.gz
 tar -c --use-compress-program=pigz -f ${OUTPUT}.tar.gz ${OUTPUT}
-
+rm -rf ${OUTPUT}
 echo "result: $OUTPUT.tar.gz"
 
