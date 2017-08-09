@@ -132,6 +132,7 @@ if [ ! -f ${IMAGE_FILE_ZIP} ]; then
   ${DOWNLOAD_IMAGE}
   ls -la
   ${UNZIP} ${IMAGE_FILE_ZIP}
+  rm -rf ${IMAGE_FILE_ZIP}
   ls -la
 fi
 
@@ -235,7 +236,7 @@ cp -rp $ROOTFS/boot ${OUTPUT}/root/boot
 sync
 
 cleanup
-
+rm -rf ${IMAGE_FILE}
 rm -rf ${OUTPUT}.tar.gz
 tar -c --use-compress-program=pigz -f ${OUTPUT}.tar.gz ${OUTPUT}
 rm -rf ${OUTPUT}
