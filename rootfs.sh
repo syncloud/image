@@ -58,7 +58,7 @@ mkdir -p ${ROOTFS}
 echo "extracting rootfs"
 
 tar xzf ${BASE_ROOTFS_ZIP} -C ${ROOTFS}
-
+rm -rf ${BASE_ROOTFS_ZIP}
 echo "setting version ${BUILD_NUMBER}"
 echo ${BUILD_NUMBER} > ${ROOTFS}/version
 
@@ -90,3 +90,4 @@ chroot ${ROOTFS} /root/enable-service-restart.sh
 
 rm -rf syncloud-rootfs-${ARCH}.tar.gz
 tar czf syncloud-rootfs-${ARCH}.tar.gz -C ${ROOTFS} .
+rm -rf ${ROOTFS}
