@@ -2,7 +2,7 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-apt-get install -y virtualbox
+#apt-get install -y virtualbox
 
 VM='Syncloud-VM'
 SSH_PORT=3333
@@ -19,7 +19,7 @@ VBoxManage convertdd syncloud-vbox.img syncloud.vdi --format VDI
 cp syncloud.vdi syncloud-test.vdi
 
 xz -0 syncloud.vdi -k
-rm -rf /root/"VirtualBox VMs"/$VM
+rm -rf $HOME/"VirtualBox VMs"/$VM
 
 VBoxManage createvm --name $VM --ostype "Debian_64" --register
 
