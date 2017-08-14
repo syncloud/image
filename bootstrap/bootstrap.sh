@@ -41,7 +41,7 @@ sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' ${ROOTFS}/etc/locale.gen
 chroot ${ROOTFS} /bin/bash -c "locale-gen en_US en_US.UTF-8"
 
 echo "disable service restart"
-cp disable-service-restart.sh ${ROOTFS}/root
+cp ${DIR}/disable-service-restart.sh ${ROOTFS}/root
 chroot ${ROOTFS} /root/disable-service-restart.sh
 
 chroot ${ROOTFS} wget ${KEY} -O archive.key
@@ -53,8 +53,8 @@ chroot ${ROOTFS} /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot ${ROOTFS} /bin/bash -c "mount -t proc proc /proc"
 
 echo "copy system files to get image working"
-if [ -d ${ARCH} ]; then
-    cp -rf ${ARCH}/* ${ROOTFS}/
+if [ -d ${DIR}/${ARCH} ]; then
+    cp -rf ${DIR}/${ARCH}/* ${ROOTFS}/
 fi
 
 chroot ${ROOTFS} apt-get update
@@ -63,22 +63,21 @@ chroot ${ROOTFS} apt-get -y install sudo openssh-server wget less parted lsb-rel
 chroot ${ROOTFS} ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ''
 chroot ${ROOTFS} /bin/bash -c "cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys"
 sed -i -e'/AVAHI_DAEMON_DETECT_LOCAL/s/1/0/' ${ROOTFS}/etc/default/avahi-daemon
-sed -i "s/^PermitRootLogin .*/PermitRootLogin yes/g" ${ROOTFS}/etc/ssh/sshd_config
+sed -i "s/^#PermitRootLogin .*/PermitRootLogin yes/g" ${ROOTFS}/etc/ssh/sshd_config
+cat ${ROOTFS}/etc/ssh/sshd_config
 
 echo "copy system files again as some packages might have replaced our files"
-
 cp -rf ${DIR}/${ARCH}/* ${ROOTFS}/
 mkdir ${ROOTFS}/opt/data
 mkdir ${ROOTFS}/opt/app
 
 echo "enable restart"
-cp enable-service-restart.sh ${ROOTFS}/root
+cp ${DIR}/enable-service-restart.sh ${ROOTFS}/root
 chroot ${ROOTFS} /root/enable-service-restart.sh
 
 umount ${ROOTFS}/dev/pts
 umount ${ROOTFS}/dev
 umount ${ROOTFS}/proc
-
 
 cleanup
 
