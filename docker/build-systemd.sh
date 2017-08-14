@@ -9,7 +9,7 @@ if [ -z "$1" ]; then
 fi
 
 ARCH=$1
-
+apt-get install debootstrap
 ${DIR}/../bootstrap/bootstrap.sh
 cat rootfs-$(dpkg --print-architecture).tar.gz | docker import - syncloud/rootfs-${ARCH}
 docker build -f Dockerfile.systemd.${ARCH} -t syncloud/systemd-${ARCH} .
