@@ -36,14 +36,7 @@ def module_teardown(device_host):
     for app in APPS:
         copy_logs(device_host, app)
 
-    # run_ssh(device_host, 'netstat -l', password=DEVICE_PASSWORD)
-
-    # print('systemd logs')
-    # run_ssh('journalctl', password=DEVICE_PASSWORD)
-
-    print('-------------------------------------------------------')
-    print('syncloud docker image is running')
-    print('-------------------------------------------------------')
+    run_ssh(device_host, 'journalctl', password=DEVICE_PASSWORD, throw=False)
 
 
 def copy_logs(device_host, app, device_logs=None):
