@@ -36,7 +36,7 @@ def module_teardown(device_host):
     for app in APPS:
         copy_logs(device_host, app)
 
-    run_ssh(device_host, 'netstat -l', password=DEVICE_PASSWORD)
+    # run_ssh(device_host, 'netstat -l', password=DEVICE_PASSWORD)
 
     # print('systemd logs')
     # run_ssh('journalctl', password=DEVICE_PASSWORD)
@@ -80,7 +80,6 @@ def test_start(module_setup):
 def test_activate_device(auth, device_host):
     email, password, domain, release = auth
 
-    run_ssh(device_host, '/opt/app/sam/bin/sam update --release {0}'.format(release), password=DEFAULT_DEVICE_PASSWORD)
     run_ssh(device_host, '/opt/app/sam/bin/sam --debug upgrade platform', password=DEFAULT_DEVICE_PASSWORD)
     wait_for_platform_web(device_host)
     response = requests.post('http://{0}:81/rest/activate'.format(device_host),
