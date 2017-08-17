@@ -25,7 +25,7 @@ pipeline:
   test:
     image: syncloud/image-deps-${arch}
     commands:
-      - ./integration/test-docker.sh teamcity@syncloud.it password teamcity master device
+      - ./integration/test-docker.sh teamcity@syncloud.it password teamcity master device ${installer}
     privileged: true
      
   version:
@@ -172,3 +172,6 @@ matrix:
   arch:
     - arm
     - amd64
+  installer:
+    - sam
+    #- snapd
