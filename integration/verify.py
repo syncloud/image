@@ -91,12 +91,13 @@ def wait_for_platform_web(device_host):
 
 def wait_for_sam(device_host, syncloud_session):
     sam_running = True
-    while sam_running:
+    while sam_running == True:
         try:
             response = syncloud_session.get('http://{0}/rest/settings/sam_status'.format(device_host))
             if response.status_code == 200:
                 json = convertible.from_json(response.text)
                 sam_running = json.is_running
+                print('result: {0}'.format(sam_running))
         except Exception, e:
             pass
         print('waiting for sam to finish its work')
