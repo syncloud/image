@@ -104,6 +104,23 @@ def wait_for_sam(device_host, syncloud_session):
         time.sleep(5)
 
 
+def wait_for_app(device_host, syncloud_session, predicate):
+    found = False
+    attempts = 100
+    attempt = 0
+    while not found and attempt < attempts:
+        try:
+            response = syncloud_session.get('http://{0}/rest/installed_apps'.format(device_host))
+            if response.status_code == 200:
+                print('result: {0}'.format(response.text))
+                found = predicate(response.text)
+        except Exception, e:
+            pass
+        print('waiting for app')
+        attempt += 1
+        time.sleep(5)
+
+
 def test_login(syncloud_session, device_host):
     syncloud_session.post('http://{0}/rest/login'.format(device_host), data={'name': DEVICE_USER, 'password': DEVICE_PASSWORD})
 
@@ -114,10 +131,7 @@ def test_app_install(syncloud_session, app, device_host):
 
     assert response.status_code == 200
     wait_for_sam(device_host, syncloud_session)
-    
-    response = syncloud_session.get('http://{0}/rest/installed_apps'.format(device_host))
-    assert response.status_code == 200
-    assert app in response.text
+    wait_for_app(device_host, syncloud_session, lambda response_text: app in response_text)
 
 
 @pytest.mark.parametrize("app", APPS)
@@ -133,3 +147,4 @@ def test_app_remove(syncloud_session, app, device_host):
                                     allow_redirects=False)
     assert response.status_code == 200
     wait_for_sam(device_host, syncloud_session)
+    wait_for_app(device_host, syncloud_session, lambda response_text: app not in response_text)
