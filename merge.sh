@@ -24,7 +24,8 @@ else
     echo "$ROOTFS_FILE is here"
 fi
 
-BOOT_ZIP=build_${SYNCLOUD_BOARD}/${SYNCLOUD_BOARD}.tar.gz
+BOOT_ZIP_DIR=build_${SYNCLOUD_BOARD}
+BOOT_ZIP=${BOOT_ZIP_DIR}/${SYNCLOUD_BOARD}.tar.gz
 if [ ! -f ${BOOT_ZIP} ]; then
   echo "missing ${BOOT_ZIP}"
   exit 1
@@ -68,6 +69,7 @@ echo "extracting boot"
 rm -rf ${SYNCLOUD_BOARD}
 tar xzf ${BOOT_ZIP}
 rm -rf ${BOOT_ZIP}
+rm -rf ${BOOT_ZIP_DIR}
 
 echo "copying boot"
 cp ${SYNCLOUD_BOARD}/boot ${SYNCLOUD_IMAGE}
@@ -155,3 +157,6 @@ echo "zipping"
 xz -0 ${SYNCLOUD_IMAGE} 
 
 ls -la ${SYNCLOUD_IMAGE}.xz
+
+ls -la
+df -h

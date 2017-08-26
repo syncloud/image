@@ -10,3 +10,6 @@ IMAGE=syncloud-$BOARD-$RELEASE.img.xz
 ./merge.sh $BOARD $ARCH $RELEASE
 ./upload.sh $RELEASE $IMAGE $BRANCH
 rm -rf $IMAGE
+
+ls -la
+df -h
