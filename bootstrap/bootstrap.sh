@@ -66,6 +66,11 @@ sed -i -e'/AVAHI_DAEMON_DETECT_LOCAL/s/1/0/' ${ROOTFS}/etc/default/avahi-daemon
 sed -i "s/^#PermitRootLogin .*/PermitRootLogin yes/g" ${ROOTFS}/etc/ssh/sshd_config
 cat ${ROOTFS}/etc/ssh/sshd_config
 
+chroot ${ROOTFS} systemctl disable apt-daily.timer
+chroot ${ROOTFS} systemctl disable apt-daily.service
+chroot ${ROOTFS} systemctl disable apt-daily-upgrade.timer
+chroot ${ROOTFS} systemctl disable apt-daily-upgrade.service
+
 echo "copy system files again as some packages might have replaced our files"
 cp -rf ${DIR}/${ARCH}/* ${ROOTFS}/
 mkdir ${ROOTFS}/opt/data
