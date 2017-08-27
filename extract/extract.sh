@@ -24,16 +24,16 @@ CPU_FREQUENCY_MIN=
 SYNCLOUD_DISTR_URL="http://artifact.syncloud.org/image/base"
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
-  FILE_VERSION=2016-03-18
-  IMAGE_FILE=${FILE_VERSION}-raspbian-jessie-lite.img
+  FILE_VERSION=2017-08-16
+  IMAGE_FILE=${FILE_VERSION}-raspbian-stretch.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-stretch.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
-  FILE_VERSION=2016-03-18
-  IMAGE_FILE=${FILE_VERSION}-raspbian-jessie-lite.img
+  FILE_VERSION=2017-08-16
+  IMAGE_FILE=${FILE_VERSION}-raspbian-stretch.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-stretch.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   IMAGE_FILE=${SYNCLOUD_BOARD}.img
@@ -68,7 +68,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   CPU_FREQUENCY_MAX=1056000
   CPU_FREQUENCY_MIN=648000
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
-  IMAGE_FILE_NAME="ubuntu-16.04-mate-odroid-xu3-20160708.img"
+  IMAGE_FILE_NAME="ubuntu-16.04.3-4.9-mate-odroid-xu4-20170824.img.xz"
   IMAGE_FILE=${IMAGE_FILE_NAME}
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.xz -O $IMAGE_FILE_ZIP"
@@ -231,6 +231,7 @@ ls -la ${OUTPUT}
 mkdir -p ${OUTPUT}/root/lib
 cp -rp $ROOTFS/lib/firmware ${OUTPUT}/root/lib/firmware
 cp -rp $ROOTFS/lib/modules ${OUTPUT}/root/lib/modules
+cp -rp $ROOTFS/lib/mali-egl ${OUTPUT}/root/lib/mali-egl
 cp uuid ${OUTPUT}/root/uuid
 cp -rp $ROOTFS/boot ${OUTPUT}/root/boot
 sync
