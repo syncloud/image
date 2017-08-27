@@ -86,7 +86,23 @@ def test_activate_device(auth, device_host):
 
 
 def wait_for_platform_web(device_host):
-    print(check_output('while ! nc -w 1 -z {0} 80; do sleep 1; done'.format(device_host), shell=True))
+    platform_is_down = True
+    attempts = 100
+    attempt = 0
+    while platform_is_down:
+        try:
+            response = requests.get('http://{0}'.format(device_host))
+            print('result: {0}'.format(response.status_code))
+            if response.status_code == 200:
+                platform_is_down = False
+        except Exception, e:
+            if attempt < attempts:
+                pass
+            else:
+                raise e
+        print('waiting for platform')
+        attempt += 1
+        time.sleep(5)
 
 
 def wait_for_sam(device_host, syncloud_session):
