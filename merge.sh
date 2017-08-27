@@ -7,19 +7,21 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$#" -ne 3 ]; then
-    echo "Usage: $0 board arch release"
+if [ "$#" -ne 4 ]; then
+    echo "Usage: $0 board arch release installer"
     exit 1
 fi
 
 SYNCLOUD_BOARD=$1
 ARCH=$2
 RELEASE=$3
-ROOTFS_FILE=syncloud-rootfs-${ARCH}.tar.gz
-echo "==== ${SYNCLOUD_BOARD}, ${ARCH} ===="
+INSTALLER=$4
+
+ROOTFS_FILE=syncloud-rootfs-${ARCH}-${INSTALLER}.tar.gz
+echo "==== ${SYNCLOUD_BOARD}, ${ARCH}, ${INSTALLER} ===="
 
 if [ ! -f $ROOTFS_FILE ]; then
-    wget http://artifact.syncloud.org/image/syncloud-rootfs-${ARCH}.tar.gz --progress dot:giga
+    wget http://artifact.syncloud.org/image/${ROOTFS_FILE} --progress dot:giga
 else
     echo "$ROOTFS_FILE is here"
 fi
@@ -39,7 +41,7 @@ export TMPDIR=/tmp
 export TMP=/tmp
 
 RESIZE_PARTITION_ON_FIRST_BOOT=true
-SYNCLOUD_IMAGE=syncloud-${SYNCLOUD_BOARD}-$RELEASE.img
+SYNCLOUD_IMAGE=syncloud-${SYNCLOUD_BOARD}-${RELEASE}-${INSTALLER}.img
 SRC_ROOTFS=rootfs_${SYNCLOUD_BOARD}
 DST_ROOTFS=dst_${SYNCLOUD_BOARD}/root
 

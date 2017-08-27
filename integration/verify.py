@@ -24,6 +24,18 @@ APPS = ['owncloud', 'mail', 'nextcloud', 'diaspora', 'files', 'gogs']
 
 
 @pytest.fixture(scope="session")
+def app_allowed(installer):
+    def allowed(app):
+        if installer == 'sam':
+            return True
+        else:
+            print("app is not allowed for now in snapd")
+            return False
+            # app in []
+    return allowed
+
+
+@pytest.fixture(scope="session")
 def module_setup(request, device_host):
     request.addfinalizer(lambda: module_teardown(device_host))
 
@@ -66,14 +78,22 @@ def syncloud_session(device_host):
     return session
 
 
+@pytest.fixture(scope='module')
+def upgrade_platform_cmd(installer):
+    if installer == 'sam':
+        return '/opt/app/sam/bin/sam --debug upgrade platform'
+    else:
+        return 'snap install platform'
+
+
 def test_start(module_setup):
     shutil.rmtree(LOG_DIR, ignore_errors=True)
 
 
-def test_activate_device(auth, device_host):
+def test_activate_device(auth, device_host, upgrade_platform_cmd):
     email, password, domain, release = auth
 
-    run_ssh(device_host, '/opt/app/sam/bin/sam --debug upgrade platform', password=DEFAULT_DEVICE_PASSWORD)
+    run_ssh(device_host, upgrade_platform_cmd, password=DEFAULT_DEVICE_PASSWORD)
     wait_for_platform_web(device_host)
     response = requests.post('http://{0}:81/rest/activate'.format(device_host),
                              data={'main_domain': 'syncloud.info', 'redirect_email': email,
@@ -107,7 +127,7 @@ def wait_for_platform_web(device_host):
 
 def wait_for_sam(device_host, syncloud_session):
     sam_running = True
-    while sam_running == True:
+    while sam_running:
         try:
             response = syncloud_session.get('http://{0}/rest/settings/sam_status'.format(device_host))
             if response.status_code == 200:
@@ -142,7 +162,10 @@ def test_login(syncloud_session, device_host):
 
 
 @pytest.mark.parametrize("app", APPS)
-def test_app_install(syncloud_session, app, device_host):
+def test_app_install(syncloud_session, app, device_host, app_allowed):
+    if not app_allowed(app):
+        return
+
     response = syncloud_session.get('http://{0}/rest/install?app_id={1}'.format(device_host, app), allow_redirects=False)
 
     assert response.status_code == 200
@@ -151,14 +174,20 @@ def test_app_install(syncloud_session, app, device_host):
 
 
 @pytest.mark.parametrize("app", APPS)
-def test_app_upgrade(syncloud_session, app, device_host):
+def test_app_upgrade(syncloud_session, app, device_host, app_allowed):
+    if not app_allowed(app):
+        return
+
     response = syncloud_session.get('http://{0}/rest/upgrade?app_id={1}'.format(device_host, app),
                                     allow_redirects=False)
     assert response.status_code == 200
 
 
 @pytest.mark.parametrize("app", APPS)
-def test_app_remove(syncloud_session, app, device_host):
+def test_app_remove(syncloud_session, app, device_host, app_allowed):
+    if not app_allowed(app):
+        return
+
     response = syncloud_session.get('http://{0}/rest/remove?app_id={1}'.format(device_host, app),
                                     allow_redirects=False)
     assert response.status_code == 200

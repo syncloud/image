@@ -1,5 +1,7 @@
 #!/bin/bash -ex
+
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd ${DIR}
 
 #Fix debconf frontend warnings
 #export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -13,22 +15,20 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$#" -lt 2 ]; then
-    echo "Usage: $0 release point_to_release"
+if [ "$#" -lt 3 ]; then
+    echo "Usage: $0 release point_to_release installer"
     exit 1
 fi
 
 ARCH=$(dpkg --print-architecture)
 RELEASE=$1
 POINT_TO_RELEASE=$2
-SAM_VERSION=85
-SAM_ARCH=$(uname -m)
-
+INSTALLER=$3
 BASE_ROOTFS_ZIP=rootfs-${ARCH}.tar.gz
 ROOTFS=${DIR}/rootfs
 
 if [ ! -f ${BASE_ROOTFS_ZIP} ]; then
-  wget http://artifact.syncloud.org/image/${BASE_ROOTFS_ZIP}.tar.gz --progress dot:giga
+  wget http://artifact.syncloud.org/image/${BASE_ROOTFS_ZIP} --progress dot:giga
 else
   echo "skipping rootfs"
 fi
@@ -71,12 +71,8 @@ mount -v --bind /dev ${ROOTFS}/dev
 chroot ${ROOTFS} /bin/bash -c "mount -t devpts devpts /dev/pts"
 chroot ${ROOTFS} /bin/bash -c "mount -t proc proc /proc"
 
-SAM=sam-${SAM_VERSION}-${SAM_ARCH}.tar.gz
-wget http://apps.syncloud.org/apps/${SAM} --progress=dot:giga -O ${SAM}
-tar xzf ${SAM} -C ${ROOTFS}/opt/app
-
-cp syncloud.sh ${ROOTFS}/root
-chroot ${ROOTFS} /bin/bash -c "/root/syncloud.sh ${RELEASE} ${POINT_TO_RELEASE}"
+cp install-${INSTALLER}.sh ${ROOTFS}/root/installer.sh
+chroot ${ROOTFS} /bin/bash -c "/root/installer.sh ${RELEASE} ${POINT_TO_RELEASE}"
 
 umount ${ROOTFS}/dev/pts
 umount ${ROOTFS}/dev
@@ -88,6 +84,6 @@ echo "enable restart"
 cp enable-service-restart.sh ${ROOTFS}/root
 chroot ${ROOTFS} /root/enable-service-restart.sh
 
-rm -rf syncloud-rootfs-${ARCH}.tar.gz
-tar czf syncloud-rootfs-${ARCH}.tar.gz -C ${ROOTFS} .
+rm -rf syncloud-rootfs-${ARCH}-${INSTALLER}.tar.gz
+tar czf syncloud-rootfs-${ARCH}-${INSTALLER}.tar.gz -C ${ROOTFS} .
 rm -rf ${ROOTFS}

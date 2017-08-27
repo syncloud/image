@@ -35,9 +35,9 @@ do
 done
 set -e
 
-sshpass -p syncloud scp -o StrictHostKeyChecking=no install-${INSTALLER}.sh root@${DEVICE_HOST}:/installer.sh
+sshpass -p syncloud scp -o StrictHostKeyChecking=no ${DIR}/../install-${INSTALLER}.sh root@${DEVICE_HOST}:/installer.sh
 
-sshpass -p syncloud ssh -o StrictHostKeyChecking=no root@${DEVICE_HOST} /installer.sh ${INSTALLER_VERSION} ${RELEASE}
+sshpass -p syncloud ssh -o StrictHostKeyChecking=no root@${DEVICE_HOST} /installer.sh ${RELEASE} ${RELEASE} ${INSTALLER}
 
 pip2 install -r ${DIR}/dev_requirements.txt
 pip2 install -U pytest

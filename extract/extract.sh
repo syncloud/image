@@ -231,7 +231,10 @@ ls -la ${OUTPUT}
 mkdir -p ${OUTPUT}/root/lib
 cp -rp $ROOTFS/lib/firmware ${OUTPUT}/root/lib/firmware
 cp -rp $ROOTFS/lib/modules ${OUTPUT}/root/lib/modules
-cp -rp $ROOTFS/lib/mali-egl ${OUTPUT}/root/lib/mali-egl
+if [ -d $ROOTFS/lib/mali-egl ]; then
+    ls -la $ROOTFS/lib/mali-egl
+    cp -rp $ROOTFS/lib/mali-egl ${OUTPUT}/root/lib/mali-egl
+fi
 cp uuid ${OUTPUT}/root/uuid
 cp -rp $ROOTFS/boot ${OUTPUT}/root/boot
 sync

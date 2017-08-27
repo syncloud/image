@@ -7,6 +7,7 @@ def pytest_addoption(parser):
     parser.addoption("--domain", action="store")
     parser.addoption("--release", action="store")
     parser.addoption("--device-host", action="store")
+    parser.addoption("--installer", action="store")
 
 
 @pytest.fixture(scope="session")
@@ -17,8 +18,15 @@ def auth(request):
            config.getoption("--domain"), \
            config.getoption("--release")
 
+
 @pytest.fixture(scope="session")
 def device_host(request):
     config = request.config
     return config.getoption("--device-host")
+
+
+@pytest.fixture(scope="session")
+def installer(request):
+    config = request.config
+    return config.getoption("--installer")
 

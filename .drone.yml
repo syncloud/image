@@ -18,8 +18,8 @@ pipeline:
     image: syncloud/image-deps-${arch}
     secrets: [ARTIFACT_SSH_KEY]
     commands:
-      - ./rootfs.sh rc stable
-      - ./upload-artifact.sh syncloud-rootfs-$(dpkg --print-architecture).tar.gz
+      - ./rootfs.sh rc stable ${installer}
+      - ./upload-artifact.sh syncloud-rootfs-$(dpkg --print-architecture)-${installer}.tar.gz
     privileged: true
  
   test:
@@ -38,7 +38,7 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh cubietruck $RELEASE $DRONE_BRANCH
+      - ./extract-merge-upload.sh cubietruck $RELEASE ${installer}
     privileged: true
     when:
       platform: linux/arm
@@ -48,7 +48,7 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh bananapim1 $RELEASE $DRONE_BRANCH
+      - ./extract-merge-upload.sh bananapim1 $RELEASE ${installer}
     privileged: true
     when:
       platform: linux/arm
@@ -58,7 +58,7 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh beagleboneblack $RELEASE $DRONE_BRANCH
+      - ./extract-merge-upload.sh beagleboneblack $RELEASE ${installer}
     privileged: true
     when:
       platform: linux/arm
@@ -68,7 +68,7 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh bananapim2 $RELEASE $DRONE_BRANCH
+      - ./extract-merge-upload.sh bananapim2 $RELEASE ${installer}
     privileged: true
     when:
       platform: linux/arm
@@ -78,7 +78,7 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh bananapim3 $RELEASE $DRONE_BRANCH
+      - ./extract-merge-upload.sh bananapim3 $RELEASE ${installer}
     privileged: true
     when:
       platform: linux/arm
@@ -88,7 +88,7 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh cubieboard $RELEASE $DRONE_BRANCH
+      - ./extract-merge-upload.sh cubieboard $RELEASE ${installer}
     privileged: true
     when:
       platform: linux/arm
@@ -98,7 +98,7 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh cubieboard2 $RELEASE $DRONE_BRANCH
+      - ./extract-merge-upload.sh cubieboard2 $RELEASE ${installer}
     privileged: true
     when:
       platform: linux/arm
@@ -108,7 +108,7 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh odroid-c2 $RELEASE $DRONE_BRANCH
+      - ./extract-merge-upload.sh odroid-c2 $RELEASE ${installer}
     privileged: true
     when:
       platform: linux/arm
@@ -118,7 +118,7 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh odroid-xu3and4 $RELEASE $DRONE_BRANCH
+      - ./extract-merge-upload.sh odroid-xu3and4 $RELEASE ${installer}
     privileged: true
     when:
       platform: linux/arm
@@ -128,7 +128,7 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh raspberrypi2 $RELEASE $DRONE_BRANCH
+      - ./extract-merge-upload.sh raspberrypi2 $RELEASE ${installer}
     privileged: true
     when:
       platform: linux/arm
@@ -138,7 +138,7 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh raspberrypi3 $RELEASE $DRONE_BRANCH
+      - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${installer}
     privileged: true
     when:
       platform: linux/arm
@@ -148,7 +148,7 @@ pipeline:
     secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh vbox $RELEASE $DRONE_BRANCH
+      - ./extract-merge-upload.sh vbox $RELEASE ${installer}
     privileged: true
     when:
       platform: linux/amd64
@@ -159,8 +159,8 @@ pipeline:
     commands:
       - ./upload-artifact.sh integration/log ci/$DRONE_BUILD_NUMBER-$(dpkg --print-architecture)
     when:
-      status: [ failure, success ] 
-      
+      status: [ failure, success ]
+
 services:
   device:
     image: syncloud/systemd-${arch}
@@ -174,4 +174,4 @@ matrix:
     - amd64
   installer:
     - sam
-    #- snapd
+    - snapd
