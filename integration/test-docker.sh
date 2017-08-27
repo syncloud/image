@@ -37,9 +37,9 @@ set -e
 
 sshpass -p syncloud scp -o StrictHostKeyChecking=no ${DIR}/../install-${INSTALLER}.sh root@${DEVICE_HOST}:/installer.sh
 
-sshpass -p syncloud ssh -o StrictHostKeyChecking=no root@${DEVICE_HOST} /installer.sh ${RELEASE} ${RELEASE} ${INSTALLER}
+sshpass -p syncloud ssh -o StrictHostKeyChecking=no root@${DEVICE_HOST} /installer.sh ${RELEASE} ${RELEASE}
 
 pip2 install -r ${DIR}/dev_requirements.txt
 pip2 install -U pytest
 
-py.test -sx verify.py --email=$1 --password=$2 --domain=$3 --release=$4 --device-host=$DEVICE_HOST
+py.test -sx verify.py --email=$1 --password=$2 --domain=$3 --release=$4 --device-host=${DEVICE_HOST} --installer=${INSTALLER}
