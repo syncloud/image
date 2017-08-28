@@ -113,11 +113,12 @@ BOOT=boot_${SYNCLOUD_BOARD}
 
 function cleanup {
     echo "cleanup"
-    umount $ROOTFS || true
-    umount $BOOT || true
+    umount ${ROOTFS} || true
+    umount ${BOOT} || true
     kpartx -d ${IMAGE_FILE} || true
     losetup -l
     rm -rf *.img
+    rm -rf ${ROOTFS}
 }
 
 cleanup
@@ -194,8 +195,8 @@ else
         cat ${boot_ini}
     fi
 
-    rm -rf ${OUTPUT}-boot.tar.gz
-    tar czf ${OUTPUT}-boot.tar.gz $BOOT
+#    rm -rf ${OUTPUT}-boot.tar.gz
+#    tar czf ${OUTPUT}-boot.tar.gz $BOOT
 
     umount /dev/mapper/${LOOP}p1
     kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes

@@ -59,6 +59,7 @@ function cleanup {
     kpartx -v ${SYNCLOUD_IMAGE} || true
     echo "removing loop devices"
     kpartx -d ${SYNCLOUD_IMAGE} || true
+    rm -rf ${SYNCLOUD_BOARD}
 }
 
 cleanup
