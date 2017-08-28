@@ -182,17 +182,25 @@ if [[ "${FS_TYPE}" == *"swap"*  ]]; then
 else
     echo "inspecting boot partition"
 
-    mount /dev/mapper/${LOOP}p1 $BOOT
+    mount /dev/mapper/${LOOP}p1 ${BOOT}
 
-    mount | grep $BOOT
+    mount | grep ${BOOT}
 
-    ls -la $BOOT/
+    ls -la ${BOOT}/
 
-    boot_ini=$BOOT/boot.ini
+    boot_ini=${BOOT}/boot.ini
     if [ -f ${boot_ini} ]; then
         cat ${boot_ini}
         sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${boot_ini}
         cat ${boot_ini}
+    fi
+
+    cmdline_txt=${BOOT}/cmdline.txt
+    if [ -f ${cmdline_txt} ]; then
+        cat ${cmdline_txt}
+        sed -i 's#init=.* #init=/sbin/init #g' ${cmdline_txt}
+        sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${cmdline_txt}
+        cat ${cmdline_txt}
     fi
 
 #    rm -rf ${OUTPUT}-boot.tar.gz
@@ -200,7 +208,7 @@ else
 
     umount /dev/mapper/${LOOP}p1
     kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
-    rm -rf $BOOT
+    rm -rf ${BOOT}
 
 fi
 
