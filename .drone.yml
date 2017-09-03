@@ -25,7 +25,7 @@ pipeline:
   test:
     image: syncloud/image-deps-${arch}
     commands:
-      - ./integration/test-docker.sh teamcity@syncloud.it password teamcity master device ${installer}
+      - ./integration/test-docker.sh teamcity@syncloud.it password teamcity rc device ${installer}
     privileged: true
      
   version:
