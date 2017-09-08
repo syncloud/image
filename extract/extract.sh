@@ -59,11 +59,11 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   CPU_FREQUENCY_MAX=1056000
   CPU_FREQUENCY_MIN=648000
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
-  IMAGE_FILE="Cubian-nano+headless-x1-a20-cubietruck.img"
-  #IMAGE_FILE="Armbian_5.31_Cubietruck_Debian_jessie_next_4.11.5.img"
+  #IMAGE_FILE="Cubian-nano+headless-x1-a20-cubietruck.img"
+  IMAGE_FILE="Armbian_5.31_Cubietruck_Debian_jessie_next_4.11.5.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/Cubian-nano%2Bheadless-x1-a20-cubietruck.img.7z -O $IMAGE_FILE_ZIP"
-  #DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
+  #DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/Cubian-nano%2Bheadless-x1-a20-cubietruck.img.7z -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
@@ -151,10 +151,10 @@ echo "parted info:"
 parted -sm ${IMAGE_FILE} print | tail -n +3
 
 PARTITIONS=$(parted -sm ${IMAGE_FILE} print | tail -n +3 | wc -l)
-if [ ${PARTITIONS} == 1 ]; then
-    echo "single partition is not supported yet"
-    exit 1
-fi
+#if [ ${PARTITIONS} == 1 ]; then
+#    echo "single partition is not supported yet"
+#    exit 1
+#fi
 
 BOOT_PARTITION_END_SECTOR=$(parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
 rm -rf ${OUTPUT}
@@ -189,26 +189,76 @@ else
     mount | grep ${BOOT}
 
     ls -la ${BOOT}/
+    
+    if [ ${PARTITIONS} == 1 ]; then
+    
+        if [ ! -d ${BOOT}/boot ]; then
+            echo "single partition images without boot dir are not supported yet"
+            exit 1
+        fi
+       
+        if [ -f ${BOOT}/boot/armbianEnv.txt ]; then
+            cat ${BOOT}/boot/armbianEnv.txt
+            sed -i 's#rootfev=.*#rootdev=/dev/mmcblk0p2 #g' ${BOOT}/boot/armbianEnv.txt
+            cat ${BOOT}/boot/armbianEnv.txt
+        fi
+        
+        cd ${BOOT}
+        
+        ls | grep -v boot | xargs rm -rf
+        
+        cd ..
+        
+        sync
+        umount /dev/mapper/${LOOP}p1
+        fsck -f /dev/mapper/${LOOP}p1
+        resize2fs /dev/mapper/${LOOP}p1 100M
+        
+        BOOT_PARTITION_START_SECTOR=$(parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f2 | cut -d 's' -f1)
+        BOOT_SIZE=$((100*1024*2))
+        BOOT_PARTITION_END_SECTOR=$(($BOOT_PARTITION_START_SECTOR+$BOOT_SIZE))
+        
+echo "
+p
+d
+1
+p
+n
+p
+1
+${BOOT_PARTITION_START_SECTOR}
+${BOOT_PARTITION_END_SECTOR}
+p
+w
+q
+" | fdisk ${IMAGE_FILE}
 
-    boot_ini=${BOOT}/boot.ini
-    if [ -f ${boot_ini} ]; then
-        cat ${boot_ini}
-        sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${boot_ini}
-        cat ${boot_ini}
-    fi
+    else
 
-    cmdline_txt=${BOOT}/cmdline.txt
-    if [ -f ${cmdline_txt} ]; then
-        cat ${cmdline_txt}
-        sed -i 's#init=.* #init=/sbin/init #g' ${cmdline_txt}
-        sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${cmdline_txt}
-        cat ${cmdline_txt}
+        boot_ini=${BOOT}/boot.ini
+        if [ -f ${boot_ini} ]; then
+            cat ${boot_ini}
+            sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${boot_ini}
+            cat ${boot_ini}
+        fi
+
+        cmdline_txt=${BOOT}/cmdline.txt
+        if [ -f ${cmdline_txt} ]; then
+            cat ${cmdline_txt}
+            sed -i 's#init=.* #init=/sbin/init #g' ${cmdline_txt}
+            sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${cmdline_txt}
+            cat ${cmdline_txt}
+        fi
+        
+        umount /dev/mapper/${LOOP}p1
+        BOOT_PARTITION_END_SECTOR=$(parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
+
     fi
 
 #    rm -rf ${OUTPUT}-boot.tar.gz
 #    tar czf ${OUTPUT}-boot.tar.gz $BOOT
 
-    umount /dev/mapper/${LOOP}p1
+    
     kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
     rm -rf ${BOOT}
 
