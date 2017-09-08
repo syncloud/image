@@ -213,9 +213,11 @@ else
         
         sync
         umount /dev/mapper/${LOOP}p1
-        lsof | grep ${LOOP}p1
-        lsof | grep ${BOOT}
-        fsck -f /dev/mapper/${LOOP}p1
+        
+        #lsof | grep ${LOOP}p1
+        #lsof | grep ${BOOT}
+        #fsck -f /dev/mapper/${LOOP}p1
+        
         resize2fs /dev/mapper/${LOOP}p1 100M
         
         BOOT_PARTITION_START_SECTOR=$(parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f2 | cut -d 's' -f1)
