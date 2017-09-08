@@ -196,10 +196,12 @@ else
             echo "single partition images without boot dir are not supported yet"
             exit 1
         fi
+        
+        ls -la ${BOOT}/boot
        
         if [ -f ${BOOT}/boot/armbianEnv.txt ]; then
             cat ${BOOT}/boot/armbianEnv.txt
-            sed -i 's#rootfev=.*#rootdev=/dev/mmcblk0p2 #g' ${BOOT}/boot/armbianEnv.txt
+            sed -i 's#rootdev=.*#rootdev=/dev/mmcblk0p2 #g' ${BOOT}/boot/armbianEnv.txt
             cat ${BOOT}/boot/armbianEnv.txt
         fi
         
@@ -211,6 +213,7 @@ else
         
         sync
         umount /dev/mapper/${LOOP}p1
+        sync
         fsck -f /dev/mapper/${LOOP}p1
         resize2fs /dev/mapper/${LOOP}p1 100M
         
