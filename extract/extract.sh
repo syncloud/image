@@ -213,7 +213,8 @@ else
         
         sync
         umount /dev/mapper/${LOOP}p1
-        sync
+        lsof | grep ${LOOP}p1
+        lsof | grep ${BOOT}
         fsck -f /dev/mapper/${LOOP}p1
         resize2fs /dev/mapper/${LOOP}p1 100M
         
