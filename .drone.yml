@@ -6,32 +6,11 @@ clone:
     depth: 50
 
 pipeline:
-  rootfs:
-    image: syncloud/image-deps-${arch}
-    secrets: [ARTIFACT_SSH_KEY]
-    commands:
-      - ./bootstrap/bootstrap.sh
-      - ./upload-artifact.sh rootfs-$(dpkg --print-architecture).tar.gz
-    privileged: true
- 
-  syncloud-rootfs:
-    image: syncloud/image-deps-${arch}
-    secrets: [ARTIFACT_SSH_KEY]
-    commands:
-      - ./rootfs.sh rc stable ${installer}
-      - ./upload-artifact.sh syncloud-rootfs-$(dpkg --print-architecture)-${installer}.tar.gz
-    privileged: true
- 
-  test:
-    image: syncloud/image-deps-${arch}
-    commands:
-      - ./integration/test-docker.sh teamcity@syncloud.it password teamcity rc device ${installer}
-    privileged: true
-     
+
   version:
     image: syncloud/image-deps-${arch}
     commands:
-      - echo "17.09" > release
+      - echo "17.09-single" > release
   
   image_cubietruck:
     image: syncloud/image-deps-${arch}
@@ -40,138 +19,12 @@ pipeline:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh cubietruck $RELEASE ${installer}
     privileged: true
-    when:
-      platform: linux/arm
 
-  image_bananapim1:
-    image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
-    commands:
-      - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh bananapim1 $RELEASE ${installer}
-    privileged: true
-    when:
-      platform: linux/arm
 
-  image_beagleboneblack:
-    image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
-    commands:
-      - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh beagleboneblack $RELEASE ${installer}
-    privileged: true
-    when:
-      platform: linux/arm
-
-  image_bananapim2:
-    image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
-    commands:
-      - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh bananapim2 $RELEASE ${installer}
-    privileged: true
-    when:
-      platform: linux/arm
-
-  image_bananapim3:
-    image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
-    commands:
-      - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh bananapim3 $RELEASE ${installer}
-    privileged: true
-    when:
-      platform: linux/arm
-
-  image_cubieboard:
-    image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
-    commands:
-      - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh cubieboard $RELEASE ${installer}
-    privileged: true
-    when:
-      platform: linux/arm
-
-  image_cubieboard2:
-    image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
-    commands:
-      - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh cubieboard2 $RELEASE ${installer}
-    privileged: true
-    when:
-      platform: linux/arm
-
-  image_odroid-c2:
-    image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
-    commands:
-      - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh odroid-c2 $RELEASE ${installer}
-    privileged: true
-    when:
-      platform: linux/arm
-
-  image_odroid-xu3and4:
-    image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
-    commands:
-      - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh odroid-xu3and4 $RELEASE ${installer}
-    privileged: true
-    when:
-      platform: linux/arm
-
-  image_raspberrypi2:
-    image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
-    commands:
-      - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh raspberrypi2 $RELEASE ${installer}
-    privileged: true
-    when:
-      platform: linux/arm
-
-  image_raspberrypi3:
-    image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
-    commands:
-      - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${installer}
-    privileged: true
-    when:
-      platform: linux/arm
-
-  image_vbox:
-    image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
-    commands:
-      - RELEASE=$(cat release)
-      - ./extract-merge-upload.sh vbox $RELEASE ${installer}
-    privileged: true
-    when:
-      platform: linux/amd64
-
-  ci-artifact:
-    image: syncloud/image-deps-${arch}
-    secrets: [ARTIFACT_SSH_KEY]
-    commands:
-      - ./upload-artifact.sh integration/log ci/$DRONE_BUILD_NUMBER-$(dpkg --print-architecture)
-    when:
-      status: [ failure, success ]
-
-services:
-  device:
-    image: syncloud/systemd-${arch}
-    privileged: true
-    volumes:
-      - /var/run/dbus:/var/run/dbus
-     
 matrix:
   arch:
-    - arm
+#    - arm
     - amd64
   installer:
     - sam
-    - snapd
+#    - snapd
