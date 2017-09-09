@@ -281,7 +281,7 @@ kpartx -avs ${IMAGE_FILE}
 rm -rf $ROOTFS
 mkdir -p $ROOTFS
 ROOTFS_LOOP=${LOOP}p${PARTITIONS}
-blkid /dev/mapper/${ROOTFS_LOOP}-s UUID -o value > uuid
+#blkid /dev/mapper/${ROOTFS_LOOP}-s UUID -o value > uuid
 mount /dev/mapper/${ROOTFS_LOOP} $ROOTFS
 mount | grep $ROOTFS
 
@@ -302,7 +302,7 @@ if [ -d $ROOTFS/lib/mali-egl ]; then
     ls -la $ROOTFS/lib/mali-egl
     cp -rp $ROOTFS/lib/mali-egl ${OUTPUT}/root/lib/mali-egl
 fi
-cp uuid ${OUTPUT}/root/uuid
+#cp uuid ${OUTPUT}/root/uuid
 cp -rp $ROOTFS/boot ${OUTPUT}/root/boot
 sync
 
