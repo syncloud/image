@@ -1,7 +1,6 @@
 #!/bin/bash -ex
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-cd $DIR
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
    exit 1
@@ -236,7 +235,7 @@ else
 
         cd ${BOOT}
         ls | grep -v boot | xargs rm -rf
-        cd $DIR
+        cd $BUILD_DIR
         
         sync
         umount /dev/mapper/${LOOP}p1
