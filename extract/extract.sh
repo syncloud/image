@@ -267,8 +267,6 @@ q
 #    rm -rf ${OUTPUT}-boot.tar.gz
 #    tar czf ${OUTPUT}-boot.tar.gz $BOOT
 
-    
-    
     rm -rf ${BOOT}
 
 fi
@@ -281,17 +279,11 @@ echo "extracting kernel modules and firmware from rootfs"
 
 
 kpartx -avs ${IMAGE_FILE}
-
-if [ ${PARTITIONS} == 1 ]; then
-    ROOTFS=$BOOT
-else
-    rm -rf $ROOTFS
-    mkdir -p $ROOTFS
-    LOOP=$(kpartx -l ${IMAGE_FILE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
-    blkid /dev/mapper/${LOOP}p2 -s UUID -o value > uuid
-    mount /dev/mapper/${LOOP}p2 $ROOTFS
-fi
-
+rm -rf $ROOTFS
+mkdir -p $ROOTFS
+ROOTFS_LOOP=${LOOP}p${PARTITIONS}
+blkid /dev/mapper/${ROOTFS_LOOP}-s UUID -o value > uuid
+mount /dev/mapper/${ROOTFS_LOOP} $ROOTFS
 mount | grep $ROOTFS
 
 losetup -l
