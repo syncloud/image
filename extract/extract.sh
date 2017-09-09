@@ -249,7 +249,8 @@ else
         set -e
         
         resize2fs /dev/mapper/${LOOP}p1 100M
-        
+        pwd
+        ls -la
         BOOT_PARTITION_START_SECTOR=$(parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f2 | cut -d 's' -f1)
         BOOT_SIZE=$((100*1024*2))
         BOOT_PARTITION_END_SECTOR=$(($BOOT_PARTITION_START_SECTOR+$BOOT_SIZE))
