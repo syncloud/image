@@ -216,9 +216,9 @@ else
         
         #lsof | grep ${LOOP}p1
         #lsof | grep ${BOOT}
-        #fsck -f /dev/mapper/${LOOP}p1
+        fsck -f /dev/mapper/${LOOP}p1
         
-        #resize2fs /dev/mapper/${LOOP}p1 100M
+        resize2fs /dev/mapper/${LOOP}p1 100M
         
         BOOT_PARTITION_START_SECTOR=$(parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f2 | cut -d 's' -f1)
         BOOT_SIZE=$((100*1024*2))
@@ -276,12 +276,18 @@ dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PAR
 
 echo "extracting kernel modules and firmware from rootfs"
 
-rm -rf $ROOTFS
-mkdir -p $ROOTFS
+
 kpartx -avs ${IMAGE_FILE}
-LOOP=$(kpartx -l ${IMAGE_FILE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
-blkid /dev/mapper/${LOOP}p2 -s UUID -o value > uuid
-mount /dev/mapper/${LOOP}p2 $ROOTFS
+
+if [ ${PARTITIONS} == 1 ]; then
+    ROOTFS=$BOOT
+else
+    rm -rf $ROOTFS
+    mkdir -p $ROOTFS
+    LOOP=$(kpartx -l ${IMAGE_FILE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
+    blkid /dev/mapper/${LOOP}p2 -s UUID -o value > uuid
+    mount /dev/mapper/${LOOP}p2 $ROOTFS
+fi
 
 mount | grep $ROOTFS
 
