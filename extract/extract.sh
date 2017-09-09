@@ -12,7 +12,7 @@ if [ "$1" == "" ]; then
 fi
 
 SYNCLOUD_BOARD=$1
-BUILD_DIR=build_$SYNCLOUD_BOARD
+BUILD_DIR=$DIR/build_$SYNCLOUD_BOARD
 rm -rf $BUILD_DIR
 mkdir $BUILD_DIR
 cd $BUILD_DIR
