@@ -157,7 +157,6 @@ if [ ! -z "$CI" ]; then
   rm -rf ${IMAGE_FILE_ZIP}
 fi
 
-cd $DIR
 if [ ! -f ${IMAGE_FILE_ZIP} ]; then
   echo "Base image $IMAGE_FILE_ZIP is not found, getting new one ..."
   ${DOWNLOAD_IMAGE}
@@ -166,7 +165,6 @@ if [ ! -f ${IMAGE_FILE_ZIP} ]; then
   rm -rf ${IMAGE_FILE_ZIP}
   ls -la
 fi
-IMAGE_FILE=$DIR/$IMAGE_FILE
 
 if [ ! -f ${IMAGE_FILE} ]; then
   echo "${IMAGE_FILE} not found"
@@ -233,13 +231,11 @@ else
             sed -i 's#rootdev=.*#rootdev=/dev/mmcblk0p2 #g' ${BOOT}/boot/armbianEnv.txt
             cat ${BOOT}/boot/armbianEnv.txt
         fi
-        
-        cd ${BOOT}
-        
+
         extract_root $BOOT $OUTPUT/root
-        
+
+        cd ${BOOT}
         ls | grep -v boot | xargs rm -rf
-        
         cd ..
         
         sync
@@ -258,6 +254,7 @@ else
         BOOT_SIZE=$((100*1024*2))
         BOOT_PARTITION_END_SECTOR=$(($BOOT_PARTITION_START_SECTOR+$BOOT_SIZE))
         kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
+
 echo "
 p
 d
