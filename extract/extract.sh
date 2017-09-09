@@ -123,6 +123,31 @@ function cleanup {
     rm -rf ${ROOTFS}
 }
 
+function extract_root {
+    echo "extracting kernel modules and firmware from rootfs"
+    local from=$1
+    local to=$2
+    echo "source rootfs"
+    ls -la $from/
+    ls -la $from/lib/modules
+    ls -la $from/boot
+
+    echo "target rootfs"
+    ls -la $to
+
+    mkdir -p $to/lib
+    cp -rp $from/lib/firmware $to/lib/firmware
+    cp -rp $from/lib/modules $to/lib/modules
+    if [ -d $from/lib/mali-egl ]; then
+        ls -la $from/lib/mali-egl
+        cp -rp $from/lib/mali-egl $to/lib/mali-egl
+    fi
+    
+    cp -rp $from/boot $to/boot
+    sync
+
+}
+
 cleanup
 
 if [ ! -z "$CI" ]; then
@@ -207,6 +232,8 @@ else
         
         cd ${BOOT}
         
+        extract_root $BOOT $OUTPUT/root
+        
         ls | grep -v boot | xargs rm -rf
         
         cd ..
@@ -275,36 +302,21 @@ echo "extracting boot partition with boot loader"
 
 dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} ))
 
-echo "extracting kernel modules and firmware from rootfs"
+if [ ${PARTITIONS} == 2 ]; then
 
-kpartx -avs ${IMAGE_FILE}
-rm -rf $ROOTFS
-mkdir -p $ROOTFS
-ROOTFS_LOOP=${LOOP}p${PARTITIONS}
-#blkid /dev/mapper/${ROOTFS_LOOP}-s UUID -o value > uuid
-mount /dev/mapper/${ROOTFS_LOOP} $ROOTFS
-mount | grep $ROOTFS
+    kpartx -avs ${IMAGE_FILE}
+    rm -rf $ROOTFS
+    mkdir -p $ROOTFS
+    ROOTFS_LOOP=${LOOP}p2
+    blkid /dev/mapper/${ROOTFS_LOOP}-s UUID -o value > uuid
+    mount /dev/mapper/${ROOTFS_LOOP} $ROOTFS
+    mount | grep $ROOTFS
 
-losetup -l
-
-echo "source rootfs"
-ls -la $ROOTFS/
-ls -la $ROOTFS/lib/modules
-ls -la $ROOTFS/boot
-
-echo "target rootfs"
-ls -la ${OUTPUT}
-
-mkdir -p ${OUTPUT}/root/lib
-cp -rp $ROOTFS/lib/firmware ${OUTPUT}/root/lib/firmware
-cp -rp $ROOTFS/lib/modules ${OUTPUT}/root/lib/modules
-if [ -d $ROOTFS/lib/mali-egl ]; then
-    ls -la $ROOTFS/lib/mali-egl
-    cp -rp $ROOTFS/lib/mali-egl ${OUTPUT}/root/lib/mali-egl
+    losetup -l
+    extract_root $ROOTFS $OUTPUT/root
+    cp uuid ${OUTPUT}/root/uuid
 fi
-#cp uuid ${OUTPUT}/root/uuid
-cp -rp $ROOTFS/boot ${OUTPUT}/root/boot
-sync
+
 
 cleanup
 rm -rf ${IMAGE_FILE}
