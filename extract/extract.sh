@@ -27,23 +27,23 @@ SYNCLOUD_DISTR_URL="http://artifact.syncloud.org/image/base"
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
   FILE_VERSION=2017-08-16
-  IMAGE_FILE=$DIR/${FILE_VERSION}-raspbian-stretch.img
+  IMAGE_FILE=${FILE_VERSION}-raspbian-stretch.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-stretch.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
   FILE_VERSION=2017-08-16
-  IMAGE_FILE=$DIR/${FILE_VERSION}-raspbian-stretch.img
+  IMAGE_FILE=${FILE_VERSION}-raspbian-stretch.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-stretch.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
-  IMAGE_FILE=$DIR/${SYNCLOUD_BOARD}.img
+  IMAGE_FILE=${SYNCLOUD_BOARD}.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/bone-debian-8.2-tester-2gb-armhf-2015-11-12-2gb.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
-  IMAGE_FILE=$DIR/"Cubian-nano+headless-x1-a10.img"
+  IMAGE_FILE="Cubian-nano+headless-x1-a10.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/Cubian-nano%2Bheadless-x1-a10.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
@@ -52,7 +52,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   CPU_FREQUENCY_MAX=1056000
   CPU_FREQUENCY_MIN=648000
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
-  IMAGE_FILE=$DIR/"Cubian-nano+headless-x1-a20.img"
+  IMAGE_FILE="Cubian-nano+headless-x1-a20.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/Cubian-nano%2Bheadless-x1-a20.img.7z -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
@@ -62,7 +62,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   CPU_FREQUENCY_MIN=648000
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   #IMAGE_FILE="Cubian-nano+headless-x1-a20-cubietruck.img"
-  IMAGE_FILE=$DIR/"Armbian_5.31_Cubietruck_Debian_jessie_next_4.11.5.img"
+  IMAGE_FILE="Armbian_5.31_Cubietruck_Debian_jessie_next_4.11.5.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
   #DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/Cubian-nano%2Bheadless-x1-a20-cubietruck.img.7z -O $IMAGE_FILE_ZIP"
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
@@ -72,34 +72,34 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   CPU_FREQUENCY_MAX=1056000
   CPU_FREQUENCY_MIN=648000
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
-  IMAGE_FILE_NAME=$DIR/"ubuntu-16.04.3-4.9-mate-odroid-xu4-20170824.img"
+  IMAGE_FILE_NAME="ubuntu-16.04.3-4.9-mate-odroid-xu4-20170824.img"
   IMAGE_FILE=${IMAGE_FILE_NAME}
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "odroid-c2" ]]; then
-  IMAGE_FILE=$DIR/"ubuntu64-16.04lts-mate-odroid-c2-20160226.img"
+  IMAGE_FILE="ubuntu64-16.04lts-mate-odroid-c2-20160226.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/ubuntu64-16.04lts-mate-odroid-c2-20160226.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
-  IMAGE_FILE=$DIR/"M2-raspberry-kernel3.3-LCD.img"
+  IMAGE_FILE="M2-raspberry-kernel3.3-LCD.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/BPI-M2_Raspbian_V4.0_lcd.zip -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
 elif [[ ${SYNCLOUD_BOARD} == "bananapim1" ]]; then
-  IMAGE_FILE=$DIR/"BPI-M1_Debian_V2_beta.img"
+  IMAGE_FILE="BPI-M1_Debian_V2_beta.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/BPI-M1_Debian_V2_beta.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "bananapim3" ]]; then
-  IMAGE_FILE_NAME=$DIR/"2016-05-15-debian-8-jessie-lite-bpi-m3-sd-emmc.img"
+  IMAGE_FILE_NAME="2016-05-15-debian-8-jessie-lite-bpi-m3-sd-emmc.img"
   IMAGE_FILE=${IMAGE_FILE_NAME}
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "vbox" ]]; then
-  IMAGE_FILE_NAME=$DIR/"debian-vbox-8gb.img"
+  IMAGE_FILE_NAME="debian-vbox-8gb.img"
   IMAGE_FILE=$IMAGE_FILE_NAME
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_NAME.xz -O $IMAGE_FILE_ZIP"
@@ -157,6 +157,7 @@ if [ ! -z "$CI" ]; then
   rm -rf ${IMAGE_FILE_ZIP}
 fi
 
+cd $DIR
 if [ ! -f ${IMAGE_FILE_ZIP} ]; then
   echo "Base image $IMAGE_FILE_ZIP is not found, getting new one ..."
   ${DOWNLOAD_IMAGE}
@@ -165,6 +166,7 @@ if [ ! -f ${IMAGE_FILE_ZIP} ]; then
   rm -rf ${IMAGE_FILE_ZIP}
   ls -la
 fi
+IMAGE_FILE=$DIR/$IMAGE_FILE
 
 if [ ! -f ${IMAGE_FILE} ]; then
   echo "${IMAGE_FILE} not found"
