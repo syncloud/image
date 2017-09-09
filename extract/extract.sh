@@ -277,7 +277,6 @@ dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PAR
 
 echo "extracting kernel modules and firmware from rootfs"
 
-
 kpartx -avs ${IMAGE_FILE}
 rm -rf $ROOTFS
 mkdir -p $ROOTFS
