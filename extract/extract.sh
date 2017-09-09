@@ -218,12 +218,12 @@ else
         #lsof | grep ${BOOT}
         #fsck -f /dev/mapper/${LOOP}p1
         
-        resize2fs /dev/mapper/${LOOP}p1 100M
+        #resize2fs /dev/mapper/${LOOP}p1 100M
         
         BOOT_PARTITION_START_SECTOR=$(parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f2 | cut -d 's' -f1)
         BOOT_SIZE=$((100*1024*2))
         BOOT_PARTITION_END_SECTOR=$(($BOOT_PARTITION_START_SECTOR+$BOOT_SIZE))
-        
+        kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
 echo "
 p
 d
@@ -258,14 +258,14 @@ q
         
         umount /dev/mapper/${LOOP}p1
         BOOT_PARTITION_END_SECTOR=$(parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
-
+        kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
     fi
 
 #    rm -rf ${OUTPUT}-boot.tar.gz
 #    tar czf ${OUTPUT}-boot.tar.gz $BOOT
 
     
-    kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
+    
     rm -rf ${BOOT}
 
 fi
