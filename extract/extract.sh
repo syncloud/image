@@ -217,7 +217,9 @@ else
         #lsof | grep ${LOOP}p1
         #lsof | grep ${BOOT}
         
+        set +e
         fsck -fy /dev/mapper/${LOOP}p1
+        set -e
         
         resize2fs /dev/mapper/${LOOP}p1 100M
         
