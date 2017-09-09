@@ -1,5 +1,7 @@
 #!/bin/bash -ex
 
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
    exit 1
@@ -109,9 +111,9 @@ fi
 
 PARTED_SECTOR_UNIT=s
 DD_SECTOR_UNIT=b
-OUTPUT=${SYNCLOUD_BOARD}
-ROOTFS=extract_${SYNCLOUD_BOARD}
-BOOT=boot_${SYNCLOUD_BOARD}
+OUTPUT=$DIR/${SYNCLOUD_BOARD}
+ROOTFS=$DIR/extract_${SYNCLOUD_BOARD}
+BOOT=$DIR/boot_${SYNCLOUD_BOARD}
 
 function cleanup {
     echo "cleanup"
