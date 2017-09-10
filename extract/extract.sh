@@ -185,6 +185,7 @@ PARTITIONS=$(parted -sm ${IMAGE_FILE} print | tail -n +3 | wc -l)
 BOOT_PARTITION_END_SECTOR=$(parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
 rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
+mkdir ${OUTPUT}/root
 
 echo "applying cpu frequency fix"
 if [ "$CPU_FREQUENCY_CONTROL" = true ] ; then
