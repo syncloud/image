@@ -20,7 +20,22 @@ pipeline:
       - ./extract-merge-upload.sh cubietruck $RELEASE ${installer}
     privileged: true
 
+  image_odroid-c2:
+    image: syncloud/image-deps-${arch}
+    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    commands:
+      - RELEASE=$(cat release)
+      - ./extract-merge-upload.sh odroid-c2 $RELEASE ${installer}
+    privileged: true
 
+  image_raspberrypi3:
+    image: syncloud/image-deps-${arch}
+    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    commands:
+      - RELEASE=$(cat release)
+      - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${installer}
+    privileged: true
+      
 matrix:
   arch:
 #    - arm
