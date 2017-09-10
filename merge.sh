@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 
-START_TIME=$(date +"%s")
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
@@ -26,7 +26,7 @@ else
     echo "$ROOTFS_FILE is here"
 fi
 
-BOOT_ZIP_DIR=build_${SYNCLOUD_BOARD}
+BOOT_ZIP_DIR=$DIR/extract/build_${SYNCLOUD_BOARD}
 BOOT_ZIP=${BOOT_ZIP_DIR}/${SYNCLOUD_BOARD}.tar.gz
 if [ ! -f ${BOOT_ZIP} ]; then
   echo "missing ${BOOT_ZIP}"
