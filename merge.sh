@@ -73,7 +73,6 @@ rm -rf ${SYNCLOUD_BOARD}
 tar xzf ${BOOT_ZIP}
 ls -la
 rm -rf ${BOOT_ZIP}
-rm -rf ${BOOT_ZIP_DIR}
 
 echo "copying boot"
 cp ${SYNCLOUD_BOARD}/boot ${SYNCLOUD_IMAGE}
