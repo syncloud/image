@@ -70,7 +70,7 @@ rm -rf $ROOTFS_FILE
 
 echo "extracting boot"
 rm -rf ${SYNCLOUD_BOARD}
-tar xzf ${BOOT_ZIP}
+tar xzvf ${BOOT_ZIP}
 ls -la
 rm -rf ${BOOT_ZIP}
 rm -rf ${BOOT_ZIP_DIR}
