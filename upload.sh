@@ -11,5 +11,9 @@ if [ "${branch}" == "master" ] || [ "${branch}" == "stable" ] ; then
   
   s3cmd put ${file} s3://${bucket}/$release/$file
 
+else
+
+  ./upload-artifact.sh ${file} ${file}
+  
 fi
 
