@@ -322,7 +322,7 @@ fi
 cleanup
 rm -rf ${IMAGE_FILE}
 rm -rf ${OUTPUT}.tar.gz
-tar -c --use-compress-program=pigz -f ${OUTPUT}.tar.gz ${OUTPUT}
+tar -c --use-compress-program=pigz -f ${OUTPUT}.tar.gz -C $DIR ${SYNCLOUD_BOARD}
 rm -rf ${OUTPUT}
 echo "result: $OUTPUT.tar.gz"
 
