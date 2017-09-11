@@ -1,15 +1,16 @@
 #!/bin/bash -xe
 
-if [ "$#" -ne 3 ]; then
-    echo "Usage: $0 board release installer"
+if [ "$#" -ne 4 ]; then
+    echo "Usage: $0 board release installer arch"
     exit 1
 fi
 
 
-ARCH=$(dpkg --print-architecture)
 BOARD=$1
 RELEASE=$2
 INSTALLER=$3
+ARCH=$4
+
 IMAGE=syncloud-${BOARD}-${RELEASE}-${INSTALLER}.img.xz
 
 ./extract/extract.sh ${BOARD}
