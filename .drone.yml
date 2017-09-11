@@ -35,7 +35,7 @@ pipeline:
   
   image_cubietruck:
     image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh cubietruck $RELEASE ${installer}
@@ -45,7 +45,7 @@ pipeline:
 
   image_bananapim1:
     image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh bananapim1 $RELEASE ${installer}
@@ -55,7 +55,7 @@ pipeline:
 
   image_beagleboneblack:
     image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh beagleboneblack $RELEASE ${installer}
@@ -65,7 +65,7 @@ pipeline:
 
   image_bananapim2:
     image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh bananapim2 $RELEASE ${installer}
@@ -75,7 +75,7 @@ pipeline:
 
   image_bananapim3:
     image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh bananapim3 $RELEASE ${installer}
@@ -85,7 +85,7 @@ pipeline:
 
   image_cubieboard:
     image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh cubieboard $RELEASE ${installer}
@@ -95,7 +95,7 @@ pipeline:
 
   image_cubieboard2:
     image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh cubieboard2 $RELEASE ${installer}
@@ -105,7 +105,7 @@ pipeline:
 
   image_odroid-c2:
     image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh odroid-c2 $RELEASE ${installer}
@@ -115,7 +115,7 @@ pipeline:
 
   image_odroid-xu3and4:
     image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh odroid-xu3and4 $RELEASE ${installer}
@@ -125,7 +125,7 @@ pipeline:
 
   image_raspberrypi2:
     image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh raspberrypi2 $RELEASE ${installer}
@@ -135,7 +135,7 @@ pipeline:
 
   image_raspberrypi3:
     image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh raspberrypi3 $RELEASE ${installer}
@@ -145,7 +145,7 @@ pipeline:
 
   image_vbox:
     image: syncloud/image-deps-${arch}
-    secrets: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
+    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     commands:
       - RELEASE=$(cat release)
       - ./extract-merge-upload.sh vbox $RELEASE ${installer}
