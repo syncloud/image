@@ -1,14 +1,14 @@
-platform: linux/${arch}
+platform: linux/amd64
 
 clone:
   git:
-    image: syncloud/drone-git-${arch}
+    image: syncloud/drone-git-amd64
     depth: 50
 
 pipeline:
   image:
     secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
-    image: syncloud/image-deps-${arch}
+    image: syncloud/image-deps-amd64
     commands:
       - RELEASE="17.09"
       - ./extract-merge-upload.sh cubietruck $RELEASE ${installer} armhf
