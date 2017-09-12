@@ -11,7 +11,7 @@ pipeline:
     image: syncloud/image-deps-amd64
     commands:
       - RELEASE="17.09"
-      - ./extract-merge-upload.sh cubietruck $RELEASE ${installer} armhf
+      - ./extract-merge-upload.sh ${board} $RELEASE ${installer} armhf
     privileged: true
 
 
