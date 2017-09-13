@@ -202,7 +202,7 @@ rm -rf $BOOT
 mkdir -p $BOOT
 OUTPUT=$(kpartx -avs ${IMAGE_FILE} )
 echo ${OUTPUT}
-LOOP=loop$(echp ${OUTPUT} | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
+LOOP=loop$(echo ${OUTPUT} | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
 echo "LOOP: ${LOOP}"
 
 FS_TYPE=$(blkid -s TYPE -o value /dev/mapper/${LOOP}p1)
