@@ -107,9 +107,8 @@ q
 ls -la /dev/mapper/*
 
 kpartx -l ${SYNCLOUD_IMAGE}
-kpartx -asv ${SYNCLOUD_IMAGE}
+LOOP=loop$(kpartx -avs ${SYNCLOUD_IMAGE} | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
 
-LOOP=$(kpartx -l ${SYNCLOUD_IMAGE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
 rm -rf dst_${SYNCLOUD_BOARD}
 mkdir -p ${DST_ROOTFS}
 

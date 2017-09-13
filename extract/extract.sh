@@ -201,8 +201,6 @@ echo "fixing boot"
 rm -rf $BOOT
 mkdir -p $BOOT
 LOOP=loop$(kpartx -avs ${IMAGE_FILE} | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
-#kpartx -l ${IMAGE_FILE}
-#LOOP=$(kpartx -l ${IMAGE_FILE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
 echo "LOOP: ${LOOP}"
 
 FS_TYPE=$(blkid -s TYPE -o value /dev/mapper/${LOOP}p1)
