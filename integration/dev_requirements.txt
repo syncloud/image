@@ -1,3 +1,0 @@
-requests==2.6.0
-pytest-cov==1.6
-syncloud-lib
