@@ -88,11 +88,21 @@ dd if=/dev/zero bs=${DD_CHUNK_SIZE_MB}M count=${DD_CHUNK_COUNT} >> ${SYNCLOUD_IM
 ROOTFS_START_SECTOR=$(( ${BOOT_SECTORS} + 1  ))
 ROOTFS_SECTORS=$(( ${ROOTFS_SIZE_BYTES} / 512 ))
 ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 2 ))
-echo "extending defining second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
+
+PARTITIONS=$(parted -sm ${SYNCLOUD_IMAGE} print | tail -n +3 | wc -l)
+if [ ${PARTITIONS} == 2]; then
+echo "deleting second partition"
 echo "
 p
 d
 2
+w
+q
+" | fdisk ${SYNCLOUD_IMAGE}
+fi
+
+echo "creating defining second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
+echo "
 p
 n
 p

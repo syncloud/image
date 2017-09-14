@@ -239,7 +239,9 @@ else
         extract_root $BOOT $OUTPUT/root
 
         cd ${BOOT}
+        ls -la
         ls | grep -v boot | xargs rm -rf
+        ls -la
         cd $BUILD_DIR
         
         sync
@@ -264,6 +266,12 @@ echo "
 p
 d
 1
+w
+q
+" | fdisk ${IMAGE_FILE}
+
+
+echo "
 p
 n
 p
