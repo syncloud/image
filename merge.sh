@@ -93,23 +93,19 @@ PARTITIONS=$(parted -sm ${SYNCLOUD_IMAGE} print | tail -n +3 | wc -l)
 if [ ${PARTITIONS} == 2]; then
 echo "deleting second partition"
 echo "
-p
 d
 2
 w
-q
 " | fdisk ${SYNCLOUD_IMAGE}
 fi
 
 echo "creating defining second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
 echo "
-p
 n
 p
 2
 ${ROOTFS_START_SECTOR}
 ${ROOTFS_END_SECTOR}
-p
 w
 q
 " | fdisk ${SYNCLOUD_IMAGE}

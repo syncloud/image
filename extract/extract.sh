@@ -265,20 +265,16 @@ else
 echo "
 p
 d
-1
 w
-q
 " | fdisk ${IMAGE_FILE}
 
 
 echo "
-p
 n
 p
 1
 ${BOOT_PARTITION_START_SECTOR}
 ${BOOT_PARTITION_END_SECTOR}
-p
 w
 q
 " | fdisk ${IMAGE_FILE}
