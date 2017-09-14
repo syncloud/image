@@ -13,7 +13,7 @@ ARCH=$4
 
 IMAGE=syncloud-${BOARD}-${RELEASE}-${INSTALLER}.img.xz
 
-./extract/extract.sh ${BOARD}
+./extract/extract.sh ${BOARD} ${INSTALLER}
 ./merge.sh ${BOARD} ${ARCH} ${RELEASE} ${INSTALLER}
 ./upload.sh ${RELEASE} ${IMAGE}
 rm -rf ${IMAGE}

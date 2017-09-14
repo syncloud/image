@@ -6,12 +6,14 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$1" == "" ]; then
-    echo "Usage: $0 board"
+if [ "$2" == "" ]; then
+    echo "Usage: $0 board installer"
     exit 1
 fi
 
 SYNCLOUD_BOARD=$1
+INSTALLER=$2
+IMAGE_FILE_NORMALIZED=${SYNCLOUD_BOARD}-${INSTALLER}-base.img
 BUILD_DIR=$DIR/build_$SYNCLOUD_BOARD
 rm -rf $BUILD_DIR
 mkdir $BUILD_DIR
@@ -118,7 +120,7 @@ function cleanup {
     echo "cleanup"
     umount ${ROOTFS} || true
     umount ${BOOT} || true
-    kpartx -d ${IMAGE_FILE} || true
+    kpartx -d ${IMAGE_FILE_NORMALIZED} || true
     losetup -l
     rm -rf *.img
     rm -rf ${ROOTFS}
@@ -161,6 +163,8 @@ if [ ! -f ${IMAGE_FILE_ZIP} ]; then
   ${DOWNLOAD_IMAGE}
   ls -la
   ${UNZIP} ${IMAGE_FILE_ZIP}
+  mv ${IMAGE_FILE} ${IMAGE_FILE_NORMALIZED}
+  IMAGE_FILE=${IMAGE_FILE_NORMALIZED}
   rm -rf ${IMAGE_FILE_ZIP}
   ls -la
 fi
