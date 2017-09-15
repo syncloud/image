@@ -76,6 +76,8 @@ rm -rf ${BOOT_ZIP}
 
 echo "copying boot"
 cp ${SYNCLOUD_BOARD}/boot ${SYNCLOUD_IMAGE}
+parted -sm ${SYNCLOUD_IMAGE} print
+
 BOOT_BYTES=$(wc -c "${SYNCLOUD_IMAGE}" | cut -f 1 -d ' ')
 BOOT_SECTORS=$(( ${BOOT_BYTES} / 512 ))
 echo "boot sectors: ${BOOT_SECTORS}"
