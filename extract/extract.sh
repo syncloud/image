@@ -330,6 +330,7 @@ fi
 
 echo "extracting boot partition with boot loader"
 
+parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print
 dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} ))
 parted -sm ${OUTPUT}/boot print
 
