@@ -88,8 +88,8 @@ dd if=/dev/zero bs=${DD_CHUNK_SIZE_MB}M count=${DD_CHUNK_COUNT} >> ${SYNCLOUD_IM
 ROOTFS_START_SECTOR=$(( ${BOOT_SECTORS} + 1  ))
 ROOTFS_SECTORS=$(( ${ROOTFS_SIZE_BYTES} / 512 ))
 ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 2 ))
-PARTED_OUTPUT=$(parted -sm ${SYNCLOUD_IMAGE} print)
-PARTITIONS=$( echo $PARTED_OUTPUT | tail -n +3 | wc -l)
+parted -sm ${SYNCLOUD_IMAGE} print | tee parted.out
+PARTITIONS=$( cat parted.out | tail -n +3 | wc -l)
 if [ ${PARTITIONS} == 2 ]; then
 echo "deleting second partition"
 echo "
@@ -113,9 +113,8 @@ q
 ls -la /dev/mapper/*
 
 kpartx -l ${SYNCLOUD_IMAGE}
-OUTPUT=$(kpartx -avs ${SYNCLOUD_IMAGE})
-echo ${OUTPUT}
-LOOP=loop$(echo ${OUTPUT} | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
+kpartx -avs ${SYNCLOUD_IMAGE} | tee kpartx.out
+LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
 
 rm -rf dst_${SYNCLOUD_BOARD}
 mkdir -p ${DST_ROOTFS}
