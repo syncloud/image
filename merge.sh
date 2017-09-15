@@ -93,13 +93,6 @@ ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 2 ))
 parted -sm ${SYNCLOUD_IMAGE} print | tee parted.out
 PARTITIONS=$( cat parted.out | tail -n +3 | wc -l)
 if [ ${PARTITIONS} == 2 ]; then
-echo "deleting second partition"
-echo "
-d
-2
-w
-" | fdisk ${SYNCLOUD_IMAGE}
-fi
 
 echo "creating defining second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
 echo "

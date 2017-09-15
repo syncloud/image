@@ -121,7 +121,9 @@ function cleanup {
     umount ${ROOTFS} || true
     umount ${BOOT} || true
     kpartx -d ${IMAGE_FILE_NORMALIZED} || true
-    losetup -l
+    losetup -l | tee losetup.out
+    LOOP=$(cat losetup.out | grep ${IMAGE_FILE_NORMALIZED} ) || true
+    echo $LOOP
     rm -rf *.img
     rm -rf ${ROOTFS}
 }
@@ -304,11 +306,6 @@ q
 
 fi
 
-echo "extracting boot partition with boot loader"
-
-dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} ))
-parted -sm ${OUTPUT}/boot print
-
 if [ ${PARTITIONS} == 2 ]; then
 
     kpartx -avs ${IMAGE_FILE}
@@ -322,8 +319,19 @@ if [ ${PARTITIONS} == 2 ]; then
     losetup -l
     extract_root $ROOTFS $OUTPUT/root
     cp uuid ${OUTPUT}/root/uuid
+
+    echo "
+d
+2
+w
+" | fdisk ${IMAGE_FILE}
+
 fi
 
+echo "extracting boot partition with boot loader"
+
+dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} ))
+parted -sm ${OUTPUT}/boot print
 
 cleanup
 rm -rf ${IMAGE_FILE}
