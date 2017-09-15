@@ -181,12 +181,8 @@ echo "parted info:"
 parted -sm ${IMAGE_FILE} print | tail -n +3
 
 PARTITIONS=$(parted -sm ${IMAGE_FILE} print | tail -n +3 | wc -l)
-#if [ ${PARTITIONS} == 1 ]; then
-#    echo "single partition is not supported yet"
-#    exit 1
-#fi
-
-BOOT_PARTITION_END_SECTOR=$(parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
+parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | tee parted.out
+BOOT_PARTITION_END_SECTOR=$( cat parted.out | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
 rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
 mkdir ${OUTPUT}/root
@@ -296,7 +292,8 @@ q
         fi
         
         umount /dev/mapper/${LOOP}p1
-        BOOT_PARTITION_END_SECTOR=$(parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
+        parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | tee parted.out
+        BOOT_PARTITION_END_SECTOR=$( cat parted.out | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
         kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
     fi
 
@@ -310,6 +307,7 @@ fi
 echo "extracting boot partition with boot loader"
 
 dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} ))
+parted -sm ${OUTPUT}/boot print
 
 if [ ${PARTITIONS} == 2 ]; then
 
