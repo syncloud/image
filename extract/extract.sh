@@ -14,10 +14,10 @@ fi
 SYNCLOUD_BOARD=$1
 INSTALLER=$2
 IMAGE_FILE_NORMALIZED=${SYNCLOUD_BOARD}-${INSTALLER}-base.img
-BUILD_DIR=$DIR/build_$SYNCLOUD_BOARD
-rm -rf $BUILD_DIR
-mkdir $BUILD_DIR
-cd $BUILD_DIR
+BUILD_DIR=${DIR}/build_${SYNCLOUD_BOARD}
+rm -rf ${BUILD_DIR}
+mkdir ${BUILD_DIR}
+cd ${BUILD_DIR}
 
 CPU_FREQUENCY_CONTROL=false
 CPU_FREQUENCY_GOVERNOR=
@@ -101,7 +101,7 @@ elif [[ ${SYNCLOUD_BOARD} == "bananapim3" ]]; then
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "vbox" ]]; then
   IMAGE_FILE_NAME="debian-vbox-8gb.img"
-  IMAGE_FILE=$IMAGE_FILE_NAME
+  IMAGE_FILE=${IMAGE_FILE_NAME}
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_NAME.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
@@ -112,9 +112,9 @@ fi
 
 PARTED_SECTOR_UNIT=s
 DD_SECTOR_UNIT=b
-OUTPUT=$DIR/${SYNCLOUD_BOARD}
-ROOTFS=$DIR/extract_${SYNCLOUD_BOARD}
-BOOT=$DIR/boot_${SYNCLOUD_BOARD}
+OUTPUT=${DIR}/${SYNCLOUD_BOARD}
+ROOTFS=${DIR}/extract_${SYNCLOUD_BOARD}
+BOOT=${DIR}/boot_${SYNCLOUD_BOARD}
 
 function cleanup {
     echo "cleanup"
@@ -123,10 +123,10 @@ function cleanup {
     kpartx -d ${IMAGE_FILE_NORMALIZED} || true
     losetup -l | tee losetup.out
     LOOP=$(cat losetup.out | grep ${IMAGE_FILE_NORMALIZED} | cut -d ' ' -f1 | cut -d '/' -f3) || true
-    if [[ $LOOP != "" ]]; then
-         dmsetup remove /dev/mapper/$LOOPp1 | true
-         dmsetup remove /dev/mapper/$LOOPp2 | true
-         losetup -d $LOOP | true
+    if [[ ${LOOP} != "" ]]; then
+         dmsetup remove /dev/mapper/${LOOP}p1 | true
+         dmsetup remove /dev/mapper/${LOOP}p2 | true
+         losetup -d ${LOOP} | true
     fi
     rm -rf *.img
     rm -rf ${ROOTFS}
@@ -137,22 +137,22 @@ function extract_root {
     local from=$1
     local to=$2
     echo "source rootfs"
-    ls -la $from/
-    ls -la $from/lib/modules
-    ls -la $from/boot
+    ls -la ${from}/
+    ls -la ${from}/lib/modules
+    ls -la ${from}/boot
 
     echo "target rootfs"
-    ls -la $to
+    ls -la ${to}
 
-    mkdir -p $to/lib
-    cp -rp $from/lib/firmware $to/lib/firmware
-    cp -rp $from/lib/modules $to/lib/modules
-    if [ -d $from/lib/mali-egl ]; then
-        ls -la $from/lib/mali-egl
-        cp -rp $from/lib/mali-egl $to/lib/mali-egl
+    mkdir -p ${to}/lib
+    cp -rp ${from}/lib/firmware ${to}/lib/firmware
+    cp -rp ${from}/lib/modules ${to}/lib/modules
+    if [ -d ${from}/lib/mali-egl ]; then
+        ls -la ${from}/lib/mali-egl
+        cp -rp ${from}/lib/mali-egl ${to}/lib/mali-egl
     fi
     
-    cp -rp $from/boot $to/boot
+    cp -rp ${from}/boot ${to}/boot
     sync
 
 }
@@ -204,8 +204,8 @@ fi
 
 echo "fixing boot"
 
-rm -rf $BOOT
-mkdir -p $BOOT
+rm -rf ${BOOT}
+mkdir -p ${BOOT}
 kpartx -avs ${IMAGE_FILE} | tee kpartx.out
 LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
 echo "LOOP: ${LOOP}"
@@ -239,13 +239,13 @@ else
             cat ${BOOT}/boot/boot.scr
         fi
 
-        extract_root $BOOT $OUTPUT/root
+        extract_root ${BOOT} ${OUTPUT}/root
 
         cd ${BOOT}
         ls -la
         ls | grep -v boot | xargs rm -rf
         ls -la
-        cd $BUILD_DIR
+        cd ${BUILD_DIR}
         
         sync
         umount /dev/mapper/${LOOP}p1
@@ -315,15 +315,15 @@ fi
 if [ ${PARTITIONS} == 2 ]; then
 
     kpartx -avs ${IMAGE_FILE}
-    rm -rf $ROOTFS
-    mkdir -p $ROOTFS
+    rm -rf ${ROOTFS}
+    mkdir -p ${ROOTFS}
     ROOTFS_LOOP=${LOOP}p2
     blkid /dev/mapper/${ROOTFS_LOOP} -s UUID -o value > uuid
-    mount /dev/mapper/${ROOTFS_LOOP} $ROOTFS
-    mount | grep $ROOTFS
+    mount /dev/mapper/${ROOTFS_LOOP} ${ROOTFS}
+    mount | grep ${ROOTFS}
 
     losetup -l
-    extract_root $ROOTFS $OUTPUT/root
+    extract_root ${ROOTFS} ${OUTPUT}/root
     cp uuid ${OUTPUT}/root/uuid
 
     echo "
@@ -347,7 +347,7 @@ parted -sm ${OUTPUT}/boot print
 cleanup
 rm -rf ${IMAGE_FILE}
 rm -rf ${OUTPUT}.tar.gz
-tar -c --use-compress-program=pigz -f ${OUTPUT}.tar.gz -C $DIR ${SYNCLOUD_BOARD}
+tar -c --use-compress-program=pigz -f ${OUTPUT}.tar.gz -C ${DIR} ${SYNCLOUD_BOARD}
 rm -rf ${OUTPUT}
 echo "result: $OUTPUT.tar.gz"
 
