@@ -231,7 +231,12 @@ else
         fi
         
         ls -la ${BOOT}/boot
-       
+       if [ -f ${BOOT}/boot/armbianEnv.txt ]; then
+            cat ${BOOT}/boot/armbianEnv.txt
+            sed -i 's#rootdev=.*#rootdev=/dev/mmcblk0p2#g' ${BOOT}/boot/armbianEnv.txt
+            cat ${BOOT}/boot/armbianEnv.txt
+        fi
+
         if [ -f ${BOOT}/boot/boot.cmd ]; then
             cat ${BOOT}/boot/boot.cmd
             sed -i 's#setenv rootdev .*#setenv rootdev "/dev/mmcblk0p2"#g' ${BOOT}/boot/boot.cmd
