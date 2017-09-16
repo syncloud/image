@@ -231,10 +231,10 @@ else
         
         ls -la ${BOOT}/boot
        
-        if [ -f ${BOOT}/boot/armbianEnv.txt ]; then
-            cat ${BOOT}/boot/armbianEnv.txt
-            sed -i 's#rootdev=.*#rootdev=/dev/mmcblk0p2 #g' ${BOOT}/boot/armbianEnv.txt
-            cat ${BOOT}/boot/armbianEnv.txt
+        if [ -f ${BOOT}/boot/boot.scr ]; then
+            cat ${BOOT}/boot/boot.scr
+            sed -i 's#rootdev=.*#rootdev=/dev/mmcblk0p2 #g' ${BOOT}/boot/boot.scr
+            cat ${BOOT}/boot/boot.scr
         fi
 
         extract_root $BOOT $OUTPUT/root
