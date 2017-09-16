@@ -253,7 +253,7 @@ else
         set +e
         fsck -fy /dev/mapper/${LOOP}p1
         set -e
-        BOOT_SIZE_MB=100
+        BOOT_SIZE_MB=200
         resize2fs /dev/mapper/${LOOP}p1 ${BOOT_SIZE_MB}M
         pwd
         ls -la
