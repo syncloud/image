@@ -231,9 +231,11 @@ else
         
         ls -la ${BOOT}/boot
        
-        if [ -f ${BOOT}/boot/boot.scr ]; then
-            cat ${BOOT}/boot/boot.scr
-            sed -i 's#setenv rootdev .*#setenv rootdev "/dev/mmcblk0p2"#g' ${BOOT}/boot/boot.scr
+        if [ -f ${BOOT}/boot/boot.cmd ]; then
+            cat ${BOOT}/boot/boot.cmd
+            sed -i 's#setenv rootdev .*#setenv rootdev "/dev/mmcblk0p2"#g' ${BOOT}/boot/boot.cmd
+            cat ${BOOT}/boot/boot.cmd
+            mkimage -C none -A arm -T script -d ${BOOT}/boot/boot.cmd ${BOOT}/boot.scr
             cat ${BOOT}/boot/boot.scr
         fi
 
