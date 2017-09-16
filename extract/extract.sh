@@ -122,7 +122,7 @@ function cleanup {
     umount ${BOOT} || true
     kpartx -d ${IMAGE_FILE_NORMALIZED} || true
     losetup -l | tee losetup.out
-    LOOP=$(cat losetup.out | grep ${IMAGE_FILE_NORMALIZED} ) || true
+    LOOP=$(cat losetup.out | grep ${IMAGE_FILE_NORMALIZED} | cut -d ' ' -f1 | cut -d '/' -f2) || true
     echo $LOOP
     rm -rf *.img
     rm -rf ${ROOTFS}
