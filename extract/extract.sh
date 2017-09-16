@@ -122,8 +122,12 @@ function cleanup {
     umount ${BOOT} || true
     kpartx -d ${IMAGE_FILE_NORMALIZED} || true
     losetup -l | tee losetup.out
-    LOOP=$(cat losetup.out | grep ${IMAGE_FILE_NORMALIZED} | cut -d ' ' -f1 | cut -d '/' -f2) || true
-    echo $LOOP
+    LOOP=$(cat losetup.out | grep ${IMAGE_FILE_NORMALIZED} | cut -d ' ' -f1 | cut -d '/' -f3) || true
+    if [[ $LOOP != "" ]]; then
+         dmsetup remove /dev/mapper/$LOOPp1 | true
+         dmsetup remove /dev/mapper/$LOOPp2 | true
+         losetup -d $LOOP | true
+    fi
     rm -rf *.img
     rm -rf ${ROOTFS}
 }
