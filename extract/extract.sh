@@ -233,7 +233,7 @@ else
        
         if [ -f ${BOOT}/boot/boot.scr ]; then
             cat ${BOOT}/boot/boot.scr
-            sed -i 's#rootdev=.*#rootdev=/dev/mmcblk0p2 #g' ${BOOT}/boot/boot.scr
+            sed -i 's#setenv rootdev .*#setenv rootdev "/dev/mmcblk0p2"#g' ${BOOT}/boot/boot.scr
             cat ${BOOT}/boot/boot.scr
         fi
 
