@@ -126,7 +126,8 @@ function cleanup {
     if [[ ${LOOP} != "" ]]; then
          dmsetup remove /dev/mapper/${LOOP}p1 | true
          dmsetup remove /dev/mapper/${LOOP}p2 | true
-         losetup -d ${LOOP} | true
+         losetup -d /dev/${LOOP} | true
+         losetup
     fi
     rm -rf *.img
     rm -rf ${ROOTFS}
