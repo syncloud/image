@@ -249,20 +249,17 @@ else
         
         sync
         umount /dev/mapper/${LOOP}p1
-        
-        #lsof | grep ${LOOP}p1
-        #lsof | grep ${BOOT}
-        
+
         set +e
         fsck -fy /dev/mapper/${LOOP}p1
         set -e
-        
-        resize2fs /dev/mapper/${LOOP}p1 200M
+        BOOT_SIZE_MB=100
+        resize2fs /dev/mapper/${LOOP}p1 ${BOOT_SIZE_MB}M
         pwd
         ls -la
         BOOT_PARTITION_START_SECTOR=$(parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f2 | cut -d 's' -f1)
-        BOOT_SIZE=$((100*1024*2))
-        BOOT_PARTITION_END_SECTOR=$(($BOOT_PARTITION_START_SECTOR+$BOOT_SIZE))
+        BOOT_SIZE_SECTORS=$((${BOOT_SIZE_MB}*1024*2))
+        BOOT_PARTITION_END_SECTOR=$(($BOOT_PARTITION_START_SECTOR+$BOOT_SIZE_SECTORS))
         kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
 
 echo "
@@ -282,6 +279,8 @@ w
 q
 " | fdisk ${IMAGE_FILE}
 
+        fdisk -lu ${IMAGE_FILE}
+        parted -sm ${IMAGE_FILE}
     else
 
         boot_ini=${BOOT}/boot.ini
@@ -303,6 +302,7 @@ q
         parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | tee parted.out
         BOOT_PARTITION_END_SECTOR=$( cat parted.out | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
         kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
+
     fi
 
 #    rm -rf ${OUTPUT}-boot.tar.gz
