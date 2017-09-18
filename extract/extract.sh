@@ -64,7 +64,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   #IMAGE_FILE="Cubian-nano+headless-x1-a20-cubietruck.img"
 #  IMAGE_FILE="Armbian_5.31_Cubietruck_Ubuntu_xenial_default_3.4.113_desktop.img"
-  IMAGE_FILE="Armbian_5.31_Cubietruck_Debian_jessie_next_4.11.5.img.7z"
+  IMAGE_FILE="Armbian_5.31_Cubietruck_Debian_jessie_next_4.11.5.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
   #DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/Cubian-nano%2Bheadless-x1-a20-cubietruck.img.7z -O $IMAGE_FILE_ZIP"
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
