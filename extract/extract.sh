@@ -237,13 +237,13 @@ else
             cat ${BOOT}/boot/armbianEnv.txt
         fi
 
-        if [ -f ${BOOT}/boot/boot.cmd ]; then
-            cat ${BOOT}/boot/boot.cmd
-            sed -i 's#setenv rootdev .*#setenv rootdev "/dev/mmcblk0p2"#g' ${BOOT}/boot/boot.cmd
-            cat ${BOOT}/boot/boot.cmd
-            mkimage -C none -A arm -T script -d ${BOOT}/boot/boot.cmd ${BOOT}/boot/boot.scr
-            cat ${BOOT}/boot/boot.scr
-        fi
+        #if [ -f ${BOOT}/boot/boot.cmd ]; then
+        #    cat ${BOOT}/boot/boot.cmd
+        #    sed -i 's#setenv rootdev .*#setenv rootdev "/dev/mmcblk0p2"#g' ${BOOT}/boot/boot.cmd
+        #    cat ${BOOT}/boot/boot.cmd
+        #    mkimage -C none -A arm -T script -d ${BOOT}/boot/boot.cmd ${BOOT}/boot/boot.scr
+        #    cat ${BOOT}/boot/boot.scr
+        #fi
 
         extract_root ${BOOT} ${OUTPUT}/root
 
