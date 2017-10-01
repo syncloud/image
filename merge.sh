@@ -147,8 +147,10 @@ echo ${SYNCLOUD_BOARD} > ${DST_ROOTFS}/etc/hostname
 echo "127.0.0.1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
 echo "::1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
 
-echo "setting channel"
-echo "${CHANNEL}" > ${DST_ROOTFS}/opt/syncloud/release
+if [ ${INSTALLER} == "sam" ]; then
+    echo "setting channel"
+    echo "${CHANNEL}" > ${DST_ROOTFS}/opt/syncloud/release
+fi
 
 sync
 
