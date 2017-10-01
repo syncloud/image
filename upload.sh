@@ -7,7 +7,7 @@ file=$2
 branch=${DRONE_BRANCH}
 bucket=image.syncloud.org
 
-if [ "${branch}" == "master" ] || [ "${branch}" == "stable" ] ; then
+if [ "${branch}" == "stable" ] ; then
   
   s3cmd put ${file} s3://${bucket}/$release/$file
 
