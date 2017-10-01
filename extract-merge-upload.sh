@@ -12,11 +12,9 @@ INSTALLER=$3
 ARCH=$4
 
 IMAGE=syncloud-${BOARD}-${RELEASE}-${INSTALLER}.img.xz
-
-if [ "${DRONE_BRANCH}" == "stable" ] ; then 
+CHANNEL=rc
+if [ "${DRONE_BRANCH}" == "stable" ]; then 
     CHANNEL=stable
-else
-    CHANNEL=rc
 fi
 
 ./extract/extract.sh ${BOARD} ${INSTALLER}
