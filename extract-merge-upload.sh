@@ -13,9 +13,16 @@ ARCH=$4
 
 IMAGE=syncloud-${BOARD}-${RELEASE}-${INSTALLER}.img.xz
 
+if [ "${DRONE_BRANCH}" == "stable" ] ; then 
+    CHANNEL=stable
+else
+    CHANNEL=rc
+fi
+
 ./extract/extract.sh ${BOARD} ${INSTALLER}
-./merge.sh ${BOARD} ${ARCH} ${RELEASE} ${INSTALLER}
-./upload.sh ${RELEASE} ${IMAGE}
+./merge.sh ${BOARD} ${ARCH} ${RELEASE} ${INSTALLER} ${CHANNEL}
+./upload.sh ${RELEASE} ${IMAGE} ${CHANNEL}
+
 rm -rf ${IMAGE}
 
 ls -la

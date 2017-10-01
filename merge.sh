@@ -7,8 +7,8 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$#" -ne 4 ]; then
-    echo "Usage: $0 board arch release installer"
+if [ "$#" -ne 5 ]; then
+    echo "Usage: $0 board arch release installer channel"
     exit 1
 fi
 
@@ -16,6 +16,7 @@ SYNCLOUD_BOARD=$1
 ARCH=$2
 RELEASE=$3
 INSTALLER=$4
+CHANNEL=$5
 
 ROOTFS_FILE=syncloud-rootfs-${ARCH}-${INSTALLER}.tar.gz
 echo "==== ${SYNCLOUD_BOARD}, ${ARCH}, ${INSTALLER} ===="
@@ -145,6 +146,9 @@ echo "setting hostname"
 echo ${SYNCLOUD_BOARD} > ${DST_ROOTFS}/etc/hostname
 echo "127.0.0.1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
 echo "::1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
+
+echo "setting channel"
+echo "${CHANNEL}" > ${DST_ROOTFS}/opt/syncloud/release
 
 sync
 
