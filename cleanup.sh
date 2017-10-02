@@ -12,11 +12,13 @@ function loop_cleanup {
     ls -la /dev/mapper/*
     losetup
       
-    loop=$(losetup | grep $file | cut -d' ' -f1 | cut -g'/' -f3)
-    dmsetup remove /dev/mapper/${loop}p1 || true
-    dmsetup remove /dev/mapper/${loop}p2 || true
-    losetup -d /dev/$loop || true
-    
+    loop=$(losetup | grep ${file} | cut -d' ' -f1 | cut -g'/' -f3)
+    if [[ ${loop} == "loop"* ]]; then
+        dmsetup remove /dev/mapper/${loop}p1 || true
+        dmsetup remove /dev/mapper/${loop}p2 || true
+        losetup -d /dev/${loop} || true
+    fi
+
 }
 
 

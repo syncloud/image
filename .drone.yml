@@ -21,6 +21,7 @@ pipeline:
     commands:
       - ./cleanup.sh `cat BASE_IMAGE`
       - ./cleanup.sh `cat IMAGE`
+    privileged: true
     when:
       status: [ failure, success ] 
       
