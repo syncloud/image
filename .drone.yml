@@ -16,7 +16,7 @@ pipeline:
       - ./extract-merge-upload.sh ${board} $RELEASE ${installer} armhf `cat BASE_IMAGE` `cat IMAGE`
     privileged: true
 
-cleanup:
+  cleanup:
     image: syncloud/image-deps-amd64
     commands:
       - ./cleanup.sh `cat BASE_IMAGE`
@@ -36,14 +36,14 @@ cleanup:
      
 matrix:
   board:
-    - raspberrypi3
+#    - raspberrypi3
 #    - raspberrypi2
 #    - odroid-xu3and4
 #    - odroid-c2
 #    - cubieboard2
 #    - cubieboard
 #    - bananapim3
-#    - bananapim2
+    - bananapim2
 #    - beagleboneblack
 #    - bananapim1
 #    - cubietruck
