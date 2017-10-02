@@ -7,8 +7,8 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$#" -ne 5 ]; then
-    echo "Usage: $0 board arch release installer channel"
+if [ "$#" -ne 6 ]; then
+    echo "Usage: $0 board arch release installer channel image"
     exit 1
 fi
 
@@ -17,6 +17,7 @@ ARCH=$2
 RELEASE=$3
 INSTALLER=$4
 CHANNEL=$5
+SYNCLOUD_IMAGE=$6
 
 ROOTFS_FILE=syncloud-rootfs-${ARCH}-${INSTALLER}.tar.gz
 echo "==== ${SYNCLOUD_BOARD}, ${ARCH}, ${INSTALLER} ===="
@@ -42,7 +43,6 @@ export TMPDIR=/tmp
 export TMP=/tmp
 
 RESIZE_PARTITION_ON_FIRST_BOOT=true
-SYNCLOUD_IMAGE=syncloud-${SYNCLOUD_BOARD}-${RELEASE}-${INSTALLER}.img
 SRC_ROOTFS=rootfs_${SYNCLOUD_BOARD}
 DST_ROOTFS=dst_${SYNCLOUD_BOARD}/root
 

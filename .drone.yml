@@ -11,10 +11,20 @@ pipeline:
     image: syncloud/image-deps-amd64
     commands:
       - RELEASE="17.10"
-      - ./extract-merge-upload.sh ${board} $RELEASE ${installer} armhf
+      - echo "${board}-${installer}-base.img" > BASE_IMAGE
+      - echo "syncloud-${board}-$RELEASE-${installer}.img" > IMAGE
+      - ./extract-merge-upload.sh ${board} $RELEASE ${installer} armhf $(<BASE_IMAGE) $(<IMAGE)
     privileged: true
 
-
+cleanup:
+    image: syncloud/image-deps-amd64
+    commands:
+      - ./cleanup.sh $(<BASE_IMAGE)
+      - ./cleanup.sh $(<IMAGE)
+    when:
+      status: [ failure, success ] 
+      
+      
 #  image_vbox:
 #    image: syncloud/image-deps-${arch}
 #    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
@@ -27,16 +37,16 @@ pipeline:
 matrix:
   board:
     - raspberrypi3
-    - raspberrypi2
-    - odroid-xu3and4
-    - odroid-c2
-    - cubieboard2
-    - cubieboard
-    - bananapim3
-    - bananapim2
-    - beagleboneblack
-    - bananapim1
-    - cubietruck
+#    - raspberrypi2
+#    - odroid-xu3and4
+#    - odroid-c2
+#    - cubieboard2
+#    - cubieboard
+#    - bananapim3
+#    - bananapim2
+#    - beagleboneblack
+#    - bananapim1
+#    - cubietruck
   installer:
     - sam
     - snapd

@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 
-if [ "$#" -ne 4 ]; then
-    echo "Usage: $0 board release installer arch"
+if [ "$#" -ne 6 ]; then
+    echo "Usage: $0 board release installer arch base_image image"
     exit 1
 fi
 
@@ -10,18 +10,20 @@ BOARD=$1
 RELEASE=$2
 INSTALLER=$3
 ARCH=$4
+BASE_IMAGE=$5
+IMAGE=$6
 
-IMAGE=syncloud-${BOARD}-${RELEASE}-${INSTALLER}.img.xz
+
 CHANNEL=rc
 if [ "${DRONE_BRANCH}" == "stable" ]; then 
     CHANNEL=stable
 fi
 
-./extract/extract.sh ${BOARD} ${INSTALLER}
-./merge.sh ${BOARD} ${ARCH} ${RELEASE} ${INSTALLER} ${CHANNEL}
-./upload.sh ${RELEASE} ${IMAGE} ${CHANNEL}
+./extract/extract.sh ${BOARD} ${INSTALLER} ${BASE_IMAGE}
+./merge.sh ${BOARD} ${ARCH} ${RELEASE} ${INSTALLER} ${CHANNEL} ${IMAGE}
+./upload.sh ${RELEASE} ${IMAGE}.xz ${CHANNEL}
 
-rm -rf ${IMAGE}
+rm -rf ${IMAGE}.xz
 
 ls -la
 df -h
