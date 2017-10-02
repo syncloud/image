@@ -13,14 +13,14 @@ pipeline:
       - RELEASE="17.10"
       - echo "${board}-${installer}-base.img" > BASE_IMAGE
       - echo "syncloud-${board}-$RELEASE-${installer}.img" > IMAGE
-      - ./extract-merge-upload.sh ${board} $RELEASE ${installer} armhf $(<BASE_IMAGE) $(<IMAGE)
+      - ./extract-merge-upload.sh ${board} $RELEASE ${installer} armhf `cat BASE_IMAGE` `cat IMAGE`
     privileged: true
 
 cleanup:
     image: syncloud/image-deps-amd64
     commands:
-      - ./cleanup.sh $(<BASE_IMAGE)
-      - ./cleanup.sh $(<IMAGE)
+      - ./cleanup.sh `cat BASE_IMAGE`
+      - ./cleanup.sh `cat IMAGE`
     when:
       status: [ failure, success ] 
       
