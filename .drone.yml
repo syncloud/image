@@ -8,7 +8,7 @@ clone:
 pipeline:
   image:
     secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
-    image: syncloud/image-deps-amd64
+    image: syncloud/build-deps-amd64
     commands:
       - RELEASE="17.10"
       - echo "${board}-${installer}-base.img" > BASE_IMAGE
@@ -17,7 +17,7 @@ pipeline:
     privileged: true
 
   cleanup:
-    image: syncloud/image-deps-amd64
+    image: syncloud/build-deps-amd64
     commands:
       - ./cleanup.sh `cat BASE_IMAGE`
       - ./cleanup.sh `cat IMAGE`
@@ -27,7 +27,7 @@ pipeline:
       
       
 #  image_vbox:
-#    image: syncloud/image-deps-${arch}
+#    image: syncloud/build-deps-${arch}
 #    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
 #    commands:
 #      - RELEASE=$(cat release)
