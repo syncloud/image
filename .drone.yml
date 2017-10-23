@@ -2,7 +2,7 @@ platform: linux/amd64
 
 clone:
   git:
-    image: syncloud/drone-git-amd64
+    image: plugins/git:linux-amd64
     depth: 50
 
 pipeline:
