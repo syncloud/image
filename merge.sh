@@ -125,7 +125,7 @@ if [ -f "${UUID_FILE}" ]; then
     
     set +e
     tune2fs /dev/mapper/${LOOP}p2 -U $UUID
-    if [ "$?" != 0 ];
+    if [ "$?" != 0 ]; then
         sleep 5
         echo "retrying"
         tune2fs /dev/mapper/${LOOP}p2 -U $UUID
