@@ -5,6 +5,12 @@ if [ "$#" -ne 6 ]; then
     exit 1
 fi
 
+FREE_SPACE=$(df . | tail -1 | cut -d' ' -f12)
+MIN_FREE_SPACE=5000000
+if [ "$FREE_SPACE" -lt $MIN_FREE_SPACE ]; then
+    echo "less then $MIN_FREE_SPACE left $FREE_SPACE"
+    exit 1
+fi
 
 BOARD=$1
 RELEASE=$2
