@@ -117,11 +117,20 @@ ls -la /dev/mapper/*
 
 mkfs.ext4 /dev/mapper/${LOOP}p2
 sync
+
 UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
 if [ -f "${UUID_FILE}" ]; then
     UUID=$(<${UUID_FILE})
     echo "setting uuid: $UUID"
+    
+    set +e
     tune2fs /dev/mapper/${LOOP}p2 -U $UUID
+    if [ "$?" != 0 ];
+        sleep 5
+        echo "retrying"
+        tune2fs /dev/mapper/${LOOP}p2 -U $UUID
+    fi
+    set -e
 fi
 
 mount /dev/mapper/${LOOP}p2 ${DST_ROOTFS}
