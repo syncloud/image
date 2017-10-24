@@ -116,6 +116,7 @@ mkdir -p ${DST_ROOTFS}
 ls -la /dev/mapper/*
 
 mkfs.ext4 /dev/mapper/${LOOP}p2
+sync
 UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
 if [ -f "${UUID_FILE}" ]; then
     UUID=$(<${UUID_FILE})
