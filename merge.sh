@@ -22,6 +22,12 @@ SYNCLOUD_IMAGE=$6
 ROOTFS_FILE=syncloud-rootfs-${ARCH}-${INSTALLER}.tar.gz
 echo "==== ${SYNCLOUD_BOARD}, ${ARCH}, ${INSTALLER} ===="
 
+FREE_SPACE=$(df . | tail -1 | cut -d' ' -f12)
+MIN_FREE_SPACE=5000000
+if [ "$FREE_SPACE" -lt $MIN_FREE_SPACE ];
+    echo "less then $MIN_FREE_SPACE left $FREE_SPACE"
+    exit 1
+fi
 if [ ! -f $ROOTFS_FILE ]; then
     wget http://artifact.syncloud.org/image/${ROOTFS_FILE} --progress dot:giga
 else
