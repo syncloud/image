@@ -318,7 +318,17 @@ if [ ${PARTITIONS} == 2 ]; then
     rm -rf ${ROOTFS}
     mkdir -p ${ROOTFS}
     ROOTFS_LOOP=${LOOP}p2
+    sync
     blkid /dev/mapper/${ROOTFS_LOOP} -s UUID -o value > uuid
+    set +e
+    fsck -fy /dev/mapper/${ROOTFS_LOOP}
+    if [ "$?" != 0 ]; then
+        sleep 5
+        echo "retrying"
+        fsck -fy /dev/mapper/${ROOTFS_LOOP}
+    fi
+    set -e
+
     mount /dev/mapper/${ROOTFS_LOOP} ${ROOTFS}
     mount | grep ${ROOTFS}
 
