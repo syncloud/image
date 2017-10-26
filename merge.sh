@@ -123,7 +123,7 @@ fsck -fy /dev/mapper/${LOOP}p2
 if [ "$?" != 0 ]; then
     sleep 5
     echo "retrying"
-    dmesg | tail 20
+    dmesg | tail -20
     fsck -fy /dev/mapper/${LOOP}p2
     if [ "$?" != 0 ]; then
         exit 1
