@@ -114,6 +114,7 @@ rm -rf dst_${SYNCLOUD_BOARD}
 mkdir -p ${DST_ROOTFS}
 
 ls -la /dev/mapper/*
+sync
 
 mkfs.ext4 /dev/mapper/${LOOP}p2
 sync
