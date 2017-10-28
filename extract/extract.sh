@@ -202,6 +202,7 @@ echo "fixing boot"
 rm -rf ${BOOT}
 mkdir -p ${BOOT}
 kpartx -avs ${IMAGE_FILE} | tee kpartx.out
+sync
 LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
 echo "LOOP: ${LOOP}"
 

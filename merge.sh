@@ -108,6 +108,7 @@ ls -la /dev/mapper/*
 
 kpartx -l ${SYNCLOUD_IMAGE}
 kpartx -avs ${SYNCLOUD_IMAGE} | tee kpartx.out
+sync
 LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
 
 rm -rf dst_${SYNCLOUD_BOARD}
