@@ -50,4 +50,4 @@ matrix:
     - cubietruck
   installer:
     - sam
-    - snapd
+#    - snapd
