@@ -155,7 +155,7 @@ echo "::1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
 
 if [ ${INSTALLER} == "sam" ]; then
     echo "setting channel"
-    echo "${CHANNEL}" > ${DST_ROOTFS}/opt/syncloud/release
+    echo "${CHANNEL}" > ${DST_ROOTFS}/opt/syncloud/status/release
 fi
 
 sync

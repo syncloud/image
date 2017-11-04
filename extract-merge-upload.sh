@@ -21,7 +21,6 @@ ARCH=$4
 BASE_IMAGE=$5
 IMAGE=$6
 
-
 CHANNEL=rc
 if [ "${DRONE_BRANCH}" == "stable" ]; then 
     CHANNEL=stable
