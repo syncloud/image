@@ -1,5 +1,7 @@
 #!/bin/bash -xe
 
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
 if [ "$#" -ne 6 ]; then
     echo "Usage: $0 board release installer arch base_image image"
     exit 1
@@ -25,9 +27,32 @@ if [ "${DRONE_BRANCH}" == "stable" ]; then
     CHANNEL=stable
 fi
 
-./extract/extract.sh ${BOARD} ${INSTALLER} ${BASE_IMAGE}
-./merge.sh ${BOARD} ${ARCH} ${RELEASE} ${INSTALLER} ${CHANNEL} ${IMAGE}
-./upload.sh ${RELEASE} ${IMAGE}.xz ${CHANNEL}
+function prepare {
+    tools/extract.sh ${BOARD} ${INSTALLER} ${BASE_IMAGE}
+    tools/merge.sh ${BOARD} ${ARCH} ${RELEASE} ${INSTALLER} ${CHANNEL} ${IMAGE}
+}
+
+attempts=5
+attempt=0
+
+set +e
+prepare
+while test $? -gt 0
+do
+  if [ ${attempt} -gt ${attempts} ]; then
+    exit 1
+  fi
+  dmesg | tail -10
+  sleep 3
+  echo "===================================="
+  echo "retrying building an image: $attempt"
+  echo "===================================="
+  attempt=$((attempt+1))
+  prepare
+done
+set -e
+
+tools/upload.sh ${RELEASE} ${IMAGE}.xz ${CHANNEL}
 
 rm -rf ${IMAGE}.xz
 

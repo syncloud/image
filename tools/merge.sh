@@ -1,30 +1,35 @@
-#!/bin/bash -x
+#!/bin/bash -xe
 
-START_TIME=$(date +"%s")
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
    exit 1
 fi
 
-if [ "$#" -ne 3 ]; then
-    echo "Usage: $0 board debian|raspbian arch"
+if [ "$#" -ne 6 ]; then
+    echo "Usage: $0 board arch release installer channel image"
     exit 1
 fi
 
 SYNCLOUD_BOARD=$1
-DISTRO=$2
-ARCH=$3
-echo "==== ${SYNCLOUD_BOARD}, ${DISTRO}, ${ARCH} ===="
+ARCH=$2
+RELEASE=$3
+INSTALLER=$4
+CHANNEL=$5
+SYNCLOUD_IMAGE=$6
 
-if [ ! -f "rootfs.tar.gz" ]; then
-    wget http://cdimage.ubuntu.com/cdimage/ubuntu-core/vivid/daily-preinstalled/current/vivid-preinstalled-core-armhf.tar.gz\
-  -O rootfs.tar.gz --progress dot:giga
+ROOTFS_FILE=syncloud-rootfs-${ARCH}-${INSTALLER}.tar.gz
+echo "==== ${SYNCLOUD_BOARD}, ${ARCH}, ${INSTALLER} ===="
+
+if [ ! -f $ROOTFS_FILE ]; then
+    wget http://artifact.syncloud.org/image/${ROOTFS_FILE} --progress dot:giga
 else
-    echo "rootfs.tar.gz is here"
+    echo "$ROOTFS_FILE is here"
 fi
 
-BOOT_ZIP=${SYNCLOUD_BOARD}.tar.gz
+BOOT_ZIP_DIR=$DIR/extract
+BOOT_ZIP=${BOOT_ZIP_DIR}/${SYNCLOUD_BOARD}.tar.gz
 if [ ! -f ${BOOT_ZIP} ]; then
   echo "missing ${BOOT_ZIP}"
   exit 1
@@ -38,9 +43,8 @@ export TMPDIR=/tmp
 export TMP=/tmp
 
 RESIZE_PARTITION_ON_FIRST_BOOT=true
-SYNCLOUD_IMAGE=syncloud-ubuntu-core-${SYNCLOUD_BOARD}.img
-SRC_ROOTFS=rootfs
-DST_ROOTFS=dst/root
+SRC_ROOTFS=rootfs_${SYNCLOUD_BOARD}
+DST_ROOTFS=dst_${SYNCLOUD_BOARD}/root
 
 SRC_FILES=files/${SYNCLOUD_BOARD}
 
@@ -48,54 +52,54 @@ function cleanup {
     echo "===== cleanup ====="
 
     ls -la /dev/mapper/*
-    mount | grep ${DST_ROOTFS}
-    mount | grep ${DST_ROOTFS} | awk '{print "umounting "$1; system("umount "$3)}'
-    mount | grep ${DST_ROOTFS}
+    mount | grep ${DST_ROOTFS} || true
+    mount | grep ${DST_ROOTFS} | awk '{print "umounting "$1; system("umount "$3)}' || true
+    mount | grep ${DST_ROOTFS} || true
     rm -rf ${SRC_ROOTFS}
     losetup -a
-    kpartx -v ${SYNCLOUD_IMAGE}
+    kpartx -v ${SYNCLOUD_IMAGE} || true
     echo "removing loop devices"
-    kpartx -d ${SYNCLOUD_IMAGE}
+    kpartx -d ${SYNCLOUD_IMAGE} || true
+    rm -rf ${SYNCLOUD_BOARD}
 }
-
-echo "installing dependencies"
-apt-get -y install dosfstools kpartx p7zip
 
 cleanup
 
 mkdir ${SRC_ROOTFS}
-tar xzf rootfs.tar.gz -C${SRC_ROOTFS}
+tar xzf $ROOTFS_FILE -C${SRC_ROOTFS}
+rm -rf $ROOTFS_FILE
 
 echo "extracting boot"
 rm -rf ${SYNCLOUD_BOARD}
 tar xzf ${BOOT_ZIP}
+ls -la
+rm -rf ${BOOT_ZIP}
 
 echo "copying boot"
 cp ${SYNCLOUD_BOARD}/boot ${SYNCLOUD_IMAGE}
+parted -sm ${SYNCLOUD_IMAGE} print
+
 BOOT_BYTES=$(wc -c "${SYNCLOUD_IMAGE}" | cut -f 1 -d ' ')
 BOOT_SECTORS=$(( ${BOOT_BYTES} / 512 ))
 echo "boot sectors: ${BOOT_SECTORS}"
 
 DD_CHUNK_SIZE_MB=10
-DD_CHUNK_COUNT=200
+DD_CHUNK_COUNT=300
 ROOTFS_SIZE_BYTES=$(( ${DD_CHUNK_SIZE_MB} * 1024 * 1024 * ${DD_CHUNK_COUNT} ))
 echo "appending $(( ${ROOTFS_SIZE_BYTES} / 1024 / 1024 )) MB"
 dd if=/dev/zero bs=${DD_CHUNK_SIZE_MB}M count=${DD_CHUNK_COUNT} >> ${SYNCLOUD_IMAGE}
 ROOTFS_START_SECTOR=$(( ${BOOT_SECTORS} + 1  ))
 ROOTFS_SECTORS=$(( ${ROOTFS_SIZE_BYTES} / 512 ))
 ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 2 ))
-echo "extending defining second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
+parted -sm ${SYNCLOUD_IMAGE} print | tee parted.out
+
+echo "creating defining second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
 echo "
-p
-d
-2
-p
 n
 p
 2
 ${ROOTFS_START_SECTOR}
 ${ROOTFS_END_SECTOR}
-p
 w
 q
 " | fdisk ${SYNCLOUD_IMAGE}
@@ -103,15 +107,22 @@ q
 ls -la /dev/mapper/*
 
 kpartx -l ${SYNCLOUD_IMAGE}
-kpartx -asv ${SYNCLOUD_IMAGE}
+kpartx -avs ${SYNCLOUD_IMAGE} | tee kpartx.out
+sync
+LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
 
-LOOP=$(kpartx -l ${SYNCLOUD_IMAGE} | head -1 | cut -d ' ' -f1 | cut -c1-5)
-rm -rf dst
+rm -rf dst_${SYNCLOUD_BOARD}
 mkdir -p ${DST_ROOTFS}
 
 ls -la /dev/mapper/*
+sync
 
-mkfs.ext4 /dev/mapper/${LOOP}p2
+export MKE2FS_SYNC=2
+mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
+sync
+
+fsck -fy /dev/mapper/${LOOP}p2
+
 UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
 if [ -f "${UUID_FILE}" ]; then
     UUID=$(<${UUID_FILE})
@@ -123,12 +134,15 @@ mount /dev/mapper/${LOOP}p2 ${DST_ROOTFS}
 
 echo "copying rootfs"
 cp -rp ${SRC_ROOTFS}/* ${DST_ROOTFS}/
+rm -rf ${SRC_ROOTFS}
 cp -rp ${SYNCLOUD_BOARD}/root/* ${DST_ROOTFS}/
 
 echo "copying files"
 cp -rp ${SRC_FILES}/* ${DST_ROOTFS}/
 
-mv ${DST_ROOTFS}/etc/fstab.vbox ${DST_ROOTFS}/etc/fstab
+if [ -f ${DST_ROOTFS}/etc/fstab.vbox ]; then
+  mv ${DST_ROOTFS}/etc/fstab.vbox ${DST_ROOTFS}/etc/fstab
+fi
 
 echo "setting resize on boot flag"
 if [ "$RESIZE_PARTITION_ON_FIRST_BOOT" = true ] ; then
@@ -140,6 +154,11 @@ echo ${SYNCLOUD_BOARD} > ${DST_ROOTFS}/etc/hostname
 echo "127.0.0.1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
 echo "::1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
 
+if [ ${INSTALLER} == "sam" ]; then
+    echo "setting channel"
+    echo "${CHANNEL}" > ${DST_ROOTFS}/opt/syncloud/release
+fi
+
 sync
 
 cleanup
@@ -150,11 +169,9 @@ echo "fdisk info:"
 fdisk -l ${SYNCLOUD_IMAGE}
 
 echo "zipping"
-xz -0 ${SYNCLOUD_IMAGE} -k
+pxz -0 ${SYNCLOUD_IMAGE}
 
 ls -la ${SYNCLOUD_IMAGE}.xz
 
-FINISH_TIME=$(date +"%s")
-BUILD_TIME=$(($FINISH_TIME-$START_TIME))
-echo "image: ${SYNCLOUD_IMAGE}"
-echo "Build time: $(($BUILD_TIME / 60)) min"
+ls -la
+df -h
