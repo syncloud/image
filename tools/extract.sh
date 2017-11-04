@@ -106,7 +106,7 @@ fi
 
 PARTED_SECTOR_UNIT=s
 DD_SECTOR_UNIT=b
-OUTPUT=${DIR}/${SYNCLOUD_BOARD}
+OUTPUT=${DIR}/../${SYNCLOUD_BOARD}
 ROOTFS=${DIR}/extract_${SYNCLOUD_BOARD}
 BOOT=${DIR}/boot_${SYNCLOUD_BOARD}
 
@@ -347,7 +347,7 @@ parted -sm ${OUTPUT}/boot print
 cleanup
 rm -rf ${IMAGE_FILE}
 rm -rf ${OUTPUT}.tar.gz
-tar -c --use-compress-program=pigz -f ${OUTPUT}.tar.gz -C ${DIR} ${SYNCLOUD_BOARD}
+tar -c --use-compress-program=pigz -f ${OUTPUT}.tar.gz -C ${DIR}/.. ${SYNCLOUD_BOARD}
 rm -rf ${OUTPUT}
 echo "result: $OUTPUT.tar.gz"
 
