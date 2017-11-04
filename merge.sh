@@ -117,7 +117,8 @@ mkdir -p ${DST_ROOTFS}
 ls -la /dev/mapper/*
 sync
 
-mkfs.ext4 /dev/mapper/${LOOP}p2
+export MKE2FS_SYNC=2
+mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
 sync
 
 set +e
