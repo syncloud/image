@@ -250,7 +250,7 @@ else
         
         sync
         umount /dev/mapper/${LOOP}p1
-        fsck -fy /dev/mapper/${LOOP}p1
+        fsck -fy /dev/mapper/${LOOP}p1 || true
         BOOT_SIZE_MB=200
         resize2fs /dev/mapper/${LOOP}p1 ${BOOT_SIZE_MB}M
         pwd
