@@ -38,16 +38,16 @@ pipeline:
 matrix:
   board:
     - raspberrypi3
-#    - raspberrypi2
-#    - odroid-xu3and4
-#    - odroid-c2
-#    - cubieboard2
-#    - cubieboard
-#    - bananapim3
-#    - bananapim2
-#    - beagleboneblack
-#    - bananapim1
-#    - cubietruck
+    - raspberrypi2
+    - odroid-xu3and4
+    - odroid-c2
+    - cubieboard2
+    - cubieboard
+    - bananapim3
+    - bananapim2
+    - beagleboneblack
+    - bananapim1
+    - cubietruck
   installer:
     - sam
 #    - snapd

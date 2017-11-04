@@ -18,12 +18,15 @@ else
         exit 1
     fi
 
+
+    set +x # do not display ssh key in the log
     echo "$ARTIFACT_SSH_KEY" | base64 --decode > artifact_ssh.key
     chmod 600 artifact_ssh.key
     chmod -R a+r ${file}
 
     scp -r -oStrictHostKeyChecking=no -i artifact_ssh.key ${file} \
         artifact@artifact.syncloud.org:/home/artifact/repo/image/${file}
+    set -x
 
 fi
 
