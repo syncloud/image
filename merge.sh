@@ -117,11 +117,19 @@ mkdir -p ${DST_ROOTFS}
 ls -la /dev/mapper/*
 sync
 
+set +e
 export MKE2FS_SYNC=2
 mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
+if [ "$?" != 0 ]; then
+    sleep 5
+    echo "retrying"
+    dmesg | tail -20
+    mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
+    if [ "$?" != 0 ]; then
+        exit 1
+    fi
 sync
 
-set +e
 fsck -fy /dev/mapper/${LOOP}p2
 if [ "$?" != 0 ]; then
     sleep 5
