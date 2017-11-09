@@ -10,7 +10,7 @@ pipeline:
     secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     image: syncloud/build-deps-amd64
     commands:
-      - RELEASE="17.12"
+      - RELEASE="17.10"
       - echo "${board}-${installer}-base.img" > BASE_IMAGE
       - echo "syncloud-${board}-$RELEASE-${installer}.img" > IMAGE
       - ./extract-merge-upload.sh ${board} $RELEASE ${installer} armhf `cat BASE_IMAGE` `cat IMAGE`
