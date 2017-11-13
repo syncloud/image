@@ -27,14 +27,14 @@ CPU_FREQUENCY_MIN=
 SYNCLOUD_DISTR_URL="http://artifact.syncloud.org/image/base"
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
-  FILE_VERSION=2017-08-16
-  IMAGE_FILE=${FILE_VERSION}-raspbian-stretch.img
+  FILE_VERSION=2016-03-18
+  IMAGE_FILE=${FILE_VERSION}-raspbian-jessie-lite.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-stretch.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
-  FILE_VERSION=2017-08-16
-  IMAGE_FILE=${FILE_VERSION}-raspbian-stretch.img
+  FILE_VERSION=2016-03-18
+  IMAGE_FILE=${FILE_VERSION}-raspbian-jessie-lite.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-stretch.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
