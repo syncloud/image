@@ -41,7 +41,7 @@ elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   IMAGE_FILE=${SYNCLOUD_BOARD}.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/bone-debian-8.2-tester-2gb-armhf-2015-11-12-2gb.img.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/bone-debian-8.7-lxqt-4gb-armhf-2017-03-19-4gb.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   IMAGE_FILE="Cubian-nano+headless-x1-a10.img"
