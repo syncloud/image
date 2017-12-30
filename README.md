@@ -1,40 +1,20 @@
 ## Docker rootfs
 
+````
 docker import syncloud-rootfs-[arch].tar.gz syncloud/rootfs-[arch]
-
-## Build
-
-### Bootstrap
-
-Bootstrap minimal linux root file system
-
-````
-cd bootstrap
-sudo ./bootstrap.sh [flavor]
 ````
 
-### Extract
+## Build an image for a board
 
-It will download and extract bootloader, kernel and kernel modules for supported device images
-with standard two partitions layout
-
-````
-cd extract
-sudo ./extract.sh [board]
-````
-
-#### Root FS
-
-Produce syncloud root file system by installing syncloud onto minimal root file system (bootstrap step)
-
-```
-sudo ./rootfs.sh [distro] [arch] [syncloud app manager version] [release version]
-```
-
-### Merge
-
-Merge syncloud root file system with extracted bootloader for a board
+Get drone cli binary: http://docs.drone.io/cli-installation/
 
 ````
-sudo ./merge.sh [board] [distro]
+sudo DOCKER_API_VERSION=1.24 board=[board] installer=sam /path/to/drone exec
+````
+
+## Useful image scripts
+
+# Write an image do a device (if etcher cli is not available)
+````
+xzcat syncloud-[board]-[release]-[installer].img.xz | dd of=/dev/[device] status=progress bs=4M
 ````
