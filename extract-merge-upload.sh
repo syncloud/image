@@ -2,8 +2,13 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-if [ "$#" -ne 6 ]; then
-    echo "Usage: $0 board release installer arch base_image image"
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
+if [ "$#" -ne 5 ]; then
+    echo "Usage: $0 board installer arch base_image image"
     exit 1
 fi
 
@@ -15,11 +20,10 @@ if [ "$FREE_SPACE" -lt $MIN_FREE_SPACE ]; then
 fi
 
 BOARD=$1
-RELEASE=$2
-INSTALLER=$3
-ARCH=$4
-BASE_IMAGE=$5
-IMAGE=$6
+INSTALLER=$2
+ARCH=$3
+BASE_IMAGE=$4
+IMAGE=$5
 
 CHANNEL=rc
 if [ "${DRONE_BRANCH}" == "stable" ]; then 
@@ -28,7 +32,7 @@ fi
 
 function prepare {
     tools/extract.sh ${BOARD} ${INSTALLER} ${BASE_IMAGE}
-    tools/merge.sh ${BOARD} ${ARCH} ${RELEASE} ${INSTALLER} ${CHANNEL} ${IMAGE}
+    tools/merge.sh ${BOARD} ${ARCH} ${INSTALLER} ${CHANNEL} ${IMAGE}
 }
 
 attempts=5
@@ -51,7 +55,7 @@ do
 done
 set -e
 
-tools/upload.sh ${RELEASE} ${IMAGE}.xz ${CHANNEL}
+tools/upload.sh ${IMAGE}.xz
 
 rm -rf ${IMAGE}.xz
 

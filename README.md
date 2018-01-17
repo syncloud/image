@@ -14,7 +14,17 @@ sudo DOCKER_API_VERSION=1.24 board=[board] installer=sam /path/to/drone exec
 
 ## Useful image scripts
 
-# Write an image do a device (if etcher cli is not available)
+# Write an image to a device (if etcher cli is not available)
 ````
 xzcat syncloud-[board]-[release]-[installer].img.xz | dd of=/dev/[device] status=progress bs=4M
 ````
+
+## Virtual Box image creation is not yet automated (haven't found a way on Scaleway VMs)
+
+Install Virtual Box
+
+````
+sudo DRONE_BRANCH=stable ./extract-merge-upload.sh vbox sam amd64 vbox-base.img syncloud-vbox.img
+unxz syncloud-vbox.img.xz
+sudo -H ./create_vbox_image.sh
+sudo chown $USER. syncloud.vdi

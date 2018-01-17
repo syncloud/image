@@ -2,10 +2,7 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-release=$1
-file=$2
-CHANNEL=$3
-bucket=image.syncloud.org
+FILE=$1
 
 #if [ "${CHANNEL}" == "stable" ] ; then
 #TODO implement github release upload
@@ -19,10 +16,10 @@ fi
 
 echo "$ARTIFACT_SSH_KEY" | base64 --decode > artifact_ssh.key
 chmod 600 artifact_ssh.key
-chmod -R a+r ${file}
+chmod -R a+r ${FILE}
 
-scp -r -oStrictHostKeyChecking=no -i artifact_ssh.key ${file} \
-    artifact@artifact.syncloud.org:/home/artifact/repo/image/${file}
+scp -r -oStrictHostKeyChecking=no -i artifact_ssh.key ${FILE} \
+    artifact@artifact.syncloud.org:/home/artifact/repo/image/${FILE}
 
 set -x
 

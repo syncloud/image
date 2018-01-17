@@ -318,7 +318,7 @@ if [ ${PARTITIONS} == 2 ]; then
     ROOTFS_LOOP=${LOOP}p2
     sync
     blkid /dev/mapper/${ROOTFS_LOOP} -s UUID -o value > uuid
-    fsck -fy /dev/mapper/${ROOTFS_LOOP}
+    fsck -fy /dev/mapper/${ROOTFS_LOOP} || true
     mount /dev/mapper/${ROOTFS_LOOP} ${ROOTFS}
     mount | grep ${ROOTFS}
 

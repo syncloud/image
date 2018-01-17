@@ -7,17 +7,16 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$#" -ne 6 ]; then
-    echo "Usage: $0 board arch release installer channel image"
+if [ "$#" -ne 5 ]; then
+    echo "Usage: $0 board arch installer channel image"
     exit 1
 fi
 
 SYNCLOUD_BOARD=$1
 ARCH=$2
-RELEASE=$3
-INSTALLER=$4
-CHANNEL=$5
-SYNCLOUD_IMAGE=$6
+INSTALLER=$3
+CHANNEL=$4
+SYNCLOUD_IMAGE=$5
 
 ROOTFS_FILE=syncloud-rootfs-${ARCH}-${INSTALLER}.tar.gz
 echo "==== ${SYNCLOUD_BOARD}, ${ARCH}, ${INSTALLER} ===="
