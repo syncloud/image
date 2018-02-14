@@ -37,21 +37,21 @@ pipeline:
      
 matrix:
   board:
-#    - raspberrypi3
-#    - raspberrypi2
-#    - odroid-xu3and4
-#    - odroid-c2
-#    - cubieboard2
-#    - cubieboard
-#    - bananapim3
-#    - bananapim2
+    - raspberrypi3
+    - raspberrypi2
+    - odroid-xu3and4
+    - odroid-c2
+    - cubieboard2
+    - cubieboard
+    - bananapim3
+    - bananapim2
     - beagleboneblack
-#    - bananapim1
-#    - cubietruck
-#    - vbox
+    - bananapim1
+    - cubietruck
+#   - vbox
   installer:
     - sam
-#    - snapd
+    - snapd
   arch:
     - armhf
-#    - amd64
+#   - amd64
