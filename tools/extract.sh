@@ -38,6 +38,12 @@ elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
+elif [[ ${SYNCLOUD_BOARD} == "tinker" ]]; then
+  FILE_VERSION=20171115
+  IMAGE_FILE=${FILE_VERSION}-tinker-board-linaro-stretch-alip-v2.0.4.img
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-${FILE_VERSION}-tinker-board-linaro-stretch-alip-v2.0.4.zip -O $IMAGE_FILE_ZIP"
+  UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   IMAGE_FILE=${SYNCLOUD_BOARD}.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
