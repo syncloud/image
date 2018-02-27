@@ -187,9 +187,18 @@ fdisk -l ${IMAGE_FILE}
 echo "parted info:"
 parted -sm ${IMAGE_FILE} print | tail -n +3
 
+TOTAL_BYTES=$(stat -c %s ${IMAGE_FILE})
+TOTAL_SECTORS=$(($TOTAL_BYTES/512))
+LAST_SECTOR=$(fdisk -o End -l ${IMAGE_FILE}| tail -1)
+SECTORS_MISSING=$(($LAST_SECTOR-$TOTAL_SECTORS+1))
+if [ "${SECTORS_MISSING}" -gt "0" ]; then
+    echo "appending missing bytes"
+    dd if=/dev/zero bs=512 count=${SECTORS_MISSING} >> ${IMAGE_FILE}
+fi
 PARTITIONS=$(parted -sm ${IMAGE_FILE} print | tail -n +3 | wc -l)
 parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | tee parted.out
 BOOT_PARTITION_END_SECTOR=$( cat parted.out | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
+
 rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
 mkdir ${OUTPUT}/root
