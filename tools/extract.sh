@@ -189,7 +189,7 @@ parted -sm ${IMAGE_FILE} print | tail -n +3
 
 TOTAL_BYTES=$(stat -c %s ${IMAGE_FILE})
 TOTAL_SECTORS=$(($TOTAL_BYTES/512))
-LAST_SECTOR=$(fdisk -l ${IMAGE_FILE} | tail -1 | awk '{ print $3 }')
+LAST_SECTOR=$(fdisk -l ${IMAGE_FILE} | grep -v -e '^$' | tail -1 | awk '{ print $3 }')
 SECTORS_MISSING=$(($LAST_SECTOR-$TOTAL_SECTORS+1))
 if [ "${SECTORS_MISSING}" -gt "0" ]; then
     echo "appending missing bytes"
