@@ -25,7 +25,7 @@ pipeline:
     when:
       status: [ failure, success ] 
       
-      
+
 #  image_vbox:
 #    image: syncloud/build-deps-${arch}
 #    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
@@ -34,25 +34,26 @@ pipeline:
 #      - ./extract-merge-upload.sh vbox $RELEASE ${installer} amd64
 #    privileged: true
 
-     
+
 matrix:
   board:
-#    - raspberrypi3
-#    - raspberrypi2
-#    - odroid-xu3and4
-#    - odroid-c2
-#    - cubieboard2
-#    - cubieboard
-#    - bananapim3
-#    - bananapim2
-#    - beagleboneblack
-#    - bananapim1
-#    - cubietruck
+    - raspberrypi3
+    - raspberrypi2
+    - odroid-xu3and4
+    - odroid-c2
+    - cubieboard2
+    - cubieboard
+    - bananapim3
+    - bananapim2
+    - beagleboneblack
+    - bananapim1
+    - cubietruck
     - tinker
+# not able to run VirtualBox on ScaleWay device hosting
 #   - vbox
   installer:
     - sam
-#    - snapd
+    - snapd
   arch:
     - armhf
 #   - amd64
