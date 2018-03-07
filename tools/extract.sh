@@ -73,13 +73,13 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
-  IMAGE_FILE_NAME="ubuntu-16.04.3-4.9-mate-odroid-xu4-20170824.img"
+  IMAGE_FILE_NAME="ubuntu-16.04.3-4.14-minimal-odroid-xu4-20171213.img"
   IMAGE_FILE=${IMAGE_FILE_NAME}
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "odroid-c2" ]]; then
-  IMAGE_FILE="ubuntu64-16.04lts-mate-odroid-c2-20160226.img"
+  IMAGE_FILE="ubuntu64-16.04.3-minimal-odroid-c2-20171005.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/ubuntu64-16.04lts-mate-odroid-c2-20160226.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
@@ -296,18 +296,10 @@ q
         parted -sm ${IMAGE_FILE}
     else
 
-        boot_ini=${BOOT}/boot.ini
-        if [ -f ${boot_ini} ]; then
-            cat ${boot_ini}
-            sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${boot_ini}
-            cat ${boot_ini}
-        fi
-
         cmdline_txt=${BOOT}/cmdline.txt
         if [ -f ${cmdline_txt} ]; then
             cat ${cmdline_txt}
             sed -i 's#init=.* #init=/sbin/init #g' ${cmdline_txt}
-            sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${cmdline_txt}
             cat ${cmdline_txt}
         fi
         
