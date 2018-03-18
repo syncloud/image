@@ -10,7 +10,7 @@ pipeline:
     secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     image: syncloud/build-deps-amd64
     commands:
-      - RELEASE="18.04"
+      - RELEASE="18.03"
       - echo "${board}-${installer}-base.img" > BASE_IMAGE
       - echo "syncloud-${board}-$RELEASE-${installer}.img" > IMAGE
       - ./extract-merge-upload.sh ${board} ${installer} ${arch} `cat BASE_IMAGE` `cat IMAGE`
@@ -25,7 +25,7 @@ pipeline:
     when:
       status: [ failure, success ] 
       
-
+      
 #  image_vbox:
 #    image: syncloud/build-deps-${arch}
 #    secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
@@ -34,7 +34,7 @@ pipeline:
 #      - ./extract-merge-upload.sh vbox $RELEASE ${installer} amd64
 #    privileged: true
 
-
+     
 matrix:
   board:
     - raspberrypi3
@@ -49,7 +49,7 @@ matrix:
     - bananapim1
     - cubietruck
     - tinker
-# not able to run VirtualBox on ScaleWay device hosting
+# not able to run VirtualBox on ScaleWay device hosting 
 #   - vbox
   installer:
     - sam
