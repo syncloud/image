@@ -37,18 +37,19 @@ pipeline:
      
 matrix:
   board:
-    - raspberrypi3
-    - raspberrypi2
-    - odroid-xu3and4
-    - odroid-c2
-    - cubieboard2
-    - cubieboard
-    - bananapim3
-    - bananapim2
-    - beagleboneblack
-    - bananapim1
-    - cubietruck
-    - tinker
+#    - raspberrypi3
+#    - raspberrypi2
+#    - odroid-xu3and4
+#    - odroid-c2
+#    - cubieboard2
+#    - cubieboard
+#    - bananapim3
+#    - bananapim2
+#    - beagleboneblack
+#    - bananapim1
+#    - cubietruck
+#    - tinker
+    - helios4
 # not able to run VirtualBox on ScaleWay device hosting 
 #   - vbox
   installer:

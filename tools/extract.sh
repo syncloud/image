@@ -72,6 +72,12 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
+elif [[ ${SYNCLOUD_BOARD} == "helios4" ]]; then
+  IMAGE_FILE_NAME="Helios4_Debian_Jessie_4.14.20-OMV_3.0.97.img"
+  IMAGE_FILE=${IMAGE_FILE_NAME}
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.xz -O $IMAGE_FILE_ZIP"
+  UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
   IMAGE_FILE_NAME="ubuntu-16.04.3-4.14-minimal-odroid-xu4-20171213.img"
   IMAGE_FILE=${IMAGE_FILE_NAME}
