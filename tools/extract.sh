@@ -33,10 +33,16 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
-  FILE_VERSION=2016-03-18
-  IMAGE_FILE=${FILE_VERSION}-raspbian-jessie-lite.img
+  FILE_VERSION=2018-03-13
+  IMAGE_FILE=${FILE_VERSION}-raspbian-stretch.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-stretch.zip -O $IMAGE_FILE_ZIP"
+  UNZIP="unzip -o"
+elif [[ ${SYNCLOUD_BOARD} == "tinker" ]]; then
+  FILE_VERSION=20171115
+  IMAGE_FILE=${FILE_VERSION}-tinker-board-linaro-stretch-alip-v2.0.4.img
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-tinker-board-linaro-stretch-alip-v2.0.4.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   IMAGE_FILE=${SYNCLOUD_BOARD}.img
@@ -66,14 +72,20 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
+elif [[ ${SYNCLOUD_BOARD} == "helios4" ]]; then
+  IMAGE_FILE_NAME="Helios4_Debian_Jessie_4.14.20-OMV_3.0.97.img"
+  IMAGE_FILE=${IMAGE_FILE_NAME}
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.xz -O $IMAGE_FILE_ZIP"
+  UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
-  IMAGE_FILE_NAME="ubuntu-16.04.3-4.9-mate-odroid-xu4-20170824.img"
+  IMAGE_FILE_NAME="ubuntu-16.04.3-4.14-minimal-odroid-xu4-20171213.img"
   IMAGE_FILE=${IMAGE_FILE_NAME}
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "odroid-c2" ]]; then
-  IMAGE_FILE="ubuntu64-16.04lts-mate-odroid-c2-20160226.img"
+  IMAGE_FILE="ubuntu64-16.04.3-minimal-odroid-c2-20171005.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/ubuntu64-16.04lts-mate-odroid-c2-20160226.img.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
@@ -181,9 +193,18 @@ fdisk -l ${IMAGE_FILE}
 echo "parted info:"
 parted -sm ${IMAGE_FILE} print | tail -n +3
 
+TOTAL_BYTES=$(stat -c %s ${IMAGE_FILE})
+TOTAL_SECTORS=$(($TOTAL_BYTES/512))
+LAST_SECTOR=$(fdisk -l ${IMAGE_FILE} | grep -v -e '^$' | tail -1 | awk '{ print $3 }')
+SECTORS_MISSING=$(($LAST_SECTOR-$TOTAL_SECTORS+1))
+if [ "${SECTORS_MISSING}" -gt "0" ]; then
+    echo "appending missing bytes"
+    dd if=/dev/zero bs=512 count=${SECTORS_MISSING} >> ${IMAGE_FILE}
+fi
 PARTITIONS=$(parted -sm ${IMAGE_FILE} print | tail -n +3 | wc -l)
 parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | tee parted.out
 BOOT_PARTITION_END_SECTOR=$( cat parted.out | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
+
 rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
 mkdir ${OUTPUT}/root
@@ -281,18 +302,10 @@ q
         parted -sm ${IMAGE_FILE}
     else
 
-        boot_ini=${BOOT}/boot.ini
-        if [ -f ${boot_ini} ]; then
-            cat ${boot_ini}
-            sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${boot_ini}
-            cat ${boot_ini}
-        fi
-
         cmdline_txt=${BOOT}/cmdline.txt
         if [ -f ${cmdline_txt} ]; then
             cat ${cmdline_txt}
             sed -i 's#init=.* #init=/sbin/init #g' ${cmdline_txt}
-            sed -i 's#root=.* #root=/dev/mmcblk0p2 #g' ${cmdline_txt}
             cat ${cmdline_txt}
         fi
         
