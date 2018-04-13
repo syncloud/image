@@ -34,9 +34,9 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
   FILE_VERSION=2018-03-13
-  IMAGE_FILE=${FILE_VERSION}-raspbian-stretch.img
+  IMAGE_FILE=${FILE_VERSION}-raspbian-stretch-lite.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-stretch.zip -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-stretch-lite.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "tinker" ]]; then
   FILE_VERSION=20171115
