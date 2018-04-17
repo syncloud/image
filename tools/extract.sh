@@ -305,7 +305,7 @@ q
         cmdline_txt=${BOOT}/cmdline.txt
         if [ -f ${cmdline_txt} ]; then
             cat ${cmdline_txt}
-            echo " " >> ${cmdline_txt}
+            sed -i 's/$/ /' ${cmdline_txt}
             sed -i 's#init=.* #init=/sbin/init #g' ${cmdline_txt}
             cat ${cmdline_txt}
         fi
