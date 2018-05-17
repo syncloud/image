@@ -6,14 +6,13 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$3" == "" ]; then
-    echo "Usage: $0 board installer base_image"
+if [ "$2" == "" ]; then
+    echo "Usage: $0 board base_image"
     exit 1
 fi
 
 SYNCLOUD_BOARD=$1
-INSTALLER=$2
-IMAGE_FILE_NORMALIZED=$3
+IMAGE_FILE_NORMALIZED=$2
 BUILD_DIR=${DIR}/build_${SYNCLOUD_BOARD}
 rm -rf ${BUILD_DIR}
 mkdir ${BUILD_DIR}
