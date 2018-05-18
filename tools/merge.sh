@@ -130,6 +130,10 @@ fi
 
 mount /dev/mapper/${LOOP}p2 ${DST_ROOTFS}
 
+ls -la ${SRC_ROOTFS}
+ls -la ${DST_ROOTFS}
+ls -la ${SYNCLOUD_BOARD}/root/
+
 echo "copying rootfs"
 cp -rp ${SRC_ROOTFS}/* ${DST_ROOTFS}/
 rm -rf ${SRC_ROOTFS}
@@ -149,6 +153,7 @@ fi
 
 echo "setting hostname"
 echo ${SYNCLOUD_BOARD} > ${DST_ROOTFS}/etc/hostname
+cat ${DST_ROOTFS}/etc/hosts
 echo "127.0.0.1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
 echo "::1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
 
