@@ -158,9 +158,11 @@ fi
 
 echo "setting hostname"
 echo ${SYNCLOUD_BOARD} > ${DST_ROOTFS}/etc/hostname
+
 cat ${DST_ROOTFS}/etc/hosts
 echo "127.0.0.1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
 echo "::1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
+grep localhost ${DST_ROOTFS}/etc/hosts
 
 if [ ${INSTALLER} == "sam" ]; then
     echo "setting channel"
