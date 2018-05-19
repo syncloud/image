@@ -65,6 +65,7 @@ cleanup
 
 mkdir ${SRC_ROOTFS}
 tar xzf $ROOTFS_FILE -C${SRC_ROOTFS}
+cat ${SRC_ROOTFS}/etc/hosts
 rm -rf $ROOTFS_FILE
 
 echo "extracting boot"
