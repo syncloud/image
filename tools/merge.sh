@@ -131,11 +131,15 @@ fi
 mount /dev/mapper/${LOOP}p2 ${DST_ROOTFS}
 
 ls -la ${SRC_ROOTFS}
+cat ${SRC_ROOTFS}/etc/hosts
+
 ls -la ${DST_ROOTFS}
 ls -la ${SYNCLOUD_BOARD}/root/
 
 echo "copying rootfs"
 cp -rp ${SRC_ROOTFS}/* ${DST_ROOTFS}/
+cat ${DST_ROOTFS}/etc/hosts
+
 rm -rf ${SRC_ROOTFS}
 cp -rp ${SYNCLOUD_BOARD}/root/* ${DST_ROOTFS}/
 
