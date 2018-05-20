@@ -65,6 +65,7 @@ cleanup
 
 mkdir ${SRC_ROOTFS}
 tar xzf $ROOTFS_FILE -C${SRC_ROOTFS}
+cat ${SRC_ROOTFS}/etc/hosts
 rm -rf $ROOTFS_FILE
 
 echo "extracting boot"
@@ -130,8 +131,16 @@ fi
 
 mount /dev/mapper/${LOOP}p2 ${DST_ROOTFS}
 
+ls -la ${SRC_ROOTFS}
+cat ${SRC_ROOTFS}/etc/hosts
+
+ls -la ${DST_ROOTFS}
+ls -la ${SYNCLOUD_BOARD}/root/
+
 echo "copying rootfs"
 cp -rp ${SRC_ROOTFS}/* ${DST_ROOTFS}/
+cat ${DST_ROOTFS}/etc/hosts
+
 rm -rf ${SRC_ROOTFS}
 cp -rp ${SYNCLOUD_BOARD}/root/* ${DST_ROOTFS}/
 
@@ -149,8 +158,11 @@ fi
 
 echo "setting hostname"
 echo ${SYNCLOUD_BOARD} > ${DST_ROOTFS}/etc/hostname
+
+cat ${DST_ROOTFS}/etc/hosts
 echo "127.0.0.1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
 echo "::1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
+grep localhost ${DST_ROOTFS}/etc/hosts
 
 if [ ${INSTALLER} == "sam" ]; then
     echo "setting channel"

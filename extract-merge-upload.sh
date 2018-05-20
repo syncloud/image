@@ -31,7 +31,7 @@ if [ "${DRONE_BRANCH}" == "stable" ]; then
 fi
 
 function prepare {
-    tools/extract.sh ${BOARD} ${INSTALLER} ${BASE_IMAGE}
+    tools/extract.sh ${BOARD} ${BASE_IMAGE}
     tools/merge.sh ${BOARD} ${ARCH} ${INSTALLER} ${CHANNEL} ${IMAGE}
 }
 
