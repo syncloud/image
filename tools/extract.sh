@@ -72,21 +72,19 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
 elif [[ ${SYNCLOUD_BOARD} == "helios4" ]]; then
-  IMAGE_FILE_NAME="Helios4_Debian_Jessie_4.14.20-OMV_3.0.97.img"
-  IMAGE_FILE=${IMAGE_FILE_NAME}
+  IMAGE_FILE="Helios4_Debian_Jessie_4.14.20-OMV_3.0.97.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
-  IMAGE_FILE_NAME="ubuntu-16.04.3-4.14-minimal-odroid-xu4-20171213.img"
-  IMAGE_FILE=${IMAGE_FILE_NAME}
+  IMAGE_FILE="ubuntu-16.04.3-4.14-minimal-odroid-xu4-20171213.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "odroid-c2" ]]; then
   IMAGE_FILE="ubuntu64-16.04.3-minimal-odroid-c2-20171005.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/ubuntu64-16.04lts-mate-odroid-c2-20160226.img.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
   IMAGE_FILE="M2-raspberry-kernel3.3-LCD.img"
@@ -96,19 +94,17 @@ elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "bananapim1" ]]; then
   IMAGE_FILE="BPI-M1_Debian_V2_beta.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/BPI-M1_Debian_V2_beta.img.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/BPI-${IMAGE_FILE_ZIP} -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "bananapim3" ]]; then
-  IMAGE_FILE_NAME="2016-05-15-debian-8-jessie-lite-bpi-m3-sd-emmc.img"
-  IMAGE_FILE=${IMAGE_FILE_NAME}
+  IMAGE_FILE="2016-05-15-debian-8-jessie-lite-bpi-m3-sd-emmc.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_NAME}.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "vbox" ]]; then
-  IMAGE_FILE_NAME="debian-vbox-8gb.img"
-  IMAGE_FILE=${IMAGE_FILE_NAME}
+  IMAGE_FILE="debian-vbox-8gb.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_NAME.xz -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 else
     echo "board is not supported: ${SYNCLOUD_BOARD}"
