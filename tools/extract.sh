@@ -94,7 +94,7 @@ elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "bananapim1" ]]; then
   IMAGE_FILE="BPI-M1_Debian_V2_beta.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/BPI-${IMAGE_FILE_ZIP} -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP} -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "bananapim3" ]]; then
   IMAGE_FILE="2016-05-15-debian-8-jessie-lite-bpi-m3-sd-emmc.img"
