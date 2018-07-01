@@ -57,5 +57,5 @@ matrix:
     - sam
     - snapd
   arch:
-    - armhf
+    - arm
 #   - amd64
