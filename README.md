@@ -21,10 +21,9 @@ xzcat syncloud-[board]-[release]-[installer].img.xz | dd of=/dev/[device] status
 
 ## Virtual Box image creation is not yet automated (haven't found a way on Scaleway VMs)
 
-Install Virtual Box
+Convert Virtual Box image file to a vdi file
 
 ````
-sudo DRONE_BRANCH=stable ./extract-merge-upload.sh vbox sam amd64 vbox-base.img syncloud-vbox.img
 unxz syncloud-vbox.img.xz
 sudo -H ./create_vbox_image.sh
 sudo chown $USER. syncloud.vdi
