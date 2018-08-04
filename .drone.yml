@@ -10,7 +10,7 @@ pipeline:
     secrets: [ARTIFACT_SSH_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]
     image: syncloud/build-deps-amd64
     commands:
-      - RELEASE="18.07"
+      - RELEASE="18.08"
       - echo "${board}-${installer}-base.img" > BASE_IMAGE
       - echo "syncloud-${board}-$RELEASE-${installer}.img" > IMAGE
       - ./extract-merge-upload.sh ${board} ${installer} ${arch} `cat BASE_IMAGE` `cat IMAGE`
@@ -28,96 +28,96 @@ pipeline:
      
 matrix:
   include:
-#    - board: raspberrypi3
-#      installer: sam
-#      arch: arm
-#    - board: raspberrypi3
-#      installer: snapd
-#      arch: arm
-#
-#    - board: raspberrypi2
-#      installer: sam
-#      arch: arm
-#    - board: raspberrypi2
-#      installer: snapd
-#      arch: arm
-#
-#    - board: odroid-xu3and4
-#      installer: sam
-#      arch: arm
-#    - board: odroid-xu3and4
-#      installer: snapd
-#      arch: arm
-#
-#    - board: odroid-c2
-#      installer: sam
-#      arch: arm
-#    - board: odroid-c2
-#      installer: snapd
-#      arch: arm
-#
-#    - board: cubieboard2
-#      installer: sam
-#      arch: arm
-#    - board: cubieboard2
-#      installer: snapd
-#      arch: arm
-#
-#    - board: cubieboard
-#      installer: sam
-#      arch: arm
-#    - board: cubieboard
-#      installer: snapd
-#      arch: arm
-#
-#    - board: bananapim3
-#      installer: sam
-#      arch: arm
-#    - board: bananapim3
-#      installer: snapd
-#      arch: arm
-#
-#    - board: bananapim2
-#      installer: sam
-#      arch: arm
-#    - board: bananapim2
-#      installer: snapd
-#      arch: arm
-#
-#    - board: beagleboneblack
-#      installer: sam
-#      arch: arm
-#    - board: beagleboneblack
-#      installer: snapd
-#      arch: arm
-#
-#    - board: bananapim1
-#      installer: sam
-#      arch: arm
-#    - board: bananapim1
-#      installer: snapd
-#      arch: arm
-#
-#    - board: cubietruck
-#      installer: sam
-#      arch: arm
-#    - board: cubietruck
-#      installer: snapd
-#      arch: arm
-#
-#    - board: tinker
-#      installer: sam
-#      arch: arm
-#    - board: tinker
-#      installer: snapd
-#      arch: arm
-#
-#    - board: helios4
-#      installer: sam
-#      arch: arm
-#    - board: helios4
-#      installer: snapd
-#      arch: arm
+    - board: raspberrypi3
+      installer: sam
+      arch: arm
+    - board: raspberrypi3
+      installer: snapd
+      arch: arm
+
+    - board: raspberrypi2
+      installer: sam
+      arch: arm
+    - board: raspberrypi2
+      installer: snapd
+      arch: arm
+
+    - board: odroid-xu3and4
+      installer: sam
+      arch: arm
+    - board: odroid-xu3and4
+      installer: snapd
+      arch: arm
+
+    - board: odroid-c2
+      installer: sam
+      arch: arm
+    - board: odroid-c2
+      installer: snapd
+      arch: arm
+
+    - board: cubieboard2
+      installer: sam
+      arch: arm
+    - board: cubieboard2
+      installer: snapd
+      arch: arm
+
+    - board: cubieboard
+      installer: sam
+      arch: arm
+    - board: cubieboard
+      installer: snapd
+      arch: arm
+
+    - board: bananapim3
+      installer: sam
+      arch: arm
+    - board: bananapim3
+      installer: snapd
+      arch: arm
+
+    - board: bananapim2
+      installer: sam
+      arch: arm
+    - board: bananapim2
+      installer: snapd
+      arch: arm
+
+    - board: beagleboneblack
+      installer: sam
+      arch: arm
+    - board: beagleboneblack
+      installer: snapd
+      arch: arm
+
+    - board: bananapim1
+      installer: sam
+      arch: arm
+    - board: bananapim1
+      installer: snapd
+      arch: arm
+
+    - board: cubietruck
+      installer: sam
+      arch: arm
+    - board: cubietruck
+      installer: snapd
+      arch: arm
+
+    - board: tinker
+      installer: sam
+      arch: arm
+    - board: tinker
+      installer: snapd
+      arch: arm
+
+    - board: helios4
+      installer: sam
+      arch: arm
+    - board: helios4
+      installer: snapd
+      arch: arm
 
     - board: vbox
       installer: sam
