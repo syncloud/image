@@ -5,7 +5,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 #apt-get install -y virtualbox sshpass
 
 if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 board vbox_image_file"
+    echo "Usage: $0 vbox_image_file"
     exit 1
 fi
 
