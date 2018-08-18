@@ -7,19 +7,17 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$#" -ne 5 ]; then
-    echo "Usage: $0 board arch installer channel image"
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 board arch image"
     exit 1
 fi
 
 SYNCLOUD_BOARD=$1
 ARCH=$2
-INSTALLER=$3
-CHANNEL=$4
-SYNCLOUD_IMAGE=$5
+SYNCLOUD_IMAGE=$3
 
-ROOTFS_FILE=syncloud-rootfs-${ARCH}-${INSTALLER}.tar.gz
-echo "==== ${SYNCLOUD_BOARD}, ${ARCH}, ${INSTALLER} ===="
+ROOTFS_FILE=syncloud-rootfs-${ARCH}.tar.gz
+echo "==== ${SYNCLOUD_BOARD}, ${ARCH} ===="
 
 if [ ! -f $ROOTFS_FILE ]; then
     wget http://artifact.syncloud.org/image/${ROOTFS_FILE} --progress dot:giga
@@ -163,11 +161,6 @@ cat ${DST_ROOTFS}/etc/hosts
 echo "127.0.0.1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
 echo "::1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
 grep localhost ${DST_ROOTFS}/etc/hosts
-
-if [ ${INSTALLER} == "sam" ]; then
-    echo "setting channel"
-    echo "${CHANNEL}" > ${DST_ROOTFS}/opt/syncloud/status/release
-fi
 
 sync
 
