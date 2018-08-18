@@ -12,3 +12,5 @@ dst
 *tar.gz*
 *.log
 *.pyc
+*.vdi
+*.vdi.xz
