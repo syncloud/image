@@ -25,5 +25,5 @@ Convert Virtual Box image file to a vdi file
 
 ````
 unxz syncloud-vbox.img.xz
-sudo -H ./create_vbox_image.sh
+sudo -H ./create_vbox_image.sh syncloud-vbox.img
 sudo chown $USER. syncloud.vdi
