@@ -72,7 +72,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
 elif [[ ${SYNCLOUD_BOARD} == "helios4" ]]; then
-  IMAGE_FILE="Armbian_5.59_Helios4_Debian_stretch_next_4.14.66.img"
+  IMAGE_FILE="Armbian_5.61_Helios4_Debian_stretch_next_4.14.72"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
