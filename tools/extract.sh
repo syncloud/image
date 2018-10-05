@@ -101,6 +101,11 @@ elif [[ ${SYNCLOUD_BOARD} == "bananapim3" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
+elif [[ ${SYNCLOUD_BOARD} == "rock64" ]]; then
+  IMAGE_FILE="Armbian_5.59_Rock64_Debian_stretch_default_4.4.152_desktop.img"
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
+  UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "vbox" ]]; then
   IMAGE_FILE="debian-vbox-8gb.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
