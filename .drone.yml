@@ -28,9 +28,9 @@ pipeline:
      
 matrix:
   include:
-    - board: helios4
-      arch: arm
     - board: rock64
+      arch: arm
+    - board: helios4
       arch: arm
     - board: raspberrypi3
       arch: arm
