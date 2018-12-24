@@ -102,7 +102,7 @@ elif [[ ${SYNCLOUD_BOARD} == "bananapim3" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "rock64" ]]; then
-  IMAGE_FILE="bionic-minimal-rock64-0.7.8-1061-armhf.img"
+  IMAGE_FILE="NextCloudPi_Rock64_12-01-18.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
