@@ -249,8 +249,8 @@ else
         ls -la ${BOOT}/boot
         if [ -f ${BOOT}/boot/armbianEnv.txt ]; then
             cat ${BOOT}/boot/armbianEnv.txt
-            sed -i 's#rootdev=.*#rootdev=/dev/mmcblk0p2#g' ${BOOT}/boot/armbianEnv.txt
-            cat ${BOOT}/boot/armbianEnv.txt
+            #sed -i 's#rootdev=.*#rootdev=/dev/mmcblk0p2#g' ${BOOT}/boot/armbianEnv.txt
+            #cat ${BOOT}/boot/armbianEnv.txt
         fi
 
         #if [ -f ${BOOT}/boot/boot.cmd ]; then
@@ -260,9 +260,15 @@ else
         #    mkimage -C none -A arm -T script -d ${BOOT}/boot/boot.cmd ${BOOT}/boot/boot.scr
         #    cat ${BOOT}/boot/boot.scr
         #fi
-
+        
+        blkid /dev/mapper/${LOOP}p1 -s UUID -o value > uuid
+       
+        echo "uuid:"
+        cat uuid
+        
         extract_root ${BOOT} ${OUTPUT}/root
-
+        cp uuid ${OUTPUT}/root/uuid
+        
         cd ${BOOT}
         ls -la
         ls | grep -v boot | xargs rm -rf
