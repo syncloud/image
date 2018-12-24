@@ -123,6 +123,13 @@ fsck -fy /dev/mapper/${LOOP}p2
 UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
 if [ -f "${UUID_FILE}" ]; then
     UUID=$(<${UUID_FILE})
+    
+    echo "uuid partition 1:"
+    blkid /dev/mapper/${LOOP}p1 -s UUID -o value
+    echo "uuid partition 2:"
+    blkid /dev/mapper/${LOOP}p2 -s UUID -o value
+   
+       
     echo "setting uuid: $UUID"
     tune2fs /dev/mapper/${LOOP}p2 -U $UUID
 fi
