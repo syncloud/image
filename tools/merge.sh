@@ -129,7 +129,7 @@ if [ -f "${UUID_FILE}" ]; then
     echo "uuid partition 2:"
     blkid /dev/mapper/${LOOP}p2 -s UUID -o value
    
-    tune2fs /dev/mapper/${LOOP}p2 -U clear
+    tune2fs /dev/mapper/${LOOP}p1 -U clear
     
     echo "setting uuid: $UUID"
     tune2fs /dev/mapper/${LOOP}p2 -U $UUID
