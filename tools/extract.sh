@@ -102,7 +102,7 @@ elif [[ ${SYNCLOUD_BOARD} == "bananapim3" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "rock64" ]]; then
-  IMAGE_FILE="NextCloudPi_Rock64_12-01-18.img"
+  IMAGE_FILE="Armbian_5.65_Rock64_Ubuntu_bionic_default_4.4.162.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
@@ -252,6 +252,9 @@ else
             #sed -i 's#rootdev=.*#rootdev=/dev/mmcblk0p2#g' ${BOOT}/boot/armbianEnv.txt
             #cat ${BOOT}/boot/armbianEnv.txt
         fi
+        
+        echo "kernel config"
+        cat ${BOOT}/boot/config-* || true
 
         #if [ -f ${BOOT}/boot/boot.cmd ]; then
         #    cat ${BOOT}/boot/boot.cmd
