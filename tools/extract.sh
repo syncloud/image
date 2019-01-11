@@ -102,7 +102,7 @@ elif [[ ${SYNCLOUD_BOARD} == "bananapim3" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "rock64" ]]; then
-  IMAGE_FILE="Armbian_5.65_Rock64_Ubuntu_bionic_default_4.4.162.img"
+  IMAGE_FILE="Armbian_5.69_Rock64_Debian_stretch_default_4.4.167_desktop.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
