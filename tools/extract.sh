@@ -123,7 +123,7 @@ ROOTFS=${DIR}/extract_${SYNCLOUD_BOARD}
 BOOT=${DIR}/boot_${SYNCLOUD_BOARD}
 
 function cleanup {
-    echo "cleanup"
+    echo "cleanup start"
     umount ${ROOTFS} || true
     umount ${BOOT} || true
     kpartx -d ${IMAGE_FILE_NORMALIZED} || true
@@ -137,6 +137,7 @@ function cleanup {
     fi
     rm -rf *.img
     rm -rf ${ROOTFS}
+    echo "cleanup end"
 }
 
 function extract_root {

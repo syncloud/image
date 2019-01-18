@@ -28,8 +28,8 @@ pipeline:
      
 matrix:
   include:
-    - board: rock64
-      arch: arm
+#    - board: rock64
+#      arch: arm
 #    - board: helios4
 #      arch: arm
 #    - board: raspberrypi3
@@ -48,8 +48,8 @@ matrix:
 #      arch: arm
 #    - board: bananapim2
 #      arch: arm
-#    - board: beagleboneblack
-#      arch: arm
+    - board: beagleboneblack
+      arch: arm
 #    - board: bananapim1
 #      arch: arm
 #    - board: cubietruck
