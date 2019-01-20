@@ -247,6 +247,11 @@ else
             exit 1
         fi
         
+        if [ -f ${BOOT}/bbb-uEnv.txt ]; then
+            cp ${BOOT}/bbb-uEnv.txt ${BOOT}/uEnv.txt
+            sed -i 's#root=/dev/mmcblk0p1#root=/dev/mmcblk0p2#g' ${BOOT}/uEnv.txt
+        fi
+        
         ls -la ${BOOT}/boot
         if [ -f ${BOOT}/boot/armbianEnv.txt ]; then
             cat ${BOOT}/boot/armbianEnv.txt
@@ -275,7 +280,7 @@ else
         
         cd ${BOOT}
         ls -la
-        ls | grep -v boot | xargs rm -rf
+        ls | grep -v boot | grep -v uEnv.txt | xargs rm -rf
         ls -la
         cd ${BUILD_DIR}
         
