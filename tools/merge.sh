@@ -7,7 +7,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$#" -ne 3 ]; then
+if [[ "$#" -ne 3 ]]; then
     echo "Usage: $0 board arch image"
     exit 1
 fi
@@ -19,19 +19,18 @@ SYNCLOUD_IMAGE=$3
 ROOTFS_FILE=rootfs-${ARCH}.tar.gz
 echo "==== ${SYNCLOUD_BOARD}, ${ARCH} ===="
 
-if [ ! -f $ROOTFS_FILE ]; then
+if [[ ! -f ${ROOTFS_FILE} ]]; then
     wget http://artifact.syncloud.org/rootfs/${ROOTFS_FILE} --progress dot:giga
 else
     echo "$ROOTFS_FILE is here"
 fi
 
 BOOT_ZIP=${SYNCLOUD_BOARD}.tar.gz
-if [ ! -f ${BOOT_ZIP} ]; then
+if [[ ! -f ${BOOT_ZIP} ]]; then
   echo "missing ${BOOT_ZIP}"
   exit 1
 fi
 
-#Fix debconf frontend warnings
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export DEBCONF_FRONTEND=noninteractive
 export DEBIAN_FRONTEND=noninteractive
@@ -45,7 +44,7 @@ DST_ROOTFS=dst_${SYNCLOUD_BOARD}/root
 SRC_FILES=files/${SYNCLOUD_BOARD}
 
 function cleanup {
-    echo "=== cleanup ==="
+    echo "==== cleanup ===="
 
     ls -la /dev/mapper/*
     mount | grep ${DST_ROOTFS} || true
@@ -57,15 +56,15 @@ function cleanup {
     echo "removing loop devices"
     kpartx -d ${SYNCLOUD_IMAGE} || true
     rm -rf ${SYNCLOUD_BOARD}
-    echo "=== cleanup end ==="
+    echo "==== cleanup end ===="
 }
 
 cleanup
 
 mkdir ${SRC_ROOTFS}
-tar xzf $ROOTFS_FILE -C${SRC_ROOTFS}
+tar xzf ${ROOTFS_FILE} -C${SRC_ROOTFS}
 cat ${SRC_ROOTFS}/etc/hosts
-rm -rf $ROOTFS_FILE
+rm -rf ${ROOTFS_FILE}
 
 echo "extracting boot"
 rm -rf ${SYNCLOUD_BOARD}
@@ -126,22 +125,22 @@ UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
 function change_uuid {
     DEVICE=$1
     UUID=$2
-    fstype=$(lsblk $DEVICE -o FSTYPE | tail -1)
-    if [[ ${fstype} == "swap" ]]; then
+    FSTYPE=$(lsblk ${DEVICE} -o FSTYPE | tail -1)
+    if [[ ${FSTYPE} == "swap" ]]; then
         echo "not changing swap uuid"
     else
-        blkid $DEVICE -s UUID -o value
-        tune2fs $DEVICE -U $UUID
-        blkid $DEVICE -s UUID -o value
+        blkid ${DEVICE} -s UUID -o value
+        tune2fs ${DEVICE} -U ${UUID}
+        blkid ${DEVICE} -s UUID -o value
     fi
 
 }
 
-if [ -f "${UUID_FILE}" ]; then
+if [[ -f "${UUID_FILE}" ]]; then
     UUID=$(<${UUID_FILE})
     
     change_uuid /dev/mapper/${LOOP}p1 clear
-    change_uuid /dev/mapper/${LOOP}p2 $UUID
+    change_uuid /dev/mapper/${LOOP}p2 ${UUID}
    
 fi
 
@@ -163,13 +162,8 @@ cp -rp ${SYNCLOUD_BOARD}/root/* ${DST_ROOTFS}/
 echo "copying files"
 cp -rp ${SRC_FILES}/* ${DST_ROOTFS}/
 
-if [ -f ${DST_ROOTFS}/etc/fstab.vbox ]; then
+if [[ -f ${DST_ROOTFS}/etc/fstab.vbox ]]; then
   mv ${DST_ROOTFS}/etc/fstab.vbox ${DST_ROOTFS}/etc/fstab
-fi
-
-echo "setting resize on boot flag"
-if [ "$RESIZE_PARTITION_ON_FIRST_BOOT" = true ] ; then
-    touch ${DST_ROOTFS}/var/lib/resize_partition_flag
 fi
 
 echo "setting hostname"
