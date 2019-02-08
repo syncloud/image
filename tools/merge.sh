@@ -45,7 +45,7 @@ DST_ROOTFS=dst_${SYNCLOUD_BOARD}/root
 SRC_FILES=files/${SYNCLOUD_BOARD}
 
 function cleanup {
-    echo "===== cleanup ====="
+    echo "=== cleanup ==="
 
     ls -la /dev/mapper/*
     mount | grep ${DST_ROOTFS} || true
@@ -57,6 +57,7 @@ function cleanup {
     echo "removing loop devices"
     kpartx -d ${SYNCLOUD_IMAGE} || true
     rm -rf ${SYNCLOUD_BOARD}
+    echo "=== cleanup end ==="
 }
 
 cleanup
@@ -121,23 +122,26 @@ sync
 fsck -fy /dev/mapper/${LOOP}p2
 
 UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
+
+function change_uuid {
+    DEVICE=$1
+    UUID=$2
+    fstype=$(lsblk $DEVICE -o FSTYPE | tail -1)
+    if [[ ${fstype} == "swap" ]]; then
+        echo "not changing swap uuid"
+    else
+        blkid $DEVICE -s UUID -o value
+        tune2fs $DEVICE -U $UUID
+        blkid $DEVICE -s UUID -o value
+    fi
+
+}
+
 if [ -f "${UUID_FILE}" ]; then
     UUID=$(<${UUID_FILE})
     
-    echo "uuid partition 1:"
-    blkid /dev/mapper/${LOOP}p1 -s UUID -o value
-    echo "uuid partition 2:"
-    blkid /dev/mapper/${LOOP}p2 -s UUID -o value
-   
-    tune2fs /dev/mapper/${LOOP}p1 -U clear
-    
-    echo "setting uuid: $UUID"
-    tune2fs /dev/mapper/${LOOP}p2 -U $UUID
-    
-    echo "fixed uuid partition 1:"
-    blkid /dev/mapper/${LOOP}p1 -s UUID -o value
-    echo "fixed uuid partition 2:"
-    blkid /dev/mapper/${LOOP}p2 -s UUID -o value
+    change_uuid /dev/mapper/${LOOP}p1 clear
+    change_uuid /dev/mapper/${LOOP}p2 $UUID
    
 fi
 
