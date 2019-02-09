@@ -115,17 +115,20 @@ mkdir -p ${DST_ROOTFS}
 ls -la /dev/mapper/*
 sync
 
+DEVICE_PART_1=/dev/mapper/${LOOP}p1
+DEVICE_PART_2=/dev/mapper/${LOOP}p2
+
 export MKE2FS_SYNC=2
-mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
+mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 $DEVICE_PART_2
 sync
 
-fsck -fy /dev/mapper/${LOOP}p2
+fsck -fy $DEVICE_PART_2
 
 UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
 
 function change_uuid {
-    DEVICE=$1
-    UUID=$2
+    local DEVICE=$1
+    local UUID=$2
     fstype=$(lsblk $DEVICE -o FSTYPE | tail -1)
     if [[ ${fstype} == "swap" ]]; then
         echo "not changing swap uuid"
@@ -140,12 +143,12 @@ function change_uuid {
 if [ -f "${UUID_FILE}" ]; then
     UUID=$(<${UUID_FILE})
     
-    change_uuid /dev/mapper/${LOOP}p1 clear
-    change_uuid /dev/mapper/${LOOP}p2 $UUID
+    change_uuid $DEVICE_PART_1 clear
+    change_uuid $DEVICE_PART_2 $UUID
    
 fi
 
-mount /dev/mapper/${LOOP}p2 ${DST_ROOTFS}
+mount $DEVICE_PART_2 ${DST_ROOTFS}
 
 ls -la ${SRC_ROOTFS}
 cat ${SRC_ROOTFS}/etc/hosts
@@ -165,6 +168,17 @@ cp -rp ${SRC_FILES}/* ${DST_ROOTFS}/
 
 if [ -f ${DST_ROOTFS}/etc/fstab.vbox ]; then
   mv ${DST_ROOTFS}/etc/fstab.vbox ${DST_ROOTFS}/etc/fstab
+  
+  cat ${DST_ROOTFS}/etc/fstab
+
+  DEVICE_PART_1_UUID=$(blkid $DEVICE_PART_1 -s UUID -o value)
+  sed -i 's#/dev/sda1#UUID=${DEVICE_PART_1_UUID}#g' ${DST_ROOTFS}/etc/fstab
+
+  DEVICE_PART_2_UUID=$(blkid $DEVICE_PART_2 -s UUID -o value)
+  sed -i 's#/dev/sda2#UUID=${DEVICE_PART_2_UUID}#g' ${DST_ROOTFS}/etc/fstab
+
+  cat ${DST_ROOTFS}/etc/fstab
+
 fi
 
 echo "setting resize on boot flag"
