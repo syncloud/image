@@ -172,10 +172,10 @@ if [[ -f ${DST_ROOTFS}/etc/fstab.vbox ]]; then
   cat ${DST_ROOTFS}/etc/fstab
 
   DEVICE_PART_1_UUID=$(blkid $DEVICE_PART_1 -s UUID -o value)
-  sed -i 's#/dev/sda1#UUID=${DEVICE_PART_1_UUID}#g' ${DST_ROOTFS}/etc/fstab
+  sed -i 's#/dev/sda1#UUID='${DEVICE_PART_1_UUID}'#g' ${DST_ROOTFS}/etc/fstab
 
   DEVICE_PART_2_UUID=$(blkid $DEVICE_PART_2 -s UUID -o value)
-  sed -i 's#/dev/sda2#UUID=${DEVICE_PART_2_UUID}#g' ${DST_ROOTFS}/etc/fstab
+  sed -i 's#/dev/sda2#UUID='${DEVICE_PART_2_UUID}'#g' ${DST_ROOTFS}/etc/fstab
 
   cat ${DST_ROOTFS}/etc/fstab
 
