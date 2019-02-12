@@ -130,12 +130,12 @@ function change_uuid {
     local DEVICE=$1
     local UUID=$2
     FSTYPE=$(lsblk ${DEVICE} -o FSTYPE | tail -1)
-    if [[ ${FSTYPE} == "swap" ]]; then
-        echo "not changing swap uuid"
-    else
+    if [[ ${FSTYPE} == "ext"* ]]; then
         blkid ${DEVICE} -s UUID -o value
         tune2fs ${DEVICE} -U ${UUID}
         blkid ${DEVICE} -s UUID -o value
+    else
+        echo "not changing non ext fs uuid"
     fi
 
 }
