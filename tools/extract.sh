@@ -86,6 +86,11 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-c2" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
+elif [[ ${SYNCLOUD_BOARD} == "odroid-u3" ]]; then
+  IMAGE_FILE="arkos-od2-20140718.img"
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
+  UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
   IMAGE_FILE="M2-raspberry-kernel3.3-LCD.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
