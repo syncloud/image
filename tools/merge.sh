@@ -37,7 +37,6 @@ export DEBIAN_FRONTEND=noninteractive
 export TMPDIR=/tmp
 export TMP=/tmp
 
-RESIZE_PARTITION_ON_FIRST_BOOT=true
 SRC_ROOTFS=rootfs_${SYNCLOUD_BOARD}
 DST_ROOTFS=dst_${SYNCLOUD_BOARD}/root
 
@@ -118,10 +117,10 @@ DEVICE_PART_1=/dev/mapper/${LOOP}p1
 DEVICE_PART_2=/dev/mapper/${LOOP}p2
 
 export MKE2FS_SYNC=2
-mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 $DEVICE_PART_2
+mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 ${DEVICE_PART_2}
 sync
 
-fsck -fy $DEVICE_PART_2
+fsck -fy ${DEVICE_PART_2}
 
 UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
 
@@ -143,12 +142,12 @@ function change_uuid {
 if [[ -f "${UUID_FILE}" ]]; then
     UUID=$(<${UUID_FILE})
     
-    change_uuid $DEVICE_PART_1 clear
-    change_uuid $DEVICE_PART_2 ${UUID}
+    change_uuid ${DEVICE_PART_1} clear
+    change_uuid ${DEVICE_PART_2} ${UUID}
    
 fi
 
-mount $DEVICE_PART_2 ${DST_ROOTFS}
+mount ${DEVICE_PART_2} ${DST_ROOTFS}
 
 ls -la ${SRC_ROOTFS}
 cat ${SRC_ROOTFS}/etc/hosts
@@ -171,19 +170,14 @@ if [[ -f ${DST_ROOTFS}/etc/fstab.vbox ]]; then
 
   cat ${DST_ROOTFS}/etc/fstab
 
-  DEVICE_PART_1_UUID=$(blkid $DEVICE_PART_1 -s UUID -o value)
+  DEVICE_PART_1_UUID=$(blkid ${DEVICE_PART_1} -s UUID -o value)
   sed -i 's#/dev/sda1#UUID='${DEVICE_PART_1_UUID}'#g' ${DST_ROOTFS}/etc/fstab
 
-  DEVICE_PART_2_UUID=$(blkid $DEVICE_PART_2 -s UUID -o value)
+  DEVICE_PART_2_UUID=$(blkid ${DEVICE_PART_2} -s UUID -o value)
   sed -i 's#/dev/sda2#UUID='${DEVICE_PART_2_UUID}'#g' ${DST_ROOTFS}/etc/fstab
 
   cat ${DST_ROOTFS}/etc/fstab
 
-fi
-
-echo "setting resize on boot flag"
-if [ "$RESIZE_PARTITION_ON_FIRST_BOOT" = true ] ; then
-    touch ${DST_ROOTFS}/var/lib/resize_partition_flag
 fi
 
 echo "setting hostname"
