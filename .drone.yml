@@ -40,8 +40,8 @@ matrix:
 #      arch: arm
 #    - board: odroid-c2
 #      arch: arm
-    - board: odroid-u3
-      arch: arm
+#    - board: odroid-u3
+#      arch: arm
 #    - board: cubieboard2
 #      arch: arm
 #    - board: cubieboard
@@ -58,5 +58,5 @@ matrix:
 #      arch: arm
 #    - board: tinker
 #      arch: arm
-#    - board: amd64
-#      arch: amd64
+    - board: amd64
+      arch: amd64
