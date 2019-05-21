@@ -58,5 +58,7 @@ matrix:
 #      arch: arm
 #    - board: tinker
 #      arch: arm
-    - board: amd64
-      arch: amd64
+    - board: odroid-n2
+      arch: arm
+#    - board: amd64
+#      arch: amd64

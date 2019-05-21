@@ -111,6 +111,11 @@ elif [[ ${SYNCLOUD_BOARD} == "rock64" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
   UNZIP=unxz
+elif [[ ${SYNCLOUD_BOARD} == "odroid-n2" ]]; then
+  IMAGE_FILE="ubuntu-18.04.2-4.9-minimal-odroid-n2-20190329.img"
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
+  UNZIP=unxz
 elif [[ ${SYNCLOUD_BOARD} == "amd64" ]]; then
   IMAGE_FILE="debian-amd64-8gb.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
