@@ -28,37 +28,37 @@ pipeline:
      
 matrix:
   include:
-    - board: rock64
-      arch: arm
-    - board: helios4
-      arch: arm
-    - board: raspberrypi3
-      arch: arm
-    - board: raspberrypi2
-      arch: arm
-    - board: odroid-xu3and4
-      arch: arm
-    - board: odroid-c2
-      arch: arm
-    - board: odroid-u3
-      arch: arm
-    - board: cubieboard2
-      arch: arm
-    - board: cubieboard
-      arch: arm
-    - board: bananapim3
-      arch: arm
-    - board: bananapim2
-      arch: arm
-    - board: beagleboneblack
-      arch: arm
-    - board: bananapim1
-      arch: arm
-    - board: cubietruck
-      arch: arm
+#    - board: rock64
+#      arch: arm
+#    - board: helios4
+#      arch: arm
+#    - board: raspberrypi3
+#      arch: arm
+#    - board: raspberrypi2
+#      arch: arm
+#    - board: odroid-xu3and4
+#      arch: arm
+#    - board: odroid-c2
+#      arch: arm
+#    - board: odroid-u3
+#      arch: arm
+#    - board: cubieboard2
+#      arch: arm
+#    - board: cubieboard
+#      arch: arm
+#    - board: bananapim3
+#      arch: arm
+#    - board: bananapim2
+#      arch: arm
+#    - board: beagleboneblack
+#      arch: arm
+#    - board: bananapim1
+#      arch: arm
+#   - board: cubietruck
+#      arch: arm
     - board: tinker
       arch: arm
-    - board: odroid-n2
-      arch: arm
-    - board: amd64
-      arch: amd64
+#    - board: odroid-n2
+#      arch: arm
+#    - board: amd64
+#      arch: amd64
