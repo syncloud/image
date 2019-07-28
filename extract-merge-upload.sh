@@ -7,14 +7,14 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$#" -ne 4 ]; then
+if [[ "$#" -ne 4 ]]; then
     echo "Usage: $0 board arch base_image image"
     exit 1
 fi
 
 FREE_SPACE=$(df . | tail -1 | awk '{print $4}')
 MIN_FREE_SPACE=5000000
-if [ "$FREE_SPACE" -lt ${MIN_FREE_SPACE} ]; then
+if [[ "$FREE_SPACE" -lt ${MIN_FREE_SPACE} ]]; then
     echo "less then $MIN_FREE_SPACE left $FREE_SPACE"
     exit 1
 fi
@@ -36,7 +36,7 @@ set +e
 prepare
 while test $? -gt 0
 do
-  if [ ${attempt} -gt ${attempts} ]; then
+  if [[ ${attempt} -gt ${attempts} ]]; then
     exit 1
   fi
   dmesg | tail -10

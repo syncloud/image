@@ -24,6 +24,6 @@ xzcat syncloud-[board]-[release]-[installer].img.xz | dd of=/dev/[device] status
 Convert Virtual Box image file to a vdi file
 
 ````
-unxz syncloud-vbox.img.xz
-sudo -H ./create_vbox_image.sh syncloud-vbox.img
-sudo chown $USER. syncloud.vdi
+unxz syncloud-amd64.img.xz
+sudo -H ./create_vbox_image.sh syncloud-amd64.img
+sudo chown $USER. syncloud-amd64.vdi
