@@ -25,7 +25,7 @@ local build(board, arch) = {
             "RELEASE=19.08",
             "echo " + board + "-base.img > BASE_IMAGE",
             "echo syncloud-" + board + "-$RELEASE.img > IMAGE",
-            "./extract-merge-upload.sh " + board + " " + arch + " %(cat BASE_IMAGE) $(cat IMAGE)"
+            "./extract-merge-upload.sh " + board + " " + arch + " $(cat BASE_IMAGE) $(cat IMAGE)"
         ],
         privileged: true
     },
