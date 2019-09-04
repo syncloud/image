@@ -7,7 +7,7 @@ So to support new board you need to:
 1. Find a good base image
 2. Upload to our artifacts server (artifact.syncloud.org) (for testing you point extractor script at any location)
 3. Modify [extractor script](https://github.com/syncloud/image/blob/master/tools/extract.sh) to give it a name.
-4. Add an identification file to [files[(https://github.com/syncloud/image/tree/master/files)
+4. Add an identification file to [files](https://github.com/syncloud/image/tree/master/files)
 5. Modify [build script](https://github.com/syncloud/image/blob/master/.drone.jsonnet) to include the new image name.
 6. Generate runtime build script with [drone cli](https://docs.drone.io/cli/install/) jsonnet plugin command:
 ````
