@@ -14,7 +14,7 @@ sudo DOCKER_API_VERSION=1.24 board=[board] installer=sam /path/to/drone exec
 
 ## Useful image scripts
 
-# Write an image to a device (if etcher cli is not available)
+### Write an image to a device (if etcher cli is not available)
 ````
 xzcat syncloud-[board]-[release]-[installer].img.xz | dd of=/dev/[device] status=progress bs=4M
 ````
