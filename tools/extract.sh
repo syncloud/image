@@ -221,7 +221,7 @@ if [ "${SECTORS_MISSING}" -gt "0" ]; then
     echo "appending missing bytes"
     dd if=/dev/zero bs=512 count=${SECTORS_MISSING} >> ${IMAGE_FILE}
 fi
-PARTITIONS=$(parted -sm ${IMAGE_FILE} print | tail -n +3 | wc -l)
+PARTITIONS=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +1 | wc -l)
 parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | tee parted.out
 BOOT_PARTITION_END_SECTOR=$( cat parted.out | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
 
