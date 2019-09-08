@@ -130,7 +130,7 @@ else
     exit 1
 fi
 
-PARTED_SECTOR_UNIT=s
+
 DD_SECTOR_UNIT=b
 OUTPUT=${DIR}/../${SYNCLOUD_BOARD}
 ROOTFS=${DIR}/extract_${SYNCLOUD_BOARD}
@@ -210,9 +210,6 @@ fi
 echo "fdisk info:"
 fdisk -l ${IMAGE_FILE}
 
-echo "parted info:"
-parted -sm ${IMAGE_FILE} print | tail -n +3
-
 TOTAL_BYTES=$(stat -c %s ${IMAGE_FILE})
 TOTAL_SECTORS=$(($TOTAL_BYTES/512))
 LAST_SECTOR=$(fdisk -l ${IMAGE_FILE} | grep -v -e '^$' | tail -1 | awk '{ print $3 }')
@@ -222,9 +219,8 @@ if [ "${SECTORS_MISSING}" -gt "0" ]; then
     dd if=/dev/zero bs=512 count=${SECTORS_MISSING} >> ${IMAGE_FILE}
 fi
 PARTITIONS=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +2 | wc -l)
-parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | tee parted.out
-BOOT_PARTITION_END_SECTOR=$( cat parted.out | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
-
+BOOT_PARTITION_START_SECTOR=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +2 | head -1 | awk '{print $2}')
+BOOT_PARTITION_END_SECTOR=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +2 | head -1 | awk '{print $3}')
 rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
 mkdir ${OUTPUT}/root
@@ -310,7 +306,6 @@ else
         resize2fs /dev/mapper/${LOOP}p1 ${BOOT_SIZE_MB}M
         pwd
         ls -la
-        BOOT_PARTITION_START_SECTOR=$(parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | grep "^1" | cut -d ':' -f2 | cut -d 's' -f1)
         BOOT_SIZE_SECTORS=$((${BOOT_SIZE_MB}*1024*2))
         BOOT_PARTITION_END_SECTOR=$(($BOOT_PARTITION_START_SECTOR+$BOOT_SIZE_SECTORS))
         kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
@@ -333,7 +328,6 @@ q
 " | fdisk ${IMAGE_FILE}
 
         fdisk -lu ${IMAGE_FILE}
-        parted -sm ${IMAGE_FILE}
     else
 
         cmdline_txt=${BOOT}/cmdline.txt
@@ -345,8 +339,7 @@ q
         fi
         
         umount /dev/mapper/${LOOP}p1
-        parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print | tee parted.out
-        BOOT_PARTITION_END_SECTOR=$( cat parted.out | grep "^1" | cut -d ':' -f3 | cut -d 's' -f1)
+        
         kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
 
     fi
@@ -384,13 +377,11 @@ fi
 
 echo "extracting boot partition with boot loader"
 
-parted -sm ${IMAGE_FILE} unit ${PARTED_SECTOR_UNIT} print
 fdisk -lu ${IMAGE_FILE}
 
 dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} + 1 ))
 
 fdisk -lu ${OUTPUT}/boot
-parted -sm ${OUTPUT}/boot print
 
 cleanup
 rm -rf ${IMAGE_FILE}
