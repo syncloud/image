@@ -24,6 +24,7 @@ CPU_FREQUENCY_MAX=
 CPU_FREQUENCY_MIN=
 
 SYNCLOUD_DISTR_URL="http://artifact.syncloud.org/image/base"
+UNZIP=unxz
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
   FILE_VERSION=2016-03-18
@@ -40,13 +41,11 @@ elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "tinker" ]]; then
   IMAGE_FILE="20181023-tinker-board-linaro-stretch-alip-v2.0.8.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
-  UNZIP=unxz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
-  IMAGE_FILE=${SYNCLOUD_BOARD}.img
+  IMAGE_FILE=bone-debian-8.7-lxqt-4gb-armhf-2017-03-19-4gb.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/bone-debian-8.7-lxqt-4gb-armhf-2017-03-19-4gb.img.xz -O $IMAGE_FILE_ZIP"
-  UNZIP=unxz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   IMAGE_FILE="Cubian-nano+headless-x1-a10.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
@@ -73,23 +72,19 @@ elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "helios4" ]]; then
   IMAGE_FILE="Armbian_5.68_Helios4_Debian_stretch_next_4.14.88.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
-  UNZIP=unxz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
   IMAGE_FILE="ubuntu-16.04.3-4.14-minimal-odroid-xu4-20171213.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
-  UNZIP=unxz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "odroid-c2" ]]; then
   IMAGE_FILE="ubuntu64-16.04.3-minimal-odroid-c2-20171005.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
-  UNZIP=unxz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "odroid-u3" ]]; then
   IMAGE_FILE="arkos-od2-20140718.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
-  UNZIP=unxz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
   IMAGE_FILE="M2-raspberry-kernel3.3-LCD.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
@@ -98,33 +93,31 @@ elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "bananapim1" ]]; then
   IMAGE_FILE="BPI-M1_Debian_V2_beta.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP} -O $IMAGE_FILE_ZIP"
-  UNZIP=unxz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "bananapim3" ]]; then
   IMAGE_FILE="2016-05-15-debian-8-jessie-lite-bpi-m3-sd-emmc.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
-  UNZIP=unxz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "rock64" ]]; then
   IMAGE_FILE="Armbian_5.69_Rock64_Debian_stretch_default_4.4.167_desktop.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
-  UNZIP=unxz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "odroid-n2" ]]; then
   IMAGE_FILE="ubuntu-18.04.2-4.9-minimal-odroid-n2-20190329.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
-  UNZIP=unxz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "amd64" ]]; then
   IMAGE_FILE="debian-amd64-8gb.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
-  UNZIP=unxz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "lime2" ]]; then
   IMAGE_FILE="a20-lime2_mainline_uboot_sunxi_kernel_3.4.103_jessie_NAND_rel_13.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE}.xz -O $IMAGE_FILE_ZIP"
-  UNZIP=unxz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+elif [[ ${SYNCLOUD_BOARD} == "raspberrypi4" ]]; then
+  IMAGE_FILE="2019-07-10-raspbian-buster-lite.img"
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${$IMAGE_FILE_ZIP}"
 else
     echo "board is not supported: ${SYNCLOUD_BOARD}"
     exit 1

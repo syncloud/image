@@ -73,7 +73,6 @@ rm -rf ${BOOT_ZIP}
 
 echo "copying boot"
 cp ${SYNCLOUD_BOARD}/boot ${SYNCLOUD_IMAGE}
-parted -sm ${SYNCLOUD_IMAGE} print
 
 BOOT_BYTES=$(wc -c "${SYNCLOUD_IMAGE}" | cut -f 1 -d ' ')
 BOOT_SECTORS=$(( ${BOOT_BYTES} / 512 ))
@@ -87,7 +86,7 @@ dd if=/dev/zero bs=${DD_CHUNK_SIZE_MB}M count=${DD_CHUNK_COUNT} >> ${SYNCLOUD_IM
 ROOTFS_START_SECTOR=$(( ${BOOT_SECTORS} + 1  ))
 ROOTFS_SECTORS=$(( ${ROOTFS_SIZE_BYTES} / 512 ))
 ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 2 ))
-parted -sm ${SYNCLOUD_IMAGE} print | tee parted.out
+fdisk -l ${SYNCLOUD_IMAGE}
 
 echo "creating defining second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
 echo "
