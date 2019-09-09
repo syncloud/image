@@ -47,7 +47,7 @@ local build(board, arch) = {
 #    build("rock64", "arm"),
 #    build("helios4", "arm"),
 #    build("raspberrypi3", "arm"),
-#    build("raspberrypi4", "arm"),
+    build("raspberrypi4", "arm"),
 #    build("raspberrypi2", "arm"),
 #    build("odroid-xu3and4", "arm"),
 #    build("odroid-c2", "arm"),
@@ -62,5 +62,5 @@ local build(board, arch) = {
 #    build("tinker", "arm"),
 #    build("odroid-n2", "arm"),
 #    build("amd64", "amd64"),
-    build("lime2", "arm"),
+#    build("lime2", "arm"),
 ]

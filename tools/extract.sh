@@ -117,7 +117,7 @@ elif [[ ${SYNCLOUD_BOARD} == "lime2" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi4" ]]; then
   IMAGE_FILE="2019-07-10-raspbian-buster-lite.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${$IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 else
     echo "board is not supported: ${SYNCLOUD_BOARD}"
     exit 1
