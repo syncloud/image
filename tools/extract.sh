@@ -111,7 +111,7 @@ elif [[ ${SYNCLOUD_BOARD} == "amd64" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "lime2" ]]; then
-  IMAGE_FILE="a20-lime2_mainline_uboot_sunxi_kernel_3.4.103_jessie_NAND_rel_13.img"
+  IMAGE_FILE="Armbian_5.92.1_Olinuxino-a20_Ubuntu_bionic_next_5.2.5_desktop.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi4" ]]; then
