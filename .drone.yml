@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: raspberrypi4
+name: lime2
 
 platform:
   os: linux
@@ -11,9 +11,9 @@ steps:
   image: syncloud/build-deps-amd64
   commands:
   - RELEASE=19.08
-  - "echo raspberrypi4-base.img > BASE_IMAGE"
-  - "echo syncloud-raspberrypi4-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh raspberrypi4 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - "echo lime2-base.img > BASE_IMAGE"
+  - "echo syncloud-lime2-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh lime2 arm $(cat BASE_IMAGE) $(cat IMAGE)
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
