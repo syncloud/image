@@ -167,6 +167,8 @@ function extract_root {
     mkdir -p ${to}/lib
     cp -rp ${from}/lib/firmware ${to}/lib/firmware
     cp -rp ${from}/lib/modules ${to}/lib/modules
+
+    mkdir -p ${to}/etc
     cp -rp ${from}/etc/modprobe.d ${to}/etc/modprobe.d
     cp -rp ${from}/etc/modules-load.d ${to}/etc/modules-load.d
 
