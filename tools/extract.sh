@@ -168,6 +168,7 @@ function extract_root {
     cp -rp ${from}/lib/firmware ${to}/lib/firmware
     cp -rp ${from}/lib/modules ${to}/lib/modules
     cp -rp ${from}/etc/modprobe.d ${to}/etc/modprobe.d
+    cp -rp ${from}/etc/modules-load.d ${to}/etc/modules-load.d
 
     if [ -d ${from}/lib/mali-egl ]; then
         ls -la ${from}/lib/mali-egl
