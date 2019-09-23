@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: lime2
+name: odroid-u3
 
 platform:
   os: linux
@@ -10,10 +10,10 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.08
-  - "echo lime2-base.img > BASE_IMAGE"
-  - "echo syncloud-lime2-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh lime2 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - RELEASE=19.10
+  - "echo odroid-u3-base.img > BASE_IMAGE"
+  - "echo syncloud-odroid-u3-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh odroid-u3 arm $(cat BASE_IMAGE) $(cat IMAGE)
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
