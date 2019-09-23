@@ -22,7 +22,7 @@ local build(board, arch) = {
         },
         image: "syncloud/build-deps-amd64",
         commands: [
-            "RELEASE=19.08",
+            "RELEASE=19.10",
             "echo " + board + "-base.img > BASE_IMAGE",
             "echo syncloud-" + board + "-$RELEASE.img > IMAGE",
             "./extract-merge-upload.sh " + board + " " + arch + " $(cat BASE_IMAGE) $(cat IMAGE)"
@@ -51,7 +51,7 @@ local build(board, arch) = {
 #    build("raspberrypi2", "arm"),
 #    build("odroid-xu3and4", "arm"),
 #    build("odroid-c2", "arm"),
-#    build("odroid-u3", "arm"),
+    build("odroid-u3", "arm"),
 #    build("cubieboard2", "arm"),
 #    build("cubieboard", "arm"),
 #    build("bananapim3", "arm"),
@@ -62,5 +62,5 @@ local build(board, arch) = {
 #    build("tinker", "arm"),
 #    build("odroid-n2", "arm"),
 #    build("amd64", "amd64"),
-    build("lime2", "arm"),
+#    build("lime2", "arm"),
 ]

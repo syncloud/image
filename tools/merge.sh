@@ -153,6 +153,7 @@ cat ${SRC_ROOTFS}/etc/hosts
 
 ls -la ${DST_ROOTFS}
 ls -la ${SYNCLOUD_BOARD}/root/
+ls -la ${SYNCLOUD_BOARD}/root/etc
 
 echo "copying rootfs"
 cp -rp ${SRC_ROOTFS}/* ${DST_ROOTFS}/
