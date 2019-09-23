@@ -169,9 +169,17 @@ function extract_root {
     cp -rp ${from}/lib/modules ${to}/lib/modules
 
     mkdir -p ${to}/etc
-    cp -rp ${from}/etc/modprobe.d ${to}/etc/modprobe.d
-    cp -rp ${from}/etc/modules-load.d ${to}/etc/modules-load.d
-    cp -p ${from}/etc/modules ${to}/etc/modules
+    if [ -d ${from}/etc/modprobe.d ]; then
+        cp -rp ${from}/etc/modprobe.d ${to}/etc/modprobe.d
+    fi
+
+    if [ -d ${from}/etc/modules-load.d ]; then
+        cp -rp ${from}/etc/modules-load.d ${to}/etc/modules-load.d
+    fi
+
+    if [ -f ${from}/etc/modules ]; then
+        cp -p ${from}/etc/modules ${to}/etc/modules
+    fi
 
     if [ -d ${from}/lib/mali-egl ]; then
         ls -la ${from}/lib/mali-egl
