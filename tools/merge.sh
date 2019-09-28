@@ -181,11 +181,11 @@ if [[ -f ${DST_ROOTFS}/etc/fstab.vbox ]]; then
 fi
 
 echo "setting hostname"
-echo ${SYNCLOUD_BOARD} > ${DST_ROOTFS}/etc/hostname
+echo syncloud > ${DST_ROOTFS}/etc/hostname
 
 cat ${DST_ROOTFS}/etc/hosts
-echo "127.0.0.1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
-echo "::1 ${SYNCLOUD_BOARD}" >> ${DST_ROOTFS}/etc/hosts
+echo "127.0.0.1 syncloud" >> ${DST_ROOTFS}/etc/hosts
+echo "::1 syncloud" >> ${DST_ROOTFS}/etc/hosts
 grep localhost ${DST_ROOTFS}/etc/hosts
 
 sync
