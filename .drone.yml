@@ -1,5 +1,257 @@
 ---
 kind: pipeline
+name: rock64
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo rock64-base.img > BASE_IMAGE"
+  - "echo syncloud-rock64-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh rock64 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: helios4
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo helios4-base.img > BASE_IMAGE"
+  - "echo syncloud-helios4-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh helios4 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: raspberrypi3
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo raspberrypi3-base.img > BASE_IMAGE"
+  - "echo syncloud-raspberrypi3-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh raspberrypi3 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: raspberrypi4
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo raspberrypi4-base.img > BASE_IMAGE"
+  - "echo syncloud-raspberrypi4-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh raspberrypi4 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: raspberrypi2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo raspberrypi2-base.img > BASE_IMAGE"
+  - "echo syncloud-raspberrypi2-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh raspberrypi2 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: odroid-xu3and4
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo odroid-xu3and4-base.img > BASE_IMAGE"
+  - "echo syncloud-odroid-xu3and4-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh odroid-xu3and4 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: odroid-c2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo odroid-c2-base.img > BASE_IMAGE"
+  - "echo syncloud-odroid-c2-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh odroid-c2 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
 name: odroid-u3
 
 platform:
@@ -14,6 +266,402 @@ steps:
   - "echo odroid-u3-base.img > BASE_IMAGE"
   - "echo syncloud-odroid-u3-$RELEASE.img > IMAGE"
   - ./extract-merge-upload.sh odroid-u3 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: cubieboard2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo cubieboard2-base.img > BASE_IMAGE"
+  - "echo syncloud-cubieboard2-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh cubieboard2 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: cubieboard
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo cubieboard-base.img > BASE_IMAGE"
+  - "echo syncloud-cubieboard-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh cubieboard arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: bananapim3
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo bananapim3-base.img > BASE_IMAGE"
+  - "echo syncloud-bananapim3-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh bananapim3 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: bananapim2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo bananapim2-base.img > BASE_IMAGE"
+  - "echo syncloud-bananapim2-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh bananapim2 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: beagleboneblack
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo beagleboneblack-base.img > BASE_IMAGE"
+  - "echo syncloud-beagleboneblack-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh beagleboneblack arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: bananapim1
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo bananapim1-base.img > BASE_IMAGE"
+  - "echo syncloud-bananapim1-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh bananapim1 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: cubietruck
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo cubietruck-base.img > BASE_IMAGE"
+  - "echo syncloud-cubietruck-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh cubietruck arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: tinker
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo tinker-base.img > BASE_IMAGE"
+  - "echo syncloud-tinker-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh tinker arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: odroid-n2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo odroid-n2-base.img > BASE_IMAGE"
+  - "echo syncloud-odroid-n2-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh odroid-n2 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: amd64
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo amd64-base.img > BASE_IMAGE"
+  - "echo syncloud-amd64-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh amd64 amd64 $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: lime2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo lime2-base.img > BASE_IMAGE"
+  - "echo syncloud-lime2-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh lime2 arm $(cat BASE_IMAGE) $(cat IMAGE)
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
