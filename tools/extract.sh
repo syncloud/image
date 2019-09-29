@@ -225,9 +225,19 @@ if [ "${SECTORS_MISSING}" -gt "0" ]; then
     echo "appending missing bytes"
     dd if=/dev/zero bs=512 count=${SECTORS_MISSING} >> ${IMAGE_FILE}
 fi
-PARTITIONS=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +2 | wc -l)
-BOOT_PARTITION_START_SECTOR=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +2 | head -1 | awk '{print $2}')
-BOOT_PARTITION_END_SECTOR=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +2 | head -1 | awk '{print $3}')
+FDISK_OUTPUT=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +2)
+PARTITIONS=$(echo ${FDISK_OUTPUT} | wc -l)
+FDISK_FIELD2=$(echo ${FDISK_OUTPUT} | head -1 | awk '{print $2}')
+FDISK_FIELD3=$(echo ${FDISK_OUTPUT} | head -1 | awk '{print $3}')
+FDISK_FIELD4=$(echo ${FDISK_OUTPUT} | head -1 | awk '{print $4}')
+if [[ $FDISK_FIELD2 == "*" ]]; then
+    BOOT_PARTITION_START_SECTOR = $FDISK_FIELD3
+    BOOT_PARTITION_END_SECTOR = $FDISK_FIELD4
+else
+    BOOT_PARTITION_START_SECTOR = $FDISK_FIELD2
+    BOOT_PARTITION_END_SECTOR = $FDISK_FIELD3
+fi
+
 rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
 mkdir ${OUTPUT}/root

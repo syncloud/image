@@ -1,5 +1,77 @@
 ---
 kind: pipeline
+name: beagleboneblack
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo beagleboneblack-base.img > BASE_IMAGE"
+  - "echo syncloud-beagleboneblack-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh beagleboneblack arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: bananapim3
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: image
+  image: syncloud/build-deps-amd64
+  commands:
+  - RELEASE=19.10
+  - "echo bananapim3-base.img > BASE_IMAGE"
+  - "echo syncloud-bananapim3-$RELEASE.img > IMAGE"
+  - ./extract-merge-upload.sh bananapim3 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  environment:
+    ARTIFACT_SSH_KEY:
+      from_secret: ARTIFACT_SSH_KEY
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  privileged: true
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh $(cat BASE_IMAGE)
+  - ./cleanup.sh $(cat IMAGE)
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
 name: rock64
 
 platform:
@@ -360,42 +432,6 @@ steps:
 
 ---
 kind: pipeline
-name: bananapim3
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: image
-  image: syncloud/build-deps-amd64
-  commands:
-  - RELEASE=19.10
-  - "echo bananapim3-base.img > BASE_IMAGE"
-  - "echo syncloud-bananapim3-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh bananapim3 arm $(cat BASE_IMAGE) $(cat IMAGE)
-  environment:
-    ARTIFACT_SSH_KEY:
-      from_secret: ARTIFACT_SSH_KEY
-    AWS_ACCESS_KEY_ID:
-      from_secret: AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: AWS_SECRET_ACCESS_KEY
-  privileged: true
-
-- name: cleanup
-  image: syncloud/build-deps-amd64
-  commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
-  privileged: true
-  when:
-    status:
-    - failure
-    - success
-
----
-kind: pipeline
 name: bananapim2
 
 platform:
@@ -410,42 +446,6 @@ steps:
   - "echo bananapim2-base.img > BASE_IMAGE"
   - "echo syncloud-bananapim2-$RELEASE.img > IMAGE"
   - ./extract-merge-upload.sh bananapim2 arm $(cat BASE_IMAGE) $(cat IMAGE)
-  environment:
-    ARTIFACT_SSH_KEY:
-      from_secret: ARTIFACT_SSH_KEY
-    AWS_ACCESS_KEY_ID:
-      from_secret: AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: AWS_SECRET_ACCESS_KEY
-  privileged: true
-
-- name: cleanup
-  image: syncloud/build-deps-amd64
-  commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
-  privileged: true
-  when:
-    status:
-    - failure
-    - success
-
----
-kind: pipeline
-name: beagleboneblack
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: image
-  image: syncloud/build-deps-amd64
-  commands:
-  - RELEASE=19.10
-  - "echo beagleboneblack-base.img > BASE_IMAGE"
-  - "echo syncloud-beagleboneblack-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh beagleboneblack arm $(cat BASE_IMAGE) $(cat IMAGE)
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY

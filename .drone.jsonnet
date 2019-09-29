@@ -44,6 +44,8 @@ local build(board, arch) = {
 };
 
 [
+    build("beagleboneblack", "arm"),
+    build("bananapim3", "arm"),
     build("rock64", "arm"),
     build("helios4", "arm"),
     build("raspberrypi3", "arm"),
@@ -54,9 +56,7 @@ local build(board, arch) = {
     build("odroid-u3", "arm"),
     build("cubieboard2", "arm"),
     build("cubieboard", "arm"),
-    build("bananapim3", "arm"),
     build("bananapim2", "arm"),
-    build("beagleboneblack", "arm"),
     build("bananapim1", "arm"),
     build("cubietruck", "arm"),
     build("tinker", "arm"),

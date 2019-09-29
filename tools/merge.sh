@@ -88,7 +88,7 @@ ROOTFS_SECTORS=$(( ${ROOTFS_SIZE_BYTES} / 512 ))
 ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 2 ))
 fdisk -l ${SYNCLOUD_IMAGE}
 
-echo "creating defining second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
+echo "creating second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
 echo "
 n
 p
