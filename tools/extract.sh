@@ -227,9 +227,9 @@ if [ "${SECTORS_MISSING}" -gt "0" ]; then
 fi
 PARTITIONS=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +2 | wc -l)
 FDISK_OUTPUT=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +2 | head -1)
-FDISK_FIELD2=$(echo '${FDISK_OUTPUT}' | awk '{print $2}')
-FDISK_FIELD3=$(echo '${FDISK_OUTPUT}' | awk '{print $3}')
-FDISK_FIELD4=$(echo '${FDISK_OUTPUT}' | awk '{print $4}')
+FDISK_FIELD2=$(echo "${FDISK_OUTPUT}" | awk '{print $2}')
+FDISK_FIELD3=$(echo "${FDISK_OUTPUT}" | awk '{print $3}')
+FDISK_FIELD4=$(echo "${FDISK_OUTPUT}" | awk '{print $4}')
 if [[ $FDISK_FIELD2 == "*" ]]; then
     BOOT_PARTITION_START_SECTOR = $FDISK_FIELD3
     BOOT_PARTITION_END_SECTOR = $FDISK_FIELD4
