@@ -29,7 +29,7 @@ function build {
     tools/merge.sh ${BOARD} ${ARCH} ${IMAGE}
 }
 
-attempts=5
+attempts=0
 attempt=0
 
 set +e

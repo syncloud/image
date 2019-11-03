@@ -63,6 +63,7 @@ local build(board, arch) = {
 
 [
     build("beagleboneblack", "arm"),
+/* 
     build("bananapim3", "arm"),
     build("rock64", "arm"),
     build("helios4", "arm"),
@@ -81,4 +82,5 @@ local build(board, arch) = {
     build("odroid-n2", "arm"),
     build("amd64", "amd64"),
     build("lime2", "arm"),
+*/
 ]
