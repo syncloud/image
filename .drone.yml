@@ -10,10 +10,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo beagleboneblack-base.img > BASE_IMAGE"
-  - "echo syncloud-beagleboneblack-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh beagleboneblack arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh beagleboneblack arm beagleboneblack-base.img syncloud-beagleboneblack-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -23,11 +20,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-beagleboneblack-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh beagleboneblack-base.img
+  - ./cleanup.sh syncloud-beagleboneblack-19.10.img
   privileged: true
   when:
     status:
@@ -46,10 +55,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo bananapim3-base.img > BASE_IMAGE"
-  - "echo syncloud-bananapim3-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh bananapim3 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh bananapim3 arm bananapim3-base.img syncloud-bananapim3-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -59,11 +65,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-bananapim3-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh bananapim3-base.img
+  - ./cleanup.sh syncloud-bananapim3-19.10.img
   privileged: true
   when:
     status:
@@ -82,10 +100,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo rock64-base.img > BASE_IMAGE"
-  - "echo syncloud-rock64-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh rock64 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh rock64 arm rock64-base.img syncloud-rock64-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -95,11 +110,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-rock64-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh rock64-base.img
+  - ./cleanup.sh syncloud-rock64-19.10.img
   privileged: true
   when:
     status:
@@ -118,10 +145,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo helios4-base.img > BASE_IMAGE"
-  - "echo syncloud-helios4-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh helios4 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh helios4 arm helios4-base.img syncloud-helios4-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -131,11 +155,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-helios4-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh helios4-base.img
+  - ./cleanup.sh syncloud-helios4-19.10.img
   privileged: true
   when:
     status:
@@ -154,10 +190,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo raspberrypi3-base.img > BASE_IMAGE"
-  - "echo syncloud-raspberrypi3-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh raspberrypi3 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh raspberrypi3 arm raspberrypi3-base.img syncloud-raspberrypi3-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -167,11 +200,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-raspberrypi3-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh raspberrypi3-base.img
+  - ./cleanup.sh syncloud-raspberrypi3-19.10.img
   privileged: true
   when:
     status:
@@ -190,10 +235,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo raspberrypi4-base.img > BASE_IMAGE"
-  - "echo syncloud-raspberrypi4-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh raspberrypi4 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh raspberrypi4 arm raspberrypi4-base.img syncloud-raspberrypi4-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -203,11 +245,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-raspberrypi4-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh raspberrypi4-base.img
+  - ./cleanup.sh syncloud-raspberrypi4-19.10.img
   privileged: true
   when:
     status:
@@ -226,10 +280,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo raspberrypi2-base.img > BASE_IMAGE"
-  - "echo syncloud-raspberrypi2-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh raspberrypi2 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh raspberrypi2 arm raspberrypi2-base.img syncloud-raspberrypi2-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -239,11 +290,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-raspberrypi2-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh raspberrypi2-base.img
+  - ./cleanup.sh syncloud-raspberrypi2-19.10.img
   privileged: true
   when:
     status:
@@ -262,10 +325,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo odroid-xu3and4-base.img > BASE_IMAGE"
-  - "echo syncloud-odroid-xu3and4-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh odroid-xu3and4 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh odroid-xu3and4 arm odroid-xu3and4-base.img syncloud-odroid-xu3and4-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -275,11 +335,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-odroid-xu3and4-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh odroid-xu3and4-base.img
+  - ./cleanup.sh syncloud-odroid-xu3and4-19.10.img
   privileged: true
   when:
     status:
@@ -298,10 +370,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo odroid-c2-base.img > BASE_IMAGE"
-  - "echo syncloud-odroid-c2-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh odroid-c2 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh odroid-c2 arm odroid-c2-base.img syncloud-odroid-c2-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -311,11 +380,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-odroid-c2-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh odroid-c2-base.img
+  - ./cleanup.sh syncloud-odroid-c2-19.10.img
   privileged: true
   when:
     status:
@@ -334,10 +415,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo odroid-u3-base.img > BASE_IMAGE"
-  - "echo syncloud-odroid-u3-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh odroid-u3 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh odroid-u3 arm odroid-u3-base.img syncloud-odroid-u3-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -347,11 +425,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-odroid-u3-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh odroid-u3-base.img
+  - ./cleanup.sh syncloud-odroid-u3-19.10.img
   privileged: true
   when:
     status:
@@ -370,10 +460,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo cubieboard2-base.img > BASE_IMAGE"
-  - "echo syncloud-cubieboard2-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh cubieboard2 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh cubieboard2 arm cubieboard2-base.img syncloud-cubieboard2-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -383,11 +470,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-cubieboard2-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh cubieboard2-base.img
+  - ./cleanup.sh syncloud-cubieboard2-19.10.img
   privileged: true
   when:
     status:
@@ -406,10 +505,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo cubieboard-base.img > BASE_IMAGE"
-  - "echo syncloud-cubieboard-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh cubieboard arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh cubieboard arm cubieboard-base.img syncloud-cubieboard-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -419,11 +515,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-cubieboard-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh cubieboard-base.img
+  - ./cleanup.sh syncloud-cubieboard-19.10.img
   privileged: true
   when:
     status:
@@ -442,10 +550,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo bananapim2-base.img > BASE_IMAGE"
-  - "echo syncloud-bananapim2-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh bananapim2 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh bananapim2 arm bananapim2-base.img syncloud-bananapim2-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -455,11 +560,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-bananapim2-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh bananapim2-base.img
+  - ./cleanup.sh syncloud-bananapim2-19.10.img
   privileged: true
   when:
     status:
@@ -478,10 +595,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo bananapim1-base.img > BASE_IMAGE"
-  - "echo syncloud-bananapim1-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh bananapim1 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh bananapim1 arm bananapim1-base.img syncloud-bananapim1-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -491,11 +605,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-bananapim1-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh bananapim1-base.img
+  - ./cleanup.sh syncloud-bananapim1-19.10.img
   privileged: true
   when:
     status:
@@ -514,10 +640,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo cubietruck-base.img > BASE_IMAGE"
-  - "echo syncloud-cubietruck-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh cubietruck arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh cubietruck arm cubietruck-base.img syncloud-cubietruck-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -527,11 +650,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-cubietruck-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh cubietruck-base.img
+  - ./cleanup.sh syncloud-cubietruck-19.10.img
   privileged: true
   when:
     status:
@@ -550,10 +685,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo tinker-base.img > BASE_IMAGE"
-  - "echo syncloud-tinker-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh tinker arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh tinker arm tinker-base.img syncloud-tinker-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -563,11 +695,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-tinker-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh tinker-base.img
+  - ./cleanup.sh syncloud-tinker-19.10.img
   privileged: true
   when:
     status:
@@ -586,10 +730,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo odroid-n2-base.img > BASE_IMAGE"
-  - "echo syncloud-odroid-n2-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh odroid-n2 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh odroid-n2 arm odroid-n2-base.img syncloud-odroid-n2-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -599,11 +740,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-odroid-n2-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh odroid-n2-base.img
+  - ./cleanup.sh syncloud-odroid-n2-19.10.img
   privileged: true
   when:
     status:
@@ -622,10 +775,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo amd64-base.img > BASE_IMAGE"
-  - "echo syncloud-amd64-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh amd64 amd64 $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh amd64 amd64 amd64-base.img syncloud-amd64-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -635,11 +785,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-amd64-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh amd64-base.img
+  - ./cleanup.sh syncloud-amd64-19.10.img
   privileged: true
   when:
     status:
@@ -658,10 +820,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - RELEASE=19.10
-  - "echo lime2-base.img > BASE_IMAGE"
-  - "echo syncloud-lime2-$RELEASE.img > IMAGE"
-  - ./extract-merge-upload.sh lime2 arm $(cat BASE_IMAGE) $(cat IMAGE)
+  - ./extract-merge-upload.sh lime2 arm lime2-base.img syncloud-lime2-19.10.img
   environment:
     ARTIFACT_SSH_KEY:
       from_secret: ARTIFACT_SSH_KEY
@@ -671,11 +830,23 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   privileged: true
 
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-lime2-19.10.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
 - name: cleanup
   image: syncloud/build-deps-amd64
   commands:
-  - ./cleanup.sh $(cat BASE_IMAGE)
-  - ./cleanup.sh $(cat IMAGE)
+  - ./cleanup.sh lime2-base.img
+  - ./cleanup.sh syncloud-lime2-19.10.img
   privileged: true
   when:
     status:

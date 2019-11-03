@@ -1,4 +1,9 @@
+local release = "19.10";
+
 local build(board, arch) = {
+    local base_image = board + "-base.img",
+    local image = "syncloud-" + board + "-" + release + ".img",
+
     kind: "pipeline",
     name: board,
 
@@ -22,19 +27,32 @@ local build(board, arch) = {
         },
         image: "syncloud/build-deps-amd64",
         commands: [
-            "RELEASE=19.10",
-            "echo " + board + "-base.img > BASE_IMAGE",
-            "echo syncloud-" + board + "-$RELEASE.img > IMAGE",
-            "./extract-merge-upload.sh " + board + " " + arch + " $(cat BASE_IMAGE) $(cat IMAGE)"
+            "./extract-merge-upload.sh " + board + " " + arch + " " + base_image + " " + image
         ],
         privileged: true
+    },
+    {
+        name: "artifact",
+        image: "appleboy/drone-scp",
+        settings: {
+            host: {
+                from_secret: "artifact_host"
+            },
+            username: "artifact",
+            password: {
+                from_secret: "artifact_password"
+            },
+            command_timeout: "2m",
+            target: "/home/artifact/repo/image",
+            source: image + ".xz"
+        }
     },
     {
         name : "cleanup",
         image: "syncloud/build-deps-amd64",
         commands: [
-            "./cleanup.sh $(cat BASE_IMAGE)",
-            "./cleanup.sh $(cat IMAGE)"
+            "./cleanup.sh " + base_image,
+            "./cleanup.sh " + image
         ],
         privileged: true,
         when: {

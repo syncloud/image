@@ -49,7 +49,7 @@ do
 done
 set -e
 
-tools/upload.sh ${IMAGE}.xz
+# tools/upload.sh ${IMAGE}.xz
 
 rm -rf ${IMAGE}.xz
 
