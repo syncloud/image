@@ -23,7 +23,7 @@ CPU_FREQUENCY_GOVERNOR=
 CPU_FREQUENCY_MAX=
 CPU_FREQUENCY_MIN=
 
-SYNCLOUD_DISTR_URL="http://artifact.syncloud.org/image/base"
+SYNCLOUD_DISTR_URL="https://github.com/syncloud/base-image/releases/download/1"
 UNZIP=unxz
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then

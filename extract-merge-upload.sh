@@ -24,7 +24,7 @@ ARCH=$2
 BASE_IMAGE=$3
 IMAGE=$4
 
-function prepare {
+function build {
     tools/extract.sh ${BOARD} ${BASE_IMAGE}
     tools/merge.sh ${BOARD} ${ARCH} ${IMAGE}
 }
@@ -33,7 +33,7 @@ attempts=5
 attempt=0
 
 set +e
-prepare
+build
 while test $? -gt 0
 do
   if [[ ${attempt} -gt ${attempts} ]]; then
@@ -45,13 +45,9 @@ do
   echo "retrying building an image: $attempt"
   echo "===================================="
   attempt=$((attempt+1))
-  prepare
+  build
 done
 set -e
-
-# tools/upload.sh ${IMAGE}.xz
-
-rm -rf ${IMAGE}.xz
 
 ls -la
 df -h
