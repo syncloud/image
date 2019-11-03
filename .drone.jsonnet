@@ -14,20 +14,9 @@ local build(board, arch) = {
     steps: [
     {
         name: "image",
-        environment: {
-            AWS_ACCESS_KEY_ID: {
-                from_secret: "AWS_ACCESS_KEY_ID"
-            },
-            AWS_SECRET_ACCESS_KEY: {
-                from_secret: "AWS_SECRET_ACCESS_KEY"
-            },
-            ARTIFACT_SSH_KEY: {
-                from_secret: "ARTIFACT_SSH_KEY"
-            }
-        },
         image: "syncloud/build-deps-amd64",
         commands: [
-            "./extract-merge-upload.sh " + board + " " + arch + " " + base_image + " " + image
+            "./extract-merge.sh " + board + " " + arch + " " + base_image + " " + image
         ],
         privileged: true
     },

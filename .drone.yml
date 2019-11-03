@@ -10,14 +10,7 @@ steps:
 - name: image
   image: syncloud/build-deps-amd64
   commands:
-  - ./extract-merge-upload.sh beagleboneblack arm beagleboneblack-base.img syncloud-beagleboneblack-19.10.img
-  environment:
-    ARTIFACT_SSH_KEY:
-      from_secret: ARTIFACT_SSH_KEY
-    AWS_ACCESS_KEY_ID:
-      from_secret: AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: AWS_SECRET_ACCESS_KEY
+  - ./extract-merge.sh beagleboneblack arm beagleboneblack-base.img syncloud-beagleboneblack-19.10.img
   privileged: true
 
 - name: artifact
