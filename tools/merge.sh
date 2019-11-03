@@ -20,7 +20,7 @@ ROOTFS_FILE=rootfs-${ARCH}.tar.gz
 echo "==== ${SYNCLOUD_BOARD}, ${ARCH} ===="
 
 if [[ ! -f ${ROOTFS_FILE} ]]; then
-    wget http://artifact.syncloud.org/rootfs/${ROOTFS_FILE} --progress dot:giga
+    wget https://github.com/syncloud/rootfs/releases/download/1/${ROOTFS_FILE} --progress dot:giga
 else
     echo "$ROOTFS_FILE is here"
 fi
