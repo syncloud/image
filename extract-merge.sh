@@ -29,14 +29,14 @@ function build {
     tools/merge.sh ${BOARD} ${ARCH} ${IMAGE}
 }
 
-attempts=0
-attempt=2
+attempts=1
+attempt=0
 
 set +e
 build
 while test $? -gt 0
 do
-  if [[ ${attempt} -gt ${attempts} ]]; then
+  if [[ ${attempt} -gte ${attempts} ]]; then
     exit 1
   fi
   dmesg | tail -10
