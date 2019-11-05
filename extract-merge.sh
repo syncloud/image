@@ -36,7 +36,7 @@ set +e
 build
 while test $? -gt 0
 do
-  if [[ ${attempt} -gte ${attempts} ]]; then
+  if [[ ${attempt} -ge ${attempts} ]]; then
     exit 1
   fi
   dmesg | tail -10
