@@ -24,30 +24,8 @@ ARCH=$2
 BASE_IMAGE=$3
 IMAGE=$4
 
-function build {
-    tools/extract.sh ${BOARD} ${BASE_IMAGE}
-    tools/merge.sh ${BOARD} ${ARCH} ${IMAGE}
-}
-
-attempts=0
-attempt=0
-
-set +e
-build
-while test $? -gt 0
-do
-  if [[ ${attempt} -ge ${attempts} ]]; then
-    exit 1
-  fi
-  dmesg | tail -10
-  sleep 3
-  echo "===================================="
-  echo "retrying building an image: $attempt"
-  echo "===================================="
-  attempt=$((attempt+1))
-  build
-done
-set -e
+${DIR}/tools/extract.sh ${BOARD} ${BASE_IMAGE}
+${DIR}/tools/merge.sh ${BOARD} ${ARCH} ${IMAGE}
 
 ls -la
 df -h
