@@ -52,8 +52,8 @@ local build(board, arch) = {
 
 [
 //    build("beagleboneblack", "arm"),
- build("bananapim3", "arm"),
-//    build("rock64", "arm"),
+ //build("bananapim3", "arm"),
+    build("rock64", "arm"),
  //   build("helios4", "arm"),
 //    build("raspberrypi3", "arm"),
   //  build("raspberrypi4", "arm"),
