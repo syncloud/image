@@ -7,10 +7,16 @@ platform:
   arch: amd64
 
 steps:
-- name: image
+- name: extract
   image: syncloud/build-deps-amd64
   commands:
-  - ./extract-merge.sh rock64 arm rock64-base.img syncloud-rock64-19.11.img
+  - ./tools/extract.sh rock64 rock64-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh rock64 arm syncloud-rock64-19.12.img
   privileged: true
 
 - name: artifact
@@ -21,7 +27,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-rock64-19.11.img.xz
+    source: syncloud-rock64-19.12.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -29,7 +35,7 @@ steps:
   image: syncloud/build-deps-amd64
   commands:
   - ./cleanup.sh rock64-base.img
-  - ./cleanup.sh syncloud-rock64-19.11.img
+  - ./cleanup.sh syncloud-rock64-19.12.img
   privileged: true
   when:
     status:

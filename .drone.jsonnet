@@ -1,4 +1,4 @@
-local release = "19.11";
+local release = "19.12";
 
 local build(board, arch) = {
     local base_image = board + "-base.img",
@@ -13,10 +13,18 @@ local build(board, arch) = {
     },
     steps: [
     {
-        name: "image",
+        name: "extract",
         image: "syncloud/build-deps-amd64",
         commands: [
-            "./extract-merge.sh " + board + " " + arch + " " + base_image + " " + image
+            "./tools/extract.sh " + board + " " + base_image
+        ],
+        privileged: true
+    },
+    {
+        name: "merge",
+        image: "syncloud/build-deps-amd64",
+        commands: [
+            "./tools/merge.sh " + board + " " + arch + " " + image
         ],
         privileged: true
     },
