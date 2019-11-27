@@ -80,13 +80,9 @@ BOOT_BYTES=$(wc -c "${SYNCLOUD_IMAGE}" | cut -f 1 -d ' ')
 BOOT_SECTORS=$(( ${BOOT_BYTES} / 512 ))
 echo "boot sectors: ${BOOT_SECTORS}"
 
-DD_CHUNK_SIZE_MB=10
-DD_CHUNK_COUNT=300
-ROOTFS_SIZE_BYTES=$(( ${DD_CHUNK_SIZE_MB} * 1024 * 1024 * ${DD_CHUNK_COUNT} ))
-echo "appending $(( ${ROOTFS_SIZE_BYTES} / 1024 / 1024 )) MB"
-dd if=/dev/zero bs=${DD_CHUNK_SIZE_MB}M count=${DD_CHUNK_COUNT} >> ${SYNCLOUD_IMAGE}
+ROOTFS_SECTORS=$(( 3 * 1024 * 1024 "* 2 ))
+dd if=/dev/zero count=${ROOTFS_SECTORS} >> ${SYNCLOUD_IMAGE}
 ROOTFS_START_SECTOR=$(( ${BOOT_SECTORS} + 1  ))
-ROOTFS_SECTORS=$(( ${ROOTFS_SIZE_BYTES} / 512 ))
 ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 2 ))
 fdisk -l ${SYNCLOUD_IMAGE}
 
@@ -123,11 +119,8 @@ export MKE2FS_SYNC=2
 set +e
 mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 ${DEVICE_PART_2}
 if [[ $? -ne 0 ]]; then
-    mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 ${DEVICE_PART_2}
-    if [[ $? -ne 0 ]]; then
-        cleanup
-        exit 1
-    fi
+    cleanup
+    exit 1
 fi
 set -e
 sync
