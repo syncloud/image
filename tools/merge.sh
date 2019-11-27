@@ -123,8 +123,11 @@ export MKE2FS_SYNC=2
 set +e
 mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 ${DEVICE_PART_2}
 if [[ $? -ne 0 ]]; then
-    cleanup
-    exit 1
+    mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 ${DEVICE_PART_2}
+    if [[ $? -ne 0 ]]; then
+        cleanup
+        exit 1
+    fi
 fi
 set -e
 sync
