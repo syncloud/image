@@ -41,4 +41,47 @@ steps:
     - failure
     - success
 
+---
+kind: pipeline
+name: rock64
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh rock64 rock64-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh rock64 arm syncloud-rock64-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-rock64-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
 ...
