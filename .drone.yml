@@ -84,4 +84,692 @@ steps:
     - failure
     - success
 
+---
+kind: pipeline
+name: helios4
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh helios4 helios4-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh helios4 arm syncloud-helios4-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-helios4-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: raspberrypi3
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh raspberrypi3 raspberrypi3-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh raspberrypi3 arm syncloud-raspberrypi3-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-raspberrypi3-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: raspberrypi4
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh raspberrypi4 raspberrypi4-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh raspberrypi4 arm syncloud-raspberrypi4-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-raspberrypi4-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: raspberrypi2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh raspberrypi2 raspberrypi2-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh raspberrypi2 arm syncloud-raspberrypi2-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-raspberrypi2-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: odroid-xu3and4
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh odroid-xu3and4 odroid-xu3and4-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh odroid-xu3and4 arm syncloud-odroid-xu3and4-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-odroid-xu3and4-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: odroid-c2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh odroid-c2 odroid-c2-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh odroid-c2 arm syncloud-odroid-c2-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-odroid-c2-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: odroid-u3
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh odroid-u3 odroid-u3-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh odroid-u3 arm syncloud-odroid-u3-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-odroid-u3-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: cubieboard2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh cubieboard2 cubieboard2-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh cubieboard2 arm syncloud-cubieboard2-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-cubieboard2-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: cubieboard
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh cubieboard cubieboard-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh cubieboard arm syncloud-cubieboard-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-cubieboard-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: bananapim2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh bananapim2 bananapim2-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh bananapim2 arm syncloud-bananapim2-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-bananapim2-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: bananapim1
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh bananapim1 bananapim1-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh bananapim1 arm syncloud-bananapim1-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-bananapim1-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: cubietruck
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh cubietruck cubietruck-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh cubietruck arm syncloud-cubietruck-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-cubietruck-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: tinker
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh tinker tinker-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh tinker arm syncloud-tinker-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-tinker-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: odroid-n2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh odroid-n2 odroid-n2-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh odroid-n2 arm syncloud-odroid-n2-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-odroid-n2-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: amd64
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh amd64 amd64-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh amd64 amd64 syncloud-amd64-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-amd64-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: lime2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh lime2 lime2-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh lime2 arm syncloud-lime2-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-lime2-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
 ...
