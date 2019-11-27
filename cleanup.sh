@@ -9,4 +9,4 @@ fi
 
 . tools/functions.inc.sh
 
-loop_cleanup $1
+loop_cleanup

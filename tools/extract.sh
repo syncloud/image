@@ -137,8 +137,8 @@ function cleanup {
     losetup -l | tee losetup.out
     LOOP=$(cat losetup.out | grep ${IMAGE_FILE_NORMALIZED} | cut -d ' ' -f1 | cut -d '/' -f3) || true
     if [[ ${LOOP} != "" ]]; then
-         dmsetup remove -f /dev/mapper/${LOOP}p1 | true
-         dmsetup remove -f /dev/mapper/${LOOP}p2 | true
+         dmsetup remove -f /dev/mapper/${LOOP}p1 || true
+         dmsetup remove -f /dev/mapper/${LOOP}p2 || true
          losetup -d /dev/${LOOP} | true
          losetup
     fi

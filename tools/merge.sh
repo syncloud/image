@@ -99,6 +99,8 @@ w
 q
 " | fdisk ${SYNCLOUD_IMAGE}
 
+sync
+
 ls -la /dev/mapper/*
 
 kpartx -l ${SYNCLOUD_IMAGE}
