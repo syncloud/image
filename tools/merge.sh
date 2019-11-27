@@ -80,7 +80,7 @@ BOOT_BYTES=$(wc -c "${SYNCLOUD_IMAGE}" | cut -f 1 -d ' ')
 BOOT_SECTORS=$(( ${BOOT_BYTES} / 512 ))
 echo "boot sectors: ${BOOT_SECTORS}"
 
-ROOTFS_SECTORS=$(( 3 * 1024 * 1024 "* 2 ))
+ROOTFS_SECTORS=$(( 3 * 1024 * 1024 * 2 ))
 dd if=/dev/zero count=${ROOTFS_SECTORS} >> ${SYNCLOUD_IMAGE}
 ROOTFS_START_SECTOR=$(( ${BOOT_SECTORS} + 1  ))
 ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 2 ))
