@@ -55,6 +55,8 @@ function cleanup {
     echo "removing loop devices"
     kpartx -d ${SYNCLOUD_IMAGE} || true
     rm -rf ${SYNCLOUD_BOARD}
+    dmsetup remove -f /dev/mapper/loop* || true
+
     echo "==== cleanup end ===="
 }
 
@@ -118,7 +120,13 @@ DEVICE_PART_1=/dev/mapper/${LOOP}p1
 DEVICE_PART_2=/dev/mapper/${LOOP}p2
 
 export MKE2FS_SYNC=2
+set +e
 mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 ${DEVICE_PART_2}
+if [[ $? -ne 0 ]]; then
+    cleanup
+    exit 1
+fi
+set -e
 sync
 
 fsck -fy ${DEVICE_PART_2}
