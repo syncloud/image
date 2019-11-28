@@ -117,18 +117,29 @@ function prepare_image {
     export MKE2FS_SYNC=2
     mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
 }
+
+attempts=3
+attempt=0
 set +e
-( prepare_image )
-if [[ $? -ne 0 ]]; then
-    cleanup
+while true; do
     ( prepare_image )
-    if [[ $? -ne 0 ]]; then
-        cleanup
+    if [[ $? -eq 0 ]]; then
+        break
+    fi
+    cleanup
+    if [[ ${attempt} -ge ${attempts} ]]; then
         exit 1
     fi
-fi
-LOOP=$(cat loop.dev)
+    dmesg | tail -10
+    sleep 3
+    echo "======================"
+    echo "retrying image format: $attempt"
+    echo "======================"
+    attempt=$((attempt+1)) 
+done
 set -e
+
+LOOP=$(cat loop.dev)
 DEVICE_PART_1=/dev/mapper/${LOOP}p1
 DEVICE_PART_2=/dev/mapper/${LOOP}p2
 
