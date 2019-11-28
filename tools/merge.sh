@@ -50,7 +50,7 @@ function cleanup {
     mount | grep ${DST_ROOTFS} | awk '{print "umounting "$1; system("umount "$3)}' || true
     mount | grep ${DST_ROOTFS} || true
     rm -rf ${SRC_ROOTFS}
-    losetup -a
+    losetup -a || true
     kpartx -v ${SYNCLOUD_IMAGE} || true
     echo "removing loop devices"
     kpartx -d ${SYNCLOUD_IMAGE} || true
