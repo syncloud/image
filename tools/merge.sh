@@ -113,21 +113,21 @@ function prepare_image() {
     kpartx -avs ${SYNCLOUD_IMAGE} | tee kpartx.out
     sync
     LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
+    echo $LOOP > loop.dev
     export MKE2FS_SYNC=2
     mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
-    echo $LOOP
 }
 set +e
-LOOP=$( prepare_image )
+$( prepare_image )
 if [[ $? -ne 0 ]]; then
     cleanup
-    LOOP=$( prepare_image )
+    $( prepare_image )
     if [[ $? -ne 0 ]]; then
         cleanup
         exit 1
     fi
 fi
-
+LOOP=$(cat loop.dev)
 set -e
 DEVICE_PART_1=/dev/mapper/${LOOP}p1
 DEVICE_PART_2=/dev/mapper/${LOOP}p2
