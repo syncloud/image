@@ -102,27 +102,36 @@ sync
 ls -la /dev/mapper/*
 
 kpartx -l ${SYNCLOUD_IMAGE}
-kpartx -avs ${SYNCLOUD_IMAGE} | tee kpartx.out
-sync
-LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
-
 rm -rf dst_${SYNCLOUD_BOARD}
 mkdir -p ${DST_ROOTFS}
 
 ls -la /dev/mapper/*
 sync
 
+function prepare_image() { 
+    set -e
+    kpartx -avs ${SYNCLOUD_IMAGE} | tee kpartx.out
+    sync
+    LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
+    export MKE2FS_SYNC=2
+    mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
+    echo $LOOP
+}
+set +e
+LOOP=$( prepare_image )
+if [[ $? -ne 0 ]]; then
+    cleanup
+    LOOP=$( prepare_image )
+    if [[ $? -ne 0 ]]; then
+        cleanup
+        exit 1
+    fi
+fi
+
+set -e
 DEVICE_PART_1=/dev/mapper/${LOOP}p1
 DEVICE_PART_2=/dev/mapper/${LOOP}p2
 
-export MKE2FS_SYNC=2
-set +e
-mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 ${DEVICE_PART_2}
-if [[ $? -ne 0 ]]; then
-    cleanup
-    exit 1
-fi
-set -e
 sync
 
 fsck -fy ${DEVICE_PART_2}

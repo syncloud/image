@@ -2,5 +2,5 @@
 
 echo "===== loop cleanup ====="
 ls -la /dev/mapper/*
-losetup
+losetup || true
 dmsetup remove -f /dev/mapper/loop* || true
