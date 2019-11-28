@@ -118,10 +118,10 @@ function prepare_image() {
     mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
 }
 set +e
-$( prepare_image )
+( prepare_image )
 if [[ $? -ne 0 ]]; then
     cleanup
-    $( prepare_image )
+    ( prepare_image )
     if [[ $? -ne 0 ]]; then
         cleanup
         exit 1
