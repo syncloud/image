@@ -108,7 +108,7 @@ mkdir -p ${DST_ROOTFS}
 ls -la /dev/mapper/*
 sync
 
-function prepare_image() { 
+function prepare_image { 
     set -e
     kpartx -avs ${SYNCLOUD_IMAGE} | tee kpartx.out
     sync
