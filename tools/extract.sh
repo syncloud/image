@@ -47,19 +47,17 @@ elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
-  IMAGE_FILE="Cubian-nano+headless-x1-a10.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/Cubian-nano%2Bheadless-x1-a10.img.7z -O $IMAGE_FILE_ZIP"
-  UNZIP="p7zip -d"
+  IMAGE_FILE="Cubian-nano-headless-x1-a10.img"
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
   CPU_FREQUENCY_MAX=1056000
   CPU_FREQUENCY_MIN=648000
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
-  IMAGE_FILE="Cubian-nano+headless-x1-a20.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/Cubian-nano%2Bheadless-x1-a20.img.7z -O $IMAGE_FILE_ZIP"
-  UNZIP="p7zip -d"
+  IMAGE_FILE="Cubian-nano-headless-x1-a20.img"
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
   CPU_FREQUENCY_MAX=1056000

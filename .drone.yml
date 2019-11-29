@@ -1,5 +1,91 @@
 ---
 kind: pipeline
+name: cubieboard2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh cubieboard2 cubieboard2-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh cubieboard2 arm syncloud-cubieboard2-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-cubieboard2-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: cubieboard
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh cubieboard cubieboard-base.img
+  privileged: true
+
+- name: merge
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/merge.sh cubieboard arm syncloud-cubieboard-19.12.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    password:
+      from_secret: artifact_password
+    source: syncloud-cubieboard-19.12.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
 name: beagleboneblack
 
 platform:
@@ -415,92 +501,6 @@ steps:
     password:
       from_secret: artifact_password
     source: syncloud-odroid-u3-19.12.img.xz
-    target: /home/artifact/repo/image
-    username: artifact
-
-- name: cleanup
-  image: syncloud/build-deps-amd64
-  commands:
-  - ./cleanup.sh
-  privileged: true
-  when:
-    status:
-    - failure
-    - success
-
----
-kind: pipeline
-name: cubieboard2
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: extract
-  image: syncloud/build-deps-amd64
-  commands:
-  - ./tools/extract.sh cubieboard2 cubieboard2-base.img
-  privileged: true
-
-- name: merge
-  image: syncloud/build-deps-amd64
-  commands:
-  - ./tools/merge.sh cubieboard2 arm syncloud-cubieboard2-19.12.img
-  privileged: true
-
-- name: artifact
-  image: appleboy/drone-scp
-  settings:
-    command_timeout: 2m
-    host:
-      from_secret: artifact_host
-    password:
-      from_secret: artifact_password
-    source: syncloud-cubieboard2-19.12.img.xz
-    target: /home/artifact/repo/image
-    username: artifact
-
-- name: cleanup
-  image: syncloud/build-deps-amd64
-  commands:
-  - ./cleanup.sh
-  privileged: true
-  when:
-    status:
-    - failure
-    - success
-
----
-kind: pipeline
-name: cubieboard
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: extract
-  image: syncloud/build-deps-amd64
-  commands:
-  - ./tools/extract.sh cubieboard cubieboard-base.img
-  privileged: true
-
-- name: merge
-  image: syncloud/build-deps-amd64
-  commands:
-  - ./tools/merge.sh cubieboard arm syncloud-cubieboard-19.12.img
-  privileged: true
-
-- name: artifact
-  image: appleboy/drone-scp
-  settings:
-    command_timeout: 2m
-    host:
-      from_secret: artifact_host
-    password:
-      from_secret: artifact_password
-    source: syncloud-cubieboard-19.12.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
