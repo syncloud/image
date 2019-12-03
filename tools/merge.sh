@@ -15,12 +15,13 @@ fi
 SYNCLOUD_BOARD=$1
 ARCH=$2
 SYNCLOUD_IMAGE=$3
+ROOTFS_VERSION=2019.12
 
 ROOTFS_FILE=rootfs-${ARCH}.tar.gz
 echo "==== ${SYNCLOUD_BOARD}, ${ARCH} ===="
 
 if [[ ! -f ${ROOTFS_FILE} ]]; then
-    wget https://github.com/syncloud/rootfs/releases/download/1/${ROOTFS_FILE} --progress dot:giga
+    wget https://github.com/syncloud/rootfs/releases/download/${ROOTFS_VERSION}/${ROOTFS_FILE} --progress dot:giga
 else
     echo "$ROOTFS_FILE is here"
 fi
