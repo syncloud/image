@@ -1,4 +1,4 @@
-local release = "19.12";
+local release = "20.01";
 
 local build(board, arch) = {
     local base_image = board + "-base.img",
