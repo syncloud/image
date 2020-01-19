@@ -28,7 +28,7 @@ docker import syncloud-rootfs-[arch].tar.gz syncloud/rootfs-[arch]
 
 ### Write an image to a device (if etcher cli is not available)
 ````
-xzcat syncloud-[board]-[release]-[installer].img.xz | dd of=/dev/[device] status=progress bs=4M
+xzcat syncloud-[board]-[release].img.xz | dd of=/dev/[device] status=progress bs=4M
 ````
 
 ## Virtual Box image creation is not yet automated (haven't found a way on Scaleway VMs)
@@ -36,6 +36,6 @@ xzcat syncloud-[board]-[release]-[installer].img.xz | dd of=/dev/[device] status
 Convert Virtual Box image file to a vdi file
 
 ````
-unxz syncloud-amd64.img.xz
-sudo -H ./create_vbox_image.sh syncloud-amd64.img
-sudo chown $USER. syncloud-amd64.vdi
+unxz syncloud-amd64-[version].img.xz
+sudo -H ./create_vbox_image.sh syncloud-amd64-[version].img
+sudo chown $USER. syncloud-amd64-[version].vdi.xz
