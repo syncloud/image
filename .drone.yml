@@ -16,7 +16,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh cubieboard2 arm syncloud-cubieboard2-19.12.img
+  - ./tools/merge.sh cubieboard2 arm syncloud-cubieboard2-20.01.img
   privileged: true
 
 - name: artifact
@@ -27,7 +27,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-cubieboard2-19.12.img.xz
+    source: syncloud-cubieboard2-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -59,7 +59,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh cubieboard arm syncloud-cubieboard-19.12.img
+  - ./tools/merge.sh cubieboard arm syncloud-cubieboard-20.01.img
   privileged: true
 
 - name: artifact
@@ -70,7 +70,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-cubieboard-19.12.img.xz
+    source: syncloud-cubieboard-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -102,7 +102,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh beagleboneblack arm syncloud-beagleboneblack-19.12.img
+  - ./tools/merge.sh beagleboneblack arm syncloud-beagleboneblack-20.01.img
   privileged: true
 
 - name: artifact
@@ -113,7 +113,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-beagleboneblack-19.12.img.xz
+    source: syncloud-beagleboneblack-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -145,7 +145,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh bananapim3 arm syncloud-bananapim3-19.12.img
+  - ./tools/merge.sh bananapim3 arm syncloud-bananapim3-20.01.img
   privileged: true
 
 - name: artifact
@@ -156,7 +156,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-bananapim3-19.12.img.xz
+    source: syncloud-bananapim3-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -188,7 +188,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh rock64 arm syncloud-rock64-19.12.img
+  - ./tools/merge.sh rock64 arm syncloud-rock64-20.01.img
   privileged: true
 
 - name: artifact
@@ -199,7 +199,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-rock64-19.12.img.xz
+    source: syncloud-rock64-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -231,7 +231,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh helios4 arm syncloud-helios4-19.12.img
+  - ./tools/merge.sh helios4 arm syncloud-helios4-20.01.img
   privileged: true
 
 - name: artifact
@@ -242,7 +242,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-helios4-19.12.img.xz
+    source: syncloud-helios4-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -274,7 +274,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh raspberrypi3 arm syncloud-raspberrypi3-19.12.img
+  - ./tools/merge.sh raspberrypi3 arm syncloud-raspberrypi3-20.01.img
   privileged: true
 
 - name: artifact
@@ -285,7 +285,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-raspberrypi3-19.12.img.xz
+    source: syncloud-raspberrypi3-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -317,7 +317,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh raspberrypi4 arm syncloud-raspberrypi4-19.12.img
+  - ./tools/merge.sh raspberrypi4 arm syncloud-raspberrypi4-20.01.img
   privileged: true
 
 - name: artifact
@@ -328,7 +328,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-raspberrypi4-19.12.img.xz
+    source: syncloud-raspberrypi4-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -360,7 +360,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh raspberrypi2 arm syncloud-raspberrypi2-19.12.img
+  - ./tools/merge.sh raspberrypi2 arm syncloud-raspberrypi2-20.01.img
   privileged: true
 
 - name: artifact
@@ -371,7 +371,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-raspberrypi2-19.12.img.xz
+    source: syncloud-raspberrypi2-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -403,7 +403,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh odroid-xu3and4 arm syncloud-odroid-xu3and4-19.12.img
+  - ./tools/merge.sh odroid-xu3and4 arm syncloud-odroid-xu3and4-20.01.img
   privileged: true
 
 - name: artifact
@@ -414,7 +414,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-odroid-xu3and4-19.12.img.xz
+    source: syncloud-odroid-xu3and4-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -446,7 +446,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh odroid-c2 arm syncloud-odroid-c2-19.12.img
+  - ./tools/merge.sh odroid-c2 arm syncloud-odroid-c2-20.01.img
   privileged: true
 
 - name: artifact
@@ -457,7 +457,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-odroid-c2-19.12.img.xz
+    source: syncloud-odroid-c2-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -489,7 +489,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh odroid-u3 arm syncloud-odroid-u3-19.12.img
+  - ./tools/merge.sh odroid-u3 arm syncloud-odroid-u3-20.01.img
   privileged: true
 
 - name: artifact
@@ -500,7 +500,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-odroid-u3-19.12.img.xz
+    source: syncloud-odroid-u3-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -532,7 +532,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh bananapim2 arm syncloud-bananapim2-19.12.img
+  - ./tools/merge.sh bananapim2 arm syncloud-bananapim2-20.01.img
   privileged: true
 
 - name: artifact
@@ -543,7 +543,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-bananapim2-19.12.img.xz
+    source: syncloud-bananapim2-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -575,7 +575,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh bananapim1 arm syncloud-bananapim1-19.12.img
+  - ./tools/merge.sh bananapim1 arm syncloud-bananapim1-20.01.img
   privileged: true
 
 - name: artifact
@@ -586,7 +586,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-bananapim1-19.12.img.xz
+    source: syncloud-bananapim1-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -618,7 +618,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh cubietruck arm syncloud-cubietruck-19.12.img
+  - ./tools/merge.sh cubietruck arm syncloud-cubietruck-20.01.img
   privileged: true
 
 - name: artifact
@@ -629,7 +629,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-cubietruck-19.12.img.xz
+    source: syncloud-cubietruck-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -661,7 +661,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh tinker arm syncloud-tinker-19.12.img
+  - ./tools/merge.sh tinker arm syncloud-tinker-20.01.img
   privileged: true
 
 - name: artifact
@@ -672,7 +672,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-tinker-19.12.img.xz
+    source: syncloud-tinker-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -704,7 +704,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh odroid-n2 arm syncloud-odroid-n2-19.12.img
+  - ./tools/merge.sh odroid-n2 arm syncloud-odroid-n2-20.01.img
   privileged: true
 
 - name: artifact
@@ -715,7 +715,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-odroid-n2-19.12.img.xz
+    source: syncloud-odroid-n2-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -747,7 +747,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh amd64 amd64 syncloud-amd64-19.12.img
+  - ./tools/merge.sh amd64 amd64 syncloud-amd64-20.01.img
   privileged: true
 
 - name: artifact
@@ -758,7 +758,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-amd64-19.12.img.xz
+    source: syncloud-amd64-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -790,7 +790,7 @@ steps:
 - name: merge
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/merge.sh lime2 arm syncloud-lime2-19.12.img
+  - ./tools/merge.sh lime2 arm syncloud-lime2-20.01.img
   privileged: true
 
 - name: artifact
@@ -801,7 +801,7 @@ steps:
       from_secret: artifact_host
     password:
       from_secret: artifact_password
-    source: syncloud-lime2-19.12.img.xz
+    source: syncloud-lime2-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
