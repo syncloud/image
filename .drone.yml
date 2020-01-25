@@ -25,8 +25,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-cubieboard2-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -68,8 +68,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-cubieboard-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -111,8 +111,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-beagleboneblack-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -154,8 +154,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-bananapim3-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -197,8 +197,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-rock64-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -240,8 +240,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-helios4-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -283,8 +283,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-raspberrypi3-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -326,8 +326,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-raspberrypi4-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -369,8 +369,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-raspberrypi2-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -412,8 +412,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-odroid-xu3and4-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -455,8 +455,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-odroid-c2-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -498,8 +498,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-odroid-u3-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -541,8 +541,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-bananapim2-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -584,8 +584,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-bananapim1-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -627,8 +627,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-cubietruck-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -670,8 +670,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-tinker-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -713,8 +713,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-odroid-n2-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -756,8 +756,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-amd64-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
@@ -799,8 +799,8 @@ steps:
     command_timeout: 2m
     host:
       from_secret: artifact_host
-    password:
-      from_secret: artifact_password
+    key:
+      from_secret: artifact_key
     source: syncloud-lime2-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact

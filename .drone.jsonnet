@@ -36,8 +36,8 @@ local build(board, arch) = {
                 from_secret: "artifact_host"
             },
             username: "artifact",
-            password: {
-                from_secret: "artifact_password"
+            key: {
+                from_secret: "artifact_key"
             },
             command_timeout: "2m",
             target: "/home/artifact/repo/image",
