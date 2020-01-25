@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash -e
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 if [[ $EUID -ne 0 ]]; then
@@ -290,7 +290,7 @@ else
         fi
         
         echo "kernel config"
-        cat ${BOOT}/boot/config-* || true
+        ls -la {BOOT}/boot/config-* || true
 
         #if [ -f ${BOOT}/boot/boot.cmd ]; then
         #    cat ${BOOT}/boot/boot.cmd
