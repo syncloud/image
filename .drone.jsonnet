@@ -58,7 +58,7 @@ local build(board, arch, mode) = {
             },
             command_timeout: "2m",
             target: "/home/artifact/repo/image",
-            source: image + ".xz"
+            source: image + "*.xz"
         }
     },
     {
