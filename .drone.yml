@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: odroid-xu3and4
+name: odroid-xu3and4-all
 
 platform:
   os: linux
@@ -39,7 +39,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-odroid-xu3and4-20.01.img.xz
+    source: syncloud-odroid-xu3and4-20.01.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -55,7 +55,7 @@ steps:
 
 ---
 kind: pipeline
-name: odroid-xu3and4
+name: odroid-xu3and4-boot
 
 platform:
   os: linux
@@ -89,7 +89,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-odroid-xu3and4-20.01.img.xz
+    source: syncloud-odroid-xu3and4-20.01.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
