@@ -22,7 +22,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh cubieboard2 atm syncloud-cubieboard2-20.01.img 20.01
+  - ./tools/rootfs.sh cubieboard2 arm syncloud-cubieboard2-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -77,7 +77,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh cubieboard atm syncloud-cubieboard-20.01.img 20.01
+  - ./tools/rootfs.sh cubieboard arm syncloud-cubieboard-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -132,7 +132,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh beagleboneblack atm syncloud-beagleboneblack-20.01.img 20.01
+  - ./tools/rootfs.sh beagleboneblack arm syncloud-beagleboneblack-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -187,7 +187,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh bananapim3 atm syncloud-bananapim3-20.01.img 20.01
+  - ./tools/rootfs.sh bananapim3 arm syncloud-bananapim3-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -242,7 +242,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh rock64 atm syncloud-rock64-20.01.img 20.01
+  - ./tools/rootfs.sh rock64 arm syncloud-rock64-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -297,7 +297,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh helios4 atm syncloud-helios4-20.01.img 20.01
+  - ./tools/rootfs.sh helios4 arm syncloud-helios4-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -352,7 +352,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh raspberrypi3 atm syncloud-raspberrypi3-20.01.img 20.01
+  - ./tools/rootfs.sh raspberrypi3 arm syncloud-raspberrypi3-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -407,7 +407,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh raspberrypi4 atm syncloud-raspberrypi4-20.01.img 20.01
+  - ./tools/rootfs.sh raspberrypi4 arm syncloud-raspberrypi4-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -462,7 +462,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh raspberrypi2 atm syncloud-raspberrypi2-20.01.img 20.01
+  - ./tools/rootfs.sh raspberrypi2 arm syncloud-raspberrypi2-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -517,7 +517,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh odroid-xu3and4 atm syncloud-odroid-xu3and4-20.01.img 20.01
+  - ./tools/rootfs.sh odroid-xu3and4 arm syncloud-odroid-xu3and4-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -622,7 +622,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh odroid-c2 atm syncloud-odroid-c2-20.01.img 20.01
+  - ./tools/rootfs.sh odroid-c2 arm syncloud-odroid-c2-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -677,7 +677,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh odroid-u3 atm syncloud-odroid-u3-20.01.img 20.01
+  - ./tools/rootfs.sh odroid-u3 arm syncloud-odroid-u3-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -732,7 +732,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh bananapim2 atm syncloud-bananapim2-20.01.img 20.01
+  - ./tools/rootfs.sh bananapim2 arm syncloud-bananapim2-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -787,7 +787,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh bananapim1 atm syncloud-bananapim1-20.01.img 20.01
+  - ./tools/rootfs.sh bananapim1 arm syncloud-bananapim1-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -842,7 +842,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh cubietruck atm syncloud-cubietruck-20.01.img 20.01
+  - ./tools/rootfs.sh cubietruck arm syncloud-cubietruck-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -897,7 +897,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh tinker atm syncloud-tinker-20.01.img 20.01
+  - ./tools/rootfs.sh tinker arm syncloud-tinker-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -952,7 +952,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh odroid-n2 atm syncloud-odroid-n2-20.01.img 20.01
+  - ./tools/rootfs.sh odroid-n2 arm syncloud-odroid-n2-20.01.img 20.01
   privileged: true
 
 - name: zip
@@ -1062,7 +1062,7 @@ steps:
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh lime2 atm syncloud-lime2-20.01.img 20.01
+  - ./tools/rootfs.sh lime2 arm syncloud-lime2-20.01.img 20.01
   privileged: true
 
 - name: zip
