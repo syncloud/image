@@ -2,8 +2,7 @@ local release = "20.01";
 
 local build(board, arch, mode) = {
     local base_image = board + "-base.img",
-    local suffix = if mode == "boot" then "_boot" else "",
-    local image = "syncloud-" + board + "-" + release + suffix + ".img",
+    local image = "syncloud-" + board + "-" + release + ".img",
 
     kind: "pipeline",
     name: board + "-" + mode,
@@ -42,7 +41,7 @@ local build(board, arch, mode) = {
         name: "zip",
         image: "syncloud/build-deps-amd64",
         commands: [
-            "./tools/zip.sh " + image
+            "./tools/zip.sh " + image + " " + mode
         ],
         privileged: true
     },
@@ -59,7 +58,7 @@ local build(board, arch, mode) = {
             },
             command_timeout: "2m",
             target: "/home/artifact/repo/image",
-            source: image + ".xz"
+            source: image + "*.xz"
         }
     },
     {
@@ -76,24 +75,24 @@ local build(board, arch, mode) = {
 };
 
 [
-// build("cubieboard2", "arm"),
-// build("cubieboard", "arm"),
-// build("beagleboneblack", "arm"),
-// build("bananapim3", "arm"),
-// build("rock64", "arm"),
-// build("helios4", "arm"),
-// build("raspberrypi3", "arm"),
-// build("raspberrypi4", "arm"),
-// build("raspberrypi2", "arm"),
-build("odroid-xu3and4", "arm", "all"),
-build("odroid-xu3and4", "arm", "boot"),
-// build("odroid-c2", "arm"),
-// build("odroid-u3", "arm"),
-// build("bananapim2", "arm"),
-// build("bananapim1", "arm"),
-// build("cubietruck", "arm"),
-// build("tinker", "arm"),
-// build("odroid-n2", "arm"),
-// build("amd64", "amd64"),
-// build("lime2", "arm"),
+build("cubieboard2", "atm", "all"),
+build("cubieboard", "atm", "all"),
+build("beagleboneblack", "atm", "all"),
+build("bananapim3", "atm", "all"),
+build("rock64", "atm", "all"),
+build("helios4", "atm", "all"),
+build("raspberrypi3", "atm", "all"),
+build("raspberrypi4", "atm", "all"),
+build("raspberrypi2", "atm", "all"),
+build("odroid-xu3and4", "atm", "all"),
+build("odroid-xu3and4", "atm", "boot"),
+build("odroid-c2", "atm", "all"),
+build("odroid-u3", "atm", "all"),
+build("bananapim2", "atm", "all"),
+build("bananapim1", "atm", "all"),
+build("cubietruck", "atm", "all"),
+build("tinker", "atm", "all"),
+build("odroid-n2", "atm", "all"),
+build("amd64", "amd64", "all"),
+build("lime2", "atm", "all"),
 ]
