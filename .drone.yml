@@ -19,6 +19,61 @@ steps:
   - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-20.01.img
   privileged: true
 
+- name: rootfs
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/rootfs.sh odroid-xu3and4 arm syncloud-odroid-xu3and4-20.01.img 20.01
+  privileged: true
+
+- name: zip
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/zip.sh syncloud-odroid-xu3and4-20.01.img all
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    key:
+      from_secret: artifact_key
+    source: syncloud-odroid-xu3and4-20.01.img.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: odroid-xu3and4
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh odroid-xu3and4 odroid-xu3and4-base.img
+  privileged: true
+
+- name: boot
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-20.01.img
+  privileged: true
+
 
 - name: zip
   image: syncloud/build-deps-amd64
