@@ -38,8 +38,8 @@ function change_uuid {
 
 function attach_image { 
     local image=$1
-    kpartx -avs ${image} | tee kpartx.out
-    sync
+    kpartx -avs ${image} > kpartx.out
+    sync > /dev/null
     echo loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
 }
 
