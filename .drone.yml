@@ -23,7 +23,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-xu3and4-20.01.img
+  - ./tools/zip.sh syncloud-odroid-xu3and4-20.01.img boot
   privileged: true
 
 - name: artifact
