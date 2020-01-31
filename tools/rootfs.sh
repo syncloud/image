@@ -91,6 +91,6 @@ grep localhost ${DST_ROOTFS}/etc/hosts
 
 sync
 
-cleanup $DST_ROOTFS $SRC_ROOTFS $SYNCLOUD_IMAGE $SYNCLOUD_BOARD
+cleanup $DST_ROOTFS $SRC_ROOTFS $SYNCLOUD_IMAGE
 
 ls -la ${DST_ROOTFS}

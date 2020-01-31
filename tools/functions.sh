@@ -2,7 +2,6 @@ function cleanup {
     local DST_ROOTFS=$1
     local SRC_ROOTFS=$2
     local SYNCLOUD_IMAGE=$3
-    local SYNCLOUD_BOARD=$4
     echo "==== cleanup ===="
 
     ls -la /dev/mapper/*
@@ -14,7 +13,6 @@ function cleanup {
     kpartx -v ${SYNCLOUD_IMAGE} || true
     echo "removing loop devices"
     kpartx -d ${SYNCLOUD_IMAGE} || true
-    rm -rf ${SYNCLOUD_BOARD}
     dmsetup remove -f /dev/mapper/loop* || true
 
     echo "==== cleanup end ===="

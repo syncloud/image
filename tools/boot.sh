@@ -32,7 +32,7 @@ export TMP=/tmp
 SRC_ROOTFS=rootfs_${SYNCLOUD_BOARD}
 DST_ROOTFS=dst_${SYNCLOUD_BOARD}/root
 
-cleanup $DST_ROOTFS $SRC_ROOTFS $SYNCLOUD_IMAGE $SYNCLOUD_BOARD
+cleanup $DST_ROOTFS $SRC_ROOTFS $SYNCLOUD_IMAGE
 
 echo "extracting boot"
 rm -rf ${SYNCLOUD_BOARD}
@@ -104,4 +104,4 @@ if [[ -f "${UUID_FILE}" ]]; then
     change_uuid ${DEVICE_PART_1} clear
 fi
 
-cleanup $DST_ROOTFS $SRC_ROOTFS $SYNCLOUD_IMAGE $SYNCLOUD_BOARD
+cleanup $DST_ROOTFS $SRC_ROOTFS $SYNCLOUD_IMAGE
