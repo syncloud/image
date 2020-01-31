@@ -32,7 +32,7 @@ export TMP=/tmp
 SRC_ROOTFS=rootfs_${SYNCLOUD_BOARD}
 DST_ROOTFS=dst_${SYNCLOUD_BOARD}/root
 
-cleanup $DST_ROOTFS $SRC_ROOTFS $SYNCLOUD_IMAGE
+cleanup ${DST_ROOTFS} ${SRC_ROOTFS} ${SYNCLOUD_IMAGE}
 
 echo "extracting boot"
 rm -rf ${SYNCLOUD_BOARD}
@@ -83,7 +83,7 @@ while true; do
     if [[ $? -eq 0 ]]; then
         break
     fi
-    cleanup $DST_ROOTFS $SRC_ROOTFS $SYNCLOUD_IMAGE $SYNCLOUD_BOARD
+    cleanup ${DST_ROOTFS} ${SRC_ROOTFS} ${SYNCLOUD_IMAGE}
     if [[ ${attempt} -ge ${attempts} ]]; then
         exit 1
     fi
@@ -98,10 +98,12 @@ set -e
 
 LOOP=$(cat loop.dev)
 DEVICE_PART_1=/dev/mapper/${LOOP}p1
+DEVICE_PART_2=/dev/mapper/${LOOP}p2
 sync
 UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
 if [[ -f "${UUID_FILE}" ]]; then
     change_uuid ${DEVICE_PART_1} clear
+    change_uuid ${DEVICE_PART_2} clear
 fi
 
-cleanup $DST_ROOTFS $SRC_ROOTFS $SYNCLOUD_IMAGE
+cleanup ${DST_ROOTFS} ${SRC_ROOTFS} ${SYNCLOUD_IMAGE}

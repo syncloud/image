@@ -36,7 +36,7 @@ tar xzf ${ROOTFS_FILE} -C${SRC_ROOTFS}
 cat ${SRC_ROOTFS}/etc/hosts
 rm -rf ${ROOTFS_FILE}
 
-LOOP=$(attach_image $SYNCLOUD_IMAGE)
+LOOP=$(attach_image ${SYNCLOUD_IMAGE})
 DEVICE_PART_1=/dev/mapper/${LOOP}p1
 DEVICE_PART_2=/dev/mapper/${LOOP}p2
 sync
@@ -91,6 +91,6 @@ grep localhost ${DST_ROOTFS}/etc/hosts
 
 sync
 
-cleanup $DST_ROOTFS $SRC_ROOTFS $SYNCLOUD_IMAGE
+cleanup ${DST_ROOTFS} ${SRC_ROOTFS} ${SYNCLOUD_IMAGE}
 
 ls -la ${DST_ROOTFS}

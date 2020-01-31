@@ -28,7 +28,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-xu3and4-20.01.img all
+  - ./tools/zip.sh syncloud-odroid-xu3and4-20.01.img
   privileged: true
 
 - name: artifact
@@ -39,7 +39,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-odroid-xu3and4-20.01.img*.xz
+    source: syncloud-odroid-xu3and4-20.01.img.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -71,14 +71,14 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-20.01.img
+  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-20.01_boot.img
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-xu3and4-20.01.img boot
+  - ./tools/zip.sh syncloud-odroid-xu3and4-20.01_boot.img
   privileged: true
 
 - name: artifact
@@ -89,7 +89,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-odroid-xu3and4-20.01.img*.xz
+    source: syncloud-odroid-xu3and4-20.01_boot.img.xz
     target: /home/artifact/repo/image
     username: artifact
 

@@ -2,7 +2,8 @@ local release = "20.01";
 
 local build(board, arch, mode) = {
     local base_image = board + "-base.img",
-    local image = "syncloud-" + board + "-" + release + ".img",
+    local suffix = if mode == "boot" then "_boot" else "",
+    local image = "syncloud-" + board + "-" + release + suffix + ".img",
 
     kind: "pipeline",
     name: board + "-" + mode,
@@ -41,7 +42,7 @@ local build(board, arch, mode) = {
         name: "zip",
         image: "syncloud/build-deps-amd64",
         commands: [
-            "./tools/zip.sh " + image + " " + mode
+            "./tools/zip.sh " + image
         ],
         privileged: true
     },
@@ -58,7 +59,7 @@ local build(board, arch, mode) = {
             },
             command_timeout: "2m",
             target: "/home/artifact/repo/image",
-            source: image + "*.xz"
+            source: image + ".xz"
         }
     },
     {
