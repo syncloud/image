@@ -3,7 +3,7 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
 . functions.sh
-if [[ "$#" -ne 4 ]]; then
+if [[ "$#" -ne 2 ]]; then
     echo "Usage: $0 image mode"
     exit 1
 fi

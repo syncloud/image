@@ -9,8 +9,8 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [[ "$#" -ne 3 ]]; then
-    echo "Usage: $0 board arch image"
+if [[ "$#" -ne 2 ]]; then
+    echo "Usage: $0 board image"
     exit 1
 fi
 
