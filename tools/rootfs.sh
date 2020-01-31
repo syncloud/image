@@ -36,7 +36,7 @@ tar xzf ${ROOTFS_FILE} -C${SRC_ROOTFS}
 cat ${SRC_ROOTFS}/etc/hosts
 rm -rf ${ROOTFS_FILE}
 
-LOOP=$(cat loop.dev)
+LOOP=$(attach_image $SYNCLOUD_IMAGE)
 DEVICE_PART_1=/dev/mapper/${LOOP}p1
 DEVICE_PART_2=/dev/mapper/${LOOP}p2
 sync

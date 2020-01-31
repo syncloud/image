@@ -35,3 +35,19 @@ function change_uuid {
     fi
 
 }
+
+function attach_image { 
+    local image=$1
+    kpartx -avs ${image} | tee kpartx.out
+    sync
+    echo loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
+}
+
+function prepare_image { 
+    local image=$1
+    set -e
+    LOOP=$(attach_image $image)
+    echo $LOOP > loop.dev
+    export MKE2FS_SYNC=2
+    mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
+}

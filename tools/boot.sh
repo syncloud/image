@@ -75,21 +75,11 @@ mkdir -p ${DST_ROOTFS}
 ls -la /dev/mapper/*
 sync
 
-function prepare_image { 
-    set -e
-    kpartx -avs ${SYNCLOUD_IMAGE} | tee kpartx.out
-    sync
-    LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
-    echo $LOOP > loop.dev
-    export MKE2FS_SYNC=2
-    mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
-}
-
 attempts=3
 attempt=0
 set +e
 while true; do
-    ( prepare_image )
+    ( prepare_image ${SYNCLOUD_IMAGE} )
     if [[ $? -eq 0 ]]; then
         break
     fi
@@ -113,3 +103,5 @@ UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
 if [[ -f "${UUID_FILE}" ]]; then
     change_uuid ${DEVICE_PART_1} clear
 fi
+
+cleanup $DST_ROOTFS $SRC_ROOTFS $SYNCLOUD_IMAGE $SYNCLOUD_BOARD
