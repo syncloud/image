@@ -3,7 +3,10 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
 . functions.sh
-
+if [[ "$#" -ne 4 ]]; then
+    echo "Usage: $0 image mode"
+    exit 1
+fi
 SYNCLOUD_IMAGE=$1
 MODE=$2
 
