@@ -28,7 +28,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-cubieboard2-20.01.img all
+  - ./tools/zip.sh syncloud-cubieboard2-20.01.img
   privileged: true
 
 - name: artifact
@@ -83,7 +83,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-cubieboard-20.01.img all
+  - ./tools/zip.sh syncloud-cubieboard-20.01.img
   privileged: true
 
 - name: artifact
@@ -138,7 +138,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-beagleboneblack-20.01.img all
+  - ./tools/zip.sh syncloud-beagleboneblack-20.01.img
   privileged: true
 
 - name: artifact
@@ -193,7 +193,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-bananapim3-20.01.img all
+  - ./tools/zip.sh syncloud-bananapim3-20.01.img
   privileged: true
 
 - name: artifact
@@ -248,7 +248,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-rock64-20.01.img all
+  - ./tools/zip.sh syncloud-rock64-20.01.img
   privileged: true
 
 - name: artifact
@@ -303,7 +303,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-helios4-20.01.img all
+  - ./tools/zip.sh syncloud-helios4-20.01.img
   privileged: true
 
 - name: artifact
@@ -358,7 +358,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-raspberrypi3-20.01.img all
+  - ./tools/zip.sh syncloud-raspberrypi3-20.01.img
   privileged: true
 
 - name: artifact
@@ -413,7 +413,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-raspberrypi4-20.01.img all
+  - ./tools/zip.sh syncloud-raspberrypi4-20.01.img
   privileged: true
 
 - name: artifact
@@ -468,7 +468,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-raspberrypi2-20.01.img all
+  - ./tools/zip.sh syncloud-raspberrypi2-20.01.img
   privileged: true
 
 - name: artifact
@@ -523,7 +523,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-xu3and4-20.01.img all
+  - ./tools/zip.sh syncloud-odroid-xu3and4-20.01.img
   privileged: true
 
 - name: artifact
@@ -573,7 +573,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-xu3and4-20.01.img boot
+  - ./tools/zip.sh syncloud-odroid-xu3and4-20.01.img
   privileged: true
 
 - name: artifact
@@ -628,7 +628,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-c2-20.01.img all
+  - ./tools/zip.sh syncloud-odroid-c2-20.01.img
   privileged: true
 
 - name: artifact
@@ -683,7 +683,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-u3-20.01.img all
+  - ./tools/zip.sh syncloud-odroid-u3-20.01.img
   privileged: true
 
 - name: artifact
@@ -738,7 +738,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-bananapim2-20.01.img all
+  - ./tools/zip.sh syncloud-bananapim2-20.01.img
   privileged: true
 
 - name: artifact
@@ -793,7 +793,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-bananapim1-20.01.img all
+  - ./tools/zip.sh syncloud-bananapim1-20.01.img
   privileged: true
 
 - name: artifact
@@ -848,7 +848,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-cubietruck-20.01.img all
+  - ./tools/zip.sh syncloud-cubietruck-20.01.img
   privileged: true
 
 - name: artifact
@@ -903,7 +903,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-tinker-20.01.img all
+  - ./tools/zip.sh syncloud-tinker-20.01.img
   privileged: true
 
 - name: artifact
@@ -958,7 +958,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-n2-20.01.img all
+  - ./tools/zip.sh syncloud-odroid-n2-20.01.img
   privileged: true
 
 - name: artifact
@@ -1013,7 +1013,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-amd64-20.01.img all
+  - ./tools/zip.sh syncloud-amd64-20.01.img
   privileged: true
 
 - name: artifact
@@ -1068,7 +1068,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-lime2-20.01.img all
+  - ./tools/zip.sh syncloud-lime2-20.01.img
   privileged: true
 
 - name: artifact

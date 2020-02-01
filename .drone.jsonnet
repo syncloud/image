@@ -41,7 +41,7 @@ local build(board, arch, mode) = {
         name: "zip",
         image: "syncloud/build-deps-amd64",
         commands: [
-            "./tools/zip.sh " + image + " " + mode
+            "./tools/zip.sh " + image
         ],
         privileged: true
     },
