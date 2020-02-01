@@ -39,7 +39,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: "syncloud-odroid-xu3and4-20.01.img*.xz"
+    source: syncloud-odroid-xu3and4-20.01.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -89,7 +89,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: "syncloud-odroid-xu3and4-20.01_boot.img*.xz"
+    source: syncloud-odroid-xu3and4-20.01_boot.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
