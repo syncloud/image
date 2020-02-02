@@ -9,13 +9,14 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [[ "$#" -ne 2 ]]; then
-    echo "Usage: $0 board image"
+if [[ "$#" -ne 3 ]]; then
+    echo "Usage: $0 board image size"
     exit 1
 fi
 
 SYNCLOUD_BOARD=$1
 SYNCLOUD_IMAGE=$2
+ROOTFS_SIZE=$3
 
 BOOT_ZIP=${SYNCLOUD_BOARD}.tar.gz
 if [[ ! -f ${BOOT_ZIP} ]]; then
@@ -46,8 +47,7 @@ cp ${SYNCLOUD_BOARD}/boot ${SYNCLOUD_IMAGE}
 BOOT_BYTES=$(wc -c "${SYNCLOUD_IMAGE}" | cut -f 1 -d ' ')
 BOOT_SECTORS=$(( ${BOOT_BYTES} / 512 ))
 echo "boot sectors: ${BOOT_SECTORS}"
-
-ROOTFS_SECTORS=$(( 3 * 1024 * 1024 * 2 ))
+ROOTFS_SECTORS=$( numfmt --from=iec --to-unit=512 $ROOTFS_SIZE )
 dd if=/dev/zero count=${ROOTFS_SECTORS} >> ${SYNCLOUD_IMAGE}
 ROOTFS_START_SECTOR=$(( ${BOOT_SECTORS} + 1  ))
 ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 2 ))

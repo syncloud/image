@@ -1,8 +1,9 @@
-local release = "20.01";
+local release = "20.02";
 
 local build(board, arch, mode) = {
     local base_image = board + "-base.img",
     local suffix = if mode == "boot" then "-boot" else "",
+    local size = if mode == "boot" then "10M" else "3G",
     local image = "syncloud-" + board  + suffix + "-" + release + ".img",
 
     kind: "pipeline",
@@ -25,7 +26,7 @@ local build(board, arch, mode) = {
         name: "boot",
         image: "syncloud/build-deps-amd64",
         commands: [
-            "./tools/boot.sh " + board  + " " + image
+            "./tools/boot.sh " + board  + " " + image + " " + size
         ],
         privileged: true
     },
