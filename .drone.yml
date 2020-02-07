@@ -550,7 +550,7 @@ steps:
 
 ---
 kind: pipeline
-name: odroid-xu3and4-boot
+name: odroid-xu3and4-sd
 
 platform:
   os: linux
@@ -566,14 +566,19 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-boot-20.02.img 10M
+  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-sd-20.02.img 10M
   privileged: true
 
+- name: rootfs
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/rootfs.sh odroid-xu3and4 arm syncloud-odroid-xu3and4-sd-20.02.img 20.02
+  privileged: true
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-xu3and4-boot-20.02.img
+  - ./tools/zip.sh syncloud-odroid-xu3and4-sd-20.02.img
   privileged: true
 
 - name: artifact
@@ -584,7 +589,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-odroid-xu3and4-boot-20.02.img*.xz
+    source: syncloud-odroid-xu3and4-sd-20.02.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 

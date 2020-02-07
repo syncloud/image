@@ -2,8 +2,8 @@ local release = "20.02";
 
 local build(board, arch, mode) = {
     local base_image = board + "-base.img",
-    local suffix = if mode == "boot" then "-boot" else "",
-    local size = if mode == "boot" then "10M" else "3G",
+    local suffix = if mode == "sd" then "-sd" else "",
+    local size = if mode == "sd" then "10M" else "3G",
     local image = "syncloud-" + board  + suffix + "-" + release + ".img",
 
     kind: "pipeline",
@@ -87,7 +87,7 @@ build("raspberrypi3", "arm", "all"),
 build("raspberrypi4", "arm", "all"),
 build("raspberrypi2", "arm", "all"),
 build("odroid-xu3and4", "arm", "all"),
-build("odroid-xu3and4", "arm", "boot"),
+build("odroid-xu3and4", "arm", "sd"),
 build("odroid-c2", "arm", "all"),
 build("odroid-u3", "arm", "all"),
 build("bananapim2", "arm", "all"),
