@@ -18,12 +18,6 @@ drone jsonnet --stream
 sudo board=[board] /path/to/drone exec
 ````
 
-## Docker rootfs
-
-````
-docker import syncloud-rootfs-[arch].tar.gz syncloud/rootfs-[arch]
-````
-
 ## Useful image scripts
 
 ### Write an image to a device (if etcher cli is not available)
@@ -31,7 +25,7 @@ docker import syncloud-rootfs-[arch].tar.gz syncloud/rootfs-[arch]
 xzcat syncloud-[board]-[release].img.xz | dd of=/dev/[device] status=progress bs=4M
 ````
 
-## Virtual Box image creation is not yet automated (haven't found a way on Scaleway VMs)
+## Virtual Box image
 
 Convert Virtual Box image file to a vdi file
 
