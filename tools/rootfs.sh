@@ -18,11 +18,12 @@ SYNCLOUD_BOARD=$1
 ARCH=$2
 SYNCLOUD_IMAGE=$3
 RELEASE=$4
+DISTRO=jessie
 
 SRC_FILES=files/${SYNCLOUD_BOARD}
 SRC_ROOTFS=rootfs_${SYNCLOUD_BOARD}
 DST_ROOTFS=dst_${SYNCLOUD_BOARD}/root
-ROOTFS_FILE=rootfs-${ARCH}.tar.gz
+ROOTFS_FILE=rootfs-${DISTRO}-${ARCH}.tar.gz
 echo "==== ${SYNCLOUD_BOARD}, ${ARCH} ===="
 
 if [[ ! -f ${ROOTFS_FILE} ]]; then
@@ -66,8 +67,7 @@ cp -rp ${SYNCLOUD_BOARD}/root/* ${DST_ROOTFS}/
 echo "copying files"
 cp -rp ${SRC_FILES}/* ${DST_ROOTFS}/
 
-if [[ -f ${DST_ROOTFS}/etc/fstab.vbox ]]; then
-  mv ${DST_ROOTFS}/etc/fstab.vbox ${DST_ROOTFS}/etc/fstab
+if [[ ${ARCH} == "amd64"  ]]; then
 
   cat ${DST_ROOTFS}/etc/fstab
 
