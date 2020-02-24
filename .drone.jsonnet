@@ -3,7 +3,7 @@ local release = "20.02";
 local build(board, arch, mode) = {
     local base_image = board + "-base.img",
     local suffix = if mode == "sd" then "-sd" else "",
-    local size = if mode == "sd" then "200M" else "3G",
+    local size = if mode == "sd" then "10M" else "3G",
     local image = "syncloud-" + board  + suffix + "-" + release + ".img",
 
     kind: "pipeline",
