@@ -51,6 +51,7 @@ fi
 mount ${DEVICE_PART_2} ${DST_ROOTFS}
 
 ls -la ${SRC_ROOTFS}
+ls -la ${SRC_ROOTFS}/etc
 cat ${SRC_ROOTFS}/etc/hosts
 
 ls -la ${DST_ROOTFS}
