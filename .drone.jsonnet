@@ -1,10 +1,11 @@
-local release = "20.02";
+local release = "20.04";
+local distro = "buster";
 
 local build(board, arch, mode) = {
     local base_image = board + "-base.img",
     local suffix = if mode == "sd" then "-sd" else "",
     local size = if mode == "sd" then "10M" else "3G",
-    local image = "syncloud-" + board  + suffix + "-" + release + ".img",
+    local image = "syncloud-" + board  + suffix + "-" + distro + "-" + release + ".img",
 
     kind: "pipeline",
     name: board + "-" + mode,
@@ -35,7 +36,7 @@ local build(board, arch, mode) = {
         name: "rootfs",
         image: "syncloud/build-deps-amd64",
         commands: [
-            "./tools/rootfs.sh " + board + " " + arch + " " + image + " " + release
+            "./tools/rootfs.sh " + board + " " + arch + " " + image + " " + release + " " + distro
         ],
         privileged: true
     },
@@ -77,24 +78,24 @@ local build(board, arch, mode) = {
 };
 
 [
-build("cubieboard2", "arm", "all"),
-build("cubieboard", "arm", "all"),
-build("beagleboneblack", "arm", "all"),
-build("bananapim3", "arm", "all"),
-build("rock64", "arm", "all"),
-build("helios4", "arm", "all"),
-build("raspberrypi3", "arm", "all"),
-build("raspberrypi4", "arm", "all"),
-build("raspberrypi2", "arm", "all"),
+//build("cubieboard2", "arm", "all"),
+//build("cubieboard", "arm", "all"),
+//build("beagleboneblack", "arm", "all"),
+//build("bananapim3", "arm", "all"),
+//build("rock64", "arm", "all"),
+//build("helios4", "arm", "all"),
+//build("raspberrypi3", "arm", "all"),
+//build("raspberrypi4", "arm", "all"),
+//build("raspberrypi2", "arm", "all"),
 build("odroid-xu3and4", "arm", "all"),
-build("odroid-xu3and4", "arm", "sd"),
-build("odroid-c2", "arm", "all"),
-build("odroid-u3", "arm", "all"),
-build("bananapim2", "arm", "all"),
-build("bananapim1", "arm", "all"),
-build("cubietruck", "arm", "all"),
-build("tinker", "arm", "all"),
-build("odroid-n2", "arm", "all"),
-build("amd64", "amd64", "all"),
-build("lime2", "arm", "all"),
+//build("odroid-xu3and4", "arm", "sd"),
+//build("odroid-c2", "arm", "all"),
+//build("odroid-u3", "arm", "all"),
+//build("bananapim2", "arm", "all"),
+//build("bananapim1", "arm", "all"),
+//build("cubietruck", "arm", "all"),
+//build("tinker", "arm", "all"),
+//build("odroid-n2", "arm", "all"),
+//build("lime2", "arm", "all"),
+build("amd64", "amd64", "all")
 ]
