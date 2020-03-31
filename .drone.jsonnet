@@ -87,7 +87,7 @@ local build(board, arch, mode) = {
 //build("raspberrypi3", "arm", "all"),
 //build("raspberrypi4", "arm", "all"),
 //build("raspberrypi2", "arm", "all"),
-build("odroid-xu3and4", "arm", "all"),
+//build("odroid-xu3and4", "arm", "all"),
 //build("odroid-xu3and4", "arm", "sd"),
 //build("odroid-c2", "arm", "all"),
 //build("odroid-u3", "arm", "all"),
