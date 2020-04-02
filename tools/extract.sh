@@ -6,13 +6,14 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-if [ "$2" == "" ]; then
-    echo "Usage: $0 board base_image"
+if [[ "$#" -ne 3 ]]; then
+    echo "Usage: $0 board base_image distro"
     exit 1
 fi
 
 SYNCLOUD_BOARD=$1
 IMAGE_FILE_NORMALIZED=$2
+DISTRO=$3
 BUILD_DIR=${DIR}/build_${SYNCLOUD_BOARD}
 rm -rf ${BUILD_DIR}
 mkdir ${BUILD_DIR}
@@ -105,7 +106,15 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-n2" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "amd64" ]]; then
-  IMAGE_FILE="debian-amd64-8gb.img"
+  if [[ ${DISTRO} == "buster" ]]; then
+    IMAGE_FILE="debian-buster-amd64-8gb.img"
+  else
+    IMAGE_FILE="debian-amd64-8gb.img"
+  fi
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+elif [[ ${SYNCLOUD_BOARD} == "buster-amd64" ]]; then
+  IMAGE_FILE="debian-buster-amd64-8gb.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "lime2" ]]; then
@@ -154,7 +163,7 @@ function extract_root {
     ls -la ${from}/lib/modules
     ls -la ${from}/boot
 
-    if [ -f ${from}/boot/config.txt ]; then
+    if [[ -f ${from}/boot/config.txt ]]; then
         echo "kernel config"
         grep SQUASH ${from}/boot/config.txt
     fi
@@ -167,19 +176,19 @@ function extract_root {
     cp -rp ${from}/lib/modules ${to}/lib/modules
 
     mkdir -p ${to}/etc
-    if [ -d ${from}/etc/modprobe.d ]; then
+    if [[ -d ${from}/etc/modprobe.d ]]; then
         cp -rp ${from}/etc/modprobe.d ${to}/etc/modprobe.d
     fi
 
-    if [ -d ${from}/etc/modules-load.d ]; then
+    if [[ -d ${from}/etc/modules-load.d ]]; then
         cp -rp ${from}/etc/modules-load.d ${to}/etc/modules-load.d
     fi
 
-    if [ -f ${from}/etc/modules ]; then
+    if [[ -f ${from}/etc/modules ]]; then
         cp -p ${from}/etc/modules ${to}/etc/modules
     fi
 
-    if [ -d ${from}/lib/mali-egl ]; then
+    if [[ -d ${from}/lib/mali-egl ]]; then
         ls -la ${from}/lib/mali-egl
         cp -rp ${from}/lib/mali-egl ${to}/lib/mali-egl
     fi
@@ -191,12 +200,12 @@ function extract_root {
 
 cleanup
 
-if [ ! -z "$CI" ]; then
+if [[ ! -z "$CI" ]]; then
   echo "running under CI, cleaning base image cache"
   rm -rf ${IMAGE_FILE_ZIP}
 fi
 
-if [ ! -f ${IMAGE_FILE_ZIP} ]; then
+if [[ ! -f ${IMAGE_FILE_ZIP} ]]; then
   echo "Base image $IMAGE_FILE_ZIP is not found, getting new one ..."
   ${DOWNLOAD_IMAGE}
   ls -la
@@ -207,7 +216,7 @@ if [ ! -f ${IMAGE_FILE_ZIP} ]; then
   ls -la
 fi
 
-if [ ! -f ${IMAGE_FILE} ]; then
+if [[ ! -f ${IMAGE_FILE} ]]; then
   echo "${IMAGE_FILE} not found"
   exit 1
 fi
@@ -219,7 +228,7 @@ TOTAL_BYTES=$(stat -c %s ${IMAGE_FILE})
 TOTAL_SECTORS=$(($TOTAL_BYTES/512))
 LAST_SECTOR=$(fdisk -l ${IMAGE_FILE} | grep -v -e '^$' | tail -1 | awk '{ print $3 }')
 SECTORS_MISSING=$(($LAST_SECTOR-$TOTAL_SECTORS+1))
-if [ "${SECTORS_MISSING}" -gt "0" ]; then
+if [[ "${SECTORS_MISSING}" -gt "0" ]]; then
     echo "appending missing bytes"
     dd if=/dev/zero bs=512 count=${SECTORS_MISSING} >> ${IMAGE_FILE}
 fi
@@ -228,12 +237,12 @@ FDISK_OUTPUT=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +2 | head -
 FDISK_FIELD2=$(echo "${FDISK_OUTPUT}" | awk '{print $2}')
 FDISK_FIELD3=$(echo "${FDISK_OUTPUT}" | awk '{print $3}')
 FDISK_FIELD4=$(echo "${FDISK_OUTPUT}" | awk '{print $4}')
-if [[ $FDISK_FIELD2 == "*" ]]; then
-    BOOT_PARTITION_START_SECTOR=$FDISK_FIELD3
-    BOOT_PARTITION_END_SECTOR=$FDISK_FIELD4
+if [[ ${FDISK_FIELD2} == "*" ]]; then
+    BOOT_PARTITION_START_SECTOR=${FDISK_FIELD3}
+    BOOT_PARTITION_END_SECTOR=${FDISK_FIELD4}
 else
-    BOOT_PARTITION_START_SECTOR=$FDISK_FIELD2
-    BOOT_PARTITION_END_SECTOR=$FDISK_FIELD3
+    BOOT_PARTITION_START_SECTOR=${FDISK_FIELD2}
+    BOOT_PARTITION_END_SECTOR=${FDISK_FIELD3}
 fi
 
 rm -rf ${OUTPUT}
@@ -241,7 +250,7 @@ mkdir ${OUTPUT}
 mkdir ${OUTPUT}/root
 
 echo "applying cpu frequency fix"
-if [ "$CPU_FREQUENCY_CONTROL" = true ] ; then
+if [[ "$CPU_FREQUENCY_CONTROL" = true ]] ; then
     mkdir -p ${OUTPUT}/root/var/lib
     touch ${OUTPUT}/root/var/lib/cpu_frequency_control
     echo -n ${CPU_FREQUENCY_GOVERNOR} > ${OUTPUT}/root/var/lib/cpu_frequency_governor
@@ -270,27 +279,27 @@ else
 
     ls -la ${BOOT}/
     
-    if [ ${PARTITIONS} == 1 ]; then
+    if [[ ${PARTITIONS} == 1 ]]; then
     
-        if [ ! -d ${BOOT}/boot ]; then
+        if [[ ! -d ${BOOT}/boot ]]; then
             echo "single partition images without boot dir are not supported yet"
             exit 1
         fi
         
-        if [ -f ${BOOT}/bbb-uEnv.txt ]; then
+        if [[ -f ${BOOT}/bbb-uEnv.txt ]]; then
             cp ${BOOT}/bbb-uEnv.txt ${BOOT}/uEnv.txt
             sed -i 's#root=/dev/mmcblk0p1#root=/dev/mmcblk0p2#g' ${BOOT}/uEnv.txt
         fi
         
         ls -la ${BOOT}/boot
-        if [ -f ${BOOT}/boot/armbianEnv.txt ]; then
+        if [[ -f ${BOOT}/boot/armbianEnv.txt ]]; then
             cat ${BOOT}/boot/armbianEnv.txt
             #sed -i 's#rootdev=.*#rootdev=/dev/mmcblk0p2#g' ${BOOT}/boot/armbianEnv.txt
             #cat ${BOOT}/boot/armbianEnv.txt
         fi
         
         echo "kernel config"
-        ls -la {BOOT}/boot/config-* || true
+        ls -la ${BOOT}/boot/config-* || true
 
         #if [ -f ${BOOT}/boot/boot.cmd ]; then
         #    cat ${BOOT}/boot/boot.cmd
@@ -346,7 +355,7 @@ q
     else
 
         cmdline_txt=${BOOT}/cmdline.txt
-        if [ -f ${cmdline_txt} ]; then
+        if [[ -f ${cmdline_txt} ]]; then
             cat ${cmdline_txt}
             sed -i 's/$/ /' ${cmdline_txt}
             sed -i 's#init=.* #init=/sbin/init #g' ${cmdline_txt}
@@ -366,7 +375,7 @@ q
 
 fi
 
-if [ ${PARTITIONS} == 2 ]; then
+if [[ ${PARTITIONS} == 2 ]]; then
 
     kpartx -avs ${IMAGE_FILE}
     rm -rf ${ROOTFS}

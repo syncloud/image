@@ -10,25 +10,25 @@ steps:
 - name: extract
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/extract.sh amd64 amd64-base.img
+  - ./tools/extract.sh amd64 amd64-base.img buster
   privileged: true
 
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh amd64 syncloud-amd64-jessie-20.04.img 3G
+  - ./tools/boot.sh amd64 syncloud-amd64-buster-20.04.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh amd64 amd64 syncloud-amd64-jessie-20.04.img 20.04 jessie
+  - ./tools/rootfs.sh amd64 amd64 syncloud-amd64-buster-20.04.img 20.04 buster
   privileged: true
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-amd64-jessie-20.04.img
+  - ./tools/zip.sh syncloud-amd64-buster-20.04.img
   privileged: true
 
 - name: artifact
@@ -39,7 +39,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-amd64-jessie-20.04.img*.xz
+    source: syncloud-amd64-buster-20.04.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 

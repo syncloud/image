@@ -10,7 +10,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 if [[ "$#" -ne 5 ]]; then
-    echo "Usage: $0 board arch image release.distro"
+    echo "Usage: $0 board arch image release distro"
     exit 1
 fi
 
