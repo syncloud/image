@@ -1,5 +1,5 @@
 local release = "20.04";
-local distro = "buster";
+local distro = "jessie";
 
 local build(board, arch, mode) = {
     local base_image = board + "-base.img",
