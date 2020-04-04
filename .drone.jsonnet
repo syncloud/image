@@ -19,7 +19,7 @@ local build(board, arch, mode) = {
         name: "extract",
         image: "syncloud/build-deps-amd64",
         commands: [
-            "./tools/extract.sh " + board + " " + base_image
+            "./tools/extract.sh " + board + " " + base_image + " " + distro
         ],
         privileged: true
     },

@@ -10,7 +10,7 @@ steps:
 - name: extract
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/extract.sh amd64 amd64-base.img
+  - ./tools/extract.sh amd64 amd64-base.img buster
   privileged: true
 
 - name: boot
