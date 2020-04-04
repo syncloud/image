@@ -48,9 +48,9 @@ steps:
       from_secret: virtualbox_key
     port: 22
     script:
-    - ls -la /tmp/drone/
-    - unxz /tmp/drone/syncloud-amd64-buster-20.04.img.xz
-    - /tmp/drone/create_vbox_image.sh /tmp/drone/syncloud-amd64-buster-20.04.img
+    - cd/tmp/drone
+    - unxz syncloud-amd64-buster-20.04.img.xz
+    - ./create_vbox_image.sh syncloud-amd64-buster-20.04.img
     script_stop: true
     username: root
   privileged: true

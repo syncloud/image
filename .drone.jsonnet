@@ -75,9 +75,9 @@ local build(board, arch, mode) = {
             },
             script_stop: true,
             script: [
-                "ls -la /tmp/drone/",
-                "unxz /tmp/drone/" + image + ".xz",
-                "/tmp/drone/create_vbox_image.sh /tmp/drone/" + image
+                "cd/tmp/drone",
+                "unxz " + image + ".xz",
+                "./create_vbox_image.sh " + image
             ],
         },
         privileged: true
@@ -139,5 +139,5 @@ local build(board, arch, mode) = {
 //build("tinker", "arm", "all"),
 //build("odroid-n2", "arm", "all"),
 //build("lime2", "arm", "all"),
-build("amd64", "amd64", "all")
+build("amd64", "amd64", "all"),
 ]
