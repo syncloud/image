@@ -10,7 +10,7 @@ steps:
 - name: extract
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/extract.sh amd64 amd64-base.img buster
+  - ./tools/extract.sh amd64 amd64-base.img
   privileged: true
 
 - name: boot
@@ -23,6 +23,36 @@ steps:
   image: syncloud/build-deps-amd64
   commands:
   - ./tools/rootfs.sh amd64 amd64 syncloud-amd64-buster-20.04.img 20.04 buster
+  privileged: true
+
+- name: virtualbox prepare
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: virtualbox_host
+    key:
+      from_secret: virtualbox_key
+    source:
+    - syncloud-amd64-buster-20.04.img*.xz
+    - create_vbox_image.sh
+    target: /tmp/drone
+    username: root
+
+- name: virtualbox
+  image: appleboy/drone-ssh
+  settings:
+    host:
+      from_secret: virtualbox_host
+    key:
+      from_secret: virtualbox_key
+    port: 22
+    script:
+    - ls -la /tmp/drone/
+    - unxz /tmp/drone/syncloud-amd64-buster-20.04.img.xz
+    - /tmp/drone/create_vbox_image.sh /tmp/drone/syncloud-amd64-buster-20.04.img
+    script_stop: true
+    username: root
   privileged: true
 
 - name: zip

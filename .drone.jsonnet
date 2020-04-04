@@ -19,7 +19,7 @@ local build(board, arch, mode) = {
         name: "extract",
         image: "syncloud/build-deps-amd64",
         commands: [
-            "./tools/extract.sh " + board + " " + base_image + " " + distro
+            "./tools/extract.sh " + board + " " + base_image
         ],
         privileged: true
     },
@@ -31,7 +31,7 @@ local build(board, arch, mode) = {
         ],
         privileged: true
     },
-    if mode == "boot" then {} else
+    if mode == "all" then
     {
         name: "rootfs",
         image: "syncloud/build-deps-amd64",
@@ -39,7 +39,49 @@ local build(board, arch, mode) = {
             "./tools/rootfs.sh " + board + " " + arch + " " + image + " " + release + " " + distro
         ],
         privileged: true
+    } else {},
+    if board == "amd64" then
+    {
+        name: "virtualbox prepare",
+        image: "appleboy/drone-scp",
+        settings: {
+            host: {
+                from_secret: "virtualbox_host"
+            },
+            username: "root",
+            key: {
+                from_secret: "virtualbox_key"
+            },
+            command_timeout: "2m",
+            target: "/tmp/drone",
+            source: [
+                image + "*.xz",
+                "create_vbox_image.sh"
+            ]
+        }
     },
+    if board == "amd64" then
+    {
+        name: "virtualbox",
+        image: "appleboy/drone-ssh",
+        settings: {
+            host: {
+                from_secret: "virtualbox_host"
+            },
+            username: "root",
+            port: 22,
+            key: {
+                from_secret: "virtualbox_key"
+            },
+            script_stop: true,
+            script: [
+                "ls -la /tmp/drone/",
+                "unxz /tmp/drone/" + image + ".xz",
+                "/tmp/drone/create_vbox_image.sh /tmp/drone/" + image
+            ],
+        },
+        privileged: true
+    } else {},
     {
         name: "zip",
         image: "syncloud/build-deps-amd64",
