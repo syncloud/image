@@ -75,7 +75,7 @@ local build(board, arch, mode) = {
             },
             script_stop: true,
             script: [
-                "cd/tmp/drone",
+                "cd /tmp/drone",
                 "unxz " + image + ".xz",
                 "./create_vbox_image.sh " + image
             ],
