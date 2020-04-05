@@ -10,19 +10,19 @@ steps:
 - name: extract
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/extract.sh amd64 amd64-base.img buster
+  - ./tools/extract.sh amd64 amd64-base.img jessie
   privileged: true
 
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh amd64 syncloud-amd64-buster-20.04.img 3G
+  - ./tools/boot.sh amd64 syncloud-amd64-jessie-20.04.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh amd64 amd64 syncloud-amd64-buster-20.04.img 20.04 buster
+  - ./tools/rootfs.sh amd64 amd64 syncloud-amd64-jessie-20.04.img 20.04 jessie
   privileged: true
 
 - name: virtualbox prepare
@@ -34,7 +34,7 @@ steps:
     key:
       from_secret: virtualbox_key
     source:
-    - syncloud-amd64-buster-20.04.img
+    - syncloud-amd64-jessie-20.04.img
     - create_vbox_image.sh
     target: /tmp/drone
     username: root
@@ -50,7 +50,7 @@ steps:
     port: 22
     script:
     - cd /tmp/drone
-    - ./create_vbox_image.sh syncloud-amd64-buster-20.04.img
+    - ./create_vbox_image.sh syncloud-amd64-jessie-20.04.img
     script_stop: true
     username: root
   privileged: true
@@ -58,7 +58,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-amd64-buster-20.04.img
+  - ./tools/zip.sh syncloud-amd64-jessie-20.04.img
   privileged: true
 
 - name: artifact
@@ -69,7 +69,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-amd64-buster-20.04.img*.xz
+    source: syncloud-amd64-jessie-20.04.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
