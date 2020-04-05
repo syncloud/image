@@ -1,7 +1,6 @@
 local release = "20.04";
-local distro = "jessie";
 
-local build(board, arch, mode) = {
+local build(board, arch, mode, distro) = {
     local base_image = board + "-base.img",
     local suffix = if mode == "sd" then "-sd" else "",
     local size = if mode == "sd" then "10M" else "3G",
@@ -53,7 +52,7 @@ local build(board, arch, mode) = {
                 from_secret: "virtualbox_key"
             },
             command_timeout: "2m",
-            target: "/tmp/drone",
+            target: "/tmp/drone-" + distro,
             source: [
                 image,
                 "create_vbox_image.sh"
@@ -76,7 +75,7 @@ local build(board, arch, mode) = {
             command_timeout: "10m",
             script_stop: true,
             script: [
-                "cd /tmp/drone",
+                "cd /tmp/drone-" + distro,
                 "./create_vbox_image.sh " + image
             ],
         },
@@ -139,5 +138,6 @@ local build(board, arch, mode) = {
 //build("tinker", "arm", "all"),
 //build("odroid-n2", "arm", "all"),
 //build("lime2", "arm", "all"),
-build("amd64", "amd64", "all"),
+build("amd64", "amd64", "all", "buster"),
+build("amd64", "amd64", "all", "jessie"),
 ]

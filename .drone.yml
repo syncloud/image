@@ -10,6 +10,91 @@ steps:
 - name: extract
   image: syncloud/build-deps-amd64
   commands:
+  - ./tools/extract.sh amd64 amd64-base.img buster
+  privileged: true
+
+- name: boot
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/boot.sh amd64 syncloud-amd64-buster-20.04.img 3G
+  privileged: true
+
+- name: rootfs
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/rootfs.sh amd64 amd64 syncloud-amd64-buster-20.04.img 20.04 buster
+  privileged: true
+
+- name: virtualbox prepare
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: virtualbox_host
+    key:
+      from_secret: virtualbox_key
+    source:
+    - syncloud-amd64-buster-20.04.img
+    - create_vbox_image.sh
+    target: /tmp/drone-buster
+    username: root
+
+- name: virtualbox
+  image: appleboy/drone-ssh
+  settings:
+    command_timeout: 10m
+    host:
+      from_secret: virtualbox_host
+    key:
+      from_secret: virtualbox_key
+    port: 22
+    script:
+    - cd /tmp/drone-buster
+    - ./create_vbox_image.sh syncloud-amd64-buster-20.04.img
+    script_stop: true
+    username: root
+  privileged: true
+
+- name: zip
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/zip.sh syncloud-amd64-buster-20.04.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    key:
+      from_secret: artifact_key
+    source: syncloud-amd64-buster-20.04.img*.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: amd64-all
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
   - ./tools/extract.sh amd64 amd64-base.img jessie
   privileged: true
 
@@ -36,7 +121,7 @@ steps:
     source:
     - syncloud-amd64-jessie-20.04.img
     - create_vbox_image.sh
-    target: /tmp/drone
+    target: /tmp/drone-jessie
     username: root
 
 - name: virtualbox
@@ -49,7 +134,7 @@ steps:
       from_secret: virtualbox_key
     port: 22
     script:
-    - cd /tmp/drone
+    - cd /tmp/drone-jessie
     - ./create_vbox_image.sh syncloud-amd64-jessie-20.04.img
     script_stop: true
     username: root
