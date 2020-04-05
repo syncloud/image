@@ -73,6 +73,7 @@ local build(board, arch, mode) = {
             key: {
                 from_secret: "virtualbox_key"
             },
+            command_timeout: "10m",
             script_stop: true,
             script: [
                 "cd /tmp/drone",
