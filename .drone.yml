@@ -34,7 +34,7 @@ steps:
     key:
       from_secret: virtualbox_key
     source:
-    - syncloud-amd64-buster-20.04.img.xz
+    - syncloud-amd64-buster-20.04.img
     - create_vbox_image.sh
     target: /tmp/drone
     username: root
@@ -49,9 +49,6 @@ steps:
     port: 22
     script:
     - cd /tmp/drone
-    - pwd
-    - ls -la
-    - unxz syncloud-amd64-buster-20.04.img.xz
     - ./create_vbox_image.sh syncloud-amd64-buster-20.04.img
     script_stop: true
     username: root

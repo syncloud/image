@@ -55,7 +55,7 @@ local build(board, arch, mode) = {
             command_timeout: "2m",
             target: "/tmp/drone",
             source: [
-                image + ".xz",
+                image,
                 "create_vbox_image.sh"
             ]
         }
@@ -76,9 +76,6 @@ local build(board, arch, mode) = {
             script_stop: true,
             script: [
                 "cd /tmp/drone",
-                "pwd",
-                "ls -la",
-                "unxz " + image + ".xz",
                 "./create_vbox_image.sh " + image
             ],
         },
@@ -143,4 +140,3 @@ local build(board, arch, mode) = {
 //build("lime2", "arm", "all"),
 build("amd64", "amd64", "all"),
 ]
-
