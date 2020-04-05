@@ -50,6 +50,7 @@ steps:
     script:
     - cd /tmp/drone
     - pwd
+    - ls -la
     - unxz syncloud-amd64-buster-20.04.img.xz
     - ./create_vbox_image.sh syncloud-amd64-buster-20.04.img
     script_stop: true
