@@ -7,7 +7,7 @@ local build(board, arch, mode, distro) = {
     local image = "syncloud-" + board  + suffix + "-" + distro + "-" + release + ".img",
 
     kind: "pipeline",
-    name: board + "-" + mode,
+    name: board + "-" + mode + "-" + distro,
 
     platform: {
         os: "linux",

@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: amd64-all
+name: amd64-all-buster
 
 platform:
   os: linux
@@ -85,7 +85,7 @@ steps:
 
 ---
 kind: pipeline
-name: amd64-all
+name: amd64-all-jessie
 
 platform:
   os: linux
