@@ -14,7 +14,7 @@ VDI_FILE=${IMAGE_FILE%.*}
 VM='Syncloud-VM'
 SSH_PORT=3333
 
-chmod a+r ${IMAGE_FILE}
+chmod a=r ${IMAGE_FILE}
 
 VBoxManage controlvm ${VM} poweroff || true
 
@@ -26,7 +26,7 @@ rm -rf ${VDI_FILE}-test.vdi
 
 VBoxManage convertdd ${IMAGE_FILE} ${VDI_FILE}.vdi --format VDI
 
-chmod r+a ${VDI_FILE}.vdi
+chmod a=r ${VDI_FILE}.vdi
 
 cp ${VDI_FILE}.vdi ${VDI_FILE}-test.vdi
 
