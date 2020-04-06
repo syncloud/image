@@ -42,7 +42,7 @@ steps:
 - name: virtualbox
   image: appleboy/drone-ssh
   settings:
-    command_timeout: 10m
+    command_timeout: 20m
     host:
       from_secret: virtualbox_host
     key:

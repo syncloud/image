@@ -72,7 +72,7 @@ local build(board, arch, mode, distro) = {
             key: {
                 from_secret: "virtualbox_key"
             },
-            command_timeout: "10m",
+            command_timeout: "20m",
             script_stop: true,
             script: [
                 "cd /tmp/drone-" + distro,
