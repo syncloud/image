@@ -139,5 +139,5 @@ local build(board, arch, mode, distro) = {
 //build("odroid-n2", "arm", "all"),
 //build("lime2", "arm", "all"),
 build("amd64", "amd64", "all", "buster"),
-build("amd64", "amd64", "all", "jessie"),
+//build("amd64", "amd64", "all", "jessie"),
 ]

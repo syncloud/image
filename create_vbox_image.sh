@@ -70,6 +70,7 @@ do
   ATTEMPT=$((ATTEMPT +1))
   echo "attempt $ATTEMPT of $TOTAL_ATTEMPTS"
   if [[ ${ATTEMPT} -gt ${TOTAL_ATTEMPTS} ]]; then
+    VBoxManage controlvm ${VM} screenshotpng ${DIR}/console.png
     echo "unable to connect to vbox instance"
     exit 1
   fi
