@@ -52,7 +52,7 @@ local build(board, arch, mode, distro) = {
                 from_secret: "virtualbox_key"
             },
             command_timeout: "2m",
-            target: "/tmp/drone-" + distro,
+            target: "/data/drone-" + distro,
             source: [
                 image,
                 "create_vbox_image.sh"
@@ -75,7 +75,7 @@ local build(board, arch, mode, distro) = {
             command_timeout: "20m",
             script_stop: true,
             script: [
-                "cd /tmp/drone-" + distro,
+                "cd /data/drone-" + distro,
                 "./create_vbox_image.sh " + image
             ],
         },
@@ -119,7 +119,9 @@ local build(board, arch, mode, distro) = {
 };
 
 [
-//build("cubieboard2", "arm", "all"),
+build(board.name, board.arch, board.type, distro)
+for board in [
+//{ name: "cubieboard2", arch: "arm", type: "all"},
 //build("cubieboard", "arm", "all"),
 //build("beagleboneblack", "arm", "all"),
 //build("bananapim3", "arm", "all"),
@@ -128,16 +130,20 @@ local build(board, arch, mode, distro) = {
 //build("raspberrypi3", "arm", "all"),
 //build("raspberrypi4", "arm", "all"),
 //build("raspberrypi2", "arm", "all"),
-//build("odroid-xu3and4", "arm", "all"),
-//build("odroid-xu3and4", "arm", "sd"),
+{name: "odroid-xu3and4", arch: "arm", type:  "all"},
+{name: "odroid-xu3and4", arch: "arm", type: "sd"},
 //build("odroid-c2", "arm", "all"),
 //build("odroid-u3", "arm", "all"),
 //build("bananapim2", "arm", "all"),
 //build("bananapim1", "arm", "all"),
 //build("cubietruck", "arm", "all"),
-//build("tinker", "arm", "all"),
+{name: "tinker", arch: "arm", type: "all"},
 //build("odroid-n2", "arm", "all"),
 //build("lime2", "arm", "all"),
-build("amd64", "amd64", "all", "buster"),
-//build("amd64", "amd64", "all", "jessie"),
+{name: "amd64", arch: "amd64", type: "all"}
+]
+for distro in [
+    "buster",
+    "jessie"
+    ]
 ]

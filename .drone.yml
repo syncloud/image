@@ -1,5 +1,331 @@
 ---
 kind: pipeline
+name: odroid-xu3and4-all-buster
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh odroid-xu3and4 odroid-xu3and4-base.img buster
+  privileged: true
+
+- name: boot
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-buster-20.04.img 3G
+  privileged: true
+
+- name: rootfs
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/rootfs.sh odroid-xu3and4 arm syncloud-odroid-xu3and4-buster-20.04.img 20.04 buster
+  privileged: true
+
+
+- name: zip
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/zip.sh syncloud-odroid-xu3and4-buster-20.04.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    key:
+      from_secret: artifact_key
+    source: syncloud-odroid-xu3and4-buster-20.04.img*.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: odroid-xu3and4-all-jessie
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh odroid-xu3and4 odroid-xu3and4-base.img jessie
+  privileged: true
+
+- name: boot
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-jessie-20.04.img 3G
+  privileged: true
+
+- name: rootfs
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/rootfs.sh odroid-xu3and4 arm syncloud-odroid-xu3and4-jessie-20.04.img 20.04 jessie
+  privileged: true
+
+
+- name: zip
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/zip.sh syncloud-odroid-xu3and4-jessie-20.04.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    key:
+      from_secret: artifact_key
+    source: syncloud-odroid-xu3and4-jessie-20.04.img*.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: odroid-xu3and4-sd-buster
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh odroid-xu3and4 odroid-xu3and4-base.img buster
+  privileged: true
+
+- name: boot
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-sd-buster-20.04.img 10M
+  privileged: true
+
+
+
+- name: zip
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/zip.sh syncloud-odroid-xu3and4-sd-buster-20.04.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    key:
+      from_secret: artifact_key
+    source: syncloud-odroid-xu3and4-sd-buster-20.04.img*.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: odroid-xu3and4-sd-jessie
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh odroid-xu3and4 odroid-xu3and4-base.img jessie
+  privileged: true
+
+- name: boot
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-sd-jessie-20.04.img 10M
+  privileged: true
+
+
+
+- name: zip
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/zip.sh syncloud-odroid-xu3and4-sd-jessie-20.04.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    key:
+      from_secret: artifact_key
+    source: syncloud-odroid-xu3and4-sd-jessie-20.04.img*.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: tinker-all-buster
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh tinker tinker-base.img buster
+  privileged: true
+
+- name: boot
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/boot.sh tinker syncloud-tinker-buster-20.04.img 3G
+  privileged: true
+
+- name: rootfs
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/rootfs.sh tinker arm syncloud-tinker-buster-20.04.img 20.04 buster
+  privileged: true
+
+
+- name: zip
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/zip.sh syncloud-tinker-buster-20.04.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    key:
+      from_secret: artifact_key
+    source: syncloud-tinker-buster-20.04.img*.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: tinker-all-jessie
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh tinker tinker-base.img jessie
+  privileged: true
+
+- name: boot
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/boot.sh tinker syncloud-tinker-jessie-20.04.img 3G
+  privileged: true
+
+- name: rootfs
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/rootfs.sh tinker arm syncloud-tinker-jessie-20.04.img 20.04 jessie
+  privileged: true
+
+
+- name: zip
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/zip.sh syncloud-tinker-jessie-20.04.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    key:
+      from_secret: artifact_key
+    source: syncloud-tinker-jessie-20.04.img*.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
 name: amd64-all-buster
 
 platform:
@@ -36,7 +362,7 @@ steps:
     source:
     - syncloud-amd64-buster-20.04.img
     - create_vbox_image.sh
-    target: /tmp/drone-buster
+    target: /data/drone-buster
     username: root
 
 - name: virtualbox
@@ -49,7 +375,7 @@ steps:
       from_secret: virtualbox_key
     port: 22
     script:
-    - cd /tmp/drone-buster
+    - cd /data/drone-buster
     - ./create_vbox_image.sh syncloud-amd64-buster-20.04.img
     script_stop: true
     username: root
@@ -70,6 +396,91 @@ steps:
     key:
       from_secret: artifact_key
     source: syncloud-amd64-buster-20.04.img*.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: amd64-all-jessie
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/extract.sh amd64 amd64-base.img jessie
+  privileged: true
+
+- name: boot
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/boot.sh amd64 syncloud-amd64-jessie-20.04.img 3G
+  privileged: true
+
+- name: rootfs
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/rootfs.sh amd64 amd64 syncloud-amd64-jessie-20.04.img 20.04 jessie
+  privileged: true
+
+- name: virtualbox prepare
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: virtualbox_host
+    key:
+      from_secret: virtualbox_key
+    source:
+    - syncloud-amd64-jessie-20.04.img
+    - create_vbox_image.sh
+    target: /data/drone-jessie
+    username: root
+
+- name: virtualbox
+  image: appleboy/drone-ssh
+  settings:
+    command_timeout: 20m
+    host:
+      from_secret: virtualbox_host
+    key:
+      from_secret: virtualbox_key
+    port: 22
+    script:
+    - cd /data/drone-jessie
+    - ./create_vbox_image.sh syncloud-amd64-jessie-20.04.img
+    script_stop: true
+    username: root
+  privileged: true
+
+- name: zip
+  image: syncloud/build-deps-amd64
+  commands:
+  - ./tools/zip.sh syncloud-amd64-jessie-20.04.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    key:
+      from_secret: artifact_key
+    source: syncloud-amd64-jessie-20.04.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
