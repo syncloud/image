@@ -119,31 +119,31 @@ local build(board, arch, mode, distro) = {
 };
 
 [
-build(board.name, board.arch, board.type, distro)
-for board in [
-//{ name: "cubieboard2", arch: "arm", type: "all"},
-//build("cubieboard", "arm", "all"),
-//build("beagleboneblack", "arm", "all"),
-//build("bananapim3", "arm", "all"),
-//build("rock64", "arm", "all"),
-//build("helios4", "arm", "all"),
-//build("raspberrypi3", "arm", "all"),
-//build("raspberrypi4", "arm", "all"),
-//build("raspberrypi2", "arm", "all"),
-{name: "odroid-xu3and4", arch: "arm", type:  "all"},
-{name: "odroid-xu3and4", arch: "arm", type: "sd"},
-//build("odroid-c2", "arm", "all"),
-//build("odroid-u3", "arm", "all"),
-//build("bananapim2", "arm", "all"),
-//build("bananapim1", "arm", "all"),
-//build("cubietruck", "arm", "all"),
-{name: "tinker", arch: "arm", type: "all"},
-//build("odroid-n2", "arm", "all"),
-//build("lime2", "arm", "all"),
-{name: "amd64", arch: "amd64", type: "all"}
-]
-for distro in [
-    "buster",
-    "jessie"
+    build(board.name, board.arch, board.type, distro)
+    for board in [
+        { name: "cubieboard2", arch: "arm", type: "all" },
+        { name: "cubieboard", arch: "arm", type: "all" },
+        { name: "beagleboneblack", arch: "arm", type: "all" },
+        { name: "bananapim3", arch: "arm", type: "all" },
+        { name: "rock64", arch: "arm", type: "all" },
+        { name: "helios4", arch: "arm", type: "all" },
+        { name: "raspberrypi3", arch: "arm", type: "all" },
+        { name: "raspberrypi4", arch: "arm", type: "all" },
+        { name: "raspberrypi2", arch: "arm", type: "all" },
+        { name: "odroid-xu3and4", arch: "arm", type: "all" },
+        { name: "odroid-xu3and4", arch: "arm", type: "sd" },
+        { name: "odroid-c2", arch: "arm", type: "all" },
+        { name: "odroid-u3", arch: "arm", type: "all" },
+        { name: "bananapim2", arch: "arm", type: "all" },
+        { name: "bananapim1", arch: "arm", type: "all" },
+        { name: "cubietruck", arch: "arm", type: "all" },
+        { name: "tinker", arch: "arm", type: "all" },
+        { name: "odroid-n2", arch: "arm", type: "all" },
+        { name: "lime2", arch: "arm", type: "all" },
+        { name: "amd64", arch: "amd64", type: "all"}
+    ]
+    for distro in [
+        "buster",
+        "jessie"
     ]
 ]
