@@ -40,7 +40,7 @@ elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-stretch-lite.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "tinker" ]]; then
-  IMAGE_FILE="20181023-tinker-board-linaro-stretch-alip-v2.0.8.img"
+  IMAGE_FILE="Armbian_20.02.7_Tinkerboard_bionic_legacy_4.4.213_desktop.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
