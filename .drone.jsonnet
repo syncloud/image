@@ -1,10 +1,10 @@
-local release = "20.04";
+local release = "20.06";
 
 local build(board, arch, mode, distro) = {
     local base_image = board + "-base.img",
     local suffix = if mode == "sd" then "-sd" else "",
     local size = if mode == "sd" then "10M" else "3G",
-    local image = "syncloud-" + board  + suffix + "-" + distro + "-" + release + ".img",
+    local image = "syncloud-" + board  + suffix + "-" + release + ".img",
 
     kind: "pipeline",
     name: board + "-" + mode + "-" + distro,
@@ -143,7 +143,6 @@ local build(board, arch, mode, distro) = {
         { name: "amd64", arch: "amd64", type: "all"}
     ]
     for distro in [
-        "buster",
-        "jessie"
+        "buster"
     ]
 ]
