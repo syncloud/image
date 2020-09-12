@@ -1,4 +1,4 @@
-local release = "testing";
+local release = "20.06";
 
 local build(board, arch, mode, distro) = {
     local base_image = board + "-base.img",

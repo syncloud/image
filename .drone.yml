@@ -16,20 +16,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh cubieboard2 syncloud-cubieboard2-testing.img 3G
+  - ./tools/boot.sh cubieboard2 syncloud-cubieboard2-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh cubieboard2 arm syncloud-cubieboard2-testing.img testing buster
+  - ./tools/rootfs.sh cubieboard2 arm syncloud-cubieboard2-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-cubieboard2-testing.img
+  - ./tools/zip.sh syncloud-cubieboard2-20.06.img
   privileged: true
 
 - name: artifact
@@ -40,7 +40,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-cubieboard2-testing.img*.xz
+    source: syncloud-cubieboard2-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -72,20 +72,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh cubieboard syncloud-cubieboard-testing.img 3G
+  - ./tools/boot.sh cubieboard syncloud-cubieboard-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh cubieboard arm syncloud-cubieboard-testing.img testing buster
+  - ./tools/rootfs.sh cubieboard arm syncloud-cubieboard-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-cubieboard-testing.img
+  - ./tools/zip.sh syncloud-cubieboard-20.06.img
   privileged: true
 
 - name: artifact
@@ -96,7 +96,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-cubieboard-testing.img*.xz
+    source: syncloud-cubieboard-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -128,20 +128,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh beagleboneblack syncloud-beagleboneblack-testing.img 3G
+  - ./tools/boot.sh beagleboneblack syncloud-beagleboneblack-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh beagleboneblack arm syncloud-beagleboneblack-testing.img testing buster
+  - ./tools/rootfs.sh beagleboneblack arm syncloud-beagleboneblack-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-beagleboneblack-testing.img
+  - ./tools/zip.sh syncloud-beagleboneblack-20.06.img
   privileged: true
 
 - name: artifact
@@ -152,7 +152,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-beagleboneblack-testing.img*.xz
+    source: syncloud-beagleboneblack-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -184,20 +184,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh bananapim3 syncloud-bananapim3-testing.img 3G
+  - ./tools/boot.sh bananapim3 syncloud-bananapim3-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh bananapim3 arm syncloud-bananapim3-testing.img testing buster
+  - ./tools/rootfs.sh bananapim3 arm syncloud-bananapim3-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-bananapim3-testing.img
+  - ./tools/zip.sh syncloud-bananapim3-20.06.img
   privileged: true
 
 - name: artifact
@@ -208,7 +208,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-bananapim3-testing.img*.xz
+    source: syncloud-bananapim3-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -240,20 +240,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh rock64 syncloud-rock64-testing.img 3G
+  - ./tools/boot.sh rock64 syncloud-rock64-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh rock64 arm syncloud-rock64-testing.img testing buster
+  - ./tools/rootfs.sh rock64 arm syncloud-rock64-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-rock64-testing.img
+  - ./tools/zip.sh syncloud-rock64-20.06.img
   privileged: true
 
 - name: artifact
@@ -264,7 +264,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-rock64-testing.img*.xz
+    source: syncloud-rock64-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -296,20 +296,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh helios4 syncloud-helios4-testing.img 3G
+  - ./tools/boot.sh helios4 syncloud-helios4-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh helios4 arm syncloud-helios4-testing.img testing buster
+  - ./tools/rootfs.sh helios4 arm syncloud-helios4-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-helios4-testing.img
+  - ./tools/zip.sh syncloud-helios4-20.06.img
   privileged: true
 
 - name: artifact
@@ -320,7 +320,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-helios4-testing.img*.xz
+    source: syncloud-helios4-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -352,20 +352,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh raspberrypi syncloud-raspberrypi-testing.img 3G
+  - ./tools/boot.sh raspberrypi syncloud-raspberrypi-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh raspberrypi arm syncloud-raspberrypi-testing.img testing buster
+  - ./tools/rootfs.sh raspberrypi arm syncloud-raspberrypi-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-raspberrypi-testing.img
+  - ./tools/zip.sh syncloud-raspberrypi-20.06.img
   privileged: true
 
 - name: artifact
@@ -376,7 +376,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-raspberrypi-testing.img*.xz
+    source: syncloud-raspberrypi-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -408,20 +408,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh raspberrypi2 syncloud-raspberrypi2-testing.img 3G
+  - ./tools/boot.sh raspberrypi2 syncloud-raspberrypi2-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh raspberrypi2 arm syncloud-raspberrypi2-testing.img testing buster
+  - ./tools/rootfs.sh raspberrypi2 arm syncloud-raspberrypi2-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-raspberrypi2-testing.img
+  - ./tools/zip.sh syncloud-raspberrypi2-20.06.img
   privileged: true
 
 - name: artifact
@@ -432,7 +432,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-raspberrypi2-testing.img*.xz
+    source: syncloud-raspberrypi2-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -464,20 +464,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-testing.img 3G
+  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh odroid-xu3and4 arm syncloud-odroid-xu3and4-testing.img testing buster
+  - ./tools/rootfs.sh odroid-xu3and4 arm syncloud-odroid-xu3and4-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-xu3and4-testing.img
+  - ./tools/zip.sh syncloud-odroid-xu3and4-20.06.img
   privileged: true
 
 - name: artifact
@@ -488,7 +488,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-odroid-xu3and4-testing.img*.xz
+    source: syncloud-odroid-xu3and4-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -520,7 +520,7 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-sd-testing.img 10M
+  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-sd-20.06.img 10M
   privileged: true
 
 
@@ -528,7 +528,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-xu3and4-sd-testing.img
+  - ./tools/zip.sh syncloud-odroid-xu3and4-sd-20.06.img
   privileged: true
 
 - name: artifact
@@ -539,7 +539,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-odroid-xu3and4-sd-testing.img*.xz
+    source: syncloud-odroid-xu3and4-sd-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -571,20 +571,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh odroid-c2 syncloud-odroid-c2-testing.img 3G
+  - ./tools/boot.sh odroid-c2 syncloud-odroid-c2-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh odroid-c2 arm syncloud-odroid-c2-testing.img testing buster
+  - ./tools/rootfs.sh odroid-c2 arm syncloud-odroid-c2-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-c2-testing.img
+  - ./tools/zip.sh syncloud-odroid-c2-20.06.img
   privileged: true
 
 - name: artifact
@@ -595,7 +595,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-odroid-c2-testing.img*.xz
+    source: syncloud-odroid-c2-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -627,20 +627,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh odroid-u3 syncloud-odroid-u3-testing.img 3G
+  - ./tools/boot.sh odroid-u3 syncloud-odroid-u3-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh odroid-u3 arm syncloud-odroid-u3-testing.img testing buster
+  - ./tools/rootfs.sh odroid-u3 arm syncloud-odroid-u3-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-u3-testing.img
+  - ./tools/zip.sh syncloud-odroid-u3-20.06.img
   privileged: true
 
 - name: artifact
@@ -651,7 +651,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-odroid-u3-testing.img*.xz
+    source: syncloud-odroid-u3-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -683,20 +683,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh bananapim2 syncloud-bananapim2-testing.img 3G
+  - ./tools/boot.sh bananapim2 syncloud-bananapim2-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh bananapim2 arm syncloud-bananapim2-testing.img testing buster
+  - ./tools/rootfs.sh bananapim2 arm syncloud-bananapim2-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-bananapim2-testing.img
+  - ./tools/zip.sh syncloud-bananapim2-20.06.img
   privileged: true
 
 - name: artifact
@@ -707,7 +707,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-bananapim2-testing.img*.xz
+    source: syncloud-bananapim2-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -739,20 +739,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh bananapim1 syncloud-bananapim1-testing.img 3G
+  - ./tools/boot.sh bananapim1 syncloud-bananapim1-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh bananapim1 arm syncloud-bananapim1-testing.img testing buster
+  - ./tools/rootfs.sh bananapim1 arm syncloud-bananapim1-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-bananapim1-testing.img
+  - ./tools/zip.sh syncloud-bananapim1-20.06.img
   privileged: true
 
 - name: artifact
@@ -763,7 +763,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-bananapim1-testing.img*.xz
+    source: syncloud-bananapim1-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -795,20 +795,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh cubietruck syncloud-cubietruck-testing.img 3G
+  - ./tools/boot.sh cubietruck syncloud-cubietruck-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh cubietruck arm syncloud-cubietruck-testing.img testing buster
+  - ./tools/rootfs.sh cubietruck arm syncloud-cubietruck-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-cubietruck-testing.img
+  - ./tools/zip.sh syncloud-cubietruck-20.06.img
   privileged: true
 
 - name: artifact
@@ -819,7 +819,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-cubietruck-testing.img*.xz
+    source: syncloud-cubietruck-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -851,20 +851,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh tinker syncloud-tinker-testing.img 3G
+  - ./tools/boot.sh tinker syncloud-tinker-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh tinker arm syncloud-tinker-testing.img testing buster
+  - ./tools/rootfs.sh tinker arm syncloud-tinker-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-tinker-testing.img
+  - ./tools/zip.sh syncloud-tinker-20.06.img
   privileged: true
 
 - name: artifact
@@ -875,7 +875,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-tinker-testing.img*.xz
+    source: syncloud-tinker-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -907,20 +907,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh odroid-n2 syncloud-odroid-n2-testing.img 3G
+  - ./tools/boot.sh odroid-n2 syncloud-odroid-n2-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh odroid-n2 arm syncloud-odroid-n2-testing.img testing buster
+  - ./tools/rootfs.sh odroid-n2 arm syncloud-odroid-n2-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-n2-testing.img
+  - ./tools/zip.sh syncloud-odroid-n2-20.06.img
   privileged: true
 
 - name: artifact
@@ -931,7 +931,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-odroid-n2-testing.img*.xz
+    source: syncloud-odroid-n2-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -963,20 +963,20 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh lime2 syncloud-lime2-testing.img 3G
+  - ./tools/boot.sh lime2 syncloud-lime2-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh lime2 arm syncloud-lime2-testing.img testing buster
+  - ./tools/rootfs.sh lime2 arm syncloud-lime2-20.06.img 20.06 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-lime2-testing.img
+  - ./tools/zip.sh syncloud-lime2-20.06.img
   privileged: true
 
 - name: artifact
@@ -987,7 +987,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-lime2-testing.img*.xz
+    source: syncloud-lime2-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -1019,13 +1019,13 @@ steps:
 - name: boot
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/boot.sh amd64 syncloud-amd64-testing.img 3G
+  - ./tools/boot.sh amd64 syncloud-amd64-20.06.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/rootfs.sh amd64 amd64 syncloud-amd64-testing.img testing buster
+  - ./tools/rootfs.sh amd64 amd64 syncloud-amd64-20.06.img 20.06 buster
   privileged: true
 
 - name: virtualbox prepare
@@ -1037,7 +1037,7 @@ steps:
     key:
       from_secret: virtualbox_key
     source:
-    - syncloud-amd64-testing.img
+    - syncloud-amd64-20.06.img
     - create_vbox_image.sh
     target: /data/drone-buster
     username: root
@@ -1053,7 +1053,7 @@ steps:
     port: 22
     script:
     - cd /data/drone-buster
-    - ./create_vbox_image.sh syncloud-amd64-testing.img
+    - ./create_vbox_image.sh syncloud-amd64-20.06.img
     script_stop: true
     username: root
   privileged: true
@@ -1061,7 +1061,7 @@ steps:
 - name: zip
   image: syncloud/build-deps-amd64
   commands:
-  - ./tools/zip.sh syncloud-amd64-testing.img
+  - ./tools/zip.sh syncloud-amd64-20.06.img
   privileged: true
 
 - name: artifact
@@ -1072,7 +1072,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-amd64-testing.img*.xz
+    source: syncloud-amd64-20.06.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
