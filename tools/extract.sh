@@ -33,12 +33,6 @@ if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
   UNZIP="unzip -o"
-elif [[ ${SYNCLOUD_BOARD} == "raspberrypi3" ]]; then
-  FILE_VERSION=2018-03-13
-  IMAGE_FILE=${FILE_VERSION}-raspbian-stretch-lite.img
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-stretch-lite.zip -O $IMAGE_FILE_ZIP"
-  UNZIP="unzip -o"
 elif [[ ${SYNCLOUD_BOARD} == "tinker" ]]; then
   IMAGE_FILE="Armbian_20.02.7_Tinkerboard_bionic_legacy_4.4.213_desktop.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
@@ -117,7 +111,7 @@ elif [[ ${SYNCLOUD_BOARD} == "lime2" ]]; then
   IMAGE_FILE="Armbian_5.89.1_Olinuxino-a20_Debian_stretch_next_5.1.12.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "raspberrypi4" ]]; then
+elif [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   IMAGE_FILE="2019-07-10-raspbian-buster-lite.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"

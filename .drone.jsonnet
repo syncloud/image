@@ -1,4 +1,4 @@
-local release = "20.06";
+local release = "testing";
 
 local build(board, arch, mode, distro) = {
     local base_image = board + "-base.img",
@@ -127,8 +127,7 @@ local build(board, arch, mode, distro) = {
         { name: "bananapim3", arch: "arm", type: "all" },
         { name: "rock64", arch: "arm", type: "all" },
         { name: "helios4", arch: "arm", type: "all" },
-        { name: "raspberrypi3", arch: "arm", type: "all" },
-        { name: "raspberrypi4", arch: "arm", type: "all" },
+        { name: "raspberrypi", arch: "arm", type: "all" },
         { name: "raspberrypi2", arch: "arm", type: "all" },
         { name: "odroid-xu3and4", arch: "arm", type: "all" },
         { name: "odroid-xu3and4", arch: "arm", type: "sd" },

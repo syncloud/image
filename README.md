@@ -27,7 +27,7 @@ xzcat syncloud-[board]-[release].img.xz | dd of=/dev/[device] status=progress bs
 
 ## Virtual Box image
 
-Convert Virtual Box image file to a vdi file
+Convert x64 image file to a vdi file
 
 ````
 unxz syncloud-amd64-[version].img.xz
