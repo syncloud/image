@@ -112,7 +112,7 @@ elif [[ ${SYNCLOUD_BOARD} == "lime2" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
-  IMAGE_FILE="2019-07-10-raspbian-buster-lite.img"
+  IMAGE_FILE="2020-08-20-raspios-buster-armhf-lite.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 else

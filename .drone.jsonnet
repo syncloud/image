@@ -127,7 +127,7 @@ local build(board, arch, mode, distro) = {
 #        { name: "bananapim3", arch: "arm", type: "all" },
 #        { name: "rock64", arch: "arm", type: "all" },
 #        { name: "helios4", arch: "arm", type: "all" },
-#        { name: "raspberrypi", arch: "arm", type: "all" },
+        { name: "raspberrypi", arch: "arm", type: "all" },
 #        { name: "raspberrypi2", arch: "arm", type: "all" },
 #        { name: "odroid-xu3and4", arch: "arm", type: "all" },
 #        { name: "odroid-xu3and4", arch: "arm", type: "sd" },
@@ -139,7 +139,7 @@ local build(board, arch, mode, distro) = {
 #        { name: "tinker", arch: "arm", type: "all" },
 #        { name: "odroid-n2", arch: "arm", type: "all" },
 #        { name: "lime2", arch: "arm", type: "all" },
-        { name: "amd64", arch: "amd64", type: "all"}
+#        { name: "amd64", arch: "amd64", type: "all"}
     ]
     for distro in [
         "buster"
