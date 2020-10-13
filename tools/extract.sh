@@ -66,6 +66,10 @@ elif [[ ${SYNCLOUD_BOARD} == "helios4" ]]; then
   IMAGE_FILE="Armbian_5.68_Helios4_Debian_stretch_next_4.14.88.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+elif [[ ${SYNCLOUD_BOARD} == "helios64" ]]; then
+  IMAGE_FILE="Armbian_20.08.8_Helios64_buster_current_5.8.13.img"
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
   IMAGE_FILE="ubuntu-18.04.3-4.14-minimal-odroid-xu4-20190910.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
