@@ -104,11 +104,11 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-n2" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "amd64" ]]; then
-  IMAGE_FILE="debian-${DISTRO}-amd64-8gb.img"
+  IMAGE_FILE="debian-buster-amd64-8gb.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "buster-amd64" ]]; then
-  IMAGE_FILE="debian-buster-amd64-8gb.img"
+elif [[ ${SYNCLOUD_BOARD} == "amd64-uefi" ]]; then
+  IMAGE_FILE="debian-buster-uefi-amd64-8gb.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "lime2" ]]; then
