@@ -16,7 +16,7 @@ local build(board, arch, mode, distro) = {
     steps: [
     {
         name: "extract",
-        image: "syncloud/build-deps-amd64",
+        image: "syncloud/build-deps-buster-amd64",
         commands: [
             "./tools/extract.sh " + board + " " + base_image + " " + distro
         ],
@@ -24,7 +24,7 @@ local build(board, arch, mode, distro) = {
     },
     {
         name: "boot",
-        image: "syncloud/build-deps-amd64",
+        image: "syncloud/build-deps-buster-amd64",
         commands: [
             "./tools/boot.sh " + board  + " " + image + " " + size
         ],
@@ -33,7 +33,7 @@ local build(board, arch, mode, distro) = {
     if mode == "all" then
     {
         name: "rootfs",
-        image: "syncloud/build-deps-amd64",
+        image: "syncloud/build-deps-buster-amd64",
         commands: [
             "./tools/rootfs.sh " + board + " " + arch + " " + image + " " + release + " " + distro
         ],
@@ -83,7 +83,7 @@ local build(board, arch, mode, distro) = {
     } else {},
     {
         name: "zip",
-        image: "syncloud/build-deps-amd64",
+        image: "syncloud/build-deps-buster-amd64",
         commands: [
             "./tools/zip.sh " + image
         ],
@@ -107,7 +107,7 @@ local build(board, arch, mode, distro) = {
     },
     {
         name : "cleanup",
-        image: "syncloud/build-deps-amd64",
+        image: "syncloud/build-deps-buster-amd64",
         commands: [
             "./cleanup.sh"
         ],
