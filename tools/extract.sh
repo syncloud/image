@@ -371,7 +371,8 @@ fi
 
 if [[ ${PARTITIONS} == 2 ]]; then
 
-    kpartx -avs ${IMAGE_FILE}
+    kpartx -avs ${IMAGE_FILE}| tee kpartx.out
+    LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
     rm -rf ${ROOTFS}
     mkdir -p ${ROOTFS}
     ROOTFS_LOOP=${LOOP}p2
