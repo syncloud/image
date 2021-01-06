@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 if [[ $EUID -ne 0 ]]; then
@@ -194,21 +194,19 @@ function extract_root {
 
 cleanup
 
-if [[ ! -z "$CI" ]]; then
-  echo "running under CI, cleaning base image cache"
-  rm -rf ${IMAGE_FILE_ZIP}
-fi
-
-if [[ ! -f ${IMAGE_FILE_ZIP} ]]; then
-  echo "Base image $IMAGE_FILE_ZIP is not found, getting new one ..."
+if [[ -f ${HOME}/${IMAGE_FILE_NORMALIZED} ]]; then
+  echo "copying image ..."
+  cp ${HOME}/${IMAGE_FILE_NORMALIZED} ${IMAGE_FILE_NORMALIZED}
+else
+  echo "Base image ${HOME}/${IMAGE_FILE_NORMALIZED} is not found, getting new one ..."
   ${DOWNLOAD_IMAGE}
   ls -la
   ${UNZIP} ${IMAGE_FILE_ZIP}
   mv ${IMAGE_FILE} ${IMAGE_FILE_NORMALIZED}
-  IMAGE_FILE=${IMAGE_FILE_NORMALIZED}
   rm -rf ${IMAGE_FILE_ZIP}
   ls -la
 fi
+IMAGE_FILE=${IMAGE_FILE_NORMALIZED}
 
 if [[ ! -f ${IMAGE_FILE} ]]; then
   echo "${IMAGE_FILE} not found"
@@ -326,7 +324,9 @@ else
         ls -la
         BOOT_SIZE_SECTORS=$((${BOOT_SIZE_MB}*1024*2))
         BOOT_PARTITION_END_SECTOR=$(($BOOT_PARTITION_START_SECTOR+$BOOT_SIZE_SECTORS))
-        kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
+        sync
+        dmsetup remove -f /dev/mapper/${LOOP}p1
+        losetup -d /dev/${LOOP}
 
 echo "
 p
@@ -347,7 +347,7 @@ q
 
         fdisk -lu ${IMAGE_FILE}
     else
-
+        echo "checking ${BOOT}/cmdline.txt"
         cmdline_txt=${BOOT}/cmdline.txt
         if [[ -f ${cmdline_txt} ]]; then
             cat ${cmdline_txt}
@@ -357,8 +357,12 @@ q
         fi
         
         umount /dev/mapper/${LOOP}p1
+
+        sync
         
-        kpartx -d ${IMAGE_FILE} || true # not sure why this is not working sometimes
+        dmsetup remove -f /dev/mapper/${LOOP}p1
+        dmsetup remove -f /dev/mapper/${LOOP}p2
+        losetup -d /dev/${LOOP}
 
     fi
 
@@ -372,6 +376,7 @@ fi
 if [[ ${PARTITIONS} == 2 ]]; then
 
     kpartx -avs ${IMAGE_FILE}| tee kpartx.out
+    sync
     LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
     rm -rf ${ROOTFS}
     mkdir -p ${ROOTFS}
@@ -385,6 +390,13 @@ if [[ ${PARTITIONS} == 2 ]]; then
     losetup -l
     extract_root ${ROOTFS} ${OUTPUT}/root
     cp uuid ${OUTPUT}/root/uuid
+    sync
+    umount /dev/mapper/${ROOTFS_LOOP}
+    mount | grep ${ROOTFS}
+
+    dmsetup remove -f /dev/mapper/${LOOP}p1
+    dmsetup remove -f /dev/mapper/${LOOP}p2
+    losetup -d /dev/${LOOP}
 
     echo "
 d
