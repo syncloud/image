@@ -392,7 +392,7 @@ if [[ ${PARTITIONS} == 2 ]]; then
     cp uuid ${OUTPUT}/root/uuid
     sync
     umount /dev/mapper/${ROOTFS_LOOP}
-    mount | grep ${ROOTFS}
+    mount | grep ${ROOTFS} || true
 
     dmsetup remove -f /dev/mapper/${LOOP}p1
     dmsetup remove -f /dev/mapper/${LOOP}p2
