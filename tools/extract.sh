@@ -22,6 +22,8 @@ CPU_FREQUENCY_MIN=
 SYNCLOUD_DISTR_URL="https://github.com/syncloud/base-image/releases/download/1"
 UNZIP=unxz
 
+apt install -y gdisk
+
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
   FILE_VERSION=2016-03-18
   IMAGE_FILE=${FILE_VERSION}-raspbian-jessie-lite.img

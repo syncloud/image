@@ -18,6 +18,8 @@ SYNCLOUD_BOARD=$1
 SYNCLOUD_IMAGE=$2
 ROOTFS_SIZE=$3
 
+apt install -y gdisk
+
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export DEBCONF_FRONTEND=noninteractive
 export DEBIAN_FRONTEND=noninteractive
