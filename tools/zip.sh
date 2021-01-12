@@ -11,8 +11,7 @@ SYNCLOUD_IMAGE=$1
 echo "fdisk info:"
 fdisk -l ${SYNCLOUD_IMAGE}
 
-echo "zipping"
-pxz -0 ${SYNCLOUD_IMAGE}
+xz ${SYNCLOUD_IMAGE}
 
 ls -la *.xz
 
