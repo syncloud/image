@@ -18,7 +18,7 @@ local build(board, arch, mode, distro) = {
         name: "extract",
         image: "syncloud/build-deps-buster-amd64",
         commands: [
-            "./tools/extract.sh " + board + " " + base_image + " " + distro
+            "./tools/extract.sh " + board + " " + base_image
         ],
         privileged: true
     },

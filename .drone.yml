@@ -10,7 +10,7 @@ steps:
 - name: extract
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/extract.sh amd64-uefi amd64-uefi-base.img buster
+  - ./tools/extract.sh amd64-uefi amd64-uefi-base.img
   privileged: true
 
 - name: boot

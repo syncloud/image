@@ -26,7 +26,7 @@ function change_uuid {
     FSTYPE=$(lsblk ${DEVICE} -o FSTYPE | tail -1)
     if [[ ${FSTYPE} == "ext"* ]]; then
         blkid ${DEVICE} -s UUID -o value
-        tune2fs ${DEVICE} -U ${UUID}
+        tune2fs -f ${DEVICE} -U ${UUID}
         blkid ${DEVICE} -s UUID -o value
     else
         echo "not changing non ext fs uuid"
@@ -47,5 +47,5 @@ function prepare_image {
     LOOP=$(attach_image $image)
     echo $LOOP > loop.dev
     export MKE2FS_SYNC=2
-    mkfs.ext4 -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
+    mkfs.ext4 -F -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
 }

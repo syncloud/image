@@ -18,12 +18,6 @@ SYNCLOUD_BOARD=$1
 SYNCLOUD_IMAGE=$2
 ROOTFS_SIZE=$3
 
-BOOT_ZIP=${SYNCLOUD_BOARD}.tar.gz
-if [[ ! -f ${BOOT_ZIP} ]]; then
-  echo "missing ${BOOT_ZIP}"
-  exit 1
-fi
-
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export DEBCONF_FRONTEND=noninteractive
 export DEBIAN_FRONTEND=noninteractive
@@ -35,12 +29,6 @@ DST_ROOTFS=dst_${SYNCLOUD_BOARD}/root
 
 cleanup ${DST_ROOTFS} ${SRC_ROOTFS} ${SYNCLOUD_IMAGE}
 
-echo "extracting boot"
-rm -rf ${SYNCLOUD_BOARD}
-tar xzf ${BOOT_ZIP}
-ls -la
-rm -rf ${BOOT_ZIP}
-
 echo "copying boot"
 cp ${SYNCLOUD_BOARD}/boot ${SYNCLOUD_IMAGE}
 
@@ -50,11 +38,28 @@ echo "boot sectors: ${BOOT_SECTORS}"
 ROOTFS_SECTORS=$( numfmt --from=iec --to-unit=512 $ROOTFS_SIZE )
 dd if=/dev/zero count=${ROOTFS_SECTORS} >> ${SYNCLOUD_IMAGE}
 ROOTFS_START_SECTOR=$(( ${BOOT_SECTORS} + 1  ))
-ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 2 ))
+ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 100 ))
 fdisk -l ${SYNCLOUD_IMAGE}
+PTTYPE=$(<${SYNCLOUD_BOARD}/root/pttype)
 
 echo "creating second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
-echo "
+
+if [[ $PTTYPE == "gpt" ]]; then
+  LOOP=$(losetup -f --show ${SYNCLOUD_IMAGE})
+  echo "
+r
+d
+w
+Y
+Y
+" | gdisk $LOOP
+
+  sgdisk -n 2:${ROOTFS_START_SECTOR}:${ROOTFS_END_SECTOR} -p $LOOP
+  losetup -d $LOOP
+
+else
+
+  echo "
 n
 p
 2
@@ -63,6 +68,8 @@ ${ROOTFS_END_SECTOR}
 w
 q
 " | fdisk ${SYNCLOUD_IMAGE}
+
+fi
 
 sync
 
@@ -75,7 +82,7 @@ mkdir -p ${DST_ROOTFS}
 ls -la /dev/mapper/*
 sync
 
-attempts=3
+attempts=0
 attempt=0
 set +e
 while true; do

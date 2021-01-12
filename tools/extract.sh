@@ -1,19 +1,14 @@
 #!/bin/bash -ex
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
-fi
 
-if [[ "$#" -ne 3 ]]; then
-    echo "Usage: $0 board base_image distro"
+if [[ "$#" -ne 2 ]]; then
+    echo "Usage: $0 board base_image"
     exit 1
 fi
 
 SYNCLOUD_BOARD=$1
 IMAGE_FILE_NORMALIZED=$2
-DISTRO=$3
 BUILD_DIR=${DIR}/build_${SYNCLOUD_BOARD}
 rm -rf ${BUILD_DIR}
 mkdir ${BUILD_DIR}
@@ -140,7 +135,7 @@ function cleanup {
     if [[ ${LOOP} != "" ]]; then
          dmsetup remove -f /dev/mapper/${LOOP}p1 || true
          dmsetup remove -f /dev/mapper/${LOOP}p2 || true
-         losetup -d /dev/${LOOP} | true
+         losetup -d /dev/${LOOP} || true
          losetup
     fi
     rm -rf *.img
@@ -396,13 +391,23 @@ if [[ ${PARTITIONS} == 2 ]]; then
 
     dmsetup remove -f /dev/mapper/${LOOP}p1
     dmsetup remove -f /dev/mapper/${LOOP}p2
+
+    PTTYPE=$(fdisk -l /dev/${LOOP} | grep "Disklabel type:" | awk '{ print $3 }')
+    echo $PTTYPE > ${OUTPUT}/root/pttype
+    if [[ $PTTYPE == "gpt" ]]; then
+      sgdisk -d 2 -g /dev/${LOOP}
+    fi
+
     losetup -d /dev/${LOOP}
 
-    echo "
+    if [[ $PTTYPE == "dos" ]]; then
+
+echo "
 d
 2
 w
 " | fdisk ${IMAGE_FILE}
+    fi
 
 fi
 
@@ -410,16 +415,12 @@ echo "extracting boot partition with boot loader"
 
 fdisk -lu ${IMAGE_FILE}
 
-dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} + 1 ))
+dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} + 100 ))
 
 fdisk -lu ${OUTPUT}/boot
 
 cleanup
 rm -rf ${IMAGE_FILE}
-rm -rf ${OUTPUT}.tar.gz
-tar -c --use-compress-program=pigz -f ${OUTPUT}.tar.gz -C ${DIR}/.. ${SYNCLOUD_BOARD}
-rm -rf ${OUTPUT}
-echo "result: $OUTPUT.tar.gz"
-
+echo "result: $OUTPUT"
 ls -la
 df -h
