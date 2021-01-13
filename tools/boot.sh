@@ -48,6 +48,7 @@ echo "creating second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) 
 
 if [[ $PTTYPE == "gpt" ]]; then
   LOOP=$(losetup -f --show ${SYNCLOUD_IMAGE})
+  kpartx -l ${SYNCLOUD_IMAGE}
   echo "
 r
 d
@@ -57,8 +58,11 @@ Y
 " | gdisk $LOOP
 
   sgdisk -n 2:${ROOTFS_START_SECTOR}:${ROOTFS_END_SECTOR} -p $LOOP
+  kpartx -l ${SYNCLOUD_IMAGE}
   partprobe $LOOP
+  kpartx -d ${SYNCLOUD_IMAGE} || true
   losetup -d $LOOP
+  kpartx -l ${SYNCLOUD_IMAGE}
 
 else
 
@@ -78,6 +82,8 @@ sync
 
 ls -la /dev/mapper/*
 
+kpartx -l ${SYNCLOUD_IMAGE}
+kpartx -d ${SYNCLOUD_IMAGE} || true
 kpartx -l ${SYNCLOUD_IMAGE}
 rm -rf dst_${SYNCLOUD_BOARD}
 mkdir -p ${DST_ROOTFS}

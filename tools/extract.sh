@@ -186,8 +186,8 @@ function extract_root {
     
     cp -rp ${from}/boot ${to}/boot
 
-    if [[ -d ${from}/boot/grub.cfg ]]; then
-        cat ${from}/boot/grub.cfg
+    if [[ -f ${from}/boot/grub/grub.cfg ]]; then
+        grep UUID ${from}/boot/grub/grub.cfg
     fi
 
     sync
