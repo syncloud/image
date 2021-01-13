@@ -39,7 +39,7 @@ rm -rf ${ROOTFS_FILE}
 
 LOOP=$(attach_image ${SYNCLOUD_IMAGE})
 sync
-partprobe $LOOP
+partprobe /dev/$LOOP
 DEVICE_PART_1=/dev/mapper/${LOOP}p1
 DEVICE_PART_2=/dev/mapper/${LOOP}p2
 lsblk ${DEVICE_PART_2} -o FSTYPE
