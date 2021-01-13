@@ -87,7 +87,7 @@ mkdir -p ${DST_ROOTFS}
 ls -la /dev/mapper/*
 sync
 
-attempts=0
+attempts=3
 attempt=0
 set +e
 while true; do
