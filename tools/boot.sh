@@ -48,7 +48,6 @@ echo "creating second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) 
 
 if [[ $PTTYPE == "gpt" ]]; then
   LOOP=$(losetup -f --show ${SYNCLOUD_IMAGE})
-  kpartx -l ${SYNCLOUD_IMAGE}
   echo "
 r
 d
