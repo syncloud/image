@@ -57,11 +57,9 @@ Y
 " | gdisk $LOOP
 
   sgdisk -n 2:${ROOTFS_START_SECTOR}:${ROOTFS_END_SECTOR} -p $LOOP
-  kpartx -l ${SYNCLOUD_IMAGE}
   partprobe $LOOP
   kpartx -d ${SYNCLOUD_IMAGE} || true
   losetup -d $LOOP
-  kpartx -l ${SYNCLOUD_IMAGE}
 
 else
 
