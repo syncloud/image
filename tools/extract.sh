@@ -185,6 +185,11 @@ function extract_root {
     fi
     
     cp -rp ${from}/boot ${to}/boot
+
+    if [[ -d ${from}/boot/grub.cfg ]]; then
+        cat ${from}/boot/grub.cfg
+    fi
+
     sync
 
 }
@@ -380,6 +385,7 @@ if [[ ${PARTITIONS} == 2 ]]; then
     ROOTFS_LOOP=${LOOP}p2
     sync
     blkid /dev/mapper/${ROOTFS_LOOP} -s UUID -o value > uuid
+    cat uuid
     fsck -fy /dev/mapper/${ROOTFS_LOOP} || true
     mount /dev/mapper/${ROOTFS_LOOP} ${ROOTFS}
     mount | grep ${ROOTFS}

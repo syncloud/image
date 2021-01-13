@@ -57,6 +57,7 @@ Y
 " | gdisk $LOOP
 
   sgdisk -n 2:${ROOTFS_START_SECTOR}:${ROOTFS_END_SECTOR} -p $LOOP
+  partprobe $LOOP
   losetup -d $LOOP
 
 else

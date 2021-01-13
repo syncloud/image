@@ -48,4 +48,7 @@ function prepare_image {
     echo $LOOP > loop.dev
     export MKE2FS_SYNC=2
     mkfs.ext4 -F -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
+    partprobe $LOOP
+    lsblk /dev/mapper/${LOOP}p2 -o FSTYPE
+
 }

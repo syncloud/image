@@ -38,9 +38,12 @@ cat ${SRC_ROOTFS}/etc/hosts
 rm -rf ${ROOTFS_FILE}
 
 LOOP=$(attach_image ${SYNCLOUD_IMAGE})
+sync
+partprobe $LOOP
 DEVICE_PART_1=/dev/mapper/${LOOP}p1
 DEVICE_PART_2=/dev/mapper/${LOOP}p2
-sync
+lsblk ${DEVICE_PART_2} -o FSTYPE
+
 fsck -fy ${DEVICE_PART_2}
 UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
 if [[ -f "${UUID_FILE}" ]]; then
