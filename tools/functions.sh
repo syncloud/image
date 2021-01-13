@@ -25,7 +25,7 @@ function change_uuid {
     local UUID=$2
     sync
     partprobe $DEVICE
-    FSTYPE=$(lsblk ${DEVICE} -o FSTYPE | tail -1)
+    FSTYPE=$(fsck -N ${DEVICE} | tail -1 | cut -d'.' -f2 | cut -d' ' -f1)
     if [[ ${FSTYPE} != "vfat" ]]; then
         blkid ${DEVICE} -s UUID -o value
         tune2fs -f ${DEVICE} -U ${UUID}
