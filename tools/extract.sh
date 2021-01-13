@@ -186,8 +186,10 @@ function extract_root {
     
     cp -rp ${from}/boot ${to}/boot
 
-    if [[ -f ${from}/boot/grub/grub.cfg ]]; then
-        grep UUID ${from}/boot/grub/grub.cfg
+    if [[ -f ${to}/boot/grub/grub.cfg ]]; then
+        grep "linux.*/boot/vmlinuz" ${to}/boot/grub/grub.cfg
+        sed -i 's#linux.*/boot/vmlinuz.*#& net.ifnames=0#g' ${to}/boot/grub/grub.cfg
+        grep "linux.*/boot/vmlinuz" ${to}/boot/grub/grub.cfg
     fi
 
     sync
