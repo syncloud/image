@@ -79,9 +79,8 @@ sync
 
 ls -la /dev/mapper/*
 
-kpartx -l ${SYNCLOUD_IMAGE}
+kpartx -l ${SYNCLOUD_IMAGE} || true
 kpartx -d ${SYNCLOUD_IMAGE} || true
-kpartx -l ${SYNCLOUD_IMAGE}
 rm -rf dst_${SYNCLOUD_BOARD}
 mkdir -p ${DST_ROOTFS}
 
