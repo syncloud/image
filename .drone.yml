@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: cubieboard2-all-buster
+name: cubieboard-all-buster
 
 platform:
   os: linux
@@ -10,26 +10,26 @@ steps:
 - name: extract
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/extract.sh cubieboard2 cubieboard2-base.img
+  - ./tools/extract.sh cubieboard cubieboard-base.img
   privileged: true
 
 - name: boot
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/boot.sh cubieboard2 syncloud-cubieboard2-21.01.img 3G
+  - ./tools/boot.sh cubieboard syncloud-cubieboard-21.01.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/rootfs.sh cubieboard2 arm syncloud-cubieboard2-21.01.img 21.01 buster
+  - ./tools/rootfs.sh cubieboard arm syncloud-cubieboard-21.01.img 21.01 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/zip.sh syncloud-cubieboard2-21.01.img
+  - ./tools/zip.sh syncloud-cubieboard-21.01.img
   privileged: true
 
 - name: artifact
@@ -40,7 +40,63 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-cubieboard2-21.01.img*.xz
+    source: syncloud-cubieboard-21.01.img*.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-buster-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: beagleboneblack-all-buster
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-buster-amd64
+  commands:
+  - ./tools/extract.sh beagleboneblack beagleboneblack-base.img
+  privileged: true
+
+- name: boot
+  image: syncloud/build-deps-buster-amd64
+  commands:
+  - ./tools/boot.sh beagleboneblack syncloud-beagleboneblack-21.01.img 3G
+  privileged: true
+
+- name: rootfs
+  image: syncloud/build-deps-buster-amd64
+  commands:
+  - ./tools/rootfs.sh beagleboneblack arm syncloud-beagleboneblack-21.01.img 21.01 buster
+  privileged: true
+
+
+- name: zip
+  image: syncloud/build-deps-buster-amd64
+  commands:
+  - ./tools/zip.sh syncloud-beagleboneblack-21.01.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    key:
+      from_secret: artifact_key
+    source: syncloud-beagleboneblack-21.01.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
