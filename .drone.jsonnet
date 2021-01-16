@@ -141,7 +141,8 @@ local build(board, arch, mode, distro) = {
         #{ name: "odroid-n2", arch: "arm", type: "all" },
         #{ name: "lime2", arch: "arm", type: "all" },
         #{ name: "amd64", arch: "amd64", type: "all"},
-        #{ name: "amd64-uefi", arch: "amd64", type: "all"}
+        #{ name: "amd64-uefi", arch: "amd64", type: "all"},
+        { name: "odroid-hc4", arch: "arm", type: "all"}
     ]
     for distro in [
         "buster"
