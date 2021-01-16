@@ -267,7 +267,7 @@ FS_TYPE=$(blkid -s TYPE -o value /dev/mapper/${LOOP}p1)
 if [[ "${FS_TYPE}" == *"swap"*  ]]; then
     echo "not inspecting boot partition as it is: ${FS_TYPE}"
 else
-    echo "inspecting boot partition"
+    echo "inspecting first partition"
 
     mount /dev/mapper/${LOOP}p1 ${BOOT}
 
@@ -276,7 +276,8 @@ else
     ls -la ${BOOT}/
     
     if [[ ${PARTITIONS} == 1 ]]; then
-    
+        echo "single partition disk"
+
         if [[ ! -d ${BOOT}/boot ]]; then
             echo "single partition images without boot dir are not supported yet"
             exit 1
@@ -312,7 +313,10 @@ else
         
         extract_root ${BOOT} ${OUTPUT}/root
         cp uuid ${OUTPUT}/root/uuid
-        
+
+        PTTYPE=$(fdisk -l /dev/${LOOP} | grep "Disklabel type:" | awk '{ print $3 }')
+        echo $PTTYPE > ${OUTPUT}/root/pttype
+
         cd ${BOOT}
         ls -la
         ls | grep -v boot | grep -v uEnv.txt | xargs rm -rf
@@ -351,6 +355,7 @@ q
 
         fdisk -lu ${IMAGE_FILE}
     else
+        echo "double partition disk"
         echo "checking ${BOOT}/cmdline.txt"
         cmdline_txt=${BOOT}/cmdline.txt
         if [[ -f ${cmdline_txt} ]]; then
@@ -377,7 +382,9 @@ q
 
 fi
 
+
 if [[ ${PARTITIONS} == 2 ]]; then
+    echo "inspecting second partition"
 
     kpartx -avs ${IMAGE_FILE}| tee kpartx.out
     sync

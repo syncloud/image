@@ -122,7 +122,7 @@ local build(board, arch, mode, distro) = {
     build(board.name, board.arch, board.type, distro)
     for board in [
         #{ name: "cubieboard2", arch: "arm", type: "all" },
-        { name: "cubieboard", arch: "arm", type: "all" },
+        #{ name: "cubieboard", arch: "arm", type: "all" },
         { name: "beagleboneblack", arch: "arm", type: "all" },
         #{ name: "bananapim3", arch: "arm", type: "all" },
         #{ name: "rock64", arch: "arm", type: "all" },
