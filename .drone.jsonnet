@@ -124,14 +124,14 @@ local build(board, arch, mode, distro) = {
         #{ name: "cubieboard2", arch: "arm", type: "all" },
         #{ name: "cubieboard", arch: "arm", type: "all" },
         #{ name: "beagleboneblack", arch: "arm", type: "all" },
-        #{ name: "bananapim3", arch: "arm", type: "all" },
-        #{ name: "rock64", arch: "arm", type: "all" },
-        #{ name: "helios4", arch: "arm", type: "all" },
-        #{ name: "helios64", arch: "arm", type: "all" },
-        #{ name: "raspberrypi", arch: "arm", type: "all" },
-        #{ name: "raspberrypi2", arch: "arm", type: "all" },
-        #{ name: "odroid-xu3and4", arch: "arm", type: "all" },
-        #{ name: "odroid-xu3and4", arch: "arm", type: "sd" },
+        { name: "bananapim3", arch: "arm", type: "all" },
+        { name: "rock64", arch: "arm", type: "all" },
+        { name: "helios4", arch: "arm", type: "all" },
+        { name: "helios64", arch: "arm", type: "all" },
+        { name: "raspberrypi", arch: "arm", type: "all" },
+        { name: "raspberrypi2", arch: "arm", type: "all" },
+        { name: "odroid-xu3and4", arch: "arm", type: "all" },
+        { name: "odroid-xu3and4", arch: "arm", type: "sd" },
         #{ name: "odroid-c2", arch: "arm", type: "all" },
         #{ name: "odroid-u3", arch: "arm", type: "all" },
         #{ name: "bananapim2", arch: "arm", type: "all" },
@@ -142,7 +142,7 @@ local build(board, arch, mode, distro) = {
         #{ name: "lime2", arch: "arm", type: "all" },
         #{ name: "amd64", arch: "amd64", type: "all"},
         #{ name: "amd64-uefi", arch: "amd64", type: "all"},
-        { name: "odroid-hc4", arch: "arm", type: "all"}
+        #{ name: "odroid-hc4", arch: "arm", type: "all"},
     ]
     for distro in [
         "buster"
