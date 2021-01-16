@@ -79,7 +79,7 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-u3" ]]; then
   IMAGE_FILE="ubuntu-14.04.2lts-lubuntu-odroid-u-20150224.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "odroid-hc3" ]]; then
+elif [[ ${SYNCLOUD_BOARD} == "odroid-hc4" ]]; then
   IMAGE_FILE="ubuntu-20.04-4.9-minimal-odroid-c4-hc4-20201212.img.xz"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
