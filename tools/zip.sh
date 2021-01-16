@@ -12,7 +12,7 @@ echo "fdisk info:"
 fdisk -l ${SYNCLOUD_IMAGE}
 
 rm -f ${SYNCLOUD_IMAGE}.xz
-xz ${SYNCLOUD_IMAGE}
+xz -T0 ${SYNCLOUD_IMAGE}
 
 ls -la *.xz
 

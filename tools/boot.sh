@@ -29,8 +29,6 @@ export TMP=/tmp
 SRC_ROOTFS=rootfs_${SYNCLOUD_BOARD}
 DST_ROOTFS=dst_${SYNCLOUD_BOARD}/root
 
-cleanup ${DST_ROOTFS} ${SRC_ROOTFS} ${SYNCLOUD_IMAGE}
-
 echo "copying boot"
 cp ${SYNCLOUD_BOARD}/boot ${SYNCLOUD_IMAGE}
 
@@ -80,7 +78,6 @@ sync
 
 ls -la /dev/mapper/*
 
-kpartx -l ${SYNCLOUD_IMAGE} || true
 kpartx -d ${SYNCLOUD_IMAGE} || true
 rm -rf dst_${SYNCLOUD_BOARD}
 mkdir -p ${DST_ROOTFS}
@@ -88,27 +85,7 @@ mkdir -p ${DST_ROOTFS}
 ls -la /dev/mapper/*
 sync
 
-attempts=3
-attempt=0
-set +e
-while true; do
-    ( prepare_image ${SYNCLOUD_IMAGE} )
-    if [[ $? -eq 0 ]]; then
-        break
-    fi
-    cleanup ${DST_ROOTFS} ${SRC_ROOTFS} ${SYNCLOUD_IMAGE}
-    if [[ ${attempt} -ge ${attempts} ]]; then
-        exit 1
-    fi
-    dmesg | tail -10
-    sleep 3
-    echo "======================"
-    echo "retrying image format: $attempt"
-    echo "======================"
-    attempt=$((attempt+1)) 
-done
-set -e
-
+prepare_image ${SYNCLOUD_IMAGE}
 LOOP=$(cat loop.dev)
 DEVICE_PART_1=/dev/mapper/${LOOP}p1
 DEVICE_PART_2=/dev/mapper/${LOOP}p2
@@ -118,5 +95,8 @@ if [[ -f "${UUID_FILE}" ]]; then
     change_uuid ${DEVICE_PART_1} clear
     change_uuid ${DEVICE_PART_2} clear
 fi
-
-cleanup ${DST_ROOTFS} ${SRC_ROOTFS} ${SYNCLOUD_IMAGE}
+kpartx -d ${SYNCLOUD_IMAGE}
+dmsetup remove -f /dev/mapper/${LOOP}p1 || true
+dmsetup remove -f /dev/mapper/${LOOP}p2 || true
+losetup -d /dev/${LOOP} || true
+losetup | grep img || true

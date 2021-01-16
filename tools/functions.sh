@@ -3,18 +3,15 @@ function cleanup {
     local SRC_ROOTFS=$2
     local SYNCLOUD_IMAGE=$3
     echo "==== cleanup ===="
-
     ls -la /dev/mapper/*
     mount | grep ${DST_ROOTFS} || true
     mount | grep ${DST_ROOTFS} | awk '{print "umounting "$1; system("umount "$3)}' || true
     mount | grep ${DST_ROOTFS} || true
     rm -rf ${SRC_ROOTFS}
-    losetup -a || true
-    kpartx -v ${SYNCLOUD_IMAGE} || true
+    losetup | grep img || true
     echo "removing loop devices"
-    kpartx -d ${SYNCLOUD_IMAGE} || true
     dmsetup remove -f /dev/mapper/loop* || true
-
+    losetup | grep img || true
     echo "==== cleanup end ===="
 }
 
@@ -45,12 +42,10 @@ function attach_image {
 
 function prepare_image { 
     local image=$1
-    set -e
     LOOP=$(attach_image $image)
     echo $LOOP > loop.dev
     export MKE2FS_SYNC=2
     mkfs.ext4 -F -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
     partprobe /dev/$LOOP
     lsblk /dev/mapper/${LOOP}p2 -o FSTYPE
-
 }

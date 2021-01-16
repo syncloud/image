@@ -95,6 +95,11 @@ grep localhost ${DST_ROOTFS}/etc/hosts
 
 sync
 
-cleanup ${DST_ROOTFS} ${SRC_ROOTFS} ${SYNCLOUD_IMAGE}
+umount ${DEVICE_PART_2}
+kpartx -d ${SYNCLOUD_IMAGE}
+dmsetup remove -f /dev/mapper/${LOOP}p1 || true
+dmsetup remove -f /dev/mapper/${LOOP}p2 || true
+losetup -d /dev/${LOOP} || true
+losetup | grep img || true
 
 ls -la ${DST_ROOTFS}
