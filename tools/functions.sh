@@ -23,7 +23,7 @@ function change_uuid {
     sync
     partprobe $DEVICE
     FSTYPE=$(fsck -N ${DEVICE} | tail -1 | cut -d'.' -f2 | cut -d' ' -f1)
-    if [[ ${FSTYPE} != "vfat" ]]; then
+    if [[ ${FSTYPE} == "ext4" ]]; then
         blkid ${DEVICE} -s UUID -o value
         tune2fs -f ${DEVICE} -U ${UUID}
         blkid ${DEVICE} -s UUID -o value
