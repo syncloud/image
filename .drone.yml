@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: bananapim3-all-buster
+name: odroid-c2-all-buster
 
 platform:
   os: linux
@@ -10,26 +10,26 @@ steps:
 - name: extract
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/extract.sh bananapim3 bananapim3-base.img
+  - ./tools/extract.sh odroid-c2 odroid-c2-base.img
   privileged: true
 
 - name: boot
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/boot.sh bananapim3 syncloud-bananapim3-21.01.img 3G
+  - ./tools/boot.sh odroid-c2 syncloud-odroid-c2-21.01.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/rootfs.sh bananapim3 arm syncloud-bananapim3-21.01.img 21.01 buster
+  - ./tools/rootfs.sh odroid-c2 arm syncloud-odroid-c2-21.01.img 21.01 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/zip.sh syncloud-bananapim3-21.01.img
+  - ./tools/zip.sh syncloud-odroid-c2-21.01.img
   privileged: true
 
 - name: artifact
@@ -40,7 +40,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-bananapim3-21.01.img*.xz
+    source: syncloud-odroid-c2-21.01.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -56,7 +56,7 @@ steps:
 
 ---
 kind: pipeline
-name: rock64-all-buster
+name: odroid-u3-all-buster
 
 platform:
   os: linux
@@ -66,26 +66,26 @@ steps:
 - name: extract
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/extract.sh rock64 rock64-base.img
+  - ./tools/extract.sh odroid-u3 odroid-u3-base.img
   privileged: true
 
 - name: boot
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/boot.sh rock64 syncloud-rock64-21.01.img 3G
+  - ./tools/boot.sh odroid-u3 syncloud-odroid-u3-21.01.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/rootfs.sh rock64 arm syncloud-rock64-21.01.img 21.01 buster
+  - ./tools/rootfs.sh odroid-u3 arm syncloud-odroid-u3-21.01.img 21.01 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/zip.sh syncloud-rock64-21.01.img
+  - ./tools/zip.sh syncloud-odroid-u3-21.01.img
   privileged: true
 
 - name: artifact
@@ -96,7 +96,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-rock64-21.01.img*.xz
+    source: syncloud-odroid-u3-21.01.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -112,7 +112,7 @@ steps:
 
 ---
 kind: pipeline
-name: helios4-all-buster
+name: bananapim2-all-buster
 
 platform:
   os: linux
@@ -122,26 +122,26 @@ steps:
 - name: extract
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/extract.sh helios4 helios4-base.img
+  - ./tools/extract.sh bananapim2 bananapim2-base.img
   privileged: true
 
 - name: boot
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/boot.sh helios4 syncloud-helios4-21.01.img 3G
+  - ./tools/boot.sh bananapim2 syncloud-bananapim2-21.01.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/rootfs.sh helios4 arm syncloud-helios4-21.01.img 21.01 buster
+  - ./tools/rootfs.sh bananapim2 arm syncloud-bananapim2-21.01.img 21.01 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/zip.sh syncloud-helios4-21.01.img
+  - ./tools/zip.sh syncloud-bananapim2-21.01.img
   privileged: true
 
 - name: artifact
@@ -152,7 +152,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-helios4-21.01.img*.xz
+    source: syncloud-bananapim2-21.01.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -168,7 +168,7 @@ steps:
 
 ---
 kind: pipeline
-name: helios64-all-buster
+name: bananapim1-all-buster
 
 platform:
   os: linux
@@ -178,26 +178,26 @@ steps:
 - name: extract
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/extract.sh helios64 helios64-base.img
+  - ./tools/extract.sh bananapim1 bananapim1-base.img
   privileged: true
 
 - name: boot
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/boot.sh helios64 syncloud-helios64-21.01.img 3G
+  - ./tools/boot.sh bananapim1 syncloud-bananapim1-21.01.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/rootfs.sh helios64 arm syncloud-helios64-21.01.img 21.01 buster
+  - ./tools/rootfs.sh bananapim1 arm syncloud-bananapim1-21.01.img 21.01 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/zip.sh syncloud-helios64-21.01.img
+  - ./tools/zip.sh syncloud-bananapim1-21.01.img
   privileged: true
 
 - name: artifact
@@ -208,7 +208,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-helios64-21.01.img*.xz
+    source: syncloud-bananapim1-21.01.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -224,7 +224,7 @@ steps:
 
 ---
 kind: pipeline
-name: raspberrypi-all-buster
+name: cubietruck-all-buster
 
 platform:
   os: linux
@@ -234,26 +234,26 @@ steps:
 - name: extract
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/extract.sh raspberrypi raspberrypi-base.img
+  - ./tools/extract.sh cubietruck cubietruck-base.img
   privileged: true
 
 - name: boot
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/boot.sh raspberrypi syncloud-raspberrypi-21.01.img 3G
+  - ./tools/boot.sh cubietruck syncloud-cubietruck-21.01.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/rootfs.sh raspberrypi arm syncloud-raspberrypi-21.01.img 21.01 buster
+  - ./tools/rootfs.sh cubietruck arm syncloud-cubietruck-21.01.img 21.01 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/zip.sh syncloud-raspberrypi-21.01.img
+  - ./tools/zip.sh syncloud-cubietruck-21.01.img
   privileged: true
 
 - name: artifact
@@ -264,7 +264,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-raspberrypi-21.01.img*.xz
+    source: syncloud-cubietruck-21.01.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -280,7 +280,7 @@ steps:
 
 ---
 kind: pipeline
-name: raspberrypi2-all-buster
+name: tinker-all-buster
 
 platform:
   os: linux
@@ -290,26 +290,26 @@ steps:
 - name: extract
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/extract.sh raspberrypi2 raspberrypi2-base.img
+  - ./tools/extract.sh tinker tinker-base.img
   privileged: true
 
 - name: boot
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/boot.sh raspberrypi2 syncloud-raspberrypi2-21.01.img 3G
+  - ./tools/boot.sh tinker syncloud-tinker-21.01.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/rootfs.sh raspberrypi2 arm syncloud-raspberrypi2-21.01.img 21.01 buster
+  - ./tools/rootfs.sh tinker arm syncloud-tinker-21.01.img 21.01 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/zip.sh syncloud-raspberrypi2-21.01.img
+  - ./tools/zip.sh syncloud-tinker-21.01.img
   privileged: true
 
 - name: artifact
@@ -320,7 +320,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-raspberrypi2-21.01.img*.xz
+    source: syncloud-tinker-21.01.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -336,7 +336,7 @@ steps:
 
 ---
 kind: pipeline
-name: odroid-xu3and4-all-buster
+name: odroid-n2-all-buster
 
 platform:
   os: linux
@@ -346,26 +346,26 @@ steps:
 - name: extract
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/extract.sh odroid-xu3and4 odroid-xu3and4-base.img
+  - ./tools/extract.sh odroid-n2 odroid-n2-base.img
   privileged: true
 
 - name: boot
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-21.01.img 3G
+  - ./tools/boot.sh odroid-n2 syncloud-odroid-n2-21.01.img 3G
   privileged: true
 
 - name: rootfs
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/rootfs.sh odroid-xu3and4 arm syncloud-odroid-xu3and4-21.01.img 21.01 buster
+  - ./tools/rootfs.sh odroid-n2 arm syncloud-odroid-n2-21.01.img 21.01 buster
   privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-xu3and4-21.01.img
+  - ./tools/zip.sh syncloud-odroid-n2-21.01.img
   privileged: true
 
 - name: artifact
@@ -376,7 +376,7 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-odroid-xu3and4-21.01.img*.xz
+    source: syncloud-odroid-n2-21.01.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
@@ -392,7 +392,7 @@ steps:
 
 ---
 kind: pipeline
-name: odroid-xu3and4-sd-buster
+name: lime2-all-buster
 
 platform:
   os: linux
@@ -402,21 +402,26 @@ steps:
 - name: extract
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/extract.sh odroid-xu3and4 odroid-xu3and4-base.img
+  - ./tools/extract.sh lime2 lime2-base.img
   privileged: true
 
 - name: boot
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/boot.sh odroid-xu3and4 syncloud-odroid-xu3and4-sd-21.01.img 10M
+  - ./tools/boot.sh lime2 syncloud-lime2-21.01.img 3G
   privileged: true
 
+- name: rootfs
+  image: syncloud/build-deps-buster-amd64
+  commands:
+  - ./tools/rootfs.sh lime2 arm syncloud-lime2-21.01.img 21.01 buster
+  privileged: true
 
 
 - name: zip
   image: syncloud/build-deps-buster-amd64
   commands:
-  - ./tools/zip.sh syncloud-odroid-xu3and4-sd-21.01.img
+  - ./tools/zip.sh syncloud-lime2-21.01.img
   privileged: true
 
 - name: artifact
@@ -427,7 +432,92 @@ steps:
       from_secret: artifact_host
     key:
       from_secret: artifact_key
-    source: syncloud-odroid-xu3and4-sd-21.01.img*.xz
+    source: syncloud-lime2-21.01.img*.xz
+    target: /home/artifact/repo/image
+    username: artifact
+
+- name: cleanup
+  image: syncloud/build-deps-buster-amd64
+  commands:
+  - ./cleanup.sh
+  privileged: true
+  when:
+    status:
+    - failure
+    - success
+
+---
+kind: pipeline
+name: amd64-all-buster
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: extract
+  image: syncloud/build-deps-buster-amd64
+  commands:
+  - ./tools/extract.sh amd64 amd64-base.img
+  privileged: true
+
+- name: boot
+  image: syncloud/build-deps-buster-amd64
+  commands:
+  - ./tools/boot.sh amd64 syncloud-amd64-21.01.img 3G
+  privileged: true
+
+- name: rootfs
+  image: syncloud/build-deps-buster-amd64
+  commands:
+  - ./tools/rootfs.sh amd64 amd64 syncloud-amd64-21.01.img 21.01 buster
+  privileged: true
+
+- name: virtualbox prepare
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: virtualbox_host
+    key:
+      from_secret: virtualbox_key
+    source:
+    - syncloud-amd64-21.01.img
+    - create_vbox_image.sh
+    target: /data/drone-buster
+    username: root
+
+- name: virtualbox
+  image: appleboy/drone-ssh
+  settings:
+    command_timeout: 20m
+    host:
+      from_secret: virtualbox_host
+    key:
+      from_secret: virtualbox_key
+    port: 22
+    script:
+    - cd /data/drone-buster
+    - ./create_vbox_image.sh syncloud-amd64-21.01.img
+    script_stop: true
+    username: root
+  privileged: true
+
+- name: zip
+  image: syncloud/build-deps-buster-amd64
+  commands:
+  - ./tools/zip.sh syncloud-amd64-21.01.img
+  privileged: true
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    key:
+      from_secret: artifact_key
+    source: syncloud-amd64-21.01.img*.xz
     target: /home/artifact/repo/image
     username: artifact
 
