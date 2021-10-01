@@ -129,7 +129,7 @@ local build(board, arch, mode, distro) = {
         #{ name: "helios4", arch: "arm", type: "all" },
         #{ name: "helios64", arch: "arm", type: "all" },
         #{ name: "raspberrypi", arch: "arm", type: "all" },
-        { name: "raspberrypi-64", arch: "arm", type: "all" },
+        { name: "raspberrypi-64", arch: "arm64", type: "all" },
         #{ name: "raspberrypi2", arch: "arm", type: "all" },
         #{ name: "odroid-xu3and4", arch: "arm", type: "all" },
         #{ name: "odroid-xu3and4", arch: "arm", type: "sd" },
