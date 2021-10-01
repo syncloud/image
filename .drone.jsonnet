@@ -58,7 +58,7 @@ local build(board, arch, mode, distro) = {
                 "create_vbox_image.sh"
             ]
         }
-    } else [] +
+    ]} else [] +
     if board == "amd64" then
     [{
         name: "virtualbox",
