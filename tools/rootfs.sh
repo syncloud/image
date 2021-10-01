@@ -64,8 +64,11 @@ ls -la ${SYNCLOUD_BOARD}/root/etc
 echo "copying rootfs"
 cp -rp ${SRC_ROOTFS}/* ${DST_ROOTFS}/
 cat ${DST_ROOTFS}/etc/hosts
-
 rm -rf ${SRC_ROOTFS}
+
+ls -la ${DST_ROOTFS}/lib
+ls -la ${SYNCLOUD_BOARD}/root/lib
+
 cp -rp ${SYNCLOUD_BOARD}/root/* ${DST_ROOTFS}/
 
 echo "copying files"
