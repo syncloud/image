@@ -1,4 +1,4 @@
-local release = "21.01";
+local release = "21.09";
 
 local build(board, arch, mode, distro) = {
     local base_image = board + "-base.img",
@@ -29,18 +29,18 @@ local build(board, arch, mode, distro) = {
             "./tools/boot.sh " + board  + " " + image + " " + size
         ],
         privileged: true
-    },
+    }] + 
     if mode == "all" then
-    {
+    [{
         name: "rootfs",
         image: "syncloud/build-deps-buster-amd64",
         commands: [
             "./tools/rootfs.sh " + board + " " + arch + " " + image + " " + release + " " + distro
         ],
         privileged: true
-    } else {},
+    }] else [] +
     if board == "amd64" then
-    {
+    [{
         name: "virtualbox prepare",
         image: "appleboy/drone-scp",
         settings: {
@@ -58,9 +58,9 @@ local build(board, arch, mode, distro) = {
                 "create_vbox_image.sh"
             ]
         }
-    },
+    } else [] +
     if board == "amd64" then
-    {
+    [{
         name: "virtualbox",
         image: "appleboy/drone-ssh",
         settings: {
@@ -80,8 +80,8 @@ local build(board, arch, mode, distro) = {
             ],
         },
         privileged: true
-    } else {},
-    {
+    }] else [] + 
+    [{
         name: "zip",
         image: "syncloud/build-deps-buster-amd64",
         commands: [
@@ -129,6 +129,7 @@ local build(board, arch, mode, distro) = {
         #{ name: "helios4", arch: "arm", type: "all" },
         #{ name: "helios64", arch: "arm", type: "all" },
         #{ name: "raspberrypi", arch: "arm", type: "all" },
+        { name: "raspberrypi-64", arch: "arm", type: "all" },
         #{ name: "raspberrypi2", arch: "arm", type: "all" },
         #{ name: "odroid-xu3and4", arch: "arm", type: "all" },
         #{ name: "odroid-xu3and4", arch: "arm", type: "sd" },
@@ -140,7 +141,7 @@ local build(board, arch, mode, distro) = {
         #{ name: "tinker", arch: "arm", type: "all" },
         #{ name: "odroid-n2", arch: "arm", type: "all" },
         #{ name: "lime2", arch: "arm", type: "all" },
-        { name: "amd64", arch: "amd64", type: "all"},
+        #{ name: "amd64", arch: "amd64", type: "all"},
         #{ name: "amd64-uefi", arch: "amd64", type: "all"},
         #{ name: "odroid-hc4", arch: "arm", type: "all"},
     ]
