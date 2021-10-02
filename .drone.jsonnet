@@ -30,7 +30,7 @@ local build(board, arch, mode, distro) = {
         ],
         privileged: true
     }] + 
-    if mode == "all" then
+    (if mode == "all" then
     [{
         name: "rootfs",
         image: "syncloud/build-deps-buster-amd64",
@@ -38,8 +38,8 @@ local build(board, arch, mode, distro) = {
             "./tools/rootfs.sh " + board + " " + arch + " " + image + " " + release + " " + distro
         ],
         privileged: true
-    }] else [] +
-    if board == "amd64" then
+    }] else []) +
+    (if board == "amd64" then
     [{
         name: "virtualbox prepare",
         image: "appleboy/drone-scp",
@@ -58,9 +58,8 @@ local build(board, arch, mode, distro) = {
                 "create_vbox_image.sh"
             ]
         }
-    }] else [] +
-    if board == "amd64" then
-    [{
+    },
+    {
         name: "virtualbox",
         image: "appleboy/drone-ssh",
         settings: {
@@ -80,7 +79,7 @@ local build(board, arch, mode, distro) = {
             ],
         },
         privileged: true
-    }] else [] + 
+    }] else []) + 
     [{
         name: "zip",
         image: "syncloud/build-deps-buster-amd64",
@@ -121,29 +120,29 @@ local build(board, arch, mode, distro) = {
 [
     build(board.name, board.arch, board.type, distro)
     for board in [
-        #{ name: "cubieboard2", arch: "arm", type: "all" },
-        #{ name: "cubieboard", arch: "arm", type: "all" },
-        #{ name: "beagleboneblack", arch: "arm", type: "all" },
-        #{ name: "bananapim3", arch: "arm", type: "all" },
-        #{ name: "rock64", arch: "arm", type: "all" },
-        #{ name: "helios4", arch: "arm", type: "all" },
-        #{ name: "helios64", arch: "arm", type: "all" },
-        #{ name: "raspberrypi", arch: "arm", type: "all" },
+        { name: "cubieboard2", arch: "arm", type: "all" },
+        { name: "cubieboard", arch: "arm", type: "all" },
+        { name: "beagleboneblack", arch: "arm", type: "all" },
+        { name: "bananapim3", arch: "arm", type: "all" },
+        { name: "rock64", arch: "arm", type: "all" },
+        { name: "helios4", arch: "arm", type: "all" },
+        { name: "helios64", arch: "arm", type: "all" },
+        { name: "raspberrypi", arch: "arm", type: "all" },
         { name: "raspberrypi-64", arch: "arm64", type: "all" },
         { name: "raspberrypi2", arch: "arm", type: "all" },
-        #{ name: "odroid-xu3and4", arch: "arm", type: "all" },
-        #{ name: "odroid-xu3and4", arch: "arm", type: "sd" },
-        #{ name: "odroid-c2", arch: "arm", type: "all" },
-        #{ name: "odroid-u3", arch: "arm", type: "all" },
-        #{ name: "bananapim2", arch: "arm", type: "all" },
-        #{ name: "bananapim1", arch: "arm", type: "all" },
-        #{ name: "cubietruck", arch: "arm", type: "all" },
-        #{ name: "tinker", arch: "arm", type: "all" },
-        #{ name: "odroid-n2", arch: "arm", type: "all" },
-        #{ name: "lime2", arch: "arm", type: "all" },
-        #{ name: "amd64", arch: "amd64", type: "all"},
-        #{ name: "amd64-uefi", arch: "amd64", type: "all"},
-        #{ name: "odroid-hc4", arch: "arm", type: "all"},
+        { name: "odroid-xu3and4", arch: "arm", type: "all" },
+        { name: "odroid-xu3and4", arch: "arm", type: "sd" },
+        { name: "odroid-c2", arch: "arm", type: "all" },
+        { name: "odroid-u3", arch: "arm", type: "all" },
+        { name: "bananapim2", arch: "arm", type: "all" },
+        { name: "bananapim1", arch: "arm", type: "all" },
+        { name: "cubietruck", arch: "arm", type: "all" },
+        { name: "tinker", arch: "arm", type: "all" },
+        { name: "odroid-n2", arch: "arm", type: "all" },
+        { name: "lime2", arch: "arm", type: "all" },
+        { name: "amd64", arch: "amd64", type: "all"},
+        { name: "amd64-uefi", arch: "amd64", type: "all"},
+        { name: "odroid-hc4", arch: "arm", type: "all"},
     ]
     for distro in [
         "buster"
