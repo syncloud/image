@@ -69,7 +69,7 @@ rm -rf ${SRC_ROOTFS}
 ls -la ${DST_ROOTFS}/lib
 ls -la ${SYNCLOUD_BOARD}/root/lib
 
-rm ${DST_ROOTFS}/lib
+mv ${SYNCLOUD_BOARD}/root/lib/* ${DST_ROOTFS}/lib/
 
 cp -rp ${SYNCLOUD_BOARD}/root/* ${DST_ROOTFS}/
 
