@@ -121,7 +121,7 @@ elif [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi-64" ]]; then
-  IMAGE_FILE="2020-08-20-raspios-buster-armhf-lite.img"
+  IMAGE_FILE="2021-05-07-raspios-buster-arm64.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 else
