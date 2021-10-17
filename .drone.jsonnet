@@ -1,4 +1,4 @@
-local release = "21.09";
+local release = "21.10";
 
 local build(board, arch, mode, distro) = {
     local base_image = board + "-base.img",
