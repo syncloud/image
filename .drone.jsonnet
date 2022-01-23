@@ -88,6 +88,21 @@ local build(board, arch, mode, distro) = {
         ],
         privileged: true
     },
+   {
+            name: "publish to github",
+            image: "plugins/github-release:1.0.0",
+            settings: {
+                api_key: {
+                    from_secret: "github_token"
+                },
+                files: image + "*.xz",
+                overwrite: true,
+                file_exists: "overwrite"
+            },
+            when: {
+                event: [ "tag" ]
+            }
+        },
     {
         name: "artifact",
         image: "appleboy/drone-scp",
