@@ -25,11 +25,9 @@ UNZIP=unxz
 apt install -y gdisk
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
-  FILE_VERSION=2016-03-18
-  IMAGE_FILE=${FILE_VERSION}-raspbian-jessie-lite.img
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${FILE_VERSION}-raspbian-jessie-lite.zip -O $IMAGE_FILE_ZIP"
-  UNZIP="unzip -o"
+  IMAGE_FILE=2016-03-18-raspbian-jessie-lite.img
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "tinker" ]]; then
   IMAGE_FILE="Armbian_20.02.7_Tinkerboard_bionic_legacy_4.4.213_desktop.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
