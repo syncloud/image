@@ -1,4 +1,4 @@
-local release = "22.01";
+local release = "22.02";
 
 local build(board, arch, mode, distro) = {
     local base_image = board + "-base.img",
@@ -16,7 +16,7 @@ local build(board, arch, mode, distro) = {
     steps: [
     {
         name: "extract",
-        image: "syncloud/build-deps-buster-amd64",
+        image: "debian:buster-slim",
         commands: [
             "./tools/extract.sh " + board + " " + base_image
         ],
@@ -24,7 +24,7 @@ local build(board, arch, mode, distro) = {
     },
     {
         name: "boot",
-        image: "syncloud/build-deps-buster-amd64",
+        image: "debian:buster-slim",
         commands: [
             "./tools/boot.sh " + board  + " " + image + " " + size
         ],
@@ -33,7 +33,7 @@ local build(board, arch, mode, distro) = {
     (if mode == "all" then
     [{
         name: "rootfs",
-        image: "syncloud/build-deps-buster-amd64",
+        image: "debian:buster-slim",
         commands: [
             "./tools/rootfs.sh " + board + " " + arch + " " + image + " " + release + " " + distro
         ],
@@ -82,7 +82,7 @@ local build(board, arch, mode, distro) = {
     }] else []) + 
     [{
         name: "zip",
-        image: "syncloud/build-deps-buster-amd64",
+        image: "debian:buster-slim",
         commands: [
             "./tools/zip.sh " + image
         ],
@@ -121,7 +121,7 @@ local build(board, arch, mode, distro) = {
     },
     {
         name : "cleanup",
-        image: "syncloud/build-deps-buster-amd64",
+        image: "debian:buster-slim",
         commands: [
             "./cleanup.sh"
         ],
@@ -135,29 +135,29 @@ local build(board, arch, mode, distro) = {
 [
     build(board.name, board.arch, board.type, distro)
     for board in [
-        #{ name: "cubieboard2", arch: "arm", type: "all" },
-        #{ name: "cubieboard", arch: "arm", type: "all" },
-        #{ name: "beagleboneblack", arch: "arm", type: "all" },
-        #{ name: "bananapim3", arch: "arm", type: "all" },
-        #{ name: "rock64", arch: "arm", type: "all" },
-        #{ name: "helios4", arch: "arm", type: "all" },
-        #{ name: "helios64", arch: "arm", type: "all" },
-        #{ name: "raspberrypi", arch: "arm", type: "all" },
-        #{ name: "raspberrypi-64", arch: "arm64", type: "all" },
+        { name: "cubieboard2", arch: "arm", type: "all" },
+        { name: "cubieboard", arch: "arm", type: "all" },
+        { name: "beagleboneblack", arch: "arm", type: "all" },
+        { name: "bananapim3", arch: "arm", type: "all" },
+        { name: "rock64", arch: "arm", type: "all" },
+        { name: "helios4", arch: "arm", type: "all" },
+        { name: "helios64", arch: "arm", type: "all" },
+        { name: "raspberrypi", arch: "arm", type: "all" },
+        { name: "raspberrypi-64", arch: "arm64", type: "all" },
         { name: "raspberrypi2", arch: "arm", type: "all" },
-        #{ name: "odroid-xu3and4", arch: "arm", type: "all" },
-        #{ name: "odroid-xu3and4", arch: "arm", type: "sd" },
-        #{ name: "odroid-c2", arch: "arm", type: "all" },
-        #{ name: "odroid-u3", arch: "arm", type: "all" },
-        #{ name: "bananapim2", arch: "arm", type: "all" },
-        #{ name: "bananapim1", arch: "arm", type: "all" },
-        #{ name: "cubietruck", arch: "arm", type: "all" },
-        #{ name: "tinker", arch: "arm", type: "all" },
-        #{ name: "odroid-n2", arch: "arm", type: "all" },
-        #{ name: "lime2", arch: "arm", type: "all" },
-        #{ name: "amd64", arch: "amd64", type: "all"},
-        #{ name: "amd64-uefi", arch: "amd64", type: "all"},
-        #{ name: "odroid-hc4", arch: "arm64", type: "all"},
+        { name: "odroid-xu3and4", arch: "arm", type: "all" },
+        { name: "odroid-xu3and4", arch: "arm", type: "sd" },
+        { name: "odroid-c2", arch: "arm", type: "all" },
+        { name: "odroid-u3", arch: "arm", type: "all" },
+        { name: "bananapim2", arch: "arm", type: "all" },
+        { name: "bananapim1", arch: "arm", type: "all" },
+        { name: "cubietruck", arch: "arm", type: "all" },
+        { name: "tinker", arch: "arm", type: "all" },
+        { name: "odroid-n2", arch: "arm", type: "all" },
+        { name: "lime2", arch: "arm", type: "all" },
+        { name: "amd64", arch: "amd64", type: "all"},
+        { name: "amd64-uefi", arch: "amd64", type: "all"},
+        { name: "odroid-hc4", arch: "arm64", type: "all"},
     ]
     for distro in [
         "buster"
