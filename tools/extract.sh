@@ -22,6 +22,7 @@ CPU_FREQUENCY_MIN=
 SYNCLOUD_DISTR_URL="https://github.com/syncloud/base-image/releases/download/1"
 UNZIP=unxz
 
+apt update
 apt install -y gdisk
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
