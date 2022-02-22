@@ -7,6 +7,8 @@ if [[ "$#" -ne 1 ]]; then
     exit 1
 fi
 SYNCLOUD_IMAGE=$1
+apt update
+apt install -y xz-utils 
 
 echo "fdisk info:"
 fdisk -l ${SYNCLOUD_IMAGE}
