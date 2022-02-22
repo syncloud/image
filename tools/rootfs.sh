@@ -26,6 +26,9 @@ DST_ROOTFS=dst_${SYNCLOUD_BOARD}/root
 ROOTFS_FILE=rootfs-${DISTRO}-${ARCH}.tar.gz
 echo "==== ${SYNCLOUD_BOARD}, ${ARCH} ===="
 
+apt update
+apt install wget
+
 if [[ ! -f ${ROOTFS_FILE} ]]; then
     wget https://github.com/syncloud/rootfs/releases/download/${RELEASE}/${ROOTFS_FILE} --progress dot:giga
 else
