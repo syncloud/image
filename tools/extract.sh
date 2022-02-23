@@ -23,7 +23,7 @@ SYNCLOUD_DISTR_URL="https://github.com/syncloud/base-image/releases/download/1"
 UNZIP=unxz
 
 apt update
-apt install -y gdisk wget xz-utils kpartx
+apt install -y gdisk wget xz-utils kpartx unzip
 
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
   IMAGE_FILE=2016-03-18-raspbian-jessie-lite.img
