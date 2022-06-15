@@ -79,7 +79,7 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-u3" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "odroid-hc4" ]]; then
-  IMAGE_FILE="ubuntu-20.04-4.9-minimal-odroid-c4-hc4-20201212.img"
+  IMAGE_FILE="Armbian_22.05.1_Odroidhc4_bullseye_current_5.10.110.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
