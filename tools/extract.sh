@@ -286,6 +286,7 @@ else
     
     if [[ ${PARTITIONS} == 1 ]]; then
         echo "single partition disk"
+        touch ${OUTPUT}/root/single_partition
 
         if [[ ! -d ${BOOT}/boot ]]; then
             echo "single partition images without boot dir are not supported yet"
@@ -373,11 +374,11 @@ q
             sed -i 's#init=.* #init=/sbin/init #g' ${cmdline_txt}
             cat ${cmdline_txt}
         fi
-        
+
         umount /dev/mapper/${LOOP}p1
 
         sync
-        
+
         dmsetup remove -f /dev/mapper/${LOOP}p1
         dmsetup remove -f /dev/mapper/${LOOP}p2
         losetup -d /dev/${LOOP}

@@ -91,10 +91,11 @@ LOOP=$(cat loop.dev)
 DEVICE_PART_1=/dev/mapper/${LOOP}p1
 DEVICE_PART_2=/dev/mapper/${LOOP}p2
 sync
-UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
-if [[ -f "${UUID_FILE}" ]]; then
+if [[ -f "${SYNCLOUD_BOARD}/root/uuid" ]]; then
+  if [[ -f "${SYNCLOUD_BOARD}/root/single_partition" ]]; then
     change_uuid ${DEVICE_PART_1} clear
-    change_uuid ${DEVICE_PART_2} clear
+  fi
+  change_uuid ${DEVICE_PART_2} clear
 fi
 kpartx -d ${SYNCLOUD_IMAGE}
 dmsetup remove -f /dev/mapper/${LOOP}p1 || true

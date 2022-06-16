@@ -1,0 +1,7 @@
+# ARM Mali GPU device
+
+# Bifrost
+ACTION=="add", KERNEL=="mali0", DEVPATH=="/devices/platform/soc/ffe40000.gpu/misc/mali0", RUN+="/bin/sh -c '. /etc/default/gpufrequtils; echo $GOVERNOR > /sys$env{DEVPATH}/device/devfreq/ffe40000.gpu/governor; echo $MIN_FREQ > /sys$env{DEVPATH}/device/devfreq/ffe40000.gpu/min_freq; echo $MAX_FREQ> /sys$env{DEVPATH}/device/devfreq/ffe40000.gpu/max_freq'"
+
+# Panfrost
+ACTION=="add", DEVPATH=="/devices/platform/soc/ffe40000.gpu", RUN+="/bin/sh -c '. /etc/default/gpufrequtils; echo $GOVERNOR > /sys$env{DEVPATH}/devfreq/ffe40000.gpu/governor; echo $MIN_FREQ > /sys$env{DEVPATH}/devfreq/ffe40000.gpu/min_freq; echo $MAX_FREQ > /sys$env{DEVPATH}/devfreq/ffe40000.gpu/max_freq'"
