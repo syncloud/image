@@ -170,7 +170,9 @@ function extract_root {
     ls -la ${to}
 
     mkdir -p ${to}/lib
-    cp -rp ${from}/lib/firmware ${to}/lib/firmware
+    if [[ -d ${from}/lib/firmware ]]; then
+      cp -rp ${from}/lib/firmware ${to}/lib/firmware
+    fi
     cp -rp ${from}/lib/modules ${to}/lib/modules
 
     mkdir -p ${to}/etc
