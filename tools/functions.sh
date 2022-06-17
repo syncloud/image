@@ -33,6 +33,17 @@ function change_uuid {
 
 }
 
+function change_label {
+
+    local DEVICE=$1
+    local VALUE=$2
+    sync
+    partprobe $DEVICE
+    blkid ${DEVICE} -s LABEL -o value
+    tune2fs -f ${DEVICE} -L ${VALUE}
+    blkid ${DEVICE} -s LABEL -o value
+}
+
 function attach_image { 
     local image=$1
     kpartx -avs ${image} > kpartx.out

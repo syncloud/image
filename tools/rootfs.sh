@@ -54,6 +54,12 @@ if [[ -f "${UUID_FILE}" ]]; then
     change_uuid ${DEVICE_PART_2} ${UUID}
 fi
 
+LABEL_FILE=${SYNCLOUD_BOARD}/root/label
+if [[ -f "${LABEL_FILE}" ]]; then
+    LABEL=$(<${LABEL_FILE})
+    change_label ${DEVICE_PART_2} ${LABEL}
+fi
+
 mount ${DEVICE_PART_2} ${DST_ROOTFS}
 
 ls -la ${SRC_ROOTFS}

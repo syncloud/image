@@ -405,13 +405,17 @@ if [[ ${PARTITIONS} == 2 ]]; then
     sync
     blkid /dev/mapper/${ROOTFS_LOOP} -s UUID -o value > uuid
     cat uuid
+    blkid /dev/mapper/${ROOTFS_LOOP} -s LABEL -o value > label
+    cat label
     fsck -fy /dev/mapper/${ROOTFS_LOOP} || true
     mount /dev/mapper/${ROOTFS_LOOP} ${ROOTFS}
     mount | grep ${ROOTFS}
 
     losetup -l
     extract_root ${ROOTFS} ${OUTPUT}/root
-    cp uuid ${OUTPUT}/root/uuid
+    cp uuid ${OUTPUT}/root
+    cp label ${OUTPUT}/root
+
     sync
     umount /dev/mapper/${ROOTFS_LOOP}
     mount | grep ${ROOTFS} || true
