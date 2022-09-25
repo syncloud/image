@@ -149,14 +149,14 @@ local build(board, arch, mode, distro) = {
         #{ name: "odroid-xu3and4", arch: "arm", type: "sd" },
         #{ name: "odroid-c2", arch: "arm", type: "all" },
         #{ name: "odroid-u3", arch: "arm", type: "all" },
-        { name: "bananapim2", arch: "arm", type: "all" },
-        { name: "bananapim1", arch: "arm", type: "all" },
+        #{ name: "bananapim2", arch: "arm", type: "all" },
+        #{ name: "bananapim1", arch: "arm", type: "all" },
         #{ name: "cubietruck", arch: "arm", type: "all" },
         #{ name: "tinker", arch: "arm", type: "all" },
         #{ name: "odroid-n2", arch: "arm", type: "all" },
         #{ name: "lime2", arch: "arm", type: "all" },
-        { name: "amd64", arch: "amd64", type: "all"},
-        { name: "amd64-uefi", arch: "amd64", type: "all"},
+        #{ name: "amd64", arch: "amd64", type: "all"},
+        #{ name: "amd64-uefi", arch: "amd64", type: "all"},
         #{ name: "odroid-hc4", arch: "arm64", type: "all"},
     ]
     for distro in [
