@@ -40,7 +40,7 @@ function change_label {
     sync
     partprobe $DEVICE
     blkid ${DEVICE} -s LABEL -o value
-    tune2fs -f ${DEVICE} -L ${VALUE}
+    tune2fs -f ${DEVICE} -L "${VALUE}"
     blkid ${DEVICE} -s LABEL -o value
 }
 
