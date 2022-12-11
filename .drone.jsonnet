@@ -1,4 +1,4 @@
-local release = "22.09";
+local release = "$DRONE_TAG";
 
 local build(board, arch, mode, distro) = {
     local base_image = board + "-base.img",
