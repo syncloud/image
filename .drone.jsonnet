@@ -116,7 +116,7 @@ local build(board, arch, mode, distro) = {
             },
             command_timeout: "2m",
             target: "/home/artifact/repo/image",
-            source: image + "*.xz"
+            source: image + ".xz"
         }
     },
     {
@@ -164,4 +164,5 @@ local build(board, arch, mode, distro) = {
         "buster"
     ]
 ]
+
 
