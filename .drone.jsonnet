@@ -1,4 +1,4 @@
-local release = if "$DRONE_TAG" == "" then "latest" else "$DRONE_TAG";
+local release = "${DRONE_TAG:-latest}";
 
 local build(board, arch, mode, distro) = {
     local base_image = board + "-base.img",
@@ -164,5 +164,3 @@ local build(board, arch, mode, distro) = {
         "buster"
     ]
 ]
-
-
