@@ -1,4 +1,4 @@
-local release = "$DRONE_TAG";
+local release = if "$DRONE_TAG" == "" then "latest";
 
 local build(board, arch, mode, distro) = {
     local base_image = board + "-base.img",
@@ -35,7 +35,7 @@ local build(board, arch, mode, distro) = {
         name: "rootfs",
         image: "debian:buster-slim",
         commands: [
-            "./tools/rootfs.sh " + board + " " + arch + " " + image + " \"" + release + "\" " + distro
+            "./tools/rootfs.sh " + board + " " + arch + " " + image + " " + release + " " + distro
         ],
         privileged: true
     }] else []) +

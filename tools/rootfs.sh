@@ -30,7 +30,7 @@ apt update
 apt install  -y wget parted kpartx
 GH=https://github.com/syncloud/rootfs/releases
 if [[ ! -f ${ROOTFS_FILE} ]]; then
-    if [[ ${RELEASE} == "" ]]; then
+    if [[ ${RELEASE} == "latest" ]]; then
         wget $GH/latest/download/${ROOTFS_FILE} --progress dot:giga
     else
         wget $GH/download/${RELEASE}/${ROOTFS_FILE} --progress dot:giga
