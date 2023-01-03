@@ -28,9 +28,13 @@ echo "==== ${SYNCLOUD_BOARD}, ${ARCH} ===="
 
 apt update
 apt install  -y wget parted kpartx
-
+GH=https://github.com/syncloud/rootfs/releases
 if [[ ! -f ${ROOTFS_FILE} ]]; then
-    wget https://github.com/syncloud/rootfs/releases/download/${RELEASE}/${ROOTFS_FILE} --progress dot:giga
+    if [[ ${RELEASE} == "" ]]; then
+        wget $GH/latest/download/${ROOTFS_FILE} --progress dot:giga
+    else
+        wget $GH/download/${RELEASE}/${ROOTFS_FILE} --progress dot:giga
+    fi
 else
     echo "$ROOTFS_FILE is here"
 fi

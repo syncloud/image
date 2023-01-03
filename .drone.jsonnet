@@ -35,7 +35,7 @@ local build(board, arch, mode, distro) = {
         name: "rootfs",
         image: "debian:buster-slim",
         commands: [
-            "./tools/rootfs.sh " + board + " " + arch + " " + image + " " + release + " " + distro
+            "./tools/rootfs.sh " + board + " " + arch + " " + image + " \"" + release + "\" " + distro
         ],
         privileged: true
     }] else []) +
