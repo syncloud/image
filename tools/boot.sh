@@ -38,9 +38,9 @@ BOOT_SECTORS=$(( ${BOOT_BYTES} / 512 ))
 echo "boot sectors: ${BOOT_SECTORS}"
 ROOTFS_SECTORS=$( numfmt --from=iec --to-unit=512 $ROOTFS_SIZE )
 COUNT_TO_ROOTFS=${ROOTFS_SECTORS}
-if [[ ${SYNCLOUD_BOARD} == "jetson-nano" ]];then
-  COUNT_TO_ROOTFS=$((${COUNT_TO_ROOTFS} + 2048))
-fi
+#if [[ ${SYNCLOUD_BOARD} == "jetson-nano" ]];then
+#  COUNT_TO_ROOTFS=$((${COUNT_TO_ROOTFS} + 2048))
+#fi
 dd if=/dev/zero bs=512 count=${COUNT_TO_ROOTFS} >> ${SYNCLOUD_IMAGE}
 ROOTFS_START_SECTOR=$(( ${BOOT_SECTORS} + 1  ))
 ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 100 ))
