@@ -198,7 +198,7 @@ function extract_root {
     fi
 
     if [[ -d ${from}/etc/alternatives ]]; then
-        la -la ${from}/etc/alternatives
+        ls -la ${from}/etc/alternatives
         cp -rp ${from}/etc/alternatives ${to}/etc
     fi
 
