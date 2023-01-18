@@ -198,6 +198,7 @@ function extract_root {
     fi
 
     if [[ -d ${from}/etc/alternatives ]]; then
+        find ${from} -name "cyfmac43455-sdio.bin"
         ls -la ${from}/etc/alternatives
         cp -rp ${from}/etc/alternatives ${to}/etc
     fi
