@@ -196,7 +196,12 @@ function extract_root {
         ls -la ${from}/lib/mali-egl
         cp -rp ${from}/lib/mali-egl ${to}/lib/mali-egl
     fi
-    
+
+    if [[ -d ${from}/etc/alternatives ]]; then
+        la -la ${from}/etc/alternatives
+        cp -rp ${from}/etc/alternatives ${to}/etc
+    fi
+
     cp -rp ${from}/boot ${to}/boot
 
     if [[ -f ${to}/boot/grub/grub.cfg ]]; then
