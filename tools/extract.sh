@@ -203,6 +203,11 @@ function extract_root {
         cp -rp ${from}/etc/alternatives ${to}/etc
     fi
 
+    if [[ -d ${from}/var/lib ]]; then
+        mkdir -p ${to}/var
+        cp -rp ${from}/var/lib ${to}/var
+    fi
+
     cp -rp ${from}/boot ${to}/boot
 
     if [[ -f ${to}/boot/grub/grub.cfg ]]; then
