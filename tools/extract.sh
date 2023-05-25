@@ -208,6 +208,11 @@ function extract_root {
         cp -rp ${from}/var/lib ${to}/var
     fi
 
+    if [[ -d ${from}/opt/scripts ]]; then
+        mkdir -p ${to}/original/opt
+        cp -rp ${from}/opt/scripts ${to}/original/opt
+    fi
+
     cp -rp ${from}/boot ${to}/boot
 
     if [[ -f ${to}/boot/grub/grub.cfg ]]; then
