@@ -34,7 +34,7 @@ elif [[ ${SYNCLOUD_BOARD} == "tinker" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
-  IMAGE_FILE=bone-debian-8.7-lxqt-4gb-armhf-2017-03-19-4gb.img
+  IMAGE_FILE=bone-debian-10.3-console-armhf-2020-04-06-1gb.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
@@ -208,9 +208,9 @@ function extract_root {
         cp -rp ${from}/var/lib ${to}/var
     fi
 
-    if [[ -d ${from}/opt/scripts ]]; then
-        mkdir -p ${to}/original/opt
-        cp -rp ${from}/opt/scripts ${to}/original/opt
+    if [[ -d ${from}/opt ]]; then
+        mkdir -p ${to}/original
+        cp -rp ${from}/opt ${to}/original
     fi
 
     cp -rp ${from}/boot ${to}/boot
