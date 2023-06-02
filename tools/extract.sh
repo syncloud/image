@@ -203,14 +203,18 @@ function extract_root {
         cp -rp ${from}/etc/alternatives ${to}/etc
     fi
 
-    if [[ -d ${from}/var/lib ]]; then
-        mkdir -p ${to}/var
-        cp -rp ${from}/var/lib ${to}/var
-    fi
+#    do not include the whole /var/lib as it breaks dpkg database
+#    if [[ -d ${from}/var/lib ]]; then
+#        mkdir -p ${to}/var
+#        cp -rp ${from}/var/lib ${to}/var
+#    fi
 
     if [[ -d ${from}/opt ]]; then
         mkdir -p ${to}/original
         cp -rp ${from}/opt ${to}/original
+        # beagle bone emmc migration dependency needed by:
+        # /opt/scripts/tools/eMMC/init-eMMC-flasher-v3.sh
+        cp -rp ${from}/opt/backup ${to}/opt
     fi
 
     cp -rp ${from}/boot ${to}/boot
