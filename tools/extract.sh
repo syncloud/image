@@ -22,6 +22,7 @@ CPU_FREQUENCY_MIN=
 SYNCLOUD_DISTR_URL="https://github.com/syncloud/base-image/releases/download/1"
 UNZIP=unxz
 
+apt-key list
 apt update
 apt install -y gdisk wget xz-utils kpartx unzip p7zip-full
 
