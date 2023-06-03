@@ -214,7 +214,9 @@ function extract_root {
         cp -rp ${from}/opt ${to}/original
         # beagle bone emmc migration dependency needed by:
         # /opt/scripts/tools/eMMC/init-eMMC-flasher-v3.sh
-        cp -rp ${from}/opt/backup ${to}/opt
+        if [[ -d ${from}/opt/backup ]]; then
+            cp -rp ${from}/opt/backup ${to}/opt
+        fi
     fi
 
     cp -rp ${from}/boot ${to}/boot
