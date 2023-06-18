@@ -197,10 +197,11 @@ function extract_root {
         cp -rp ${from}/lib/mali-egl ${to}/lib/mali-egl
     fi
 
+    # copy only bin files (firmware for rpi) as the rest are tool mappings such as awk (copying wrong mappings will break them)
     if [[ -d ${from}/etc/alternatives ]]; then
         find ${from} -name "cyfmac43455-sdio.bin"
         ls -la ${from}/etc/alternatives
-        cp -rp ${from}/etc/alternatives ${to}/etc
+        cp -rp ${from}/etc/alternatives/*.bin ${to}/etc
     fi
 
 #    do not include the whole /var/lib as it breaks dpkg database
