@@ -5,7 +5,7 @@ local build(board, arch, mode, distro) = {
     local suffix = if mode == "sd" then "-sd" else "",
     local size = if mode == "sd" then "10M" else "3G",
     local image = "syncloud-" + board  + suffix + "-" + release + ".img",
-
+    local rootfs = "23.06",
     kind: "pipeline",
     name: board + "-" + mode + "-" + distro,
 
@@ -35,7 +35,7 @@ local build(board, arch, mode, distro) = {
         name: "rootfs",
         image: "debian:buster-slim",
         commands: [
-            "./tools/rootfs.sh " + board + " " + arch + " " + image + " " + release + " " + distro
+            "./tools/rootfs.sh " + board + " " + arch + " " + image + " " + rootfs + " " + distro
         ],
         privileged: true
     }] else []) +
