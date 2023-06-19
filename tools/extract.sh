@@ -201,7 +201,7 @@ function extract_root {
     if [[ -d ${from}/etc/alternatives ]]; then
         find ${from} -name "cyfmac43455-sdio.bin"
         ls -la ${from}/etc/alternatives
-        cp -rp ${from}/etc/alternatives/*.bin ${to}/etc
+        cp -rp ${from}/etc/alternatives/*.bin ${to}/etc || true
     fi
 
 #    do not include the whole /var/lib as it breaks dpkg database
