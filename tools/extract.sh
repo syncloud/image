@@ -406,6 +406,13 @@ q
             sed -i 's#init=.* #init=/sbin/init #g' ${cmdline_txt}
             cat ${cmdline_txt}
         fi
+        
+        if [[ -f ${BOOT}/BoardEnv.txt ]]; then
+            cat ${BOOT}/BoardEnv.txt
+            #sed -i 's/$/ /' ${BOOT}/BoardEnv.txt
+            #sed -i 's#init=.* #init=/sbin/init #g' ${BOOT}/BoardEnv.txt
+            #cat ${cmdline_txt}
+        fi
 
         umount /dev/mapper/${LOOP}p1
 
