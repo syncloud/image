@@ -127,8 +127,12 @@ elif [[ ${SYNCLOUD_BOARD} == "jetson-nano" ]]; then
   IMAGE_FILE="Armbian_22.11.1_Jetson-nano_bullseye_current_5.19.17.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+#elif [[ ${SYNCLOUD_BOARD} == "btt-cb1" ]]; then
+#  IMAGE_FILE="CB1_Debian11_minimal_kernel5.16_20240319.img"
+#  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+#  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "btt-cb1" ]]; then
-  IMAGE_FILE="CB1_Debian11_minimal_kernel5.16_20240319.img"
+  IMAGE_FILE="CB1_Debian11_Klipper_kernel5.16_20240319.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 else
