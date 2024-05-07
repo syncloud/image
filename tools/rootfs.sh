@@ -84,6 +84,7 @@ ls -la ${SYNCLOUD_BOARD}/root/lib
 
 mv ${SYNCLOUD_BOARD}/root/lib/* ${DST_ROOTFS}/lib/
 rm -rf ${SYNCLOUD_BOARD}/root/lib
+df -h
 cp -rp ${SYNCLOUD_BOARD}/root/* ${DST_ROOTFS}/
 
 echo "copying files"
