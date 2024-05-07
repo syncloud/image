@@ -3,7 +3,7 @@ local release = "${DRONE_TAG:-latest}";
 local build(board, arch, mode, distro) = {
     local base_image = board + "-base.img",
     local suffix = if mode == "sd" then "-sd" else "",
-    local size = if mode == "sd" then "10M" else "3G",
+    local size = if mode == "sd" then "10M" else "5G",
     local image = "syncloud-" + board  + suffix + "-" + release + ".img",
     local rootfs = "23.09",
     kind: "pipeline",
