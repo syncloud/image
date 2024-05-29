@@ -120,7 +120,7 @@ elif [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi-64" ]]; then
-  IMAGE_FILE="2022-09-06-raspios-bullseye-arm64-lite.img"
+  IMAGE_FILE="2024-03-15-raspios-bookworm-arm64-lite.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "jetson-nano" ]]; then
