@@ -175,7 +175,8 @@ function extract_root {
 
     if [[ -f ${from}/boot/config.txt ]]; then
         echo "kernel config"
-        grep SQUASH ${from}/boot/config.txt
+        grep SQUASH ${from}/boot/config.txt || true
+        cat ${from}/boot/config.txt
     fi
 
     echo "target rootfs"
