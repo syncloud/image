@@ -2,7 +2,8 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-#apt-get install -y virtualbox sshpass
+apt update
+apt install -y ssh
 
 
 IMAGE_NAME=$1
