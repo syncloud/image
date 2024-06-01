@@ -5,15 +5,12 @@ We do not build our own kernels at the moment, instead we extract kernels and ke
 So to support new board you need to:
 
 1. Find a good base image
-2. Upload to our artifacts server (for testing you can point extractor at any url)
-3. Modify [extractor script](https://github.com/syncloud/image/blob/master/tools/extract.sh) to give it a name.
-4. Add an identification file to [files](https://github.com/syncloud/image/tree/master/files)
-5. Modify [build script](https://github.com/syncloud/image/blob/master/.drone.jsonnet) to include the new image name.
-6. Generate runtime build script with [drone cli](https://docs.drone.io/cli/install/) jsonnet plugin command:
+1. Upload to our artifacts server (for testing you can point extractor at any url)
+1. Modify [extractor script](https://github.com/syncloud/image/blob/master/tools/extract.sh) to give it a name.
+1. Add an identification file to [files](https://github.com/syncloud/image/tree/master/files)
+1. Modify [build script](https://github.com/syncloud/image/blob/master/.drone.jsonnet) to include the new image name.
 ```
-drone jsonnet --stream
-```
-7. Build an image
+1. Build an image
 ```
 sudo /path/to/drone exec --pipeline=[board-spec] --trusted
 ```
