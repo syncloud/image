@@ -52,10 +52,10 @@ local build(board, arch, mode, distro) = {
             KEY: {
                 from_secret: "virtualbox_key"
             },
-            commands: [
-                "./vbox.sh " + image_name + " " + distro
-            ],
-        }
+        },
+        commands: [
+            "./vbox.sh " + image_name + " " + distro
+        ],
     }] else []) + 
     [{
         name: "zip",
