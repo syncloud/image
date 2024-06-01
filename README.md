@@ -9,7 +9,6 @@ So to support new board you need to:
 1. Modify [extractor script](https://github.com/syncloud/image/blob/master/tools/extract.sh) to give it a name.
 1. Add an identification file to [files](https://github.com/syncloud/image/tree/master/files)
 1. Modify [build script](https://github.com/syncloud/image/blob/master/.drone.jsonnet) to include the new image name.
-```
 1. Build an image
 ```
 sudo /path/to/drone exec --pipeline=[board-spec] --trusted
