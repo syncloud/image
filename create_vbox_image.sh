@@ -2,37 +2,36 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-#apt-get install -y virtualbox sshpass
+apt-get install -y virtualbox sshpass
 
 if [[ "$#" -ne 1 ]]; then
     echo "Usage: $0 vbox_image_file"
     exit 1
 fi
 
-IMAGE_FILE=$1
-VDI_FILE=${IMAGE_FILE%.*}
+IMAGE_NAME=$1
 VM='Syncloud-VM'
 SSH_PORT=3333
 
-chmod a=r ${IMAGE_FILE}
+chmod a=r ${IMAGE_NAME}.img
 
 VBoxManage controlvm ${VM} poweroff || true
 
 VBoxManage unregistervm ${VM} --delete || true
 
-rm -rf ${VDI_FILE}.vdi
-rm -rf ${VDI_FILE}.vdi.xz
-rm -rf ${VDI_FILE}-test.vdi
+rm -rf ${IMAGE_NAME}.vdi
+rm -rf ${IMAGE_NAME}.vdi.xz
+rm -rf ${IMAGE_NAME}-test.vdi
 
-VBoxManage convertdd ${IMAGE_FILE} ${VDI_FILE}.vdi --format VDI
+VBoxManage convertdd ${IMAGE_NAME}.img ${IMAGE_NAME}.vdi --format VDI
 
-chmod a=r ${VDI_FILE}.vdi
+chmod a=r ${IMAGE_NAME}.vdi
 
-cp ${VDI_FILE}.vdi ${VDI_FILE}-test.vdi
+cp ${IMAGE_NAME}.vdi ${IMAGE_NAME}-test.vdi
 
 echo "testing"
 
-xz -0 ${VDI_FILE}.vdi -k
+xz -0 ${IMAGE_NAME}.vdi -k
 rm -rf $HOME/"VirtualBox VMs"/${VM}
 
 VBoxManage createvm --name ${VM} --ostype "Debian_64" --register
@@ -43,7 +42,7 @@ VBoxManage list hdds
 
 ls -la
 
-VBoxManage storageattach ${VM} --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium ${VDI_FILE}-test.vdi
+VBoxManage storageattach ${VM} --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium ${IMAGE_NAME}-test.vdi
 
 VBoxManage modifyvm ${VM} --ioapic on
 
@@ -81,3 +80,4 @@ set -e
 sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@localhost journalctl
 
 VBoxManage controlvm ${VM} poweroff
+
