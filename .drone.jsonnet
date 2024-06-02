@@ -135,7 +135,7 @@ local build(board, arch, mode, distro) = {
         //{ name: "lime2", arch: "arm", type: "all" },
          //{ name: "btt-cb1", arch: "arm64", type: "all" },
         { name: "amd64", arch: "amd64", type: "all"},
-        //{ name: "amd64-uefi", arch: "amd64", type: "all"},
+        { name: "amd64-uefi", arch: "amd64", type: "all"},
         //{ name: "odroid-hc4", arch: "arm64", type: "all"},
     ]
     for distro in [
