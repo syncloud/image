@@ -6,7 +6,7 @@ local build(board, arch, mode, distro) = {
     local size = if mode == "sd" then "10M" else "5G",
     local image_name = "syncloud-" + board  + suffix + "-" + release,
     local image = image_name + ".img",
-    local rootfs = "24.05",
+    local rootfs = "25.02",
     kind: "pipeline",
     name: board + "-" + mode + "-" + distro,
 
@@ -17,7 +17,7 @@ local build(board, arch, mode, distro) = {
     steps: [
     {
         name: "extract",
-        image: "debian:buster-slim",
+        image: "debian:bookworm-slim",
         commands: [
             "./tools/extract.sh " + board + " " + base_image
         ],
@@ -25,7 +25,7 @@ local build(board, arch, mode, distro) = {
     },
     {
         name: "boot",
-        image: "debian:buster-slim",
+        image: "debian:bookworm-slim",
         commands: [
             "./tools/boot.sh " + board  + " " + image + " " + size
         ],
@@ -34,7 +34,7 @@ local build(board, arch, mode, distro) = {
     (if mode == "all" then
     [{
         name: "rootfs",
-        image: "debian:buster-slim",
+        image: "debian:bookworm-slim",
         commands: [
             "./tools/rootfs.sh " + board + " " + arch + " " + image + " " + rootfs + " " + distro
         ],
@@ -44,7 +44,7 @@ local build(board, arch, mode, distro) = {
     [
     {
         name: "virtualbox",
-        image: "debian:buster-slim",
+        image: "debian:bookworm-slim",
         environment: {
             HOST: {
                 from_secret: "virtualbox_host"
@@ -59,7 +59,7 @@ local build(board, arch, mode, distro) = {
     }] else []) + 
     [{
         name: "zip",
-        image: "debian:buster-slim",
+        image: "debian:bookworm-slim",
         commands: [
             "./tools/zip.sh " + image
         ],
@@ -98,7 +98,7 @@ local build(board, arch, mode, distro) = {
     },
     {
         name : "cleanup",
-        image: "debian:buster-slim",
+        image: "debian:bookworm-slim",
         commands: [
             "./cleanup.sh"
         ],
@@ -139,6 +139,6 @@ local build(board, arch, mode, distro) = {
         //{ name: "odroid-hc4", arch: "arm64", type: "all"},
     ]
     for distro in [
-        "buster"
+        "bookworm"
     ]
 ]
