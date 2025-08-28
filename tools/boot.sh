@@ -19,7 +19,7 @@ SYNCLOUD_IMAGE=$2
 ROOTFS_SIZE=$3
 
 apt update
-apt install -y gdisk wget xz-utils kpartx parted
+apt install -y gdisk wget xz-utils kpartx parted fdisk
 
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export DEBCONF_FRONTEND=noninteractive
