@@ -28,19 +28,19 @@ apt install -y gdisk wget xz-utils kpartx unzip p7zip-full fdisk
 if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
   IMAGE_FILE=2016-03-18-raspbian-jessie-lite.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "tinker" ]]; then
   IMAGE_FILE="Armbian_20.02.7_Tinkerboard_bionic_legacy_4.4.213_desktop.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
   IMAGE_FILE=bone-debian-10.3-console-armhf-2020-04-06-1gb.img
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
   IMAGE_FILE="Cubian-nano-headless-x1-a10.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
   CPU_FREQUENCY_MAX=1056000
@@ -48,7 +48,7 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
   IMAGE_FILE="Cubian-nano-headless-x1-a20.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
   CPU_FREQUENCY_CONTROL=true
   CPU_FREQUENCY_GOVERNOR=performance
   CPU_FREQUENCY_MAX=1056000
@@ -56,85 +56,85 @@ elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
 elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
   IMAGE_FILE="Armbian_5.31_Cubietruck_Debian_jessie_next_4.11.5.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
   UNZIP="p7zip -d"
 elif [[ ${SYNCLOUD_BOARD} == "helios4" ]]; then
   IMAGE_FILE="Armbian_5.68_Helios4_Debian_stretch_next_4.14.88.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "helios64" ]]; then
   IMAGE_FILE="Armbian_20.08.8_Helios64_buster_current_5.8.13.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
   IMAGE_FILE="ubuntu-22.04-5.4-minimal-odroid-xu4-20220721.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "odroid-c2" ]]; then
   IMAGE_FILE="ubuntu-18.04.3-3.16-minimal-odroid-c2-20190814.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "odroid-u3" ]]; then
   IMAGE_FILE="ubuntu-14.04.2lts-lubuntu-odroid-u-20150224.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "odroid-hc4" ]]; then
   IMAGE_FILE="debian-buster-server-odroidc4-20210301-5.11.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
   IMAGE_FILE="M2-raspberry-kernel3.3-LCD.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/BPI-M2_Raspbian_V4.0_lcd.zip -O $IMAGE_FILE_ZIP"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/BPI-M2_Raspbian_V4.0_lcd.zip -O $IMAGE_FILE_ZIP"
   UNZIP=unzip
 elif [[ ${SYNCLOUD_BOARD} == "bananapim1" ]]; then
   IMAGE_FILE="BPI-M1_Debian_V2_beta.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "bananapim3" ]]; then
   IMAGE_FILE="2016-05-15-debian-8-jessie-lite-bpi-m3-sd-emmc.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "rock64" ]]; then
   IMAGE_FILE="Armbian_5.69_Rock64_Debian_stretch_default_4.4.167_desktop.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "odroid-n2" ]]; then
   IMAGE_FILE="ubuntu-18.04.2-4.9-minimal-odroid-n2-20190329.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "amd64" ]]; then
   IMAGE_FILE="debian-buster-amd64-8gb.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "amd64-uefi" ]]; then
   IMAGE_FILE="ubuntu-20.10-uefi-amd64-8gb.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "lime2" ]]; then
   IMAGE_FILE="Armbian_5.89.1_Olinuxino-a20_Debian_stretch_next_5.1.12.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
   IMAGE_FILE="2021-12-02-raspios-buster-armhf-lite.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "raspberrypi-64" ]]; then
   IMAGE_FILE="2024-03-15-raspios-bookworm-arm64-lite.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "jetson-nano" ]]; then
   IMAGE_FILE="Armbian_22.11.1_Jetson-nano_bullseye_current_5.19.17.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 #elif [[ ${SYNCLOUD_BOARD} == "btt-cb1" ]]; then
 #  IMAGE_FILE="CB1_Debian11_minimal_kernel5.16_20240319.img"
 #  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-#  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+#  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "btt-cb1" ]]; then
   IMAGE_FILE="CB1_Debian11_Klipper_kernel5.16_20240319.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="wget --progress=dot:giga ${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 else
     echo "board is not supported: ${SYNCLOUD_BOARD}"
     exit 1
@@ -249,7 +249,7 @@ if [[ -f ${HOME}/${IMAGE_FILE_NORMALIZED} ]]; then
   cp ${HOME}/${IMAGE_FILE_NORMALIZED} ${IMAGE_FILE_NORMALIZED}
 else
   echo "Base image ${HOME}/${IMAGE_FILE_NORMALIZED} is not found, getting new one ..."
-  until `${DOWNLOAD_IMAGE}`; do sleep 100; echo restarting; done
+  until `wget -c --progress=dot:giga ${DOWNLOAD_IMAGE}`; do sleep 100; echo restarting; done
   ls -la
   ${UNZIP} ${IMAGE_FILE_ZIP}
   mv ${IMAGE_FILE} ${IMAGE_FILE_NORMALIZED}
