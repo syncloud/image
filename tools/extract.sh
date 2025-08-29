@@ -249,7 +249,7 @@ if [[ -f ${HOME}/${IMAGE_FILE_NORMALIZED} ]]; then
   cp ${HOME}/${IMAGE_FILE_NORMALIZED} ${IMAGE_FILE_NORMALIZED}
 else
   echo "Base image ${HOME}/${IMAGE_FILE_NORMALIZED} is not found, getting new one ..."
-  until `${DOWNLOAD_IMAGE}`; do sleep 1; echo restarting; done
+  until `${DOWNLOAD_IMAGE}`; do sleep 100; echo restarting; done
   ls -la
   ${UNZIP} ${IMAGE_FILE_ZIP}
   mv ${IMAGE_FILE} ${IMAGE_FILE_NORMALIZED}
