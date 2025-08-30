@@ -112,6 +112,8 @@ local build(board, arch, mode, distro) = {
 [
     build(board.name, board.arch, board.type, distro)
     for board in [
+        { name: "amd64", arch: "amd64", type: "all"},
+        { name: "amd64-uefi", arch: "amd64", type: "all"},
         { name: "cubieboard2", arch: "arm", type: "all" },
         { name: "cubieboard", arch: "arm", type: "all" },
         { name: "beagleboneblack", arch: "arm", type: "all" },
@@ -134,8 +136,6 @@ local build(board, arch, mode, distro) = {
         { name: "odroid-n2", arch: "arm", type: "all" },
         { name: "lime2", arch: "arm", type: "all" },
         { name: "btt-cb1", arch: "arm64", type: "all" },
-        { name: "amd64", arch: "amd64", type: "all"},
-        { name: "amd64-uefi", arch: "amd64", type: "all"},
         { name: "odroid-hc4", arch: "arm64", type: "all"},
     ]
     for distro in [
