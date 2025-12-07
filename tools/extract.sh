@@ -284,6 +284,7 @@ BOOT_PARTITION_END_SECTOR=$(fdisk -l "$IMAGE_FILE" \
                             | awk -v img="$(basename "$IMAGE_FILE")" '$1 ~ ("^" img) {print $3}' \
                             | sort -n | uniq \
                             | tail -2 | head -1)
+BOOT_PARTITION_NUMBER=$(fdisk -l $IMAGE_FILE | grep $BOOT_PARTITION_START_SECTOR | grep -oP '(?<=^'$IMAGE_FILE')\d+')
 
 rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
@@ -307,13 +308,13 @@ sync
 LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
 echo "LOOP: ${LOOP}"
 
-FS_TYPE=$(blkid -s TYPE -o value /dev/mapper/${LOOP}p1)
+FS_TYPE=$(blkid -s TYPE -o value /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER})
 if [[ "${FS_TYPE}" == *"swap"*  ]]; then
     echo "not inspecting boot partition as it is: ${FS_TYPE}"
 else
     echo "inspecting first partition"
 
-    mount /dev/mapper/${LOOP}p1 ${BOOT}
+    mount /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER} ${BOOT}
 
     mount | grep ${BOOT}
 
@@ -417,12 +418,12 @@ q
             #cat ${cmdline_txt}
         fi
 
-        umount /dev/mapper/${LOOP}p1
+        umount /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER}
 
         sync
 
-        dmsetup remove -f /dev/mapper/${LOOP}p1
-        dmsetup remove -f /dev/mapper/${LOOP}p2
+        dmsetup remove -f /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER}
+        dmsetup remove -f /dev/mapper/${LOOP}p2 || true
         losetup -d /dev/${LOOP}
 
     fi
@@ -462,9 +463,8 @@ if [[ ${PARTITIONS} -gt 1 ]]; then
     umount /dev/mapper/${ROOTFS_LOOP}
     mount | grep ${ROOTFS} || true
 
-    dmsetup remove -f /dev/mapper/${LOOP}p1
-    dmsetup remove -f /dev/mapper/${LOOP}p2
-    dmsetup remove -f /dev/mapper/${LOOP}p3
+    dmsetup remove -f /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER}
+    dmsetup remove -f /dev/mapper/${LOOP}p${PARTITIONS}
 
     PTTYPE=$(fdisk -l /dev/${LOOP} | grep "Disklabel type:" | awk '{ print $3 }')
     echo $PTTYPE > ${OUTPUT}/root/pttype
