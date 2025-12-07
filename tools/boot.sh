@@ -44,6 +44,7 @@ ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 100 ))
 fdisk -l ${SYNCLOUD_IMAGE}
 PTTYPE=$(<${SYNCLOUD_BOARD}/root/pttype)
 PARTITIONS=$(<${SYNCLOUD_BOARD}/root/partitions)
+LAST_PARTITION_NUMBER=$(<${SYNCLOUD_BOARD}/root/last_partition_number)
 
 echo "creating ${PARTITIONS} partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
 
@@ -95,7 +96,7 @@ sync
 
 prepare_image ${SYNCLOUD_IMAGE}
 LOOP=$(cat loop.dev)
-LAST_PART=/dev/mapper/${LOOP}p${PARTITIONS}
+LAST_PART=/dev/mapper/${LOOP}p${LAST_PARTITION_NUMBER}
 sync
 if [[ -f "${SYNCLOUD_BOARD}/root/uuid" ]]; then
   change_uuid ${LAST_PART} clear

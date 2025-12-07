@@ -296,6 +296,7 @@ rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
 mkdir ${OUTPUT}/root
 echo $PARTITIONS > ${OUTPUT}/root/partitions
+echo $LAST_PARTITION_NUMBER > ${OUTPUT}/root/last_partition_number
 echo "applying cpu frequency fix"
 if [[ "$CPU_FREQUENCY_CONTROL" = true ]] ; then
     mkdir -p ${OUTPUT}/root/var/lib
