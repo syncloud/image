@@ -285,10 +285,12 @@ BOOT_PARTITION_END_SECTOR=$(fdisk -l "$IMAGE_FILE" \
                             | sort -n | uniq \
                             | tail -2 | head -1)
 BOOT_PARTITION_NUMBER=$(fdisk -l $IMAGE_FILE | grep $BOOT_PARTITION_START_SECTOR | grep -oP '(?<=^'$IMAGE_FILE')\d+')
+LAST_PARTITION_NUMBER=$(fdisk -l $IMAGE_FILE | grep $LAST_SECTOR | grep -oP '(?<=^'$IMAGE_FILE')\d+')
 EFI_BOOT_PARTITION_NUMBER=$(fdisk -l $IMAGE_FILE | grep -i "efi system" | grep -oP '(?<=^'$IMAGE_FILE')\d+')
 if [[ "$EFI_BOOT_PARTITION_NUMBER" != "" ]]; then
   BOOT_PARTITION_NUMBER=$EFI_BOOT_PARTITION_NUMBER
 fi
+
 
 rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
@@ -448,7 +450,7 @@ if [[ ${PARTITIONS} -gt 1 ]]; then
     LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
     rm -rf ${ROOTFS}
     mkdir -p ${ROOTFS}
-    ROOTFS_LOOP=${LOOP}p${PARTITIONS}
+    ROOTFS_LOOP=${LOOP}p${LAST_PARTITION_NUMBER}
     sync
     blkid /dev/mapper/${ROOTFS_LOOP} -s UUID -o value > uuid
     cat uuid
@@ -468,7 +470,7 @@ if [[ ${PARTITIONS} -gt 1 ]]; then
     mount | grep ${ROOTFS} || true
 
     dmsetup remove -f /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER}
-    dmsetup remove -f /dev/mapper/${LOOP}p${PARTITIONS}
+    dmsetup remove -f /dev/mapper/${LOOP}p${LAST_PARTITION_NUMBER}
 
     PTTYPE=$(fdisk -l /dev/${LOOP} | grep "Disklabel type:" | awk '{ print $3 }')
     echo $PTTYPE > ${OUTPUT}/root/pttype
