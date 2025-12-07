@@ -429,8 +429,10 @@ q
 
         sync
 
-        dmsetup remove -f /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER}
-        dmsetup remove -f /dev/mapper/${LOOP}p2 || true
+        for NUM in $(fdisk -l $IMAGE_FILE | grep -oP '(?<=^'$IMAGE_FILE')\d+'); do
+          echo "unmount $NUM"
+          dmsetup remove -f /dev/mapper/${LOOP}p${NUM}
+        done
         losetup -d /dev/${LOOP}
 
     fi
@@ -470,8 +472,10 @@ if [[ ${PARTITIONS} -gt 1 ]]; then
     umount /dev/mapper/${ROOTFS_LOOP}
     mount | grep ${ROOTFS} || true
 
-    dmsetup remove -f /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER}
-    dmsetup remove -f /dev/mapper/${LOOP}p${LAST_PARTITION_NUMBER}
+    for NUM in $(fdisk -l $IMAGE_FILE | grep -oP '(?<=^'$IMAGE_FILE')\d+'); do
+      echo "unmount $NUM"
+      dmsetup remove -f /dev/mapper/${LOOP}p${NUM}
+    done
 
     PTTYPE=$(fdisk -l /dev/${LOOP} | grep "Disklabel type:" | awk '{ print $3 }')
     echo $PTTYPE > ${OUTPUT}/root/pttype
