@@ -285,6 +285,10 @@ BOOT_PARTITION_END_SECTOR=$(fdisk -l "$IMAGE_FILE" \
                             | sort -n | uniq \
                             | tail -2 | head -1)
 BOOT_PARTITION_NUMBER=$(fdisk -l $IMAGE_FILE | grep $BOOT_PARTITION_START_SECTOR | grep -oP '(?<=^'$IMAGE_FILE')\d+')
+EFI_BOOT_PARTITION_NUMBER=$(fdisk -l $IMAGE_FILE | grep -i "efi system" | grep -oP '(?<=^'$IMAGE_FILE')\d+')
+if [[ ! "$EFI_BOOT_PARTITION_NUMBER" == "" ]]; then
+  BOOT_PARTITION_NUMBER = $EFI_BOOT_PARTITION_NUMBER
+fi
 
 rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
