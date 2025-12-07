@@ -264,7 +264,10 @@ fdisk -l ${IMAGE_FILE}
 
 TOTAL_BYTES=$(stat -c %s ${IMAGE_FILE})
 TOTAL_SECTORS=$(($TOTAL_BYTES/512))
-LAST_SECTOR=$(fdisk -l ${IMAGE_FILE} | grep -v -e '^$' | tail -1 | awk '{ print $3 }')
+LAST_SECTOR=$(fdisk -l "$IMAGE_FILE" \
+  | tr '*' ' ' \
+  | awk -v img="$(basename "$IMAGE_FILE")" '$1 ~ img {print $3}' \
+  | sort -n | tail -1)
 SECTORS_MISSING=$(($LAST_SECTOR-$TOTAL_SECTORS+1))
 if [[ "${SECTORS_MISSING}" -gt "0" ]]; then
     echo "appending missing bytes"
@@ -272,21 +275,20 @@ if [[ "${SECTORS_MISSING}" -gt "0" ]]; then
 fi
 PARTITIONS=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +2 | wc -l)
 FDISK_OUTPUT=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +2 | head -1)
-FDISK_FIELD2=$(echo "${FDISK_OUTPUT}" | awk '{print $2}')
-FDISK_FIELD3=$(echo "${FDISK_OUTPUT}" | awk '{print $3}')
-FDISK_FIELD4=$(echo "${FDISK_OUTPUT}" | awk '{print $4}')
-if [[ ${FDISK_FIELD2} == "*" ]]; then
-    BOOT_PARTITION_START_SECTOR=${FDISK_FIELD3}
-    BOOT_PARTITION_END_SECTOR=${FDISK_FIELD4}
-else
-    BOOT_PARTITION_START_SECTOR=${FDISK_FIELD2}
-    BOOT_PARTITION_END_SECTOR=${FDISK_FIELD3}
-fi
+BOOT_PARTITION_START_SECTOR=$(fdisk -l "$IMAGE_FILE" \
+                              | tr '*' ' ' \
+                              | awk -v img="$(basename "$IMAGE_FILE")" '$1 ~ ("^" img) {s=$2; if (s=="*") s=$3; if (s ~ /^[0-9]+$/) print s}' \
+                              | sort -n | head -1)
+BOOT_PARTITION_END_SECTOR=$(fdisk -l "$IMAGE_FILE" \
+                            | tr '*' ' ' \
+                            | awk -v img="$(basename "$IMAGE_FILE")" '$1 ~ ("^" img) {print $3}' \
+                            | sort -n | uniq \
+                            | tail -2 | head -1)
 
 rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
 mkdir ${OUTPUT}/root
-
+echo $PARTITIONS > ${OUTPUT}/root/partitions
 echo "applying cpu frequency fix"
 if [[ "$CPU_FREQUENCY_CONTROL" = true ]] ; then
     mkdir -p ${OUTPUT}/root/var/lib
@@ -398,7 +400,7 @@ q
 
         fdisk -lu ${IMAGE_FILE}
     else
-        echo "double partition disk"
+        echo "multi partition disk"
         echo "checking ${BOOT}/cmdline.txt"
         cmdline_txt=${BOOT}/cmdline.txt
         if [[ -f ${cmdline_txt} ]]; then
@@ -433,15 +435,15 @@ q
 fi
 
 
-if [[ ${PARTITIONS} == 2 ]]; then
-    echo "inspecting second partition"
+if [[ ${PARTITIONS} -gt 1 ]]; then
+    echo "inspecting last partition"
 
     kpartx -avs ${IMAGE_FILE}| tee kpartx.out
     sync
     LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
     rm -rf ${ROOTFS}
     mkdir -p ${ROOTFS}
-    ROOTFS_LOOP=${LOOP}p2
+    ROOTFS_LOOP=${LOOP}p${PARTITIONS}
     sync
     blkid /dev/mapper/${ROOTFS_LOOP} -s UUID -o value > uuid
     cat uuid
@@ -462,6 +464,7 @@ if [[ ${PARTITIONS} == 2 ]]; then
 
     dmsetup remove -f /dev/mapper/${LOOP}p1
     dmsetup remove -f /dev/mapper/${LOOP}p2
+    dmsetup remove -f /dev/mapper/${LOOP}p3
 
     PTTYPE=$(fdisk -l /dev/${LOOP} | grep "Disklabel type:" | awk '{ print $3 }')
     echo $PTTYPE > ${OUTPUT}/root/pttype

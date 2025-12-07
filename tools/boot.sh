@@ -43,8 +43,9 @@ ROOTFS_START_SECTOR=$(( ${BOOT_SECTORS} + 1  ))
 ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 100 ))
 fdisk -l ${SYNCLOUD_IMAGE}
 PTTYPE=$(<${SYNCLOUD_BOARD}/root/pttype)
+PARTITIONS=$(<${SYNCLOUD_BOARD}/root/partitions)
 
-echo "creating second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
+echo "creating ${PARTITIONS} partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
 
 if [[ $PTTYPE == "gpt" ]]; then
   LOOP=$(losetup -f --show ${SYNCLOUD_IMAGE})
@@ -61,7 +62,7 @@ Y
      echo "fixing the end of rootfs sectors from ${ROOTFS_END_SECTOR} to ${USABLE_SECTORS}"
      ROOTFS_END_SECTOR=$USABLE_SECTORS
   fi
-  sgdisk -n 2:${ROOTFS_START_SECTOR}:${ROOTFS_END_SECTOR} -p $LOOP
+  sgdisk -n ${PARTITIONS}:${ROOTFS_START_SECTOR}:${ROOTFS_END_SECTOR} -p $LOOP
   partprobe $LOOP
   sync
   kpartx -d ${SYNCLOUD_IMAGE} || true
@@ -94,17 +95,14 @@ sync
 
 prepare_image ${SYNCLOUD_IMAGE}
 LOOP=$(cat loop.dev)
-DEVICE_PART_1=/dev/mapper/${LOOP}p1
-DEVICE_PART_2=/dev/mapper/${LOOP}p2
+LAST_PART=/dev/mapper/${LOOP}p${PARTITIONS}
 sync
 if [[ -f "${SYNCLOUD_BOARD}/root/uuid" ]]; then
-  if [[ -f "${SYNCLOUD_BOARD}/root/single_partition" ]]; then
-    change_uuid ${DEVICE_PART_1} clear
-  fi
-  change_uuid ${DEVICE_PART_2} clear
+  change_uuid ${LAST_PART} clear
 fi
 kpartx -d ${SYNCLOUD_IMAGE}
 dmsetup remove -f /dev/mapper/${LOOP}p1 || true
 dmsetup remove -f /dev/mapper/${LOOP}p2 || true
+dmsetup remove -f /dev/mapper/${LOOP}p3 || true
 losetup -d /dev/${LOOP} || true
 losetup | grep img || true
