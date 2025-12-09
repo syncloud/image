@@ -102,6 +102,7 @@ LAST_SECTOR=$(fdisk -l "$SYNCLOUD_IMAGE" \
 LAST_PARTITION_NUMBER=$(fdisk -l $SYNCLOUD_IMAGE | grep $LAST_SECTOR | grep -oP '(?<=^'$SYNCLOUD_IMAGE')\d+')
 
 prepare_image ${SYNCLOUD_IMAGE} $LAST_PARTITION_NUMBER
+cat kpartx.out
 LOOP=$(cat loop.dev)
 LAST_PART=/dev/mapper/${LOOP}p${LAST_PARTITION_NUMBER}
 sync
