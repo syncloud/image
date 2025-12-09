@@ -44,7 +44,7 @@ ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 100 ))
 fdisk -l ${SYNCLOUD_IMAGE}
 PTTYPE=$(<${SYNCLOUD_BOARD}/root/pttype)
 PARTITIONS=$(<${SYNCLOUD_BOARD}/root/partitions)
-LAST_PARTITION_NUMBER=$(<${SYNCLOUD_BOARD}/root/last_partition_number)
+
 
 echo "creating ${PARTITIONS} partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
 
@@ -94,7 +94,14 @@ mkdir -p ${DST_ROOTFS}
 ls -la /dev/mapper/*
 sync
 
-prepare_image ${SYNCLOUD_IMAGE}
+
+LAST_SECTOR=$(fdisk -l "$SYNCLOUD_IMAGE" \
+  | tr '*' ' ' \
+  | awk -v img="$(basename "$SYNCLOUD_IMAGE")" '$1 ~ img {print $3}' \
+  | sort -n | tail -1)
+LAST_PARTITION_NUMBER=$(fdisk -l $SYNCLOUD_IMAGE | grep $LAST_SECTOR | grep -oP '(?<=^'$SYNCLOUD_IMAGE')\d+')
+
+prepare_image ${SYNCLOUD_IMAGE} $LAST_PARTITION_NUMBER
 LOOP=$(cat loop.dev)
 LAST_PART=/dev/mapper/${LOOP}p${LAST_PARTITION_NUMBER}
 sync
