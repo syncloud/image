@@ -113,8 +113,7 @@ losetup -l
 
 kpartx -d ${SYNCLOUD_IMAGE}
 cat kpartx.out
-parts=$(cat kpartx.out | grep -o 'loop[0-9]*p[0-9]*')
-for part in "$parts"; do
+for part in $(cat kpartx.out | grep -o 'loop[0-9]*p[0-9]*'); do
   echo $part
   dmsetup remove -f /dev/mapper/${part} || true
 done
