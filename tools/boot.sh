@@ -102,7 +102,7 @@ LAST_SECTOR=$(fdisk -l "$SYNCLOUD_IMAGE" \
 LAST_PARTITION_NUMBER=$(fdisk -l $SYNCLOUD_IMAGE | grep $LAST_SECTOR | grep -oP '(?<=^'$SYNCLOUD_IMAGE')\d+')
 
 prepare_image ${SYNCLOUD_IMAGE} $LAST_PARTITION_NUMBER
-cat kpartx.out
+
 LOOP=$(cat loop.dev)
 LAST_PART=/dev/mapper/${LOOP}p${LAST_PARTITION_NUMBER}
 sync
@@ -112,8 +112,12 @@ fi
 losetup -l
 
 kpartx -d ${SYNCLOUD_IMAGE}
-dmsetup remove -f /dev/mapper/${LOOP}p1 || true
-dmsetup remove -f /dev/mapper/${LOOP}p2 || true
-dmsetup remove -f /dev/mapper/${LOOP}p3 || true
+cat kpartx.out
+parts=$(cat kpartx.out | grep -o 'loop[0-9]*p[0-9]*')
+for part in "$parts"; do
+  echo $part
+  dmsetup remove -f /dev/mapper/${part} || true
+done
+
 losetup -d /dev/${LOOP} || true
 losetup | grep img || true
