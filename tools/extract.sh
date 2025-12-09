@@ -497,10 +497,14 @@ w
 fi
 
 echo "extracting boot partition with boot loader"
-
 fdisk -lu ${IMAGE_FILE}
 
-dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} + 100 ))
+if [[ ${PARTITIONS} -eq 3 ]]; then
+  cp ${IMAGE_FILE} ${OUTPUT}/boot
+  sgdisk -d $LAST_PARTITION_NUMBER ${OUTPUT}/boot
+else
+  dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} + 100 ))
+fi
 
 fdisk -lu ${OUTPUT}/boot
 
