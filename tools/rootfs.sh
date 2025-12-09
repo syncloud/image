@@ -47,8 +47,14 @@ rm -rf ${ROOTFS_FILE}
 LOOP=$(attach_image ${SYNCLOUD_IMAGE})
 sync
 partprobe /dev/$LOOP
+LAST_SECTOR=$(fdisk -l "$SYNCLOUD_IMAGE" \
+  | tr '*' ' ' \
+  | awk -v img="$(basename "$SYNCLOUD_IMAGE")" '$1 ~ img {print $3}' \
+  | sort -n | tail -1)
+LAST_PARTITION_NUMBER=$(fdisk -l $SYNCLOUD_IMAGE | grep $LAST_SECTOR | grep -oP '(?<=^'$SYNCLOUD_IMAGE')\d+')
+
 DEVICE_PART_1=/dev/mapper/${LOOP}p1
-DEVICE_PART_2=/dev/mapper/${LOOP}p2
+DEVICE_PART_2=/dev/mapper/${LOOP}p$LAST_PARTITION_NUMBER
 lsblk ${DEVICE_PART_2} -o FSTYPE
 
 fsck -fy ${DEVICE_PART_2}
@@ -116,8 +122,8 @@ sync
 
 umount ${DEVICE_PART_2}
 kpartx -d ${SYNCLOUD_IMAGE}
-dmsetup remove -f /dev/mapper/${LOOP}p1 || true
-dmsetup remove -f /dev/mapper/${LOOP}p2 || true
+dmsetup remove -f ${DEVICE_PART_1} || true
+dmsetup remove -f ${DEVICE_PART_2} || true
 losetup -d /dev/${LOOP} || true
 losetup | grep img || true
 
