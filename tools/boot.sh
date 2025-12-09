@@ -108,6 +108,8 @@ sync
 if [[ -f "${SYNCLOUD_BOARD}/root/uuid" ]]; then
   change_uuid ${LAST_PART} clear
 fi
+losetup -l
+
 kpartx -d ${SYNCLOUD_IMAGE}
 dmsetup remove -f /dev/mapper/${LOOP}p1 || true
 dmsetup remove -f /dev/mapper/${LOOP}p2 || true
