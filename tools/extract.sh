@@ -103,7 +103,7 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-n2" ]]; then
   IMAGE_FILE="ubuntu-18.04.2-4.9-minimal-odroid-n2-20190329.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "amd64-uefi" ]]; then
+elif [[ ${SYNCLOUD_BOARD} == "amd64" ]]; then
   IMAGE_FILE="debian-12-generic-amd64-20251112-2294.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
