@@ -47,13 +47,15 @@ rm -rf ${ROOTFS_FILE}
 LOOP=$(attach_image ${SYNCLOUD_IMAGE})
 sync
 partprobe /dev/$LOOP
+EFI_BOOT_PARTITION_NUMBER=$(fdisk -l $SYNCLOUD_IMAGE | grep -i "efi system" | grep -oP '(?<=^'$SYNCLOUD_IMAGE')\d+')
+
 LAST_SECTOR=$(fdisk -l "$SYNCLOUD_IMAGE" \
   | tr '*' ' ' \
   | awk -v img="$(basename "$SYNCLOUD_IMAGE")" '$1 ~ img {print $3}' \
   | sort -n | tail -1)
 LAST_PARTITION_NUMBER=$(fdisk -l $SYNCLOUD_IMAGE | grep $LAST_SECTOR | grep -oP '(?<=^'$SYNCLOUD_IMAGE')\d+')
 
-DEVICE_PART_1=/dev/mapper/${LOOP}p1
+DEVICE_PART_1=/dev/mapper/${LOOP}p$EFI_BOOT_PARTITION_NUMBER
 DEVICE_PART_2=/dev/mapper/${LOOP}p$LAST_PARTITION_NUMBER
 lsblk ${DEVICE_PART_2} -o FSTYPE
 
@@ -128,3 +130,4 @@ losetup -d /dev/${LOOP} || true
 losetup | grep img || true
 
 ls -la ${DST_ROOTFS}
+
