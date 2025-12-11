@@ -500,8 +500,23 @@ echo "extracting boot partition with boot loader"
 fdisk -lu ${IMAGE_FILE}
 
 if [[ ${PARTITIONS} -eq 3 ]]; then
-  cp ${IMAGE_FILE} ${OUTPUT}/boot
-  sgdisk -d $LAST_PARTITION_NUMBER ${OUTPUT}/boot
+  IMG=${OUTPUT}/boot
+  cp ${IMAGE_FILE} $IMG
+  sgdisk -d $LAST_PARTITION_NUMBER $IMG
+  SECTOR_SIZE=$(fdisk -lu "$IMG" | awk '/sectors of/ {print $6; exit}'); [[ -z "$SECTOR_SIZE" ]] && SECTOR_SIZE=512
+  HIGHEST_END=$(sgdisk -p "$IMG" 2>/dev/null | awk '/^[ ]*[0-9]+[ ]+/ {print $3}' | sort -n | tail -1)
+  # Compute how many sectors the partition entry array uses
+  GPT_TABLE_SECTORS=$(sgdisk -p "$IMG" 2>/dev/null | awk -v ss="$SECTOR_SIZE" '/Partition table holds up to/ {count=$6} /Partition entry size:/ {esize=$4} END { if (count>0 && esize>0 && ss>0) { t=int((count*esize + ss - 1)/ss); if (t<1) t=1; print t } }')
+  [[ -z "$GPT_TABLE_SECTORS" ]] && GPT_TABLE_SECTORS=32
+  GPT_BACKUP_OVERHEAD=$(( GPT_TABLE_SECTORS + 1 ))
+  ALIGN_GAP=2048
+  NEW_LAST_LBA=$(( HIGHEST_END + ALIGN_GAP + GPT_BACKUP_OVERHEAD ))
+  NEW_SIZE_BYTES=$(( (NEW_LAST_LBA + 1) * SECTOR_SIZE ))
+  echo "Shrink to $NEW_SIZE_BYTES bytes (sector_size=$SECTOR_SIZE, highest_end=$HIGHEST_END, table_sectors=$GPT_TABLE_SECTORS)"
+  truncate -s "$NEW_SIZE_BYTES" "$IMG"
+  sgdisk -e "$IMG"
+  sgdisk -v "$IMG"
+  fdisk -lu "$IMG"
 else
   dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} + 100 ))
 fi
