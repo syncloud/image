@@ -209,7 +209,7 @@ function extract_root {
         cp -rp ${from}/etc/alternatives/*.bin ${to}/etc || true
     fi
 
-    if [[ -d ${from}/etc/fstab ]]; then
+    if [[ -f ${from}/etc/fstab ]]; then
         cat ${from}/etc/fstab
     fi
 
