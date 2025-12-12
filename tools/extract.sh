@@ -209,6 +209,11 @@ function extract_root {
         cp -rp ${from}/etc/alternatives/*.bin ${to}/etc || true
     fi
 
+    if [[ -d ${from}/etc/fstab ]]; then
+        cat ${from}/etc/fstab
+    fi
+
+
 #    do not include the whole /var/lib as it breaks dpkg database
 #    if [[ -d ${from}/var/lib ]]; then
 #        mkdir -p ${to}/var
