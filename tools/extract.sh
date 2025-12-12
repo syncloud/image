@@ -452,7 +452,8 @@ fi
 
 if [[ ${PARTITIONS} -gt 1 ]]; then
     echo "inspecting last partition"
-
+    
+    
     kpartx -avs ${IMAGE_FILE}| tee kpartx.out
     sync
     LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
@@ -460,7 +461,8 @@ if [[ ${PARTITIONS} -gt 1 ]]; then
     mkdir -p ${ROOTFS}
     ROOTFS_LOOP=${LOOP}p${LAST_PARTITION_NUMBER}
     sync
-    blkid /dev/mapper/${ROOTFS_LOOP} -s UUID -o value > uuid
+    #blkid /dev/mapper/${ROOTFS_LOOP} -s UUID -o value > uuid
+    sgdisk -i ${LAST_PARTITION_NUMBER} $IMAGE_FILE 2>/dev/null | grep "Partition unique GUID" | awk -F': ' '{print $2}' | tr -d ' ' > uuid
     cat uuid
     blkid /dev/mapper/${ROOTFS_LOOP} -s LABEL -o value > label
     cat label
