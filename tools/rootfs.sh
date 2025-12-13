@@ -60,11 +60,11 @@ DEVICE_PART_2=/dev/mapper/${LOOP}p$LAST_PARTITION_NUMBER
 lsblk ${DEVICE_PART_2} -o FSTYPE
 
 fsck -fy ${DEVICE_PART_2}
-UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
-if [[ -f "${UUID_FILE}" ]]; then
-    UUID=$(<${UUID_FILE})
-    change_uuid ${DEVICE_PART_2} ${UUID}
-fi
+#UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
+#if [[ -f "${UUID_FILE}" ]]; then
+#    UUID=$(<${UUID_FILE})
+#    change_uuid ${DEVICE_PART_2} ${UUID}
+#fi
 
 LABEL_FILE=${SYNCLOUD_BOARD}/root/label
 if [[ -f "${LABEL_FILE}" ]]; then
@@ -128,6 +128,13 @@ dmsetup remove -f ${DEVICE_PART_1} || true
 dmsetup remove -f ${DEVICE_PART_2} || true
 losetup -d /dev/${LOOP} || true
 losetup | grep img || true
+
+if [[ -f "${UUID_FILE}" ]]; then
+    UUID=$(<${UUID_FILE})
+    sgdisk -u $LAST_PARTITION_NUMBER:${UUID} $SYNCLOUD_IMAGE
+fi
+
+sgdisk -i $LAST_PARTITION_NUMBER $SYNCLOUD_IMAGE
 
 ls -la ${DST_ROOTFS}
 
