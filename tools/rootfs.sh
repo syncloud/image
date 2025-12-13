@@ -66,8 +66,8 @@ if [[ -f "${UUID_FILE}" ]]; then
 #    change_uuid ${DEVICE_PART_2} ${UUID}
 fi
 
-PART_TYPE_GUID=$(<$SYNCLOUD_BOARD}/root/part-type-guid)
-PART_UNIQUE_GUID=$(<$SYNCLOUD_BOARD}/root/part-unique-guid)
+PART_TYPE_GUID=$(<${SYNCLOUD_BOARD}/root/part-type-guid)
+PART_UNIQUE_GUID=$(<${SYNCLOUD_BOARD}/root/part-unique-guid)
 
 LABEL_FILE=${SYNCLOUD_BOARD}/root/label
 if [[ -f "${LABEL_FILE}" ]]; then
