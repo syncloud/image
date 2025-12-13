@@ -463,7 +463,7 @@ if [[ ${PARTITIONS} -gt 1 ]]; then
     ROOTFS_LOOP=${LOOP}p${LAST_PARTITION_NUMBER}
     sync
     #blkid /dev/mapper/${ROOTFS_LOOP} -s UUID -o value > uuid
-    sgdisk -i ${LAST_PARTITION_NUMBER} $IMAGE_FILE 2>/dev/null | grep "Partition GUID code" | awk -F' ' '{print $4}' tr -d ' ' > part-type-guid
+    sgdisk -i ${LAST_PARTITION_NUMBER} $IMAGE_FILE 2>/dev/null | grep "Partition GUID code" | awk -F' ' '{print $4}' | tr -d ' ' > part-type-guid
     cat part-type-guid
     sgdisk -i ${LAST_PARTITION_NUMBER} $IMAGE_FILE 2>/dev/null | grep "Partition unique GUID" | awk -F': ' '{print $2}' | tr -d ' ' > part-unique-guid
     cat part-unique-guid
