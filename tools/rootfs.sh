@@ -27,7 +27,7 @@ ROOTFS_FILE=rootfs-${DISTRO}-${ARCH}.tar.gz
 echo "==== ${SYNCLOUD_BOARD}, ${ARCH} ===="
 
 apt update
-apt install  -y wget parted kpartx fdisk
+apt install  -y wget parted kpartx fdisk gdisk
 GH=https://github.com/syncloud/rootfs/releases
 if [[ ! -f ${ROOTFS_FILE} ]]; then
     if [[ ${RELEASE} == "latest" ]]; then
