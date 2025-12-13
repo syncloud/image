@@ -72,6 +72,8 @@ do
   if [[ ${ATTEMPT} -gt ${TOTAL_ATTEMPTS} ]]; then
     VBoxManage controlvm ${VM} screenshotpng ${DIR}/console.png
     echo "unable to connect to vbox instance"
+    kill %1 2>/dev/null || true
+    VBoxManage controlvm ${VM} poweroff 2>/dev/null || true
     exit 1
   fi
   sshpass -p syncloud ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@localhost date
