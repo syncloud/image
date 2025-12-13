@@ -211,6 +211,7 @@ function extract_root {
 
     if [[ -f ${from}/etc/fstab ]]; then
         cat ${from}/etc/fstab
+        cp ${from}/etc/fstab ${to}/etc/fstab
     fi
 
 
