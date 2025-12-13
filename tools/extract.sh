@@ -463,18 +463,23 @@ if [[ ${PARTITIONS} -gt 1 ]]; then
     ROOTFS_LOOP=${LOOP}p${LAST_PARTITION_NUMBER}
     sync
     #blkid /dev/mapper/${ROOTFS_LOOP} -s UUID -o value > uuid
-    sgdisk -i ${LAST_PARTITION_NUMBER} $IMAGE_FILE 2>/dev/null | grep "Partition unique GUID" | awk -F': ' '{print $2}' | tr -d ' ' > uuid
-    cat uuid
-    blkid /dev/mapper/${ROOTFS_LOOP} -s LABEL -o value > label
-    cat label
+    sgdisk -i ${LAST_PARTITION_NUMBER} $IMAGE_FILE 2>/dev/null | grep "Partition GUID code" | awk -F' ' '{print $4}' tr -d ' ' > part-type-guid
+    cat part-type-guid
+    sgdisk -i ${LAST_PARTITION_NUMBER} $IMAGE_FILE 2>/dev/null | grep "Partition unique GUID" | awk -F': ' '{print $2}' | tr -d ' ' > part-unique-guid
+    cat part-unique-guid
+
+    #blkid /dev/mapper/${ROOTFS_LOOP} -s LABEL -o value > label
+    #cat label
+
     fsck -fy /dev/mapper/${ROOTFS_LOOP} || true
     mount /dev/mapper/${ROOTFS_LOOP} ${ROOTFS}
     mount | grep ${ROOTFS}
 
     losetup -l
     extract_root ${ROOTFS} ${OUTPUT}/root
-    cp uuid ${OUTPUT}/root
-    cp label ${OUTPUT}/root
+    cp part-type-guid ${OUTPUT}/root
+    cp part-unique-guid ${OUTPUT}/root
+    #cp label ${OUTPUT}/root
 
     sync
     umount /dev/mapper/${ROOTFS_LOOP}

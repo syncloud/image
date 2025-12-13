@@ -66,6 +66,9 @@ if [[ -f "${UUID_FILE}" ]]; then
 #    change_uuid ${DEVICE_PART_2} ${UUID}
 fi
 
+PART_TYPE_GUID=$(<$SYNCLOUD_BOARD}/root/part-type-guid)
+PART_UNIQUE_GUID=$(<$SYNCLOUD_BOARD}/root/part-unique-guid)
+
 LABEL_FILE=${SYNCLOUD_BOARD}/root/label
 if [[ -f "${LABEL_FILE}" ]]; then
     LABEL=$(<${LABEL_FILE})
@@ -129,7 +132,8 @@ dmsetup remove -f ${DEVICE_PART_2} || true
 losetup -d /dev/${LOOP} || true
 losetup | grep img || true
 
-sgdisk -u $LAST_PARTITION_NUMBER:${UUID} $SYNCLOUD_IMAGE
+sgdisk -t $LAST_PARTITION_NUMBER:$PART_TYPE_GUID $SYNCLOUD_IMAGE
+sgdisk -u $LAST_PARTITION_NUMBER:$PART_UNIQUE_GUID $SYNCLOUD_IMAGE
 
 
 sgdisk -i $LAST_PARTITION_NUMBER $SYNCLOUD_IMAGE
