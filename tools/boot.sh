@@ -44,11 +44,11 @@ ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 100 ))
 fdisk -l ${SYNCLOUD_IMAGE}
 PTTYPE=$(<${SYNCLOUD_BOARD}/root/pttype)
 PARTITIONS=$(<${SYNCLOUD_BOARD}/root/partitions)
-BOOT_PARTITION_END_SECTOR=$(fdisk -l "$SYNCLOUD_IMAGE" \
+LAST_PARTITION_END_SECTOR=$(fdisk -l "$SYNCLOUD_IMAGE" \
                             | tr '*' ' ' \
                             | awk -v img="$(basename "$SYNCLOUD_IMAGE")" '$1 ~ ("^" img) {print $3}' \
                             | sort -n | uniq \
-                            | tail -2 | head -1)
+                            | tail -1 | head -1)
 
 echo "creating root partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
 
