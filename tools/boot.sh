@@ -44,9 +44,13 @@ ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 100 ))
 fdisk -l ${SYNCLOUD_IMAGE}
 PTTYPE=$(<${SYNCLOUD_BOARD}/root/pttype)
 PARTITIONS=$(<${SYNCLOUD_BOARD}/root/partitions)
+BOOT_PARTITION_END_SECTOR=$(fdisk -l "$SYNCLOUD_IMAGE" \
+                            | tr '*' ' ' \
+                            | awk -v img="$(basename "$SYNCLOUD_IMAGE")" '$1 ~ ("^" img) {print $3}' \
+                            | sort -n | uniq \
+                            | tail -2 | head -1)
 
-
-echo "creating ${PARTITIONS} partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
+echo "creating root partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
 
 if [[ $PTTYPE == "gpt" ]]; then
   LOOP=$(losetup -f --show ${SYNCLOUD_IMAGE})
@@ -63,7 +67,7 @@ Y
      echo "fixing the end of rootfs sectors from ${ROOTFS_END_SECTOR} to ${USABLE_SECTORS}"
      ROOTFS_END_SECTOR=$USABLE_SECTORS
   fi
-  sgdisk -n ${PARTITIONS}:${ROOTFS_START_SECTOR}:${ROOTFS_END_SECTOR} -p $LOOP
+  sgdisk -n 1:${ROOTFS_START_SECTOR}:${ROOTFS_END_SECTOR} -p $LOOP
   partprobe $LOOP
   sync
   kpartx -d ${SYNCLOUD_IMAGE} || true
