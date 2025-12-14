@@ -63,7 +63,7 @@ fsck -fy ${DEVICE_PART_2}
 UUID_FILE=${SYNCLOUD_BOARD}/root/uuid
 if [[ -f "${UUID_FILE}" ]]; then
     UUID=$(<${UUID_FILE})
-#    change_uuid ${DEVICE_PART_2} ${UUID}
+    change_uuid ${DEVICE_PART_2} ${UUID}
 fi
 
 PART_TYPE_GUID=$(<${SYNCLOUD_BOARD}/root/part-type-guid)
@@ -139,3 +139,4 @@ sgdisk -u $LAST_PARTITION_NUMBER:$PART_UNIQUE_GUID $SYNCLOUD_IMAGE
 sgdisk -i $LAST_PARTITION_NUMBER $SYNCLOUD_IMAGE
 
 ls -la ${DST_ROOTFS}
+
