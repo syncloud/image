@@ -67,7 +67,7 @@ Y
      echo "fixing the end of rootfs sectors from ${ROOTFS_END_SECTOR} to ${USABLE_SECTORS}"
      ROOTFS_END_SECTOR=$USABLE_SECTORS
   fi
-  sgdisk -n 1:${ROOTFS_START_SECTOR}:${ROOTFS_END_SECTOR} -p $LOOP
+  sgdisk -n 1:$(( ${LAST_PARTITION_END_SECTOR} + 1 )):${ROOTFS_END_SECTOR} -p $LOOP
   partprobe $LOOP
   sync
   kpartx -d ${SYNCLOUD_IMAGE} || true
