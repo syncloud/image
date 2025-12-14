@@ -479,6 +479,7 @@ if [[ ${PARTITIONS} -gt 1 ]]; then
 
     losetup -l
     extract_root ${ROOTFS} ${OUTPUT}/root
+    cp uuid ${OUTPUT}/root
     cp part-type-guid ${OUTPUT}/root
     cp part-unique-guid ${OUTPUT}/root
     #cp label ${OUTPUT}/root
