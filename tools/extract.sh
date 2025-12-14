@@ -235,6 +235,7 @@ function extract_root {
     cp -rp ${from}/boot ${to}/boot
 
     if [[ -f ${to}/boot/grub/grub.cfg ]]; then
+        cat ${to}/boot/grub/grub.cfg
         grep "linux.*/boot/vmlinuz" ${to}/boot/grub/grub.cfg
         sed -i 's#linux.*/boot/vmlinuz.*#& net.ifnames=0#g' ${to}/boot/grub/grub.cfg
         grep "linux.*/boot/vmlinuz" ${to}/boot/grub/grub.cfg

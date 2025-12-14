@@ -110,9 +110,9 @@ prepare_image ${SYNCLOUD_IMAGE} $LAST_PARTITION_NUMBER
 LOOP=$(cat loop.dev)
 LAST_PART=/dev/mapper/${LOOP}p${LAST_PARTITION_NUMBER}
 sync
-if [[ -f "${SYNCLOUD_BOARD}/root/uuid" ]]; then
-  change_uuid ${LAST_PART} clear
-fi
+#if [[ -f "${SYNCLOUD_BOARD}/root/uuid" ]]; then
+#  change_uuid ${LAST_PART} clear
+#fi
 losetup -l
 
 kpartx -d ${SYNCLOUD_IMAGE}
