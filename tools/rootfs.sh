@@ -27,7 +27,7 @@ ROOTFS_FILE=rootfs-${DISTRO}-${ARCH}.tar.gz
 echo "==== ${SYNCLOUD_BOARD}, ${ARCH} ===="
 
 apt update
-apt install  -y wget parted kpartx fdisk gdisk
+apt install  -y wget parted kpartx
 GH=https://github.com/syncloud/rootfs/releases
 if [[ ! -f ${ROOTFS_FILE} ]]; then
     if [[ ${RELEASE} == "latest" ]]; then
@@ -47,16 +47,8 @@ rm -rf ${ROOTFS_FILE}
 LOOP=$(attach_image ${SYNCLOUD_IMAGE})
 sync
 partprobe /dev/$LOOP
-EFI_BOOT_PARTITION_NUMBER=$(fdisk -l $SYNCLOUD_IMAGE | grep -i "efi system" | grep -oP '(?<=^'$SYNCLOUD_IMAGE')\d+')
-
-LAST_SECTOR=$(fdisk -l "$SYNCLOUD_IMAGE" \
-  | tr '*' ' ' \
-  | awk -v img="$(basename "$SYNCLOUD_IMAGE")" '$1 ~ img {print $3}' \
-  | sort -n | tail -1)
-LAST_PARTITION_NUMBER=$(fdisk -l $SYNCLOUD_IMAGE | grep $LAST_SECTOR | grep -oP '(?<=^'$SYNCLOUD_IMAGE')\d+')
-
-DEVICE_PART_1=/dev/mapper/${LOOP}p$EFI_BOOT_PARTITION_NUMBER
-DEVICE_PART_2=/dev/mapper/${LOOP}p$LAST_PARTITION_NUMBER
+DEVICE_PART_1=/dev/mapper/${LOOP}p1
+DEVICE_PART_2=/dev/mapper/${LOOP}p2
 lsblk ${DEVICE_PART_2} -o FSTYPE
 
 fsck -fy ${DEVICE_PART_2}
@@ -65,9 +57,6 @@ if [[ -f "${UUID_FILE}" ]]; then
     UUID=$(<${UUID_FILE})
     change_uuid ${DEVICE_PART_2} ${UUID}
 fi
-
-PART_TYPE_GUID=$(<${SYNCLOUD_BOARD}/root/part-type-guid)
-PART_UNIQUE_GUID=$(<${SYNCLOUD_BOARD}/root/part-unique-guid)
 
 LABEL_FILE=${SYNCLOUD_BOARD}/root/label
 if [[ -f "${LABEL_FILE}" ]]; then
@@ -106,10 +95,10 @@ if [[ ${ARCH} == "amd64"  ]]; then
   cat ${DST_ROOTFS}/etc/fstab
 
   DEVICE_PART_1_UUID=$(blkid ${DEVICE_PART_1} -s UUID -o value)
-  #sed -i 's#/dev/sda1#UUID='${DEVICE_PART_1_UUID}'#g' ${DST_ROOTFS}/etc/fstab
+  sed -i 's#/dev/sda1#UUID='${DEVICE_PART_1_UUID}'#g' ${DST_ROOTFS}/etc/fstab
 
   DEVICE_PART_2_UUID=$(blkid ${DEVICE_PART_2} -s UUID -o value)
-  #sed -i 's#/dev/sda2#UUID='${DEVICE_PART_2_UUID}'#g' ${DST_ROOTFS}/etc/fstab
+  sed -i 's#/dev/sda2#UUID='${DEVICE_PART_2_UUID}'#g' ${DST_ROOTFS}/etc/fstab
 
   cat ${DST_ROOTFS}/etc/fstab
 
@@ -127,16 +116,9 @@ sync
 
 umount ${DEVICE_PART_2}
 kpartx -d ${SYNCLOUD_IMAGE}
-dmsetup remove -f ${DEVICE_PART_1} || true
-dmsetup remove -f ${DEVICE_PART_2} || true
+dmsetup remove -f /dev/mapper/${LOOP}p1 || true
+dmsetup remove -f /dev/mapper/${LOOP}p2 || true
 losetup -d /dev/${LOOP} || true
 losetup | grep img || true
 
-sgdisk -t $LAST_PARTITION_NUMBER:$PART_TYPE_GUID $SYNCLOUD_IMAGE
-sgdisk -u $LAST_PARTITION_NUMBER:$PART_UNIQUE_GUID $SYNCLOUD_IMAGE
-
-
-sgdisk -i $LAST_PARTITION_NUMBER $SYNCLOUD_IMAGE
-
 ls -la ${DST_ROOTFS}
-

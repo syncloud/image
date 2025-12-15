@@ -43,14 +43,8 @@ ROOTFS_START_SECTOR=$(( ${BOOT_SECTORS} + 1  ))
 ROOTFS_END_SECTOR=$(( ${ROOTFS_START_SECTOR} + ${ROOTFS_SECTORS} - 100 ))
 fdisk -l ${SYNCLOUD_IMAGE}
 PTTYPE=$(<${SYNCLOUD_BOARD}/root/pttype)
-PARTITIONS=$(<${SYNCLOUD_BOARD}/root/partitions)
-LAST_PARTITION_END_SECTOR=$(fdisk -l "$SYNCLOUD_IMAGE" \
-                            | tr '*' ' ' \
-                            | awk -v img="$(basename "$SYNCLOUD_IMAGE")" '$1 ~ ("^" img) {print $3}' \
-                            | sort -n | uniq \
-                            | tail -1 | head -1)
 
-echo "creating root partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
+echo "creating second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
 
 if [[ $PTTYPE == "gpt" ]]; then
   LOOP=$(losetup -f --show ${SYNCLOUD_IMAGE})
@@ -67,7 +61,7 @@ Y
      echo "fixing the end of rootfs sectors from ${ROOTFS_END_SECTOR} to ${USABLE_SECTORS}"
      ROOTFS_END_SECTOR=$USABLE_SECTORS
   fi
-  sgdisk -n 1:$(( ${LAST_PARTITION_END_SECTOR} + 1 )):${ROOTFS_END_SECTOR} -p $LOOP
+  sgdisk -n 2:${ROOTFS_START_SECTOR}:${ROOTFS_END_SECTOR} -p $LOOP
   partprobe $LOOP
   sync
   kpartx -d ${SYNCLOUD_IMAGE} || true
@@ -98,29 +92,19 @@ mkdir -p ${DST_ROOTFS}
 ls -la /dev/mapper/*
 sync
 
-
-LAST_SECTOR=$(fdisk -l "$SYNCLOUD_IMAGE" \
-  | tr '*' ' ' \
-  | awk -v img="$(basename "$SYNCLOUD_IMAGE")" '$1 ~ img {print $3}' \
-  | sort -n | tail -1)
-LAST_PARTITION_NUMBER=$(fdisk -l $SYNCLOUD_IMAGE | grep $LAST_SECTOR | grep -oP '(?<=^'$SYNCLOUD_IMAGE')\d+')
-
-prepare_image ${SYNCLOUD_IMAGE} $LAST_PARTITION_NUMBER
-
+prepare_image ${SYNCLOUD_IMAGE}
 LOOP=$(cat loop.dev)
-LAST_PART=/dev/mapper/${LOOP}p${LAST_PARTITION_NUMBER}
+DEVICE_PART_1=/dev/mapper/${LOOP}p1
+DEVICE_PART_2=/dev/mapper/${LOOP}p2
 sync
-#if [[ -f "${SYNCLOUD_BOARD}/root/uuid" ]]; then
-#  change_uuid ${LAST_PART} clear
-#fi
-losetup -l
-
+if [[ -f "${SYNCLOUD_BOARD}/root/uuid" ]]; then
+  if [[ -f "${SYNCLOUD_BOARD}/root/single_partition" ]]; then
+    change_uuid ${DEVICE_PART_1} clear
+  fi
+  change_uuid ${DEVICE_PART_2} clear
+fi
 kpartx -d ${SYNCLOUD_IMAGE}
-cat kpartx.out
-for part in $(cat kpartx.out | grep -o 'loop[0-9]*p[0-9]*'); do
-  echo $part
-  dmsetup remove -f /dev/mapper/${part} || true
-done
-
+dmsetup remove -f /dev/mapper/${LOOP}p1 || true
+dmsetup remove -f /dev/mapper/${LOOP}p2 || true
 losetup -d /dev/${LOOP} || true
 losetup | grep img || true

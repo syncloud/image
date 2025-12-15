@@ -104,7 +104,11 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-n2" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "amd64" ]]; then
-  IMAGE_FILE="debian-12-generic-amd64-20251112-2294.img"
+  IMAGE_FILE="debian-buster-amd64-8gb.img"
+  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
+elif [[ ${SYNCLOUD_BOARD} == "amd64-uefi" ]]; then
+  IMAGE_FILE="ubuntu-20.10-uefi-amd64-8gb.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "lime2" ]]; then
@@ -209,12 +213,6 @@ function extract_root {
         cp -rp ${from}/etc/alternatives/*.bin ${to}/etc || true
     fi
 
-    if [[ -f ${from}/etc/fstab ]]; then
-        cat ${from}/etc/fstab
-        cp ${from}/etc/fstab ${to}/etc/fstab
-    fi
-
-
 #    do not include the whole /var/lib as it breaks dpkg database
 #    if [[ -d ${from}/var/lib ]]; then
 #        mkdir -p ${to}/var
@@ -235,7 +233,6 @@ function extract_root {
     cp -rp ${from}/boot ${to}/boot
 
     if [[ -f ${to}/boot/grub/grub.cfg ]]; then
-        cat ${to}/boot/grub/grub.cfg
         grep "linux.*/boot/vmlinuz" ${to}/boot/grub/grub.cfg
         sed -i 's#linux.*/boot/vmlinuz.*#& net.ifnames=0#g' ${to}/boot/grub/grub.cfg
         grep "linux.*/boot/vmlinuz" ${to}/boot/grub/grub.cfg
@@ -271,10 +268,7 @@ fdisk -l ${IMAGE_FILE}
 
 TOTAL_BYTES=$(stat -c %s ${IMAGE_FILE})
 TOTAL_SECTORS=$(($TOTAL_BYTES/512))
-LAST_SECTOR=$(fdisk -l "$IMAGE_FILE" \
-  | tr '*' ' ' \
-  | awk -v img="$(basename "$IMAGE_FILE")" '$1 ~ img {print $3}' \
-  | sort -n | tail -1)
+LAST_SECTOR=$(fdisk -l ${IMAGE_FILE} | grep -v -e '^$' | tail -1 | awk '{ print $3 }')
 SECTORS_MISSING=$(($LAST_SECTOR-$TOTAL_SECTORS+1))
 if [[ "${SECTORS_MISSING}" -gt "0" ]]; then
     echo "appending missing bytes"
@@ -282,28 +276,21 @@ if [[ "${SECTORS_MISSING}" -gt "0" ]]; then
 fi
 PARTITIONS=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +2 | wc -l)
 FDISK_OUTPUT=$(fdisk -l ${IMAGE_FILE} | grep ${IMAGE_FILE} | tail -n +2 | head -1)
-BOOT_PARTITION_START_SECTOR=$(fdisk -l "$IMAGE_FILE" \
-                              | tr '*' ' ' \
-                              | awk -v img="$(basename "$IMAGE_FILE")" '$1 ~ ("^" img) {s=$2; if (s=="*") s=$3; if (s ~ /^[0-9]+$/) print s}' \
-                              | sort -n | head -1)
-BOOT_PARTITION_END_SECTOR=$(fdisk -l "$IMAGE_FILE" \
-                            | tr '*' ' ' \
-                            | awk -v img="$(basename "$IMAGE_FILE")" '$1 ~ ("^" img) {print $3}' \
-                            | sort -n | uniq \
-                            | tail -2 | head -1)
-BOOT_PARTITION_NUMBER=$(fdisk -l $IMAGE_FILE | grep $BOOT_PARTITION_START_SECTOR | grep -oP '(?<=^'$IMAGE_FILE')\d+')
-LAST_PARTITION_NUMBER=$(fdisk -l $IMAGE_FILE | grep $LAST_SECTOR | grep -oP '(?<=^'$IMAGE_FILE')\d+')
-EFI_BOOT_PARTITION_NUMBER=$(fdisk -l $IMAGE_FILE | grep -i "efi system" | grep -oP '(?<=^'$IMAGE_FILE')\d+')
-if [[ "$EFI_BOOT_PARTITION_NUMBER" != "" ]]; then
-  BOOT_PARTITION_NUMBER=$EFI_BOOT_PARTITION_NUMBER
+FDISK_FIELD2=$(echo "${FDISK_OUTPUT}" | awk '{print $2}')
+FDISK_FIELD3=$(echo "${FDISK_OUTPUT}" | awk '{print $3}')
+FDISK_FIELD4=$(echo "${FDISK_OUTPUT}" | awk '{print $4}')
+if [[ ${FDISK_FIELD2} == "*" ]]; then
+    BOOT_PARTITION_START_SECTOR=${FDISK_FIELD3}
+    BOOT_PARTITION_END_SECTOR=${FDISK_FIELD4}
+else
+    BOOT_PARTITION_START_SECTOR=${FDISK_FIELD2}
+    BOOT_PARTITION_END_SECTOR=${FDISK_FIELD3}
 fi
-
 
 rm -rf ${OUTPUT}
 mkdir ${OUTPUT}
 mkdir ${OUTPUT}/root
-echo $PARTITIONS > ${OUTPUT}/root/partitions
-echo $LAST_PARTITION_NUMBER > ${OUTPUT}/root/last_partition_number
+
 echo "applying cpu frequency fix"
 if [[ "$CPU_FREQUENCY_CONTROL" = true ]] ; then
     mkdir -p ${OUTPUT}/root/var/lib
@@ -322,13 +309,13 @@ sync
 LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
 echo "LOOP: ${LOOP}"
 
-FS_TYPE=$(blkid -s TYPE -o value /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER})
+FS_TYPE=$(blkid -s TYPE -o value /dev/mapper/${LOOP}p1)
 if [[ "${FS_TYPE}" == *"swap"*  ]]; then
     echo "not inspecting boot partition as it is: ${FS_TYPE}"
 else
     echo "inspecting first partition"
 
-    mount /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER} ${BOOT}
+    mount /dev/mapper/${LOOP}p1 ${BOOT}
 
     mount | grep ${BOOT}
 
@@ -415,7 +402,7 @@ q
 
         fdisk -lu ${IMAGE_FILE}
     else
-        echo "multi partition disk"
+        echo "double partition disk"
         echo "checking ${BOOT}/cmdline.txt"
         cmdline_txt=${BOOT}/cmdline.txt
         if [[ -f ${cmdline_txt} ]]; then
@@ -432,14 +419,12 @@ q
             #cat ${cmdline_txt}
         fi
 
-        umount /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER}
+        umount /dev/mapper/${LOOP}p1
 
         sync
 
-        for NUM in $(fdisk -l $IMAGE_FILE | grep -oP '(?<=^'$IMAGE_FILE')\d+'); do
-          echo "unmount $NUM"
-          dmsetup remove -f /dev/mapper/${LOOP}p${NUM}
-        done
+        dmsetup remove -f /dev/mapper/${LOOP}p1
+        dmsetup remove -f /dev/mapper/${LOOP}p2
         losetup -d /dev/${LOOP}
 
     fi
@@ -452,27 +437,20 @@ q
 fi
 
 
-if [[ ${PARTITIONS} -gt 1 ]]; then
-    echo "inspecting last partition"
-    
-    
+if [[ ${PARTITIONS} == 2 ]]; then
+    echo "inspecting second partition"
+
     kpartx -avs ${IMAGE_FILE}| tee kpartx.out
     sync
     LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2)
     rm -rf ${ROOTFS}
     mkdir -p ${ROOTFS}
-    ROOTFS_LOOP=${LOOP}p${LAST_PARTITION_NUMBER}
+    ROOTFS_LOOP=${LOOP}p2
     sync
     blkid /dev/mapper/${ROOTFS_LOOP} -s UUID -o value > uuid
     cat uuid
-    sgdisk -i ${LAST_PARTITION_NUMBER} $IMAGE_FILE 2>/dev/null | grep "Partition GUID code" | awk -F' ' '{print $4}' | tr -d ' ' > part-type-guid
-    cat part-type-guid
-    sgdisk -i ${LAST_PARTITION_NUMBER} $IMAGE_FILE 2>/dev/null | grep "Partition unique GUID" | awk -F': ' '{print $2}' | tr -d ' ' > part-unique-guid
-    cat part-unique-guid
-
-    #blkid /dev/mapper/${ROOTFS_LOOP} -s LABEL -o value > label
-    #cat label
-
+    blkid /dev/mapper/${ROOTFS_LOOP} -s LABEL -o value > label
+    cat label
     fsck -fy /dev/mapper/${ROOTFS_LOOP} || true
     mount /dev/mapper/${ROOTFS_LOOP} ${ROOTFS}
     mount | grep ${ROOTFS}
@@ -480,18 +458,14 @@ if [[ ${PARTITIONS} -gt 1 ]]; then
     losetup -l
     extract_root ${ROOTFS} ${OUTPUT}/root
     cp uuid ${OUTPUT}/root
-    cp part-type-guid ${OUTPUT}/root
-    cp part-unique-guid ${OUTPUT}/root
-    #cp label ${OUTPUT}/root
+    cp label ${OUTPUT}/root
 
     sync
     umount /dev/mapper/${ROOTFS_LOOP}
     mount | grep ${ROOTFS} || true
 
-    for NUM in $(fdisk -l $IMAGE_FILE | grep -oP '(?<=^'$IMAGE_FILE')\d+'); do
-      echo "unmount $NUM"
-      dmsetup remove -f /dev/mapper/${LOOP}p${NUM}
-    done
+    dmsetup remove -f /dev/mapper/${LOOP}p1
+    dmsetup remove -f /dev/mapper/${LOOP}p2
 
     PTTYPE=$(fdisk -l /dev/${LOOP} | grep "Disklabel type:" | awk '{ print $3 }')
     echo $PTTYPE > ${OUTPUT}/root/pttype
@@ -513,30 +487,10 @@ w
 fi
 
 echo "extracting boot partition with boot loader"
+
 fdisk -lu ${IMAGE_FILE}
 
-if [[ ${PARTITIONS} -eq 3 ]]; then
-  IMG=${OUTPUT}/boot
-  cp ${IMAGE_FILE} $IMG
-  sgdisk -d $LAST_PARTITION_NUMBER $IMG
-  
-  #SECTOR_SIZE=$(fdisk -lu "$IMG" | awk '/sectors of/ {print $6; exit}'); [[ -z "$SECTOR_SIZE" ]] && SECTOR_SIZE=512
-  #HIGHEST_END=$(sgdisk -p "$IMG" 2>/dev/null | awk '/^[ ]*[0-9]+[ ]+/ {print $3}' | sort -n | tail -1)
-  # Compute how many sectors the partition entry array uses
-  #GPT_TABLE_SECTORS=$(sgdisk -p "$IMG" 2>/dev/null | awk -v ss="$SECTOR_SIZE" '/Partition table holds up to/ {count=$6} /Partition entry size:/ {esize=$4} END { if (count>0 && esize>0 && ss>0) { t=int((count*esize + ss - 1)/ss); if (t<1) t=1; print t } }')
-  #[[ -z "$GPT_TABLE_SECTORS" ]] && GPT_TABLE_SECTORS=32
-  #GPT_BACKUP_OVERHEAD=$(( GPT_TABLE_SECTORS + 1 ))
-  #ALIGN_GAP=2048
-  #NEW_LAST_LBA=$(( HIGHEST_END + ALIGN_GAP + GPT_BACKUP_OVERHEAD ))
-  #NEW_SIZE_BYTES=$(( (NEW_LAST_LBA + 1) * SECTOR_SIZE ))
-  #echo "Shrink to $NEW_SIZE_BYTES bytes (sector_size=$SECTOR_SIZE, highest_end=$HIGHEST_END, table_sectors=$GPT_TABLE_SECTORS)"
-  #truncate -s "$NEW_SIZE_BYTES" "$IMG"
-  #sgdisk -e "$IMG"
-  #sgdisk -v "$IMG"
-  #fdisk -lu "$IMG"
-else
-  dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} + 100 ))
-fi
+dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} + 100 ))
 
 fdisk -lu ${OUTPUT}/boot
 
@@ -545,4 +499,3 @@ rm -rf ${IMAGE_FILE}
 echo "result: $OUTPUT"
 ls -la
 df -h
-
