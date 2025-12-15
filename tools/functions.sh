@@ -37,11 +37,15 @@ function change_label {
 
     local DEVICE=$1
     local VALUE=$2
-    sync
-    partprobe $DEVICE
-    blkid ${DEVICE} -s LABEL -o value
-    tune2fs -f ${DEVICE} -L "${VALUE}"
-    blkid ${DEVICE} -s LABEL -o value
+    if [[ "$VALUE" == "" ]]; then
+        echo "empty label: $VALUE"
+    else
+        sync
+        partprobe $DEVICE
+        blkid ${DEVICE} -s LABEL -o value
+        tune2fs -f ${DEVICE} -L "${VALUE}"
+        blkid ${DEVICE} -s LABEL -o value
+    fi
 }
 
 function attach_image { 
@@ -53,10 +57,11 @@ function attach_image {
 
 function prepare_image { 
     local image=$1
+    local part_number=$2
     LOOP=$(attach_image $image)
     echo $LOOP > loop.dev
     export MKE2FS_SYNC=2
-    mkfs.ext4 -F -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p2
+    mkfs.ext4 -F -D -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/${LOOP}p${part_number}
     partprobe /dev/$LOOP
-    lsblk /dev/mapper/${LOOP}p2 -o FSTYPE
+    lsblk /dev/mapper/${LOOP}p${part_number} -o FSTYPE
 }

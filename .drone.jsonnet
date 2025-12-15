@@ -3,6 +3,7 @@ local release = "${DRONE_TAG:-latest}";
 local build(board, arch, mode, distro) = {
     local base_image = board + "-base.img",
     local suffix = if mode == "sd" then "-sd" else "",
+    local tool_suffix = if arch == "amd64" then "-amd64" else "",
     local size = if mode == "sd" then "10M" else "5G",
     local image_name = "syncloud-" + board  + suffix + "-" + release,
     local image = image_name + ".img",
@@ -19,7 +20,7 @@ local build(board, arch, mode, distro) = {
         name: "extract",
         image: "debian:bookworm-slim",
         commands: [
-            "./tools/extract.sh " + board + " " + base_image
+            "./tools/extract"+tool_suffix+".sh " + board + " " + base_image
         ],
         privileged: true
     },
@@ -27,7 +28,7 @@ local build(board, arch, mode, distro) = {
         name: "boot",
         image: "debian:bookworm-slim",
         commands: [
-            "./tools/boot.sh " + board  + " " + image + " " + size
+            "./tools/boot"+tool_suffix+".sh " + board  + " " + image + " " + size
         ],
         privileged: true
     }] + 
@@ -36,7 +37,7 @@ local build(board, arch, mode, distro) = {
         name: "rootfs",
         image: "debian:bookworm-slim",
         commands: [
-            "./tools/rootfs.sh " + board + " " + arch + " " + image + " " + rootfs + " " + distro
+            "./tools/rootfs"+tool_suffix+".sh " + board + " " + arch + " " + image + " " + rootfs + " " + distro
         ],
         privileged: true
     }] else []) +
@@ -113,7 +114,6 @@ local build(board, arch, mode, distro) = {
     build(board.name, board.arch, board.type, distro)
     for board in [
         { name: "amd64", arch: "amd64", type: "all"},
-        { name: "amd64-uefi", arch: "amd64", type: "all"},
         { name: "cubieboard2", arch: "arm", type: "all" },
         { name: "cubieboard", arch: "arm", type: "all" },
         { name: "beagleboneblack", arch: "arm", type: "all" },
@@ -126,7 +126,7 @@ local build(board, arch, mode, distro) = {
         { name: "raspberrypi2", arch: "arm", type: "all" },
         { name: "odroid-xu3and4", arch: "arm", type: "all" },
         { name: "odroid-xu3and4", arch: "arm", type: "sd" },
-	       { name: "jetson-nano", arch: "arm64", type: "all" },
+        { name: "jetson-nano", arch: "arm64", type: "all" },
         { name: "odroid-c2", arch: "arm", type: "all" },
         { name: "odroid-u3", arch: "arm", type: "all" },
         { name: "bananapim2", arch: "arm", type: "all" },
