@@ -52,9 +52,8 @@ LAST_PARTITION_END_SECTOR=$(fdisk -l "$SYNCLOUD_IMAGE" \
 
 echo "creating root partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
 
-if [[ $PTTYPE == "gpt" ]]; then
-  LOOP=$(losetup -f --show ${SYNCLOUD_IMAGE})
-  echo "
+LOOP=$(losetup -f --show ${SYNCLOUD_IMAGE})
+echo "
 r
 d
 w
@@ -62,30 +61,17 @@ Y
 Y
 " | gdisk $LOOP
 
-  USABLE_SECTORS=$(sgdisk $LOOP -E 2>/dev/null)
-  if [[ ${ROOTFS_END_SECTOR} -gt ${USABLE_SECTORS} ]]; then
-     echo "fixing the end of rootfs sectors from ${ROOTFS_END_SECTOR} to ${USABLE_SECTORS}"
-     ROOTFS_END_SECTOR=$USABLE_SECTORS
-  fi
-  sgdisk -n 1:$(( ${LAST_PARTITION_END_SECTOR} + 1 )):${ROOTFS_END_SECTOR} -p $LOOP
-  partprobe $LOOP
-  sync
-  kpartx -d ${SYNCLOUD_IMAGE} || true
-  losetup -d $LOOP || true
-
-else
-
-  echo "
-n
-p
-2
-${ROOTFS_START_SECTOR}
-${ROOTFS_END_SECTOR}
-w
-q
-" | fdisk ${SYNCLOUD_IMAGE}
-
+USABLE_SECTORS=$(sgdisk $LOOP -E 2>/dev/null)
+if [[ ${ROOTFS_END_SECTOR} -gt ${USABLE_SECTORS} ]]; then
+   echo "fixing the end of rootfs sectors from ${ROOTFS_END_SECTOR} to ${USABLE_SECTORS}"
+   ROOTFS_END_SECTOR=$USABLE_SECTORS
 fi
+sgdisk -n 1:$(( ${LAST_PARTITION_END_SECTOR} + 1 )):${ROOTFS_END_SECTOR} -p $LOOP
+partprobe $LOOP
+sync
+kpartx -d ${SYNCLOUD_IMAGE} || true
+losetup -d $LOOP || true
+
 
 sync
 
@@ -110,9 +96,6 @@ prepare_image ${SYNCLOUD_IMAGE} $LAST_PARTITION_NUMBER
 LOOP=$(cat loop.dev)
 LAST_PART=/dev/mapper/${LOOP}p${LAST_PARTITION_NUMBER}
 sync
-#if [[ -f "${SYNCLOUD_BOARD}/root/uuid" ]]; then
-#  change_uuid ${LAST_PART} clear
-#fi
 losetup -l
 
 kpartx -d ${SYNCLOUD_IMAGE}
