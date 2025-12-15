@@ -46,30 +46,7 @@ PTTYPE=$(<${SYNCLOUD_BOARD}/root/pttype)
 
 echo "creating second partition (${ROOTFS_START_SECTOR} - ${ROOTFS_END_SECTOR}) sectors"
 
-if [[ $PTTYPE == "gpt" ]]; then
-  LOOP=$(losetup -f --show ${SYNCLOUD_IMAGE})
-  echo "
-r
-d
-w
-Y
-Y
-" | gdisk $LOOP
-
-  USABLE_SECTORS=$(sgdisk $LOOP -E 2>/dev/null)
-  if [[ ${ROOTFS_END_SECTOR} -gt ${USABLE_SECTORS} ]]; then
-     echo "fixing the end of rootfs sectors from ${ROOTFS_END_SECTOR} to ${USABLE_SECTORS}"
-     ROOTFS_END_SECTOR=$USABLE_SECTORS
-  fi
-  sgdisk -n 2:${ROOTFS_START_SECTOR}:${ROOTFS_END_SECTOR} -p $LOOP
-  partprobe $LOOP
-  sync
-  kpartx -d ${SYNCLOUD_IMAGE} || true
-  losetup -d $LOOP || true
-
-else
-
-  echo "
+echo "
 n
 p
 2
@@ -78,8 +55,6 @@ ${ROOTFS_END_SECTOR}
 w
 q
 " | fdisk ${SYNCLOUD_IMAGE}
-
-fi
 
 sync
 
@@ -92,7 +67,7 @@ mkdir -p ${DST_ROOTFS}
 ls -la /dev/mapper/*
 sync
 
-prepare_image ${SYNCLOUD_IMAGE}
+prepare_image ${SYNCLOUD_IMAGE} 2
 LOOP=$(cat loop.dev)
 DEVICE_PART_1=/dev/mapper/${LOOP}p1
 DEVICE_PART_2=/dev/mapper/${LOOP}p2
