@@ -101,19 +101,13 @@ cp -rp ${SYNCLOUD_BOARD}/root/* ${DST_ROOTFS}/
 echo "copying files"
 cp -rp ${SRC_FILES}/* ${DST_ROOTFS}/
 
-if [[ ${ARCH} == "amd64"  ]]; then
+cat ${DST_ROOTFS}/etc/fstab
 
-  cat ${DST_ROOTFS}/etc/fstab
+DEVICE_PART_1_UUID=$(blkid ${DEVICE_PART_1} -s UUID -o value)
 
-  DEVICE_PART_1_UUID=$(blkid ${DEVICE_PART_1} -s UUID -o value)
-  #sed -i 's#/dev/sda1#UUID='${DEVICE_PART_1_UUID}'#g' ${DST_ROOTFS}/etc/fstab
+DEVICE_PART_2_UUID=$(blkid ${DEVICE_PART_2} -s UUID -o value)
 
-  DEVICE_PART_2_UUID=$(blkid ${DEVICE_PART_2} -s UUID -o value)
-  #sed -i 's#/dev/sda2#UUID='${DEVICE_PART_2_UUID}'#g' ${DST_ROOTFS}/etc/fstab
-
-  cat ${DST_ROOTFS}/etc/fstab
-
-fi
+cat ${DST_ROOTFS}/etc/fstab
 
 echo "setting hostname"
 echo syncloud > ${DST_ROOTFS}/etc/hostname
