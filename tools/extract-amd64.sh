@@ -25,116 +25,9 @@ UNZIP=unxz
 apt update
 apt install -y gdisk wget xz-utils kpartx unzip p7zip-full fdisk
 
-if [[ ${SYNCLOUD_BOARD} == "raspberrypi2" ]]; then
-  IMAGE_FILE=2016-03-18-raspbian-jessie-lite.img
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "tinker" ]]; then
-  IMAGE_FILE="Armbian_20.02.7_Tinkerboard_bionic_legacy_4.4.213_desktop.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "beagleboneblack" ]]; then
-  IMAGE_FILE=bone-debian-10.3-console-armhf-2020-04-06-1gb.img
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "cubieboard" ]]; then
-  IMAGE_FILE="Cubian-nano-headless-x1-a10.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-  CPU_FREQUENCY_CONTROL=true
-  CPU_FREQUENCY_GOVERNOR=performance
-  CPU_FREQUENCY_MAX=1056000
-  CPU_FREQUENCY_MIN=648000
-elif [[ ${SYNCLOUD_BOARD} == "cubieboard2" ]]; then
-  IMAGE_FILE="Cubian-nano-headless-x1-a20.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-  CPU_FREQUENCY_CONTROL=true
-  CPU_FREQUENCY_GOVERNOR=performance
-  CPU_FREQUENCY_MAX=1056000
-  CPU_FREQUENCY_MIN=648000
-elif [[ ${SYNCLOUD_BOARD} == "cubietruck" ]]; then
-  IMAGE_FILE="Armbian_5.31_Cubietruck_Debian_jessie_next_4.11.5.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.7z
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/$IMAGE_FILE_ZIP -O $IMAGE_FILE_ZIP"
-  UNZIP="p7zip -d"
-elif [[ ${SYNCLOUD_BOARD} == "helios4" ]]; then
-  IMAGE_FILE="Armbian_5.68_Helios4_Debian_stretch_next_4.14.88.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "helios64" ]]; then
-  IMAGE_FILE="Armbian_20.08.8_Helios64_buster_current_5.8.13.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "odroid-xu3and4" ]]; then
-  IMAGE_FILE="ubuntu-22.04-5.4-minimal-odroid-xu4-20220721.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "odroid-c2" ]]; then
-  IMAGE_FILE="ubuntu-18.04.3-3.16-minimal-odroid-c2-20190814.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "odroid-u3" ]]; then
-  IMAGE_FILE="ubuntu-14.04.2lts-lubuntu-odroid-u-20150224.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "odroid-hc4" ]]; then
-  IMAGE_FILE="debian-buster-server-odroidc4-20210301-5.11.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
-  IMAGE_FILE="M2-raspberry-kernel3.3-LCD.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.zip
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/BPI-M2_Raspbian_V4.0_lcd.zip -O $IMAGE_FILE_ZIP"
-  UNZIP=unzip
-elif [[ ${SYNCLOUD_BOARD} == "bananapim1" ]]; then
-  IMAGE_FILE="BPI-M1_Debian_V2_beta.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "bananapim3" ]]; then
-  IMAGE_FILE="2016-05-15-debian-8-jessie-lite-bpi-m3-sd-emmc.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "rock64" ]]; then
-  IMAGE_FILE="Armbian_5.69_Rock64_Debian_stretch_default_4.4.167_desktop.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "odroid-n2" ]]; then
-  IMAGE_FILE="ubuntu-18.04.2-4.9-minimal-odroid-n2-20190329.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "amd64" ]]; then
-  IMAGE_FILE="debian-12-generic-amd64-20251112-2294.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "lime2" ]]; then
-  IMAGE_FILE="Armbian_5.89.1_Olinuxino-a20_Debian_stretch_next_5.1.12.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "raspberrypi" ]]; then
-  IMAGE_FILE="2021-12-02-raspios-buster-armhf-lite.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "raspberrypi-64" ]]; then
-  IMAGE_FILE="2024-03-15-raspios-bookworm-arm64-lite.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "jetson-nano" ]]; then
-  IMAGE_FILE="Armbian_22.11.1_Jetson-nano_bullseye_current_5.19.17.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-#elif [[ ${SYNCLOUD_BOARD} == "btt-cb1" ]]; then
-#  IMAGE_FILE="CB1_Debian11_minimal_kernel5.16_20240319.img"
-#  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-#  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-elif [[ ${SYNCLOUD_BOARD} == "btt-cb1" ]]; then
-  IMAGE_FILE="CB1_Debian11_Klipper_kernel5.16_20240319.img"
-  IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
-  DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
-else
-    echo "board is not supported: ${SYNCLOUD_BOARD}"
-    exit 1
-fi
+IMAGE_FILE="debian-12-generic-amd64-20251112-2294.img"
+IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
+DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 
 
 DD_SECTOR_UNIT=b
@@ -304,14 +197,6 @@ mkdir ${OUTPUT}
 mkdir ${OUTPUT}/root
 echo $PARTITIONS > ${OUTPUT}/root/partitions
 echo $LAST_PARTITION_NUMBER > ${OUTPUT}/root/last_partition_number
-echo "applying cpu frequency fix"
-if [[ "$CPU_FREQUENCY_CONTROL" = true ]] ; then
-    mkdir -p ${OUTPUT}/root/var/lib
-    touch ${OUTPUT}/root/var/lib/cpu_frequency_control
-    echo -n ${CPU_FREQUENCY_GOVERNOR} > ${OUTPUT}/root/var/lib/cpu_frequency_governor
-    echo -n ${CPU_FREQUENCY_MAX} > ${OUTPUT}/root/var/lib/cpu_frequency_max
-    echo -n ${CPU_FREQUENCY_MIN} > ${OUTPUT}/root/var/lib/cpu_frequency_min
-fi
 
 echo "fixing boot"
 
@@ -323,134 +208,35 @@ LOOP=loop$(cat kpartx.out | grep loop | head -1 | cut -d ' ' -f3 | cut -d p -f 2
 echo "LOOP: ${LOOP}"
 
 FS_TYPE=$(blkid -s TYPE -o value /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER})
-if [[ "${FS_TYPE}" == *"swap"*  ]]; then
-    echo "not inspecting boot partition as it is: ${FS_TYPE}"
-else
-    echo "inspecting first partition"
+echo "inspecting first partition"
 
-    mount /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER} ${BOOT}
+mount /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER} ${BOOT}
 
-    mount | grep ${BOOT}
+mount | grep ${BOOT}
 
-    ls -la ${BOOT}/
+ls -la ${BOOT}/
     
-    if [[ ${PARTITIONS} == 1 ]]; then
-        echo "single partition disk"
-        touch ${OUTPUT}/root/single_partition
-
-        if [[ ! -d ${BOOT}/boot ]]; then
-            echo "single partition images without boot dir are not supported yet"
-            exit 1
-        fi
-        
-        if [[ -f ${BOOT}/bbb-uEnv.txt ]]; then
-            cp ${BOOT}/bbb-uEnv.txt ${BOOT}/uEnv.txt
-            sed -i 's#root=/dev/mmcblk0p1#root=/dev/mmcblk0p2#g' ${BOOT}/uEnv.txt
-        fi
-        
-        ls -la ${BOOT}/boot
-        if [[ -f ${BOOT}/boot/armbianEnv.txt ]]; then
-            cat ${BOOT}/boot/armbianEnv.txt
-            #sed -i 's#rootdev=.*#rootdev=/dev/mmcblk0p2#g' ${BOOT}/boot/armbianEnv.txt
-            #cat ${BOOT}/boot/armbianEnv.txt
-        fi
-        
-        echo "kernel config"
-        ls -la ${BOOT}/boot/config-* || true
-
-        #if [ -f ${BOOT}/boot/boot.cmd ]; then
-        #    cat ${BOOT}/boot/boot.cmd
-        #    sed -i 's#setenv rootdev .*#setenv rootdev "/dev/mmcblk0p2"#g' ${BOOT}/boot/boot.cmd
-        #    cat ${BOOT}/boot/boot.cmd
-        #    mkimage -C none -A arm -T script -d ${BOOT}/boot/boot.cmd ${BOOT}/boot/boot.scr
-        #    cat ${BOOT}/boot/boot.scr
-        #fi
-        
-        blkid /dev/mapper/${LOOP}p1 -s UUID -o value > uuid
-       
-        echo "uuid:"
-        cat uuid
-        
-        extract_root ${BOOT} ${OUTPUT}/root
-        cp uuid ${OUTPUT}/root/uuid
-
-        PTTYPE=$(fdisk -l /dev/${LOOP} | grep "Disklabel type:" | awk '{ print $3 }')
-        echo $PTTYPE > ${OUTPUT}/root/pttype
-
-        cd ${BOOT}
-        ls -la
-        ls | grep -v boot | grep -v uEnv.txt | xargs rm -rf
-        ls -la
-        cd ${BUILD_DIR}
-        
-        sync
-        umount /dev/mapper/${LOOP}p1
-        fsck -fy /dev/mapper/${LOOP}p1 || true
-        BOOT_SIZE_MB=200
-        resize2fs /dev/mapper/${LOOP}p1 ${BOOT_SIZE_MB}M
-        pwd
-        ls -la
-        BOOT_SIZE_SECTORS=$((${BOOT_SIZE_MB}*1024*2))
-        BOOT_PARTITION_END_SECTOR=$(($BOOT_PARTITION_START_SECTOR+$BOOT_SIZE_SECTORS))
-        sync
-        dmsetup remove -f /dev/mapper/${LOOP}p1
-        losetup -d /dev/${LOOP}
-
-echo "
-p
-d
-w
-" | fdisk ${IMAGE_FILE}
-
-
-echo "
-n
-p
-1
-${BOOT_PARTITION_START_SECTOR}
-${BOOT_PARTITION_END_SECTOR}
-w
-q
-" | fdisk ${IMAGE_FILE}
-
-        fdisk -lu ${IMAGE_FILE}
-    else
-        echo "multi partition disk"
-        echo "checking ${BOOT}/cmdline.txt"
-        cmdline_txt=${BOOT}/cmdline.txt
-        if [[ -f ${cmdline_txt} ]]; then
-            cat ${cmdline_txt}
-            sed -i 's/$/ /' ${cmdline_txt}
-            sed -i 's#init=.* #init=/sbin/init #g' ${cmdline_txt}
-            cat ${cmdline_txt}
-        fi
-        
-        if [[ -f ${BOOT}/BoardEnv.txt ]]; then
-            cat ${BOOT}/BoardEnv.txt
-            #sed -i 's/$/ /' ${BOOT}/BoardEnv.txt
-            #sed -i 's#init=.* #init=/sbin/init #g' ${BOOT}/BoardEnv.txt
-            #cat ${cmdline_txt}
-        fi
-
-        umount /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER}
-
-        sync
-
-        for NUM in $(fdisk -l $IMAGE_FILE | grep -oP '(?<=^'$IMAGE_FILE')\d+'); do
-          echo "unmount $NUM"
-          dmsetup remove -f /dev/mapper/${LOOP}p${NUM}
-        done
-        losetup -d /dev/${LOOP}
-
-    fi
-
-#    rm -rf ${OUTPUT}-boot.tar.gz
-#    tar czf ${OUTPUT}-boot.tar.gz $BOOT
-
-    rm -rf ${BOOT}
-
+echo "multi partition disk"
+echo "checking ${BOOT}/cmdline.txt"
+cmdline_txt=${BOOT}/cmdline.txt
+if [[ -f ${cmdline_txt} ]]; then
+    cat ${cmdline_txt}
+    sed -i 's/$/ /' ${cmdline_txt}
+    sed -i 's#init=.* #init=/sbin/init #g' ${cmdline_txt}
+    cat ${cmdline_txt}
 fi
+        
+umount /dev/mapper/${LOOP}p${BOOT_PARTITION_NUMBER}
 
+sync
+
+for NUM in $(fdisk -l $IMAGE_FILE | grep -oP '(?<=^'$IMAGE_FILE')\d+'); do
+  echo "unmount $NUM"
+  dmsetup remove -f /dev/mapper/${LOOP}p${NUM}
+done
+losetup -d /dev/${LOOP}
+
+rm -rf ${BOOT}
 
 if [[ ${PARTITIONS} -gt 1 ]]; then
     echo "inspecting last partition"
@@ -515,28 +301,10 @@ fi
 echo "extracting boot partition with boot loader"
 fdisk -lu ${IMAGE_FILE}
 
-if [[ ${PARTITIONS} -eq 3 ]]; then
   IMG=${OUTPUT}/boot
   cp ${IMAGE_FILE} $IMG
   sgdisk -d $LAST_PARTITION_NUMBER $IMG
   
-  #SECTOR_SIZE=$(fdisk -lu "$IMG" | awk '/sectors of/ {print $6; exit}'); [[ -z "$SECTOR_SIZE" ]] && SECTOR_SIZE=512
-  #HIGHEST_END=$(sgdisk -p "$IMG" 2>/dev/null | awk '/^[ ]*[0-9]+[ ]+/ {print $3}' | sort -n | tail -1)
-  # Compute how many sectors the partition entry array uses
-  #GPT_TABLE_SECTORS=$(sgdisk -p "$IMG" 2>/dev/null | awk -v ss="$SECTOR_SIZE" '/Partition table holds up to/ {count=$6} /Partition entry size:/ {esize=$4} END { if (count>0 && esize>0 && ss>0) { t=int((count*esize + ss - 1)/ss); if (t<1) t=1; print t } }')
-  #[[ -z "$GPT_TABLE_SECTORS" ]] && GPT_TABLE_SECTORS=32
-  #GPT_BACKUP_OVERHEAD=$(( GPT_TABLE_SECTORS + 1 ))
-  #ALIGN_GAP=2048
-  #NEW_LAST_LBA=$(( HIGHEST_END + ALIGN_GAP + GPT_BACKUP_OVERHEAD ))
-  #NEW_SIZE_BYTES=$(( (NEW_LAST_LBA + 1) * SECTOR_SIZE ))
-  #echo "Shrink to $NEW_SIZE_BYTES bytes (sector_size=$SECTOR_SIZE, highest_end=$HIGHEST_END, table_sectors=$GPT_TABLE_SECTORS)"
-  #truncate -s "$NEW_SIZE_BYTES" "$IMG"
-  #sgdisk -e "$IMG"
-  #sgdisk -v "$IMG"
-  #fdisk -lu "$IMG"
-else
-  dd if=${IMAGE_FILE} of=${OUTPUT}/boot bs=1${DD_SECTOR_UNIT} count=$(( ${BOOT_PARTITION_END_SECTOR} + 100 ))
-fi
 
 fdisk -lu ${OUTPUT}/boot
 
