@@ -79,7 +79,7 @@ elif [[ ${SYNCLOUD_BOARD} == "odroid-u3" ]]; then
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "odroid-hc4" ]]; then
-  IMAGE_FILE="debian-buster-server-odroidc4-20210301-5.11.img"
+  IMAGE_FILE="ubuntu-24.04-6.6-minimal-odroid-c4-hc4-20241226.img"
   IMAGE_FILE_ZIP=${IMAGE_FILE}.xz
   DOWNLOAD_IMAGE="${SYNCLOUD_DISTR_URL}/${IMAGE_FILE_ZIP}"
 elif [[ ${SYNCLOUD_BOARD} == "bananapim2" ]]; then
