@@ -7,7 +7,7 @@ local build(board, arch, mode, distro) = {
     local size = if mode == "sd" then "10M" else "5G",
     local image_name = "syncloud-" + board  + suffix + "-" + release,
     local image = image_name + ".img",
-    local rootfs = "25.09",
+    local rootfs = "26.01",
     kind: "pipeline",
     name: board + "-" + mode + "-" + distro,
 
