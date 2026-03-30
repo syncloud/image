@@ -66,17 +66,18 @@ local build(board, arch, mode, distro) = {
         ],
         privileged: true
     },
-   {
+    {
             name: "publish to github",
-            image: "plugins/github-release:1.0.0",
-            settings: {
-                api_key: {
+            image: "maniator/gh:v2.65.0",
+            environment: {
+                GITHUB_TOKEN: {
                     from_secret: "github_token"
                 },
-                files: image_name + "*.xz",
-                overwrite: true,
-                file_exists: "overwrite"
             },
+            commands: [
+                "gh release create " + release + " --repo syncloud/image --title " + release + " --notes " + release + " 2>/dev/null || true",
+                "for i in 1 2 3; do gh release upload " + release + " --repo syncloud/image --clobber " + image_name + "*.xz && break || sleep 10; done",
+            ],
             when: {
                 event: [ "tag" ]
             }
