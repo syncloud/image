@@ -76,7 +76,7 @@ local build(board, arch, mode, distro) = {
             },
             commands: [
                 "gh release create " + release + " --repo syncloud/image --title " + release + " --notes " + release + " 2>/dev/null || true",
-                "for i in 1 2 3; do gh release upload " + release + " --repo syncloud/image --clobber " + image_name + "*.xz && break || sleep 10; done",
+                "for i in 1 2 3; do echo \"attempt $i\"; timeout 600 gh release upload " + release + " --repo syncloud/image --clobber " + image_name + "*.xz && break || sleep 10; done",
             ],
             when: {
                 event: [ "tag" ]
