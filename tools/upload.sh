@@ -8,18 +8,15 @@ FILE_PATTERN=$3
 for f in $FILE_PATTERN; do
   [ -f "$f" ] || continue
   name=$(basename "$f")
-  local_size=$(stat -c%s "$f")
-  local_sha256=$(sha256sum "$f" | awk '{print $1}')
 
-  remote=$(gh api "repos/$REPO/releases/tags/$RELEASE" --jq ".assets[] | select(.name == \"$name\") | .size, .digest" 2>/dev/null || true)
-  remote_size=$(echo "$remote" | head -1)
-  remote_sha256=$(echo "$remote" | tail -1 | sed 's/sha256://')
+  existing=$(gh api "repos/$REPO/releases/tags/$RELEASE" --jq ".assets[] | select(.name == \"$name\") | .name" 2>/dev/null || true)
 
-  if [ "$local_size" = "$remote_size" ] && [ "$local_sha256" = "$remote_sha256" ]; then
-    echo "$name already uploaded with matching checksum, skipping"
+  if [ -n "$existing" ]; then
+    echo "$name already exists in release, skipping"
     continue
   fi
 
+  local_size=$(stat -c%s "$f")
   uploaded=false
   for i in 1 2 3 4 5; do
     echo "attempt $i: uploading $name (${local_size} bytes)"
