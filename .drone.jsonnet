@@ -75,7 +75,6 @@ local build(board, arch, mode, distro) = {
                 },
             },
             commands: [
-                "gh release create " + release + " --repo syncloud/image --title " + release + " --notes " + release + " 2>/dev/null || true",
                 "./tools/upload.sh " + release + " syncloud/image '" + image_name + "*.xz'",
             ],
             when: {
