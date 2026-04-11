@@ -24,6 +24,12 @@ done
 if [ "$found" = true ]; then
   echo "all assets already in release, skipping build"
   touch .skip
+  # Create dummy file so artifact step has something to upload
+  for asset in $assets; do
+    case "$asset" in
+      $NAME_PATTERN) touch "${asset}.skip" ; echo "created ${asset}.skip" ;;
+    esac
+  done
 else
   echo "no matching asset found, build needed"
 fi

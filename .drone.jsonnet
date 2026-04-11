@@ -96,6 +96,7 @@ local build(board, arch, mode, distro) = {
                 },
             },
             commands: [
+                skip,
                 "./tools/upload.sh " + release + " syncloud/image '" + image_name + "*.xz'",
             ],
             when: {
@@ -115,7 +116,10 @@ local build(board, arch, mode, distro) = {
             },
             command_timeout: "2m",
             target: "/home/artifact/repo/image",
-            source: image_name + "*.xz"
+            source: image_name + "*.xz*"
+        },
+        [if true then "when"]: {
+            status: [ "success" ]
         }
     },
     {
