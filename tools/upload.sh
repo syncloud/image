@@ -41,7 +41,7 @@ for f in $FILE_PATTERN; do
   uploaded=false
   for i in 1 2 3 4 5; do
     echo "attempt $i: uploading $name (${local_size} bytes)"
-    timeout 600 gh release upload "$RELEASE" --repo "$REPO" --clobber "$f" && uploaded=true && break || sleep 30
+    timeout 1800 gh release upload "$RELEASE" --repo "$REPO" --clobber "$f" && uploaded=true && break || sleep 30
   done
   [ "$uploaded" = true ] || exit 1
 done
