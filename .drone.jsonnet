@@ -15,11 +15,28 @@ local build(board, arch, mode, distro) = {
         os: "linux",
         arch: "amd64"
     },
+    local skip = "[ -f .skip ] && echo 'skipping, already uploaded to github' && exit 0 || true",
     steps: [
+    {
+        name: "check",
+        image: "maniator/gh:v2.65.0",
+        environment: {
+            GITHUB_TOKEN: {
+                from_secret: "github_token"
+            },
+        },
+        commands: [
+            "./tools/check.sh " + release + " syncloud/image '" + image_name + "*.xz'",
+        ],
+        when: {
+            event: [ "tag" ]
+        }
+    },
     {
         name: "extract",
         image: "debian:bookworm-slim",
         commands: [
+            skip,
             "./tools/extract"+tool_suffix+".sh " + board + " " + base_image
         ],
         privileged: true
@@ -28,15 +45,17 @@ local build(board, arch, mode, distro) = {
         name: "boot",
         image: "debian:bookworm-slim",
         commands: [
+            skip,
             "./tools/boot"+tool_suffix+".sh " + board  + " " + image + " " + size
         ],
         privileged: true
-    }] + 
+    }] +
     (if mode == "all" then
     [{
         name: "rootfs",
         image: "debian:bookworm-slim",
         commands: [
+            skip,
             "./tools/rootfs"+tool_suffix+".sh " + board + " " + arch + " " + image + " " + rootfs + " " + distro
         ],
         privileged: true
@@ -55,13 +74,15 @@ local build(board, arch, mode, distro) = {
             },
         },
         commands: [
+            skip,
             "./vbox.sh " + image_name + " " + distro
         ],
-    }] else []) + 
+    }] else []) +
     [{
         name: "zip",
         image: "debian:bookworm-slim",
         commands: [
+            skip,
             "./tools/zip.sh " + image
         ],
         privileged: true
