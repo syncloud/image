@@ -144,6 +144,10 @@ BOOT=${DIR}/boot_${SYNCLOUD_BOARD}
 
 function cleanup {
     echo "cleanup start"
+    echo "detaching stale loop devices (deleted files)..."
+    losetup -l 2>/dev/null | grep '(deleted)' | awk '{print $1}' | while read dev; do
+      losetup -d "$dev" && echo "detached $dev" || true
+    done
     umount ${ROOTFS} || true
     umount ${BOOT} || true
     kpartx -d ${IMAGE_FILE_NORMALIZED} || true
