@@ -9,9 +9,11 @@ for f in $FILE_PATTERN; do
   [ -f "$f" ] || continue
   name=$(basename "$f")
 
-  existing=$(gh api "repos/$REPO/releases/tags/$RELEASE" --jq ".assets[] | select(.name == \"$name\") | .name" 2>/dev/null || true)
+  echo "checking if $name exists in release $RELEASE ..."
+  existing=$(gh api "repos/$REPO/releases/tags/$RELEASE" --jq ".assets[] | select(.name == \"$name\") | .name" 2>&1) || true
+  echo "api result: '$existing'"
 
-  if [ -n "$existing" ]; then
+  if [ "$existing" = "$name" ]; then
     echo "$name already exists in release, skipping"
     continue
   fi
