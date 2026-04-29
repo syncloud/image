@@ -71,3 +71,22 @@ Generate `.drone.yml` from jsonnet (run from project root):
 ```
 drone jsonnet --stdout --stream > .drone.yml
 ```
+
+# Bumping rootfs and tagging a new image
+
+When upgrading the rootfs version in `.drone.jsonnet` (the `local rootfs = "X"` line), the commit/tag message should describe the *platform* changes that the new rootfs brings, since the platform snap is the user-visible delta. Image tags carry no annotation; the commit message at HEAD is what Drone surfaces and what becomes the GitHub release notes.
+
+Use `tools/platform-diff` to generate that message:
+```
+./tools/platform-diff/build.sh
+./tools/platform-diff/platform-diff
+```
+With no flags it compares the **latest image release** (resolves its pinned rootfs from `.drone.jsonnet@<image-tag>`, then reads platform revision from rootfs CI logs) against the **latest rootfs release**, and prints the platform commit list between them via the GitHub compare API.
+
+Override either side: `--from-image <tag>` / `--to-rootfs <tag>`.
+
+Workflow when bumping rootfs in image:
+1. Edit `.drone.jsonnet`, bump `local rootfs = "<new-tag>"`. (`.drone.yml` regeneration is local-validation only — Drone reads `.drone.jsonnet` directly.)
+2. Run `platform-diff` (defaults work — old image vs new rootfs).
+3. Use the printed commit list as the body of the bump commit message.
+4. Commit + tag (matching the new rootfs tag) + push together — see `feedback_push_retag.md` in memory.
