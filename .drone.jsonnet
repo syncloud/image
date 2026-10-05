@@ -15,6 +15,9 @@ local build(board, arch, mode, distro) = {
         os: "linux",
         arch: "amd64"
     },
+    trigger: {
+        event: [ "push", "tag" ]
+    },
     local skip = "[ -f .skip ] && echo 'skipping, already uploaded to github' && exit 0 || true",
     steps: [
     {
@@ -162,6 +165,7 @@ local build(board, arch, mode, distro) = {
         { name: "btt-cb1", arch: "arm64", type: "all" },
         { name: "odroid-hc4", arch: "arm64", type: "all"},
         { name: "odroid-hc4-legacy", arch: "arm64", type: "all"},
+        { name: "odroid-m1s", arch: "arm64", type: "all"},
         { name: "amd64", arch: "amd64", type: "all"},
     ]
     for distro in [
