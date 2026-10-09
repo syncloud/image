@@ -9,7 +9,7 @@ if gh release view "$RELEASE" --repo "$REPO" > /dev/null 2>&1; then
   echo "release $RELEASE already exists"
 else
   echo "creating release $RELEASE"
-  gh release create "$RELEASE" --repo "$REPO" --title "$RELEASE" --notes "$RELEASE"
+  gh release create "$RELEASE" --repo "$REPO" --title "$RELEASE" --notes "$RELEASE" --prerelease
 fi
 
 for f in $FILE_PATTERN; do
