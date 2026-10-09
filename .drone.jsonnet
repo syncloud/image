@@ -138,37 +138,72 @@ local build(board, arch, mode, distro) = {
     }]
 };
 
-[
+local boards = [
+    { name: "cubieboard2", arch: "arm", type: "all" },
+    { name: "cubieboard", arch: "arm", type: "all" },
+    { name: "beagleboneblack", arch: "arm", type: "all" },
+    { name: "bananapim3", arch: "arm", type: "all" },
+    { name: "rock64", arch: "arm", type: "all" },
+    { name: "helios4", arch: "arm", type: "all" },
+    { name: "helios64", arch: "arm", type: "all" },
+    { name: "raspberrypi", arch: "arm", type: "all" },
+    { name: "raspberrypi-64", arch: "arm64", type: "all" },
+    { name: "raspberrypi2", arch: "arm", type: "all" },
+    { name: "odroid-xu3and4", arch: "arm", type: "all" },
+    { name: "odroid-xu3and4", arch: "arm", type: "sd" },
+    { name: "jetson-nano", arch: "arm64", type: "all" },
+    { name: "odroid-c2", arch: "arm", type: "all" },
+    { name: "odroid-u3", arch: "arm", type: "all" },
+    { name: "bananapim2", arch: "arm", type: "all" },
+    { name: "bananapim1", arch: "arm", type: "all" },
+    { name: "cubietruck", arch: "arm", type: "all" },
+    { name: "tinker", arch: "arm", type: "all" },
+    { name: "odroid-n2", arch: "arm", type: "all" },
+    { name: "lime2", arch: "arm", type: "all" },
+    { name: "btt-cb1", arch: "arm64", type: "all" },
+    { name: "odroid-hc4", arch: "arm64", type: "all"},
+    { name: "odroid-hc4-legacy", arch: "arm64", type: "all"},
+    { name: "odroid-m1s", arch: "arm64", type: "all"},
+    { name: "amd64", arch: "amd64", type: "all"},
+];
+
+local distros = [
+    "bookworm"
+];
+
+local builds = [
     build(board.name, board.arch, board.type, distro)
-    for board in [
-        { name: "cubieboard2", arch: "arm", type: "all" },
-        { name: "cubieboard", arch: "arm", type: "all" },
-        { name: "beagleboneblack", arch: "arm", type: "all" },
-        { name: "bananapim3", arch: "arm", type: "all" },
-        { name: "rock64", arch: "arm", type: "all" },
-        { name: "helios4", arch: "arm", type: "all" },
-        { name: "helios64", arch: "arm", type: "all" },
-        { name: "raspberrypi", arch: "arm", type: "all" },
-        { name: "raspberrypi-64", arch: "arm64", type: "all" },
-        { name: "raspberrypi2", arch: "arm", type: "all" },
-        { name: "odroid-xu3and4", arch: "arm", type: "all" },
-        { name: "odroid-xu3and4", arch: "arm", type: "sd" },
-        { name: "jetson-nano", arch: "arm64", type: "all" },
-        { name: "odroid-c2", arch: "arm", type: "all" },
-        { name: "odroid-u3", arch: "arm", type: "all" },
-        { name: "bananapim2", arch: "arm", type: "all" },
-        { name: "bananapim1", arch: "arm", type: "all" },
-        { name: "cubietruck", arch: "arm", type: "all" },
-        { name: "tinker", arch: "arm", type: "all" },
-        { name: "odroid-n2", arch: "arm", type: "all" },
-        { name: "lime2", arch: "arm", type: "all" },
-        { name: "btt-cb1", arch: "arm64", type: "all" },
-        { name: "odroid-hc4", arch: "arm64", type: "all"},
-        { name: "odroid-hc4-legacy", arch: "arm64", type: "all"},
-        { name: "odroid-m1s", arch: "arm64", type: "all"},
-        { name: "amd64", arch: "amd64", type: "all"},
-    ]
-    for distro in [
-        "bookworm"
-    ]
-]
+    for board in boards
+    for distro in distros
+];
+
+local publish = {
+    kind: "pipeline",
+    name: "publish",
+    platform: {
+        os: "linux",
+        arch: "amd64"
+    },
+    trigger: {
+        event: [ "tag" ]
+    },
+    depends_on: [ b.name for b in builds ],
+    clone: {
+        disable: true
+    },
+    steps: [
+    {
+        name: "publish",
+        image: "maniator/gh:v2.65.0",
+        environment: {
+            GITHUB_TOKEN: {
+                from_secret: "github_token"
+            },
+        },
+        commands: [
+            "gh release edit " + release + " --repo syncloud/image --prerelease=false --latest",
+        ]
+    }]
+};
+
+builds + [ publish ]
