@@ -164,6 +164,7 @@ local boards = [
     { name: "odroid-hc4", arch: "arm64", type: "all"},
     { name: "odroid-hc4-legacy", arch: "arm64", type: "all"},
     { name: "odroid-m1s", arch: "arm64", type: "all"},
+    { name: "cm3588-nas", arch: "arm64", type: "all"},
     { name: "amd64", arch: "amd64", type: "all"},
 ];
 
